@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2015-2015  Doug Blank
 # Copyright (C) 2016       DaAwesomeP
@@ -29,7 +29,7 @@ language: python
 python:
  - 3.3 # This is irrelevant, because the virtualenv is not used at all
 
-# FIXME: The minimum requirement for Gramps is Python 3.2, so a test environment
+# FIXME: The minimum requirement for Gprime is Python 3.2, so a test environment
 # for Python 3.2 should be added to this environment which is Python 3.3. It
 # will not be possible to run coverage under Python 3.2, because coverage is
 # Python 3.3 (or above) only.
@@ -57,41 +57,41 @@ addons:
 before_install:
 
 install:
-# The working directory is set to /home/travis/build/gramps-project/gramps
+# The working directory is set to /home/travis/build/genealogycollective/gprime
 # by the automatic git checkout.
 
 # Download Sean Ross-Ross's Pure Python module containing a framework to
 # manipulate and analyze python ast�s and bytecode. This is loaded to 
-# /home/travis/build/gramps-project/gramps/meta
+# /home/travis/build/genealogycollective/gprime/meta
 # FIXME: This should be loaded from the release directory at
 # https://pypi.python.org/pypi/meta
  - git clone -b master https://github.com/srossross/meta
 
-# Build Gramps package. This seems to copy everything to
+# Build Gprime package. This seems to copy everything to
 # /home/travis/build/scripts-3.3
  - python setup.py build
 
 before_script:
-# Create the Gramps database directory.
- - mkdir -p ~/.gramps/grampsdb/
+# Create the Gprime database directory.
+ - mkdir -p ~/.gprime/grampsdb/
 # set PYTHONPATH so the directly installed module (meta) is picked up from
-# /home/travis/build/gramps-project/gramps/meta
+# /home/travis/build/genalogycollective/gprime/meta
  - export PYTHONPATH=meta
 # set module exclusions. --exclude=TestUser because of older version of mock
 # without configure_mock
  - export EXCLUDE="--exclude=TestcaseGenerator --exclude=vcard
    --exclude=merge_ref_test --exclude=user_test"
-# set GRAMPS_RESOURCES for locale, data,image and documentation
- - export GRAMPS_RESOURCES=.
+# set GPRIME_RESOURCES for locale, data,image and documentation
+ - export GPRIME_RESOURCES=.
 
 script:
 # Ignore the virtualenv entirely. Use nosetests3, python3 (3.4.0) and coverage
 # from /usr/bin. Use libraries from /usr/lib/python3.4,
 # /usr/local/lib/python3.4/dist-packages and /usr/lib/python3/dist-packages
- - nosetests3 --nologcapture --with-coverage --cover-package=gramps $EXCLUDE
-   gramps  test test/GrampsLogger
+ - nosetests3 --nologcapture --with-coverage --cover-package=gprime $EXCLUDE
+   gprime  test test/GrampsLogger
 # FIXME: This should have run from the current directory, rather than from
-# gramps, because there is some test code in that directory.
+# gprime, because there is some test code in that directory.
 
 # give an error for any trailing whitespace
  - if git --no-pager grep --color -n --full-name '[ 	]$' -- \*.py; then

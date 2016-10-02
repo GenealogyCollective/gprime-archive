@@ -1,0 +1,97 @@
+#
+# Gprime - a GTK+/GNOME based genealogy program
+#
+# Copyright (C) 2004-2006  Donald N. Allingham
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
+"""
+Class handling language-specific selection for date parser and displayer.
+"""
+
+#-------------------------------------------------------------------------
+#
+# Python modules
+#
+#-------------------------------------------------------------------------
+import time
+
+#-------------------------------------------------------------------------
+#
+# Gprime modules
+#
+#-------------------------------------------------------------------------
+from ..lib.date import Date
+from . import LANG_TO_DISPLAY, LANG, parser, displayer
+
+#--------------------------------------------------------------
+#
+# Convenience functions
+#
+#--------------------------------------------------------------
+def get_date_formats():
+    """
+    Return the list of supported formats for date parsers and displayers.
+    """
+    try:
+        return LANG_TO_DISPLAY[LANG].formats
+    except:
+        return LANG_TO_DISPLAY["C"].formats
+
+def set_format(value):
+    try:
+        displayer.set_format(value)
+    except:
+        pass
+
+def set_date(date_base, text) :
+    """
+    Set the date of the :class:`.DateBase` instance.
+
+    The date is parsed into a :class:`.Date` instance.
+
+    :param date_base: The :class:`.DateBase` instance to set the date to.
+    :type date_base: :class:`.DateBase`
+    :param text: The text to use for the text string in date
+    :type text: str
+    """
+    parser.set_date(date_base.get_date_object(), text)
+
+def get_date(date_base) :
+    """
+    Return a string representation of the date of the :class:`.DateBase`
+    instance.
+
+    This representation is based off the default date display format
+    determined by the locale's :class:`.DateDisplay` instance.
+
+    :return: Returns a string representing the :class:`.DateBase` date
+    :rtype: str
+    """
+    return displayer.display(date_base.get_date_object())
+
+def get_date_valid(date_base):
+    date_obj = date_base.get_date_object()
+    return date_obj.get_valid()
+
+def format_time(secs):
+    """
+    Format a time in seconds as a date in the preferred date format and a
+    24 hour time as hh:mm:ss.
+    """
+    t = time.localtime(secs)
+    d = Date(t.tm_year, t.tm_mon, t.tm_mday)
+    return displayer.display(d) + time.strftime(' %X', t)

@@ -44,6 +44,6 @@ environ['USERPROFILE'] = environ['HOME']
 environ['APPDATA'] = join(environ['HOME'], 'Library', 'Application Support')
 environ['PATH'] = join(bundle_contents, 'MacOS') + ':' + environ['PATH']
 
-import gramps.grampsapp as app
+import gprime.grampsapp as app
 app.main()
 

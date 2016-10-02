@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+ based genealogy program
+# Gprime - a GTK+ based genealogy program
 #
 # Copyright (C) 2010       Stephen George
 #

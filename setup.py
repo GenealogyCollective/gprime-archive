@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2012 Nick Hall
 # Copyright (C) 2012 Rob G. Healey
@@ -22,15 +22,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-'''
-Gramps distutils module.
-'''
-
 #check python version first
 import sys
 
 if sys.version_info < (3, 2):
-    raise SystemExit("Gramps requires Python 3.2 or later.")
+    raise SystemExit("Gprime requires Python 3.2 or later.")
 
 from distutils import log
 from distutils.core import setup, Command
@@ -42,11 +38,11 @@ import glob
 import codecs
 import subprocess
 from stat import ST_MODE
-from gramps.version import VERSION
+from gprime.version import VERSION
 import unittest
 import argparse
 
-# this list MUST be a subset of _LOCALE_NAMES in gen/utils/grampslocale.py
+# this list MUST be a subset of _LOCALE_NAMES in gen/utils/gprimelocale.py
 # (that is, if you add a new language here, be sure it's in _LOCALE_NAMES too)
 ALL_LINGUAS = ('ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en_GB',
                'eo', 'es', 'fi', 'fr', 'he', 'hr', 'hu', 'is', 'it',
@@ -115,15 +111,15 @@ def substitute_variables(filename_in, filename_out, subst_vars):
 
 def build_trans(build_cmd):
     '''
-    Translate the language files into gramps.mo
+    Translate the language files into gprime.mo
     '''
     data_files = build_cmd.distribution.data_files
     for lang in ALL_LINGUAS:
         po_file = os.path.join('po', lang + '.po')
         mo_file = os.path.join(build_cmd.build_base, 'mo', lang, 'LC_MESSAGES',
-                               'gramps.mo')
+                               'gprime.mo')
         mo_file_unix = (build_cmd.build_base + '/mo/' + lang +
-                        '/LC_MESSAGES/gramps.mo')
+                        '/LC_MESSAGES/gprime.mo')
         mo_dir = os.path.dirname(mo_file)
         if not(os.path.isdir(mo_dir) or os.path.islink(mo_dir)):
             os.makedirs(mo_dir)
@@ -145,22 +141,22 @@ def build_trans(build_cmd):
 
 def build_man(build_cmd):
     '''
-    Compresses Gramps manual files
+    Compresses Gprime manual files
     '''
     data_files = build_cmd.distribution.data_files
     for man_dir, dirs, files in os.walk(os.path.join('data', 'man')):
-        if 'gramps.1.in' in files:
-            filename = os.path.join(man_dir, 'gramps.1.in')
+        if 'gprime.1.in' in files:
+            filename = os.path.join(man_dir, 'gprime.1.in')
             newdir = os.path.join(build_cmd.build_base, man_dir)
             if not(os.path.isdir(newdir) or os.path.islink(newdir)):
                 os.makedirs(newdir)
 
-            newfile = os.path.join(newdir, 'gramps.1')
+            newfile = os.path.join(newdir, 'gprime.1')
             subst_vars = (('@VERSION@', VERSION), )
             substitute_variables(filename, newfile, subst_vars)
 
             import gzip
-            man_file_gz = os.path.join(newdir, 'gramps.1.gz')
+            man_file_gz = os.path.join(newdir, 'gprime.1.gz')
             if os.path.exists(man_file_gz):
                 if newer(filename, man_file_gz):
                     os.remove(man_file_gz)
@@ -179,7 +175,7 @@ def build_man(build_cmd):
                 filename = False
 
             lang = man_dir[8:]
-            src = build_cmd.build_base  + '/data/man' + lang  + '/gramps.1.gz'
+            src = build_cmd.build_base  + '/data/man' + lang  + '/gprime.1.gz'
             target = 'share/man' + lang + '/man1'
             data_files.append((target, [src]))
 
@@ -198,10 +194,10 @@ def build_intl(build_cmd):
     data_files = build_cmd.distribution.data_files
     base = build_cmd.build_base
 
-    merge_files = (('data/gramps.desktop', 'share/applications', '-d'),
-                    ('data/gramps.keys', 'share/mime-info', '-k'),
-                    ('data/gramps.xml', 'share/mime/packages', '-x'),
-                    ('data/gramps.appdata.xml', 'share/metainfo', '-x'))
+    merge_files = (('data/gprime.desktop', 'share/applications', '-d'),
+                    ('data/gprime.keys', 'share/mime-info', '-k'),
+                    ('data/gprime.xml', 'share/mime/packages', '-x'),
+                    ('data/gprime.appdata.xml', 'share/metainfo', '-x'))
 
     for filename, target, option in merge_files:
         filenamelocal = convert_path(filename)
@@ -270,7 +266,7 @@ class build(_build):
 class install(_install):
     """Custom install command."""
     def run(self):
-        resource_file = os.path.join(os.path.dirname(__file__), 'gramps', 'gen',
+        resource_file = os.path.join(os.path.dirname(__file__), 'gprime', 'gen',
                                      'utils', 'resource-path')
         with open(resource_file, 'w', encoding='utf-8', errors='strict') as fp:
             if packaging:
@@ -284,7 +280,7 @@ class install(_install):
         os.remove(resource_file)
 
 class test(Command):
-    """Command to run Gramps unit tests"""
+    """Command to run Gprime unit tests"""
     description = "run all unit tests"
     user_options = []
 
@@ -298,7 +294,7 @@ class test(Command):
     def run(self):
         if not os.path.exists('build'):
             raise RuntimeError("No build directory. Run `python setup.py build` before trying to run tests.")
-        os.environ['GRAMPS_RESOURCES'] = '.'
+        os.environ['GPRIME_RESOURCES'] = '.'
         all_tests = unittest.TestLoader().discover('.', pattern='*_test.py')
         unittest.TextTestRunner(verbosity=self.verbose).run(all_tests)
 
@@ -307,75 +303,75 @@ class test(Command):
 # Packages
 #
 #-------------------------------------------------------------------------
-package_core = ['gramps',
-                'gramps.cli',
-                'gramps.cli.plug',
-                'gramps.gen.utils.docgen',
-                'gramps.gen',
-                'gramps.gen.datehandler',
-                'gramps.gen.db',
-                'gramps.gen.display',
-                'gramps.gen.filters',
-                'gramps.gen.filters.rules',
-                'gramps.gen.filters.rules.citation',
-                'gramps.gen.filters.rules.event',
-                'gramps.gen.filters.rules.family',
-                'gramps.gen.filters.rules.media',
-                'gramps.gen.filters.rules.note',
-                'gramps.gen.filters.rules.person',
-                'gramps.gen.filters.rules.place',
-                'gramps.gen.filters.rules.repository',
-                'gramps.gen.filters.rules.source',
-                'gramps.gen.lib',
-                'gramps.gen.merge',
-                'gramps.gen.mime',
-                'gramps.gen.plug',
-                'gramps.gen.plug.docbackend',
-                'gramps.gen.plug.docgen',
-                'gramps.gen.plug.menu',
-                'gramps.gen.plug.report',
-                'gramps.gen.proxy',
-                'gramps.gen.simple',
-                'gramps.gen.utils',
-                'gramps.gen.utils.docgen',
-                'gramps.test',
-                'gramps.plugins',
-                'gramps.plugins.db',
-                'gramps.plugins.db.bsddb',
-                'gramps.plugins.db.dbapi',
-                'gramps.plugins.docgen',
-                'gramps.plugins.drawreport',
-                'gramps.plugins.export',
-                'gramps.plugins.gramplet',
-                'gramps.plugins.graph',
-                'gramps.plugins.importer',
-                'gramps.plugins.lib',
-                'gramps.plugins.lib.maps',
-                'gramps.plugins.mapservices',
-                'gramps.plugins.quickview',
-                'gramps.plugins.rel',
-                'gramps.plugins.sidebar',
-                'gramps.plugins.textreport',
-                'gramps.plugins.tool',
-                'gramps.plugins.view',
-                'gramps.plugins.webreport',
-                'gramps.plugins.webstuff',
+package_core = ['gprime',
+                'gprime.cli',
+                'gprime.cli.plug',
+                'gprime.gen.utils.docgen',
+                'gprime.gen',
+                'gprime.gen.datehandler',
+                'gprime.gen.db',
+                'gprime.gen.display',
+                'gprime.gen.filters',
+                'gprime.gen.filters.rules',
+                'gprime.gen.filters.rules.citation',
+                'gprime.gen.filters.rules.event',
+                'gprime.gen.filters.rules.family',
+                'gprime.gen.filters.rules.media',
+                'gprime.gen.filters.rules.note',
+                'gprime.gen.filters.rules.person',
+                'gprime.gen.filters.rules.place',
+                'gprime.gen.filters.rules.repository',
+                'gprime.gen.filters.rules.source',
+                'gprime.gen.lib',
+                'gprime.gen.merge',
+                'gprime.gen.mime',
+                'gprime.gen.plug',
+                'gprime.gen.plug.docbackend',
+                'gprime.gen.plug.docgen',
+                'gprime.gen.plug.menu',
+                'gprime.gen.plug.report',
+                'gprime.gen.proxy',
+                'gprime.gen.simple',
+                'gprime.gen.utils',
+                'gprime.gen.utils.docgen',
+                'gprime.test',
+                'gprime.plugins',
+                'gprime.plugins.db',
+                'gprime.plugins.db.bsddb',
+                'gprime.plugins.db.dbapi',
+                'gprime.plugins.docgen',
+                'gprime.plugins.drawreport',
+                'gprime.plugins.export',
+                'gprime.plugins.gramplet',
+                'gprime.plugins.graph',
+                'gprime.plugins.importer',
+                'gprime.plugins.lib',
+                'gprime.plugins.lib.maps',
+                'gprime.plugins.mapservices',
+                'gprime.plugins.quickview',
+                'gprime.plugins.rel',
+                'gprime.plugins.sidebar',
+                'gprime.plugins.textreport',
+                'gprime.plugins.tool',
+                'gprime.plugins.view',
+                'gprime.plugins.webreport',
+                'gprime.plugins.webstuff',
                 ]
-package_gui = ['gramps.gui',
-               'gramps.gui.editors',
-               'gramps.gui.editors.displaytabs',
-               'gramps.gui.filters',
-               'gramps.gui.filters.sidebar',
-               'gramps.gui.logger',
-               'gramps.gui.merge',
-               'gramps.gui.plug',
-               'gramps.gui.plug.export',
-               'gramps.gui.plug.quick',
-               'gramps.gui.plug.report',
-               'gramps.gui.selectors',
-               'gramps.gui.views',
-               'gramps.gui.views.treemodels',
-               'gramps.gui.widgets',
+package_gui = ['gprime.gui',
+               'gprime.gui.editors',
+               'gprime.gui.editors.displaytabs',
+               'gprime.gui.filters',
+               'gprime.gui.filters.sidebar',
+               'gprime.gui.logger',
+               'gprime.gui.merge',
+               'gprime.gui.plug',
+               'gprime.gui.plug.export',
+               'gprime.gui.plug.quick',
+               'gprime.gui.plug.report',
+               'gprime.gui.selectors',
+               'gprime.gui.views',
+               'gprime.gui.views.treemodels',
+               'gprime.gui.widgets',
                ]
 
 packages = package_core + package_gui
@@ -388,7 +384,7 @@ packages = package_core + package_gui
 
 # add all subdirs of plugin with glade:
 package_data_core = []
-basedir = os.path.join('gramps', 'plugins')
+basedir = os.path.join('gprime', 'plugins')
 for (dirpath, dirnames, filenames) in os.walk(basedir):
     root, subdir = os.path.split(dirpath)
     if subdir.startswith("."):
@@ -398,7 +394,7 @@ for (dirpath, dirnames, filenames) in os.walk(basedir):
         # Skip hidden and system directories:
         if dirname.startswith("."):
             dirnames.remove(dirname)
-        #we add to data_list so glade , xml, files are found, we don't need the gramps/ part
+        #we add to data_list so glade , xml, files are found, we don't need the gprime/ part
         package_data_core.append(dirpath[7:] + '/' + dirname + '/*.glade')
         package_data_core.append(dirpath[7:] + '/' + dirname + '/*.xml')
 
@@ -412,25 +408,25 @@ package_data = package_data_core + package_data_gui
 # Resources
 #
 #-------------------------------------------------------------------------
-data_files_core = [('share/mime-info', ['data/gramps.mime']),
-                   ('share/icons', ['images/gramps.png'])]
+data_files_core = [('share/mime-info', ['data/gprime.mime']),
+                   ('share/icons', ['images/gprime.png'])]
 DOC_FILES = ['AUTHORS', 'COPYING', 'FAQ', 'INSTALL', 'LICENSE', 'NEWS',
              'README.md', 'TODO']
 GEDCOM_FILES = glob.glob(os.path.join('example', 'gedcom', '*.*'))
-GRAMPS_FILES = glob.glob(os.path.join('example', 'gramps', '*.*'))
+GPRIME_FILES = glob.glob(os.path.join('example', 'gprime', '*.*'))
 IMAGE_WEB = glob.glob(os.path.join('images', 'webstuff', '*.png'))
 IMAGE_WEB.extend(glob.glob(os.path.join('images', 'webstuff','*.ico')))
 IMAGE_WEB.extend(glob.glob(os.path.join('images', 'webstuff', '*.gif')))
 CSS_FILES = glob.glob(os.path.join('data', 'css', '*.css'))
 SWANKY_PURSE = glob.glob(os.path.join('data', 'css', 'swanky-purse', '*.css'))
 SWANKY_IMG = glob.glob(os.path.join('data', 'css', 'swanky-purse', 'images', '*.png'))
-data_files_core.append(('share/doc/gramps', DOC_FILES))
-data_files_core.append(('share/doc/gramps/example/gedcom', GEDCOM_FILES))
-data_files_core.append(('share/doc/gramps/example/gramps', GRAMPS_FILES))
-data_files_core.append(('share/gramps/images/webstuff', IMAGE_WEB))
-data_files_core.append(('share/gramps/css', CSS_FILES))
-data_files_core.append(('share/gramps/css/swanky-purse', SWANKY_PURSE))
-data_files_core.append(('share/gramps/css/swanky-purse/images', SWANKY_IMG))
+data_files_core.append(('share/doc/gprime', DOC_FILES))
+data_files_core.append(('share/doc/gprime/example/gedcom', GEDCOM_FILES))
+data_files_core.append(('share/doc/gprime/example/gprime', GPRIME_FILES))
+data_files_core.append(('share/gprime/images/webstuff', IMAGE_WEB))
+data_files_core.append(('share/gprime/css', CSS_FILES))
+data_files_core.append(('share/gprime/css/swanky-purse', SWANKY_PURSE))
+data_files_core.append(('share/gprime/css/swanky-purse/images', SWANKY_IMG))
 
 PNG_FILES = glob.glob(os.path.join('data', '*.png'))
 SVG_FILES = glob.glob(os.path.join('data', '*.svg'))
@@ -440,9 +436,9 @@ data_files_core.append(('share/icons/gnome/scalable/mimetypes', SVG_FILES))
 DTD_FILES = glob.glob(os.path.join('data', '*.dtd'))
 RNG_FILES = glob.glob(os.path.join('data', '*.rng'))
 XML_FILES = glob.glob(os.path.join('data', '*.xml'))
-data_files_core.append(('share/gramps', XML_FILES))
-data_files_core.append(('share/gramps', DTD_FILES))
-data_files_core.append(('share/gramps', RNG_FILES))
+data_files_core.append(('share/gprime', XML_FILES))
+data_files_core.append(('share/gprime', DTD_FILES))
+data_files_core.append(('share/gprime', RNG_FILES))
 
 data_files_gui = []
 IMAGE_FILES = glob.glob(os.path.join('images', '*.*'))
@@ -451,11 +447,11 @@ ICON_16 = glob.glob(os.path.join(THEME, '16x16', 'actions', '*.png'))
 ICON_22 = glob.glob(os.path.join(THEME, '22x22', 'actions', '*.png'))
 ICON_48 = glob.glob(os.path.join(THEME, '48x48', 'actions', '*.png'))
 ICON_SC = glob.glob(os.path.join(THEME, 'scalable', 'actions', '*.svg'))
-data_files_gui.append(('share/gramps/images', IMAGE_FILES))
-data_files_gui.append(('share/gramps/images/hicolor/16x16/actions', ICON_16))
-data_files_gui.append(('share/gramps/images/hicolor/22x22/actions', ICON_22))
-data_files_gui.append(('share/gramps/images/hicolor/48x48/actions', ICON_48))
-data_files_gui.append(('share/gramps/images/hicolor/scalable/actions', ICON_SC))
+data_files_gui.append(('share/gprime/images', IMAGE_FILES))
+data_files_gui.append(('share/gprime/images/hicolor/16x16/actions', ICON_16))
+data_files_gui.append(('share/gprime/images/hicolor/22x22/actions', ICON_22))
+data_files_gui.append(('share/gprime/images/hicolor/48x48/actions', ICON_48))
+data_files_gui.append(('share/gprime/images/hicolor/scalable/actions', ICON_SC))
 
 data_files = data_files_core + data_files_gui
 
@@ -464,26 +460,26 @@ data_files = data_files_core + data_files_gui
 # Setup
 #
 #-------------------------------------------------------------------------
-setup(name = 'gramps',
-      description = ('Gramps (Genealogical Research and Analysis Management '
+setup(name = 'gprime',
+      description = ('Gprime (Genealogical Research and Analysis Management '
                      'Programming System)'),
-      long_description = ('Gramps (Genealogical Research and Analysis '
+      long_description = ('Gprime (Genealogical Research and Analysis '
                           'Management Programming System) is a full featured '
                           'genealogy program supporting a Python based plugin '
                           'system.'),
       version = VERSION,
       author = 'Donald N. Allingham',
-      author_email = 'don@gramps-project.org',
-      maintainer = 'Gramps Development Team',
+      author_email = 'don@gprime-project.org',
+      maintainer = 'Gprime Development Team',
       maintainer_email = 'benny.malengier@gmail.com',
-      url = 'http://gramps-project.org',
+      url = 'http://gprime-project.org',
       license = 'GPL v2 or greater',
       platforms = ['FreeBSD', 'Linux', 'MacOS', 'Windows'],
       cmdclass = {'build': build, 'install': install, 'test': test},
       packages = packages,
-      package_data = {'gramps': package_data},
+      package_data = {'gprime': package_data},
       data_files = data_files,
-      scripts = ['scripts/gramps'],
+      scripts = ['scripts/gprime'],
       classifiers = [
           "Development Status :: 3 - Alpha",
           "Environment :: Console",

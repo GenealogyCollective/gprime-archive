@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2007 Donald N. Allingham
 # Copyright (C) 2010 Jerome Rapinat
@@ -163,7 +163,7 @@ def suite2():
         if glob.fnmatch.fnmatch(potfile,"*.py"):
             suite.addTest(TestGetText('test_gettext_py_%04d', potfile,
                                       ["import gettext",
-                                       "from gramps.gen.ggettext",
+                                       "from gprime.gen.ggettext",
                                        "import sgettext"]))
         elif glob.fnmatch.fnmatch(potfile,"*.glade"):
             suite.addTest(TestGetText('test_gettext_glade_%04d', potfile,

@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2000-2007  Donald N. Allingham
 #
@@ -26,7 +26,7 @@ import sys
 import os
 
 log = logging.getLogger('Gramps.Tests.GrampsLogger')
-import gramps.gen.const as const
+import gprime.gen.const as const
 const.rootDir = os.path.join(os.path.dirname(__file__), '../../gramps')
 sys.path.append(os.path.join(const.rootDir, 'test'))
 try:
@@ -39,7 +39,7 @@ except:
 sys.path.append(const.rootDir)
 sys.path.append(os.path.join(const.rootDir, 'GrampsLogger'))
 
-from gramps.gui.logger import RotateHandler, _errorreportassistant
+from gprime.gui.logger import RotateHandler, _errorreportassistant
 
 class ErrorReportAssistantTest(TestCaseBase):
     """Test the ErrorReportAssistant."""

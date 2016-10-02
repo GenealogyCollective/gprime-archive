@@ -1,0 +1,3 @@
+#!/usr/bin/env python -O
+import gprime.app as app
+app.main()

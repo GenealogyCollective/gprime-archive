@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2000-2007  Donald N. Allingham
 # Copyright (C) 2016       Tim G L Lyons
@@ -34,12 +34,12 @@ import tempfile
 import shutil
 import sys
 
-from gramps.gen.dbstate import DbState
-from gramps.cli.clidbman import CLIDbManager
-from gramps.gen.db.base import DbTxn
-from gramps.gen.errors import DbError, HandleError
-import gramps.gen.const as const
-import gramps.gen.lib as RelLib
+from gprime.gen.dbstate import DbState
+from gprime.cli.clidbman import CLIDbManager
+from gprime.gen.db.base import DbTxn
+from gprime.gen.errors import DbError, HandleError
+import gprime.gen.const as const
+import gprime.gen.lib as RelLib
 
 print(sys.path)
 

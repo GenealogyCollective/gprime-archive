@@ -1,5 +1,5 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# Gprime - a GTK+/GNOME based genealogy program
 #
 # Copyright (C) 2000-2007  Donald N. Allingham
 #
@@ -25,7 +25,7 @@ import os
 import sys
 
 sys.path.append('../gramps')
-import gramps.gen.const as const
+import gprime.gen.const as const
 
 print("Test that db.DBEnv().open() works")
 env_name = os.path.expanduser(os.path.join(const.HOME_DIR, "test"))

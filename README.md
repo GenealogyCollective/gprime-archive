@@ -1,16 +1,12 @@
-The Gramps Project ( https://gramps-project.org ) [![Build Status](https://travis-ci.org/gramps-project/gramps.svg?branch=master)](https://travis-ci.org/gramps-project/gramps)[![codecov.io](https://codecov.io/github/gramps-project/gramps/coverage.svg?branch=master)](https://codecov.io/github/gramps-project/gramps?branch=master)
+Gprime [![Build Status](https://travis-ci.org/GenealogyCollective/gprime.svg?branch=master)](https://travis-ci.org/GenealogyCollective/gprime)[![codecov.io](https://codecov.io/github/GenealogyCollective/gprime/coverage.svg?branch=master)](https://codecov.io/github/GenealogyCollective/gprime?branch=master)
 ===================
 We strive to produce a genealogy program that is both intuitive for hobbyists and feature-complete for professional genealogists.
 
-Please read the **COPYING** file first.
-
-Please read the **INSTALL** file if you intend to build from source.
-
 Requirements
 ============
-The following packages **MUST** be installed in order for Gramps to work:
+The following packages are required:
 
-* **Python** 3.2 or greater - The programming language used by Gramps. https://www.python.org/
+* **Python** 3.2 or greater - The programming language used by Gprime. https://www.python.org/
 * **GTK** 3.10 or greater - A cross-platform widget toolkit for creating graphical user interfaces. http://www.gtk.org/
 * **pygobject** 3.12 or greater - Python Bindings for GLib/GObject/GIO/GTK+ https://wiki.gnome.org/Projects/PyGObject
 
@@ -23,7 +19,7 @@ The following three packages with GObject Introspection bindings (the gi package
 * **librsvg2** - (SVG icon view) a library to render SVG files using cairo. http://live.gnome.org/LibRsvg
 * **xdg-utils** - Desktop integration utilities from freedesktop.org
 * **bsddb3** - Python bindings for Oracle Berkeley DB https://pypi.python.org/pypi/bsddb3/
-
+* **Meta** - Ability to define quick access to databases
 
 The following package is needed for full translation of the interface
 to your language:
@@ -33,10 +29,8 @@ to your language:
  Translation of GTK elements to your language, with
  xx your language code; e.g. for Dutch you need
  language-pack-gnome-nl. The translation of the
- Gramps strings is included with the gramps source.
 
-
-The following packages are **STRONGLY RECOMMENDED** to be installed:
+The following packages are recommended:
 --------------------------------------------------------------------
 *  **osmgpsmap**
 
@@ -44,7 +38,6 @@ The following packages are **STRONGLY RECOMMENDED** to be installed:
  It may be osmgpsmap, osm-gps-map, or python-osmgpsmap,
  but the Python bindings for this must also be present.
  Without this the GeoView will not be active, see
- https://gramps-project.org/wiki/index.php?title=Gramps_4.2_Wiki_Manual_-_Categories#Geography_Category
 
 * **Graphviz**
 
@@ -54,7 +47,7 @@ The following packages are **STRONGLY RECOMMENDED** to be installed:
 
 * **PyICU**
 
- Improves localised sorting in Gramps. In particular, this
+ Improves localised sorting in Gprime. In particular, this
  applies to sorting in the various views and in the
  Narrative Web output. It is particularly helpful for
  non-Latin characters, for non-English locales and on MS
@@ -73,13 +66,6 @@ The following packages are optional:
  enchant. A version of gtkspell with gobject introspection
  is needed, so minimally version 3.0.0
 
-* **rcs**
-
- The GNU Revision Control System (RCS) can be used to manage
- multiple revisions of your family trees. See info at
- https://gramps-project.org/wiki/index.php?title=Gramps_4.2_Wiki_Manual_-_Manage_Family_Trees#Archiving_a_Family_Tree
- Only rcs is needed, NO python bindings are required
-
 * **PIL**
 
  Python Image Library is needed to crop
@@ -90,58 +76,14 @@ The following packages are optional:
 
 * **GExiv2**
 
- Enables Gramps to manage Exif metadata embedded in your
- media. Gramps needs version 0.5 or greater.
- See https://www.gramps-project.org/wiki/index.php?title=GEPS_029:_GTK3-GObject_introspection_Conversion#GExiv2_for_Image_metadata
+ Enables Gprime to manage Exif metadata embedded in your
+ media. Gprime needs version 0.5 or greater.
 
 * **ttf-freefont**
 
  More font support in the reports
 
-* **Meta**
-
- Required for experimental "where" clause creation. This functionality
- is not yet in main-line code so it is not needed by users.  If the package
- will be used by gramps developers, to support further development, then
- it may be included.  Install with pypi: https://pypi.python.org/pypi/meta.
-
-Optional packages required by Third-party Addons
-------------------------------------------------
-
-**Third-party Addons are written by users and developers and unless stated are not officially part of Gramps.**
-For more information about Addons see:  https://gramps-project.org/wiki/index.php?title=Third-party_Plugins
-
-Prerequistes required for the following Addons to work:
-
-* **Family Sheet** - Requires: PIL (Python Imaging Library) or PILLOW.
-( https://gramps-project.org/wiki/index.php?title=Family_Sheet )
-
-* **Graph View** - Requires: PyGoocanvas and Goocanvas.
-( https://gramps-project.org/wiki/index.php?title=Graph_View )
-
-* **PedigreeChart** - Can optionally use - numpy if installed
-( https://gramps-project.org/wiki/index.php?title=PedigreeChart )
-
-No longer needed:
------------------
-* Since Gramps 4.2:
-   **gir-webkit**
-
-* Since Gramps 4.0:
-   **pygoocanvas, pygtk, pyexiv2**
-
-* Since Gramps 3.3:
-   **python-enchant Enchant**
-
-* Since Gramps 3.2:
-   **python glade bindings**
-
-* Since Gramps 3.1:
-   **yelp** -             Gnome help browser. No offline help is shipped see Gramps website for User manual
-
 Documentation
 -------------
-The User Manual is maintained on the Gramps website:
-
-* https://www.gramps-project.org/wiki/index.php?title=User_manual
+The User Manual is under development.
 

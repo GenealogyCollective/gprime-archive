@@ -1,7 +1,7 @@
 include AUTHORS
 include COPYING
 include FAQ
-include Gramps.py
+include Gprime.py
 include INSTALL
 include LICENSE
 include MANIFEST.in
@@ -12,7 +12,7 @@ include TestPlan.txt
 recursive-include data *
 recursive-include debian *
 recursive-include docs *
-recursive-include gramps *
+recursive-include gprime *
 recursive-include help *
 recursive-include images *
 recursive-include mac *

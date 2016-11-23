@@ -23,36 +23,160 @@ try:
 except ImportError:
     from distutils.core import setup
 import sys
+import os
 
+from distutils.command.build import build
+from distutils.util import convert_path, newer
+from distutils import log
+import subprocess
+
+# this list MUST be a subset of _LOCALE_NAMES in gen/utils/grampslocale.py
+# (that is, if you add a new language here, be sure it's in _LOCALE_NAMES too)
+ALL_LINGUAS = ('ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en_GB',
+               'eo', 'es', 'fi', 'fr', 'he', 'hr', 'hu', 'is', 'it',
+               'ja', 'lt', 'nb', 'nl', 'nn', 'pl', 'pt_BR', 'pt_PT',
+               'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'tr', 'uk', 'vi',
+               'zh_CN', 'zh_HK', 'zh_TW')
+_FILES = ('data/tips.xml', 'data/holidays.xml')
 
 svem_flag = '--single-version-externally-managed'
 if svem_flag in sys.argv:
     # Die, setuptools, die.
     sys.argv.remove(svem_flag)
 
-
-with open('gramps_connect/__init__.py', 'rb') as fid:
+with open('gprime/version.py', 'rb') as fid:
     for line in fid:
         line = line.decode('utf-8')
         if line.startswith('__version__'):
             version = line.strip().split()[-1][1:-1]
             break
 
-setup(name='gramps_connect',
+class Build(build):
+    """Custom build command."""
+    def run(self):
+        self.build_trans()
+        self.build_intl()
+        super().run()
+
+    def build_intl(self):
+        '''
+        Merge translation files into desktop and mime files
+        '''
+        for filename in _FILES:
+            filename = convert_path(filename)
+            self.strip_files(filename + '.in', filename, ['_tip', '_name'])
+
+        i_v = intltool_version()
+        if i_v is None or i_v < (0, 25, 0):
+            log.info('No intltool or version < 0.25.0, build_intl is aborting')
+            return
+        data_files = self.distribution.data_files
+        base = self.build_base
+
+        merge_files = (('data/gramps.desktop', 'share/applications', '-d'),
+                        ('data/gramps.keys', 'share/mime-info', '-k'),
+                        ('data/gramps.xml', 'share/mime/packages', '-x'),
+                        ('data/gramps.appdata.xml', 'share/metainfo', '-x'))
+
+        for filename, target, option in merge_files:
+            filenamelocal = convert_path(filename)
+            newfile = os.path.join(base, filenamelocal)
+            newdir = os.path.dirname(newfile)
+            if not(os.path.isdir(newdir) or os.path.islink(newdir)):
+                os.makedirs(newdir)
+            merge(filenamelocal + '.in', newfile, option)
+            data_files.append((target, [base + '/' + filename]))
+
+    def build_trans(self):
+        '''
+        Translate the language files into gramps.mo
+        '''
+        data_files = self.distribution.data_files
+        for lang in ALL_LINGUAS:
+            po_file = os.path.join('po', lang + '.po')
+            mo_file = os.path.join(self.build_base, 'mo', lang, 'LC_MESSAGES',
+                                   'gramps.mo')
+            mo_file_unix = (self.build_base + '/mo/' + lang +
+                            '/LC_MESSAGES/gramps.mo')
+            mo_dir = os.path.dirname(mo_file)
+            if not(os.path.isdir(mo_dir) or os.path.islink(mo_dir)):
+                os.makedirs(mo_dir)
+
+            if newer(po_file, mo_file):
+                cmd = 'msgfmt %s -o %s' % (po_file, mo_file)
+                if os.system(cmd) != 0:
+                    os.remove(mo_file)
+                    msg = 'ERROR: Building language translation files failed.'
+                    ask = msg + '\n Continue building y/n [n] '
+                    reply = input(ask)
+                    if reply in ['n', 'N']:
+                        raise SystemExit(msg)
+                log.info('Compiling %s >> %s', po_file, mo_file)
+
+            #linux specific piece:
+            target = 'share/locale/' + lang + '/LC_MESSAGES'
+            data_files.append((target, [mo_file_unix]))
+
+    def strip_files(self, in_file, out_file, mark):
+        '''
+        strip the file of the first character (typically an underscore) in each
+        keyword (in the "mark" argument list) in the file -- so this method is an
+        Alternative to intltool-merge command.
+        '''
+        if (not os.path.exists(out_file) and os.path.exists(in_file)):
+            old = open(in_file, 'r', encoding='utf-8')
+            with open(out_file, 'w', encoding='utf-8', errors='strict') as fb:
+                for line in old:
+                    for marker in mark:
+                        line = line.replace(marker, marker[1:])
+                    fb.write(line)
+            old.close()
+            log.info('Compiling %s >> %s', in_file, out_file)
+
+def intltool_version():
+    '''
+    Return the version of intltool as a tuple.
+    '''
+    if sys.platform == 'win32':
+        cmd = ["perl", "-e print qx(intltool-update --version) =~ m/(\d+.\d+.\d+)/;"]
+        try:
+            ver, ret = subprocess.Popen(cmd ,stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, shell=True).communicate()
+            ver = ver.decode("utf-8")
+            if ver > "":
+                version_str = ver
+            else:
+                return (0,0,0)
+        except:
+            return (0,0,0)
+    else:
+        cmd = 'intltool-update --version 2> /dev/null' # pathological case
+        retcode, version_str = subprocess.getstatusoutput(cmd)
+        if retcode != 0:
+            return None
+        cmd = 'intltool-update --version 2> /dev/null | head -1 | cut -d" " -f3'
+        retcode, version_str = subprocess.getstatusoutput(cmd)
+        if retcode != 0: # unlikely but just barely imaginable, so leave it
+            return None
+    return tuple([int(num) for num in version_str.split('.')])
+
+setup(name='gprime',
       version=version,
-      description='Gramps webapp for genealogy',
+      description='gPrime webapp for genealogy',
       long_description=open('README.md', 'rb').read().decode('utf-8'),
+      cmdclass = {'build': Build},
       author='Doug Blank',
       author_email='doug.blank@gmail.org',
-      url="https://github.com/gramps-connect/gramps_connect",
-      install_requires=['gramps>=5.0', "tornado"],
-      packages=['gramps_connect', 
-                'gramps_connect.handlers'],
+      url="https://github.com/GenealogyCollective/gprime",
+      install_requires=["tornado"],
+      packages=['gprime',
+                'gprime.app',
+                'gprime.app.handlers'],
       include_data_files = True,
       include_package_data=True,
-      data_files = [("./gramps_connect/templates", 
+      data_files = [("./gprime/templates",
                      [
-                         "gramps_connect/templates/login.html",
+                         "gprime/templates/login.html",
                      ])],
       classifiers=[
           "Environment :: Web Environment",

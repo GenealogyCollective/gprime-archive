@@ -1,0 +1,116 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{% include "detail_breadcrumb.html" %}
+
+<div id="summaryarea">
+<table class="infolist" style="width:100%;"> 
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">
+       {# personform.errors #}
+       {# nameform.errors #}
+       {# surnameform.errors #}
+       {# logform.errors #}
+    </div>
+    <hr>
+  {% end %}
+
+{#
+
+Gramps ID: N0001                               Type: General
+  Private: False                               Tags:
+Note:        
+
+#}
+
+<form method="post">{% module xsrf_form_html() %}
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("gramps_id") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gramps_id", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
+ <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("text.string") }}:</td>
+ <td class="ColumnValue" id="data" width="65%" height="100px" colspan="2">{{ form.render("text.string", user, action, js="get_focus", size=30) }}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+{% if logform %}
+  <table>
+    {# logform.as_table #}
+  </table>
+{% end %}
+
+{% if user %}
+  {% if action == "edit" %}
+    {% if form.instance.handle %}
+       {{make_button(_("Cancel"), "/note/" + form.instance.handle)}}
+    {% else %}
+       {{make_button(_("Cancel"), "/note")}}
+    {% end %}
+    <input type="hidden" name="action" value="save"/>
+    <input type="hidden" name="search" value="{# search #}"/>
+    <input type="hidden" name="page" value="{# page #}"/>
+    <input type="submit" value="Save"/>
+  {% else %}
+    {% if action == "add" %}
+      {{ make_button(_("Cancel"), "/note/") }}
+      <input type="hidden" name="action" value="create"/>
+      <input type="hidden" name="search" value="{# search #}"/>
+      <input type="hidden" name="page" value="{# page #}"/>
+      <input type="submit" value="Create"/>
+    {% else %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ make_icon_button(_("Add Note"), "/note/add", icon="+") }}
+      {{ make_icon_button(_("Edit Note"), "/note/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {{ make_icon_button(_("Delete Note"), "/note/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      </div>
+    {% end %}
+  {% end %}
+{% else %}
+{% end %}
+
+<!-- Tabs -->
+
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">References</a></li>
+  </ul>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+    {{ note_reference_table(form, user, action) }}
+  </div>
+</div>
+
+</form>
+{% end %}
+

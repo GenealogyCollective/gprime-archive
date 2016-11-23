@@ -1,0 +1,207 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+
+{% block content %} 
+
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{% include "detail_breadcrumb.html" %}
+
+<h2>{{ form.render("father_handle", user, "view", link="/person/%(handle)s", handle=form.instance.father_handle)  }} and 
+{{ form.render("mother_handle", user, "view", link="/person/%(handle)s", handle=form.instance.mother_handle)  }}
+</h2>
+
+<div id="summaryarea">
+<table class="infolist" style="width:90%;"> {# comment #} 4 cols {# end #}
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">{# familyform.errors #}</div>
+    <hr>
+  {% end %}
+<form method="post" onsubmit="setReturnValues()">{% module xsrf_form_html() %}
+<tr>
+<th colspan="2">Father</th>
+<th colspan="2">Mother</th>
+</tr>
+<tr>
+ <td class="ColumnAttribute">Name:</td>
+{% if user  %}
+ <td class="ColumnValue" id="data">
+{% if action != "view" %}
+    <script type="text/javascript">  
+        $(function() { 
+            $('#father').flexbox('/json/?field=father', {
+	        watermark: "{{form._("Enter father's surnname, given")}}",
+	        width: 300,
+	        paging: {  
+                  pageSize: 10,
+	          showSummary: true,
+	        },
+  	        initialValue: '{{ form.render("father_handle", user, "view") }}',
+  	        initialId: '{{ form.get("father_handle") }}'
+	        });
+        });  
+    </script>
+    <div id="father"></div>  
+{% else %}
+ {{ form.render("father_handle", user, action) }}
+{% end %}
+</td>
+{% else %}
+ {{ form.render("father_handle", user, action) }}
+{% end %}
+ </td>
+ <td class="ColumnAttribute">Name:</td>
+{% if user  %}
+ <td class="ColumnValue" id="data">
+{% if action != "view" %}
+   <script type="text/javascript">  
+        $(function() { 
+            $('#mother').flexbox('/json/?field=mother', {
+	        watermark: "{{form._("Enter mother's surnname, given")}}",
+	        width: 300,
+	        paging: {  
+                  pageSize: 10,
+	          showSummary: true,
+	        },
+	        initialValue: '{{ form.render("mother_handle", user, "view")  }}',
+  	        initialId: '{{ form.get("mother_handle") }}'
+	        });
+        });  
+    </script>
+    <div id="mother"></div>  
+{% else %}
+ {{ form.render("mother_handle", user, action) }}
+{% end %}
+{% else %}
+ {{ form.render("mother_handle", user, action) }}
+{% end %}
+</td>
+</tr>
+{% if user  %}
+<tr>
+ <td class="ColumnAttribute">Birth:</td>
+ <td class="ColumnValue" id="data">{# familyform.father.birth|date_as_text:user #}</td>
+ <td class="ColumnAttribute">Birth:</td>
+ <td class="ColumnValue" id="data">{# familyform.mother.birth|date_as_text:user #}</td>
+</tr>
+{% else %}
+<tr>
+ <td class="ColumnAttribute">Death:</td>
+ <td class="ColumnValue" id="data">{# familyform.father.death|date_as_text:user #}</td>
+ <td class="ColumnAttribute">Death:</td>
+ <td class="ColumnValue" id="data">{# familyform.mother.death|date_as_text:user #}</td>
+</tr>
+{% end %}
+<tr>
+ <td class="ColumnAttribute">Death:</td>
+ <td class="ColumnValue" id="data">{# familyform.father.death|date_as_text:user #}</td>
+ <td class="ColumnAttribute">Death:</td>
+ <td class="ColumnValue" id="data">{# familyform.mother.death|date_as_text:user #}</td>
+</tr>
+</tbody>
+</table>
+<table class="infolist"> 
+<tbody>
+<tr>
+  <th colspan="4">Relationship information</th>
+</tr>
+<tr>
+ <td class="ColumnAttribute">{# familyform.gramps_id.label #}:</td>
+ <td class="ColumnValue" id="data">{# render familyform.gramps_id user action #}</td>
+ <td class="ColumnAttribute">{# familyform.family_rel_type.label #}:</td>
+ <td class="ColumnValue" id="data">{# render familyform.family_rel_type user action #}</td>
+</tr>
+<tr>
+ <td class="ColumnAttribute">{# familyform.tags.label #}:</td>
+ <td class="ColumnValue" id="data">{# render familyform.tags user action #}</td>
+ <td class="ColumnAttribute">{# familyform.private.label #}:</td>
+ <td class="ColumnValue" id="data">{# render familyform.private user action #}</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+{% if user %}
+  {% if action == "edit" %}
+    {# make_button "Cancel" "/family/%s" family.handle args #}
+    <input type="hidden" id="father_return" name="father_return" value=""/>
+    <input type="hidden" id="mother_return" name="mother_return" value=""/>
+    <input type="hidden" name="action" value="save"/>
+    <input type="hidden" name="search" value="{#search#}"/>
+    <input type="hidden" name="page" value="{#page#}"/>
+    <input type="submit" value="Save"/>
+  {% else %}
+    {% if action == "add" %}
+      {# make_button "Cancel" "/family/" args #}
+      <input type="hidden" id="father_return" name="father_return" value=""/>
+      <input type="hidden" id="mother_return" name="mother_return" value=""/>
+      <input type="hidden" name="action" value="create"/>
+      <input type="hidden" name="search" value="{#search#}"/>
+      <input type="hidden" name="page" value="{#page#}"/>
+      <input type="submit" value="Create"/>
+    {% else %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ make_icon_button(_("Add Family"), "/family/add", icon="+") }}
+      {{ make_icon_button(_("Edit Family"), "/family/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {{ make_icon_button(_("Delete Family"), "/family/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      </div>
+    {% end %}
+  {% end %}
+{% else %}
+{% end %}
+
+<!-- Tabs -->
+
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a class="tab-children" href="#tab-children">Children</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-events" href="#tab-events">Event</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">Citation</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-attributes" href="#tab-attributes">Attribute</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">Note</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">Media</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-lds" href="#tab-lds">LDS</a></li>
+  </ul>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-children" style="background-color: #f4f0ec;"> 
+    <!-- Children -->
+    {{ children_table(form, user, action, "/person/$act/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-events" style="background-color: #f4f0ec;"> 
+    {{ event_table(form, user, action, link="/event/$act/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;"> 
+    {{ citation_table(form, user, action, "/citation/$act/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
+    {{ attribute_table(form, user, action, "/attribute/add/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
+    {{ note_table(form, user, action, "/note/$act/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;"> 
+    {{ media_table(form, user, action, "/media/$act/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-lds" style="background-color: #f4f0ec;"> 
+    {{ lds_table(form, user, action, "/lds/add/family/%(handle)s", handle=form.instance.handle) }}
+  </div>
+</div>
+
+</form>
+{% end %}

@@ -1,0 +1,183 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{% include "detail_breadcrumb.html" %}
+
+<div id="summaryarea">
+<table class="infolist" style="width:100%;"> 
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">
+       {# personform.errors #}
+       {# nameform.errors #}
+       {# surnameform.errors #}
+       {# logform.errors #}
+    </div>
+    <hr>
+  {% end %}
+<form method="post">{% module xsrf_form_html() %}
+<tr>
+ <td colspan="4"></td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
+ <td colspan="1" rowspan="11" width="80px" style="border-style: double;">{{form.get_media(80)}}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.title") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.title", user, action, js="get_focus", size=30) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.nick") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.nick", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.call") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.call", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.first_name") }}:</td>
+ <td class="ColumnValue" id="data" colspan="4">{{ form.render("primary_name.first_name", user, action, 
+                                                              link="/person/?search=given%%3D%(given)s", 
+                                                              given=form.get("primary_name.first_name")) }}</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.suffix", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.surname_list.0.prefix") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.0.prefix", user, action) }}
+ <td class="ColumnValue" id="data" colspan="2">{{ form.render("primary_name.surname_list.0.surname", user, action, 
+   link="/person/?search=surname%%3D%(surname)s", 
+   surname=form.get("primary_name.surname_list.0.surname")) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.surname_list.0.origintype") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.0.origintype", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("gender") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gender", user, action, link="/person/?search=gender%%3D%(gender)s", 
+   gender=form.get("gender")) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("gramps_id") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gramps_id", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
+ <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("probably_alive") }}:</td>
+ <td class="ColumnValue" id="data">{% if form.probably_alive() %}Yes{% else %}No{% end %}</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+{% if logform %}
+  <table>
+    {# logform.as_table #}
+  </table>
+{% end %}
+
+{% if user %}
+  {% if action == "edit" %}
+    {% if form.instance.handle %}
+       {{make_button(_("Cancel"), "/person/" + form.instance.handle)}}
+    {% else %}
+       {{make_button(_("Cancel"), "/person")}}
+    {% end %}
+    <input type="hidden" name="action" value="save"/>
+    <input type="hidden" name="search" value="{# search #}"/>
+    <input type="hidden" name="page" value="{# page #}"/>
+    <input type="submit" value="Save"/>
+  {% else %}
+    {% if action == "add" %}
+      {{ make_button(_("Cancel"), "/person/") }}
+      <input type="hidden" name="action" value="create"/>
+      <input type="hidden" name="search" value="{# search #}"/>
+      <input type="hidden" name="page" value="{# page #}"/>
+      <input type="submit" value="Create"/>
+    {% else %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ make_icon_button(_("Add Person"), "/person/add", icon="+") }}
+      {{ make_icon_button(_("Edit Person"), "/person/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {{ make_icon_button(_("Delete Person"), "/person/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      </div>
+    {% end %}
+  {% end %}
+{% else %}
+{% end %}
+
+<!-- Tabs -->
+
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a class="tab-events" href="#tab-events">Event</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">Family</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-names" href="#tab-names">Name</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">Citation</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-attributes" href="#tab-attributes">Attribute</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-addresses" href="#tab-addresses">Address</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">Note</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">Media</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-internet" href="#tab-internet">Internet</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-association" href="#tab-association">Association</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-lds" href="#tab-lds">LDS</a></li>
+  </ul>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-events" style="background-color: #f4f0ec;"> 
+    <!-- Events -->
+    {{ event_table(form, user, action, link="/event/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-names" style="background-color: #f4f0ec;"> 
+    {{ name_table(form, user, action, link="/person/%s/name", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;"> 
+    {{ citation_table(form, user, action, "/citation/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
+    {{ attribute_table(form, user, action, "/attribute/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;"> 
+    {{ address_table(form, user, action, "/place/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom
+	      ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
+    {{ note_table(form, user, action, "/note/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;"> 
+    {{ media_table(form, user, action, "/media/$act/person/%(handle)s", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;"> 
+    {{ internet_table(form, user, action, "/person/%(handle)s/$act/internet", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-association" style="background-color: #f4f0ec;"> 
+    {{ association_table(form, user, action, "/person/%(handle)s/$act/association", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-lds" style="background-color: #f4f0ec;"> 
+    {{ lds_table(form, user, action, "/person/%(handle)s/$act/lds", handle=form.instance.handle) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+    {{ person_reference_table(form, user, action) }}
+  </div>
+</div>
+
+</form>
+{% end %}
+

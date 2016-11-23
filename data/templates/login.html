@@ -1,0 +1,45 @@
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}} - login {% end %}
+{% block heading %}{{sitename}}: {{opts.database}} - login {% end %}
+
+{% block content %}
+<h2>{{_("User Login")}}</h2>
+{% if 0 %}
+<p id="description">{{_("Your username or password were not valid. Please try again.")}}</p>
+{% else %}
+<p id="description">{{_("Enter your login ID and password below.")}}</p>
+{% end %}
+<form method="POST" action="/login">{% module xsrf_form_html() %}
+ <table>
+   <tr>
+    <td align="right">
+      <label for="id_username">{{_("Username")}}: </label>
+    </td>
+    <td>
+      <input type="text" name="username" />
+    </td>
+   </tr>
+   <tr>
+    <td align="right">
+      <label for="id_password">{{_("Password")}}: </label>
+    </td>
+    <td>
+      <input type="password" name="password" />
+    </td>
+   </tr>
+   <tr>
+     <td>
+     </td>
+     <td>
+       <p><input type="submit" value="Login" style="width: 155px;"/></p>
+     </td>
+   </tr>
+ </table>
+{% if next %}
+ <input type="hidden" name="next" value="{{next}}" />
+{% else %}
+ <input type="hidden" name="next" value="/" />
+{% end %}
+</form>
+{% end %}

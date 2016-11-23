@@ -1,0 +1,8 @@
+{% autoescape None %}
+
+  <p>
+  {{ make_link("/%(view)s?page=%(page)s", form.tview, view=form.view, page=page) }}
+    > {{ make_link("/%(view)s/%(handle)s", 
+                    form.describe(),
+                    view=form.view, handle=form.instance.handle)  }}
+  </p>

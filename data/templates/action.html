@@ -1,0 +1,28 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+
+{% block content %} 
+
+{% include "detail_breadcrumb.html" %}
+
+<form method="post">{% module xsrf_form_html() %}
+
+<table>
+{% for (key,value) in sorted(form.get_fields(form.instance.handle).items()) %}
+   <tr>
+        <td align="right"><b>{{key}}</b>: </td>
+        <td width="80%"><input type="text" size="70" name="{{key}}" value="{{form.get_field_value(form.instance.handle, key)}}"></input></td>
+   </tr>
+   <tr>
+	<td>          </td>
+	<td>{{value[1]}}</td>
+   </tr>
+{% end %}
+</table>
+<input type="submit" value="Run {{form.instance.name}}"></input>
+</form>
+
+{% end %}

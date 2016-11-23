@@ -30,7 +30,7 @@ Proxy class for the Gramps databases. Apply filter
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.db.base import sort_objects
+from gprime.db.base import sort_objects
 from .proxybase import ProxyDbBase
 from ..lib import (Date, Person, Name, Surname, NameOriginType, Family, Source,
                    Citation, Event, Media, Place, Repository, Note, Tag)

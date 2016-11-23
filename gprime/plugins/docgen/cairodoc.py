@@ -44,9 +44,9 @@ import cairo
 #
 #------------------------------------------------------------------------
 import gprime.plugins.lib.libcairodoc as libcairodoc
-from gprime.gen.plug.docgen import INDEX_TYPE_ALP, INDEX_TYPE_TOC
-from gprime.gen.errors import ReportError
-from gprime.gen.const import LOCALE as glocale
+from gprime.plug.docgen import INDEX_TYPE_ALP, INDEX_TYPE_TOC
+from gprime.errors import ReportError
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------

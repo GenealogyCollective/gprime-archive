@@ -39,17 +39,17 @@ from bsddb3 import db
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib.markertype import MarkerType
-from gprime.gen.lib.nameorigintype import NameOriginType
-from gprime.gen.lib.eventtype import EventType
-from gprime.gen.lib.tag import Tag
-from gprime.gen.utils.file import create_checksum
-from gprime.gen.utils.id import create_id
+from gprime.lib.markertype import MarkerType
+from gprime.lib.nameorigintype import NameOriginType
+from gprime.lib.eventtype import EventType
+from gprime.lib.tag import Tag
+from gprime.utils.file import create_checksum
+from gprime.utils.id import create_id
 from . import BSDDBTxn
 from .write import _mkname, SURNAMES
-from gprime.gen.db.dbconst import (PERSON_KEY, FAMILY_KEY, EVENT_KEY,
+from gprime.db.dbconst import (PERSON_KEY, FAMILY_KEY, EVENT_KEY,
                                    MEDIA_KEY, PLACE_KEY, REPOSITORY_KEY,
                                    SOURCE_KEY)
 from gprime.gui.dialog import (InfoDialog)
@@ -351,7 +351,7 @@ def upgrade_datamap_17(datamap):
     """
     new_srcattr_list = []
     private = False
-    from gprime.gen.lib.srcattrtype import SrcAttributeType
+    from gprime.lib.srcattrtype import SrcAttributeType
     for (key, value) in datamap.items():
         the_type = SrcAttributeType(key).serialize()
         new_srcattr_list.append((private, the_type, value))

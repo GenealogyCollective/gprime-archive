@@ -26,7 +26,7 @@ import os
 import tempfile
 import unittest as U
 
-from gprime.gen.constfunc import get_env_var
+from gprime.constfunc import get_env_var
 
 usage_note="""
   **************************************************************

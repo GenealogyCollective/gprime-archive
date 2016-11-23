@@ -30,7 +30,7 @@
 #-------------------------------------------------------------------------
 import os
 import tarfile
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -46,8 +46,8 @@ log = logging.getLogger(".ReadPkg")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import XMLFILE
-from gprime.gen.utils.file import media_path
+from gprime.const import XMLFILE
+from gprime.utils.file import media_path
 ## we need absolute import as this is dynamically loaded:
 from gprime.plugins.importer.importxml import importData
 

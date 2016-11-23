@@ -25,7 +25,7 @@
 # Python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 import os
 import re
@@ -44,14 +44,14 @@ from gi.repository import Gtk
 # Gramps Modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import EventType, Place, PlaceRef, PlaceName
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.display.place import displayer as _pd
+from gprime.lib import EventType, Place, PlaceRef, PlaceName
+from gprime.display.name import displayer as _nd
+from gprime.display.place import displayer as _pd
 from gprime.gui.views.navigationview import NavigationView
-from gprime.gen.utils.libformatting import FormattingHelper
-from gprime.gen.errors import WindowActiveError
-from gprime.gen.const import HOME_DIR
-from gprime.gen.config import config
+from gprime.utils.libformatting import FormattingHelper
+from gprime.errors import WindowActiveError
+from gprime.const import HOME_DIR
+from gprime.config import config
 from gprime.gui.editors import EditPlace, EditEvent, EditFamily, EditPerson
 from gprime.gui.selectors.selectplace import SelectPlace
 

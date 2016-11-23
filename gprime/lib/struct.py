@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from gprime.gen.lib.handle import HandleClass
+from gprime.lib.handle import HandleClass
 
 def from_struct(struct):
     return Struct.instance_from_struct(struct)

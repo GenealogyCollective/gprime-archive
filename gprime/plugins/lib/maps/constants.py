@@ -25,9 +25,9 @@
 # standard python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import EventType
+from gprime.lib import EventType
 import os
-from gprime.gen.const import HOME_DIR
+from gprime.const import HOME_DIR
 import gi
 gi.require_version('OsmGpsMap', '1.0')
 from gi.repository import OsmGpsMap as osmgpsmap

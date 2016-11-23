@@ -22,7 +22,7 @@
 
 import unittest
 
-from gprime.gen.db import make_database
+from gprime.db import make_database
 
 from  ..import (Person, Surname, Name, NameType, Family, FamilyRelType,
                 Event, EventType, Source, Place, PlaceName, Citation, Date,

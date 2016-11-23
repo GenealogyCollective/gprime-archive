@@ -27,7 +27,7 @@
 # python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -51,8 +51,8 @@ log = logging.getLogger(".RebuildGenderStat")
 #-------------------------------------------------------------------------
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog
-from gprime.gen.updatecallback import UpdateCallback
-from gprime.gen.lib import Name
+from gprime.updatecallback import UpdateCallback
+from gprime.lib import Name
 
 #-------------------------------------------------------------------------
 #

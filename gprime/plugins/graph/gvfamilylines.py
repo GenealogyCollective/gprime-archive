@@ -47,21 +47,21 @@ LOG = logging.getLogger(".FamilyLines")
 # Gramps module
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib import EventRoleType, EventType, Person, PlaceType
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.utils.thumbnails import get_thumbnail_path
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.menu import (NumberOption, ColorOption, BooleanOption,
+from gprime.lib import EventRoleType, EventType, Person, PlaceType
+from gprime.utils.file import media_path_full
+from gprime.utils.thumbnails import get_thumbnail_path
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.menu import (NumberOption, ColorOption, BooleanOption,
                                   EnumeratedListOption, PersonListOption,
                                   SurnameColorOption)
-from gprime.gen.utils.db import get_birth_or_fallback, get_death_or_fallback
-from gprime.gen.utils.location import get_main_location
-from gprime.gen.proxy import CacheProxyDb
+from gprime.utils.db import get_birth_or_fallback, get_death_or_fallback
+from gprime.utils.location import get_main_location
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

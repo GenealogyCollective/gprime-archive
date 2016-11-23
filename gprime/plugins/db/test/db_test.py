@@ -22,9 +22,9 @@ import unittest
 import os
 
 from gprime.test.test_util import Gramps
-from gprime.gen.db import open_database
-from gprime.gen.lib import *
-from gprime.gen.const import DATA_DIR
+from gprime.db import open_database
+from gprime.lib import *
+from gprime.const import DATA_DIR
 
 TEST_DIR = os.path.abspath(os.path.join(DATA_DIR, "tests"))
 example = os.path.join(TEST_DIR, "data.gramps")
@@ -200,9 +200,9 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(result == 0, result)
 
     def test_filter_1(self):
-        from gprime.gen.filters.rules.person import (IsDescendantOf,
+        from gprime.filters.rules.person import (IsDescendantOf,
                                                      IsAncestorOf)
-        from gprime.gen.filters import GenericFilter
+        from gprime.filters import GenericFilter
         filter = GenericFilter()
         filter.set_logical_op("or")
         filter.add_rule(IsDescendantOf(["I0057", True]))

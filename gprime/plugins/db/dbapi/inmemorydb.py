@@ -20,7 +20,7 @@
 
 from gprime.plugins.db.dbapi.dbapi import DBAPI
 from gprime.plugins.db.dbapi.sqlite import Sqlite
-from gprime.gen.db.generic import DbGeneric, DBBACKEND, LOG
+from gprime.db.generic import DbGeneric, DBBACKEND, LOG
 import os
 import glob
 

@@ -42,12 +42,12 @@
 # gramps modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.plug.menu import TextOption
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle,
+from gprime.plug.menu import TextOption
+from gprime.plug.report import Report
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.docgen import (FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER,
                                     IndexMark, INDEX_TYPE_TOC)
 

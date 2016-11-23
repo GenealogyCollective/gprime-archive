@@ -37,27 +37,27 @@ from gi.repository import Gtk
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import Place
+from gprime.lib import Place
 from gprime.gui.views.listview import ListView, TEXT, ICON
 from gprime.gui.widgets.menuitem import add_menuitem
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 from gprime.gui.views.bookmarks import PlaceBookmarks
-from gprime.gen.config import config
+from gprime.config import config
 from gprime.gui.dialog import ErrorDialog
 from gprime.gui.pluginmanager import GuiPluginManager
 from gprime.gui.ddtargets import DdTargets
 from gprime.gui.editors import EditPlace, DeletePlaceQuery
 from gprime.gui.filters.sidebar import PlaceSidebarFilter
 from gprime.gui.merge import MergePlace
-from gprime.gen.plug import CATEGORY_QR_PLACE
-from gprime.gen.utils.location import located_in
+from gprime.plug import CATEGORY_QR_PLACE
+from gprime.utils.location import located_in
 
 #-------------------------------------------------------------------------
 #
 # internationalization
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 

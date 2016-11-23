@@ -47,9 +47,9 @@ except:
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docgen import PAPER_PORTRAIT
+from gprime.plug.docgen import PAPER_PORTRAIT
 import gprime.plugins.lib.libcairodoc as libcairodoc
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------

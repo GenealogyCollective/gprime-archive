@@ -50,9 +50,9 @@ except:
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import (ICON, IMAGE_DIR, THUMB_LARGE, THUMB_NORMAL,
+from gprime.const import (ICON, IMAGE_DIR, THUMB_LARGE, THUMB_NORMAL,
                               THUMBSCALE, THUMBSCALE_LARGE, USE_THUMBNAILER)
-from gprime.gen.constfunc import win
+from gprime.constfunc import win
 
 #-------------------------------------------------------------------------
 #

@@ -33,13 +33,13 @@ import datetime
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.lib import (ChildRefType, Date, Span, Name, StyledText,
+from gprime.lib import (ChildRefType, Date, Span, Name, StyledText,
                             StyledTextTag, StyledTextTagType)
-from gprime.gen.display.name import displayer as name_displayer
-from gprime.gen.utils.alive import probably_alive
-from gprime.gen.proxy import LivingProxyDb
+from gprime.display.name import displayer as name_displayer
+from gprime.utils.alive import probably_alive
+from gprime.proxy import LivingProxyDb
 
 #------------------------------------------------------------------------
 #

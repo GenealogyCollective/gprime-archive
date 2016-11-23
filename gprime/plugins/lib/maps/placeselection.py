@@ -25,7 +25,7 @@
 # Python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 import re
 import math
@@ -50,12 +50,12 @@ from gi.repository import Gtk
 # Gramps Modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 from gprime.gui.managedwindow import ManagedWindow
 from .osmgps import OsmGps
-from gprime.gen.utils.location import get_main_location
-from gprime.gen.lib import PlaceType
-from gprime.gen.utils.place import conv_lat_lon
+from gprime.utils.location import get_main_location
+from gprime.lib import PlaceType
+from gprime.utils.place import conv_lat_lon
 
 #-------------------------------------------------------------------------
 #

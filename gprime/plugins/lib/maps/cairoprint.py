@@ -24,7 +24,7 @@
 #
 #-------------------------------------------------------------------------
 from gi.repository import Gtk
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

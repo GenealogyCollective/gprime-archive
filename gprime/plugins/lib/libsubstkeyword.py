@@ -38,11 +38,11 @@ Mary Smith was born on 3/28/1923.
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.lib import EventType, PlaceType, Location
-from gprime.gen.utils.db import get_birth_or_fallback, get_death_or_fallback
-from gprime.gen.utils.location import get_main_location
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.const import LOCALE as glocale
+from gprime.lib import EventType, PlaceType, Location
+from gprime.utils.db import get_birth_or_fallback, get_death_or_fallback
+from gprime.utils.location import get_main_location
+from gprime.display.place import displayer as _pd
+from gprime.const import LOCALE as glocale
 
 
 #------------------------------------------------------------------------
@@ -485,7 +485,7 @@ class GrampsFormat:
         let the date or place classes handle any sub-format strings """
         from gprime.version import VERSION
 
-        from gprime.gen.utils.config import get_researcher
+        from gprime.utils.config import get_researcher
         owner = get_researcher()
 
         code = "vtd" + "elcspn" + "om"
@@ -987,7 +987,7 @@ class VariableParse:
         elif next_char == "T":
             #Todays date
             date_f = DateFormat(self._in)
-            from gprime.gen.lib.date import Today
+            from gprime.lib.date import Today
             date = Today()
             if self.empty_item(date):
                 return
@@ -1296,7 +1296,7 @@ if __name__ == '__main__':
             return line
 
 
-    from gprime.gen.lib.date import Date
+    from gprime.lib.date import Date
     y_or_n = ()
     date_to_test = Date()
 
@@ -1373,7 +1373,7 @@ if __name__ == '__main__':
     print("=============")
     print("=============")
 
-    from gprime.gen.lib.name import Name
+    from gprime.lib.name import Name
     y_or_n = ()
     name_to_test = Name()
 
@@ -1446,7 +1446,7 @@ if __name__ == '__main__':
     print("=============")
     print("=============")
 
-    from gprime.gen.lib.place import Place
+    from gprime.lib.place import Place
     y_or_n = ()
     place_to_test = Place()
 

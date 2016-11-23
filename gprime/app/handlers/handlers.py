@@ -23,12 +23,12 @@ import logging
 import hmac
 import crypt
 
-from gramps.gen.utils.grampslocale import GrampsLocale, _
-from gramps.gen.utils.id import create_id
-from gramps.gen.const import VERSION
+from gprime.utils.locale import Locale, _
+from gprime.utils.id import create_id
+from gprime.const import VERSION
 
 template_functions = {}
-exec("from gramps_connect.template_functions import *",
+exec("from gprime.app.template_functions import *",
      globals(), template_functions)
 
 class BaseHandler(tornado.web.RequestHandler):

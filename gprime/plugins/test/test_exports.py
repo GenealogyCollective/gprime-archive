@@ -24,10 +24,10 @@ import os
 import difflib
 
 from gprime.test.test_util import Gramps
-from gprime.gen.const import TEMP_DIR, DATA_DIR
-from gprime.gen.datehandler import set_format
+from gprime.const import TEMP_DIR, DATA_DIR
+from gprime.datehandler import set_format
 from gprime.cli.user import User
-from gprime.gen.utils.config import config
+from gprime.utils.config import config
 
 TREE_NAME = "Test_exporttest"
 TEST_DIR = os.path.abspath(os.path.join(DATA_DIR, "tests"))

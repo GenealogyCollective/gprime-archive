@@ -47,26 +47,26 @@ import re
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.plug.docgen import (
+from gprime.plug.docgen import (
     BaseDoc, TextDoc, DrawDoc, graphicstyle, FONT_SANS_SERIF, SOLID,
     PAPER_PORTRAIT, INDEX_TYPE_TOC, PARA_ALIGN_CENTER, PARA_ALIGN_LEFT,
     INDEX_TYPE_ALP, PARA_ALIGN_RIGHT, URL_PATTERN, LOCAL_HYPERLINK,
     LOCAL_TARGET)
-from gprime.gen.plug.docgen.fontscale import string_width
+from gprime.plug.docgen.fontscale import string_width
 from gprime.plugins.lib.libodfbackend import OdfBackend
-from gprime.gen.const import PROGRAM_NAME, URL_HOMEPAGE
+from gprime.const import PROGRAM_NAME, URL_HOMEPAGE
 from gprime.version import VERSION
-from gprime.gen.plug.report import utils
-from gprime.gen.utils.image import (image_size, image_dpi, image_actual_size,
+from gprime.plug.report import utils
+from gprime.utils.image import (image_size, image_dpi, image_actual_size,
                                     crop_percentage_to_subpixel)
-from gprime.gen.errors import ReportError
+from gprime.errors import ReportError
 
 #-------------------------------------------------------------------------
 #
 # internationalization
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 APP_TYPE = 'application/vnd.oasis.opendocument.text'

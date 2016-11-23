@@ -33,8 +33,8 @@ from ..lib import (Date, Person, Name, Surname, NameOriginType, Family, Source,
                    Citation, Event, Media, Place, Repository, Note, Tag)
 from ..utils.alive import probably_alive
 from ..config import config
-from gprime.gen.db.base import sort_objects
-from gprime.gen.const import LOCALE as glocale
+from gprime.db.base import sort_objects
+from gprime.const import LOCALE as glocale
 
 #-------------------------------------------------------------------------
 #

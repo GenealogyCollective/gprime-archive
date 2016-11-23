@@ -42,13 +42,13 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.display.name import displayer as name_displayer
+from gprime.display.name import displayer as name_displayer
 from gprime.gui.managedwindow import ManagedWindow
 from gprime.gui.views.treemodels import PeopleBaseModel, PersonTreeModel
 from gprime.plugins.lib.libpersonview import BasePersonView
-from gprime.gen.relationship import get_relationship_calculator
+from gprime.relationship import get_relationship_calculator
 
 from gprime.gui.dialog import ErrorDialog
 from gprime.gui.plug import tool

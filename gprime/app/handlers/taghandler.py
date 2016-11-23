@@ -18,8 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from gramps.gen.lib import Tag
-from gramps.gen.utils.grampslocale import GrampsLocale, _
+from gprime.lib import Tag
+from gprime.utils.locale import Locale, _
 
 import tornado.web
 

@@ -27,12 +27,12 @@ import sys
 import re
 #import logging
 
-from gprime.gen.merge.diff import diff_dbs, import_as_dict
-from gprime.gen.simple import SimpleAccess
-from gprime.gen.utils.id import set_det_id
+from gprime.merge.diff import diff_dbs, import_as_dict
+from gprime.simple import SimpleAccess
+from gprime.utils.id import set_det_id
 from gprime.cli.user import User
-from gprime.gen.const import TEMP_DIR, DATA_DIR
-from gprime.gen.utils.config import config
+from gprime.const import TEMP_DIR, DATA_DIR
+from gprime.utils.config import config
 from gprime.test.test_util import capture
 from gprime.plugins.export.exportxml import XmlWriter
 

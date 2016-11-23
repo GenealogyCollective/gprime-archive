@@ -23,7 +23,7 @@ from ..forms.actionform import ActionForm, Action, Table
 
 import tornado.web
 
-from gramps.gen.utils.grampslocale import GrampsLocale, _
+from gprime.utils.locale import Locale, _
 
 class ActionHandler(BaseHandler):
     @tornado.web.authenticated

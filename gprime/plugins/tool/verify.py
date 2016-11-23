@@ -35,7 +35,7 @@ This is the research tool, not the low-level data ingerity check.
 import os
 import pickle
 from hashlib import md5
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 
 #------------------------------------------------------------------------
 #
@@ -51,17 +51,17 @@ from gi.repository import GObject
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE, VERSION_DIR
-from gprime.gen.lib import (ChildRefType, EventRoleType, EventType,
+from gprime.const import URL_MANUAL_PAGE, VERSION_DIR
+from gprime.lib import (ChildRefType, EventRoleType, EventType,
                             FamilyRelType, NameType, Person)
-from gprime.gen.lib.date import Today
+from gprime.lib.date import Today
 from gprime.gui.editors import EditPerson, EditFamily
-from gprime.gen.utils.db import family_name
+from gprime.utils.db import family_name
 from gprime.gui.display import display_help
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.updatecallback import UpdateCallback
+from gprime.updatecallback import UpdateCallback
 from gprime.gui.plug import tool
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.gui.glade import Glade
 

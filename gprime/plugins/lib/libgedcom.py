@@ -111,30 +111,30 @@ LOG = logging.getLogger(".libgedcom")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import GedcomError
-from gprime.gen.const import DATA_DIR
-from gprime.gen.lib import (Address, Attribute, AttributeType, ChildRef,
+from gprime.errors import GedcomError
+from gprime.const import DATA_DIR
+from gprime.lib import (Address, Attribute, AttributeType, ChildRef,
         ChildRefType, Citation, Date, Event, EventRef, EventRoleType,
         EventType, Family, FamilyRelType, LdsOrd, Location, Media,
         MediaRef, Name, NameType, Note, NoteType, Person, PersonRef, Place,
         RepoRef, Repository, RepositoryType, Researcher,
         Source, SourceMediaType, SrcAttribute, SrcAttributeType,
         Surname, Tag, Url, UrlType, PlaceType, PlaceRef, PlaceName)
-from gprime.gen.db import DbTxn
-from gprime.gen.updatecallback import UpdateCallback
-from gprime.gen.mime import get_type
-from gprime.gen.utils.id import create_id
-from gprime.gen.utils.lds import TEMPLES
-from gprime.gen.utils.unknown import make_unknown, create_explanation_note
-from gprime.gen.datehandler._dateparser import DateParser
-from gprime.gen.db.dbconst import EVENT_KEY
+from gprime.db import DbTxn
+from gprime.updatecallback import UpdateCallback
+from gprime.mime import get_type
+from gprime.utils.id import create_id
+from gprime.utils.lds import TEMPLES
+from gprime.utils.unknown import make_unknown, create_explanation_note
+from gprime.datehandler._dateparser import DateParser
+from gprime.db.dbconst import EVENT_KEY
 from gprime.gui.dialog import WarningDialog
-from gprime.gen.lib.const import IDENTICAL, DIFFERENT
-from gprime.gen.lib import (StyledText, StyledTextTag, StyledTextTagType)
+from gprime.lib.const import IDENTICAL, DIFFERENT
+from gprime.lib import (StyledText, StyledTextTag, StyledTextTagType)
 from gprime.plugins.lib.libplaceimport import PlaceImport
-from gprime.gen.display.place import displayer as _pd
+from gprime.display.place import displayer as _pd
 
 #-------------------------------------------------------------------------
 #

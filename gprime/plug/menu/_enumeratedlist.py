@@ -29,7 +29,7 @@ Option class representing an enumerated list of possible values.
 #
 #-------------------------------------------------------------------------
 from . import Option
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 
 #-------------------------------------------------------------------------

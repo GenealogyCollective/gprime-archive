@@ -22,7 +22,7 @@
 Package providing filtering framework for GRAMPS.
 """
 
-from gprime.gen.constfunc import win
+from gprime.constfunc import win
 
 class SearchFilter:
     def __init__(self, func, text, invert):

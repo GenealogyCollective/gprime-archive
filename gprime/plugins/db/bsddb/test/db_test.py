@@ -21,8 +21,8 @@
 import unittest
 
 from .. import DbReadBase, DbWriteBase, DbBsddbRead, DbBsddb
-from gprime.gen.proxy.proxybase import ProxyDbBase
-from gprime.gen.proxy import LivingProxyDb
+from gprime.proxy.proxybase import ProxyDbBase
+from gprime.proxy import LivingProxyDb
 
 class DbTest(unittest.TestCase):
     READ_METHODS = [

@@ -27,7 +27,7 @@
 # python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -51,7 +51,7 @@ log = logging.getLogger(".Rebuild")
 #-------------------------------------------------------------------------
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog
-from gprime.gen.updatecallback import UpdateCallback
+from gprime.updatecallback import UpdateCallback
 
 #-------------------------------------------------------------------------
 #

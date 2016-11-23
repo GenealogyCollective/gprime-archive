@@ -23,8 +23,8 @@
 #    python modules
 #------------------------------------------------
 import os
-from gprime.gen.const import VERSION_DIR, IMAGE_DIR, DATA_DIR, USER_CSS
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import VERSION_DIR, IMAGE_DIR, DATA_DIR, USER_CSS
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 
 def make_css_dict(tup):

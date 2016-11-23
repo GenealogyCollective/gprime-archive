@@ -46,16 +46,16 @@ log = logging.getLogger(".ExportVCard")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import PROGRAM_NAME
+from gprime.const import PROGRAM_NAME
 from gprime.version import VERSION
-from gprime.gen.lib import Date, Person
-from gprime.gen.lib.urltype import UrlType
+from gprime.lib import Date, Person
+from gprime.lib.urltype import UrlType
 from gprime.gui.plug.export import WriterOptionBox
-from gprime.gen.lib.eventtype import EventType
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.plug.utils import OpenFileOrStdout
+from gprime.lib.eventtype import EventType
+from gprime.display.name import displayer as _nd
+from gprime.plug.utils import OpenFileOrStdout
 
 #-------------------------------------------------------------------------
 #

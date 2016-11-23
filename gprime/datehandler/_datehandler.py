@@ -46,7 +46,7 @@ from ._dateparser import DateParser
 from ._datedisplay import DateDisplay, DateDisplayEn
 from ..constfunc import win
 from ..const import LOCALE as glocale
-from gprime.gen.utils.locale import Locale
+from gprime.utils.locale import Locale
 
 #-------------------------------------------------------------------------
 #

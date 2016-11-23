@@ -55,30 +55,30 @@ import logging
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib.media import Media
-from gprime.gen.lib.person import Person
-from gprime.gen.lib.family import Family
-from gprime.gen.lib.src import Source
-from gprime.gen.lib.citation import Citation
-from gprime.gen.lib.event import Event
-from gprime.gen.lib.place import Place
-from gprime.gen.lib.repo import Repository
-from gprime.gen.lib.note import Note
-from gprime.gen.lib.tag import Tag
-from gprime.gen.lib.genderstats import GenderStats
-from gprime.gen.lib.researcher import Researcher
-from gprime.gen.lib.nameorigintype import NameOriginType
+from gprime.lib.media import Media
+from gprime.lib.person import Person
+from gprime.lib.family import Family
+from gprime.lib.src import Source
+from gprime.lib.citation import Citation
+from gprime.lib.event import Event
+from gprime.lib.place import Place
+from gprime.lib.repo import Repository
+from gprime.lib.note import Note
+from gprime.lib.tag import Tag
+from gprime.lib.genderstats import GenderStats
+from gprime.lib.researcher import Researcher
+from gprime.lib.nameorigintype import NameOriginType
 
-from gprime.gen.utils.callback import Callback
+from gprime.utils.callback import Callback
 from . import BsddbBaseCursor
-from gprime.gen.db.base import DbReadBase, eval_order_by
-from gprime.gen.utils.id import create_id
-from gprime.gen.errors import DbError, HandleError
-from gprime.gen.constfunc import get_env_var
-from gprime.gen.const import LOCALE as glocale
+from gprime.db.base import DbReadBase, eval_order_by
+from gprime.utils.id import create_id
+from gprime.errors import DbError, HandleError
+from gprime.constfunc import get_env_var
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
-from gprime.gen.db.dbconst import *
+from gprime.db.dbconst import *
 
 LOG = logging.getLogger(DBLOGNAME)
 LOG = logging.getLogger(".citation")

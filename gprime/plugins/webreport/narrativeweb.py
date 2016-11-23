@@ -95,37 +95,37 @@ LOG = logging.getLogger(".NarrativeWeb")
 #------------------------------------------------
 # Gramps module
 #------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.lib import (ChildRefType, Date, EventType, FamilyRelType, Name,
+from gprime.lib import (ChildRefType, Date, EventType, FamilyRelType, Name,
                             NameType, Person, UrlType, NoteType, PlaceType,
                             EventRoleType, Family, Event, Place, Source,
                             Citation, Media, Repository, Note, Tag)
-from gprime.gen.lib.date import Today
-from gprime.gen.const import PROGRAM_NAME, URL_HOMEPAGE
+from gprime.lib.date import Today
+from gprime.const import PROGRAM_NAME, URL_HOMEPAGE
 from gprime.version import VERSION
-from gprime.gen.plug.menu import (PersonOption, NumberOption, StringOption,
+from gprime.plug.menu import (PersonOption, NumberOption, StringOption,
                                   BooleanOption, EnumeratedListOption,
                                   FilterOption, NoteOption, MediaOption,
                                   DestinationOption)
-from gprime.gen.plug.report import (Report, Bibliography)
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
+from gprime.plug.report import (Report, Bibliography)
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
 
-from gprime.gen.utils.config import get_researcher
-from gprime.gen.utils.string import conf_strings
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.utils.alive import probably_alive
-from gprime.gen.constfunc import win, get_curr_dir
-from gprime.gen.config import config
-from gprime.gen.utils.thumbnails import get_thumbnail_path, run_thumbnailer
-from gprime.gen.utils.image import image_size # , resize_to_jpeg_buffer
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.proxy import CacheProxyDb
+from gprime.utils.config import get_researcher
+from gprime.utils.string import conf_strings
+from gprime.utils.file import media_path_full
+from gprime.utils.alive import probably_alive
+from gprime.constfunc import win, get_curr_dir
+from gprime.config import config
+from gprime.utils.thumbnails import get_thumbnail_path, run_thumbnailer
+from gprime.utils.image import image_size # , resize_to_jpeg_buffer
+from gprime.display.name import displayer as _nd
+from gprime.display.place import displayer as _pd
+from gprime.proxy import CacheProxyDb
 from gprime.plugins.lib.libhtmlconst import _CHARACTER_SETS, _CC, _COPY_OPTIONS
-from gprime.gen.datehandler import get_date
+from gprime.datehandler import get_date
 
 # import HTML Class from src/plugins/lib/libhtml.py
 from gprime.plugins.lib.libhtml import Html, xml_lang
@@ -134,11 +134,11 @@ from gprime.plugins.lib.libhtml import Html, xml_lang
 from gprime.plugins.lib.libhtmlbackend import HtmlBackend, process_spaces
 
 from gprime.plugins.lib.libgedcom import make_gedcom_date, DATE_QUALITY
-from gprime.gen.utils.place import conv_lat_lon
-from gprime.gen.plug import BasePluginManager
+from gprime.utils.place import conv_lat_lon
+from gprime.plug import BasePluginManager
 
-from gprime.gen.relationship import get_relationship_calculator
-from gprime.gen.utils.location import get_main_location
+from gprime.relationship import get_relationship_calculator
+from gprime.utils.location import get_main_location
 
 COLLATE_LANG = glocale.collation
 SORT_KEY = glocale.sort_key

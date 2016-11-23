@@ -28,7 +28,7 @@ from collections import OrderedDict
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import Place, PlaceName, PlaceType, PlaceRef
+from gprime.lib import Place, PlaceName, PlaceType, PlaceRef
 
 #-------------------------------------------------------------------------
 #

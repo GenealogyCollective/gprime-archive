@@ -36,20 +36,20 @@ from functools import partial
 # Gramps
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.lib import EventRoleType, EventType, NoteType, Person
-from gprime.gen.plug.menu import BooleanOption, FamilyOption, FilterOption
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.lib import EventRoleType, EventType, NoteType, Person
+from gprime.plug.menu import BooleanOption, FamilyOption, FilterOption
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     TableStyle, TableCellStyle,
                                     FONT_SANS_SERIF, FONT_SERIF,
                                     INDEX_TYPE_TOC, PARA_ALIGN_CENTER)
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.proxy import CacheProxyDb
+from gprime.display.place import displayer as _pd
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

@@ -24,7 +24,7 @@
 from bsddb3 import dbshelve, db
 import os
 
-from gprime.gen.db import META, PERSON_TBL
+from gprime.db import META, PERSON_TBL
 from  gramps.gen.db.dbconst import BDBVERSFN
 
 def get_dbdir_summary(dirpath, name):

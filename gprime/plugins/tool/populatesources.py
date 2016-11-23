@@ -40,14 +40,14 @@ from gi.repository import Gtk
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.lib import Citation, Source
-from gprime.gen.db import DbTxn
+from gprime.lib import Citation, Source
+from gprime.db import DbTxn
 
 class PopulateSources(tool.Tool, ManagedWindow):
     """

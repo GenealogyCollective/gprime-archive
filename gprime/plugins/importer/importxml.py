@@ -33,8 +33,8 @@ import sys
 import time
 from xml.parsers.expat import ExpatError, ParserCreate
 from xml.sax.saxutils import escape
-from gprime.gen.const import URL_WIKISTRING
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import URL_WIKISTRING
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 import re
 import logging
@@ -46,8 +46,8 @@ LOG = logging.getLogger(".ImportXML")
 # Gramps Modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.mime import get_type
-from gprime.gen.lib import (Address, Attribute, AttributeType, ChildRef,
+from gprime.mime import get_type
+from gprime.lib import (Address, Attribute, AttributeType, ChildRef,
                             ChildRefType, Citation, Date, DateError, Event,
                             EventRef, EventRoleType, EventType, Family, LdsOrd,
                             Location, Media, MediaRef, Name,
@@ -56,25 +56,25 @@ from gprime.gen.lib import (Address, Attribute, AttributeType, ChildRef,
                             RepoRef, Repository, Researcher, Source,
                             SrcAttribute, SrcAttributeType, StyledText,
                             StyledTextTag, StyledTextTagType, Surname, Tag, Url)
-from gprime.gen.db import DbTxn
-#from gprime.gen.db.write import CLASS_TO_KEY_MAP
-from gprime.gen.errors import GrampsImportError
-from gprime.gen.utils.id import create_id
-from gprime.gen.utils.db import family_name
-from gprime.gen.utils.unknown import make_unknown, create_explanation_note
-from gprime.gen.utils.file import create_checksum, media_path, expand_media_path
-from gprime.gen.datehandler import parser, set_date
-from gprime.gen.display.name import displayer as name_displayer
-from gprime.gen.db.dbconst import (PERSON_KEY, FAMILY_KEY, SOURCE_KEY,
+from gprime.db import DbTxn
+#from gprime.db.write import CLASS_TO_KEY_MAP
+from gprime.errors import GrampsImportError
+from gprime.utils.id import create_id
+from gprime.utils.db import family_name
+from gprime.utils.unknown import make_unknown, create_explanation_note
+from gprime.utils.file import create_checksum, media_path, expand_media_path
+from gprime.datehandler import parser, set_date
+from gprime.display.name import displayer as name_displayer
+from gprime.db.dbconst import (PERSON_KEY, FAMILY_KEY, SOURCE_KEY,
                                    EVENT_KEY, MEDIA_KEY, PLACE_KEY,
                                    REPOSITORY_KEY, NOTE_KEY, TAG_KEY,
                                    CITATION_KEY, CLASS_TO_KEY_MAP)
-from gprime.gen.updatecallback import UpdateCallback
+from gprime.updatecallback import UpdateCallback
 from gprime.version import VERSION
-from gprime.gen.config import config
+from gprime.config import config
 #import gprime.plugins.lib.libgrampsxml
 from gprime.plugins.lib import libgrampsxml
-from gprime.gen.plug.utils import version_str_to_tup
+from gprime.plug.utils import version_str_to_tup
 from gprime.plugins.lib.libplaceimport import PlaceImport
 
 #-------------------------------------------------------------------------

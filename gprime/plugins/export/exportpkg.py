@@ -34,7 +34,7 @@ import shutil
 import os
 import tarfile
 from io import StringIO, BytesIO
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -59,8 +59,8 @@ from gi.repository import Gtk
 #-------------------------------------------------------------------------
 from gprime.gui.plug.export import WriterOptionBox
 from gprime.plugins.export.exportxml import XmlWriter
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.constfunc import win
+from gprime.utils.file import media_path_full
+from gprime.constfunc import win
 
 #-------------------------------------------------------------------------
 #

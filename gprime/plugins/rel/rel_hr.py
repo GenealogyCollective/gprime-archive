@@ -30,7 +30,7 @@ Croatian-specific classes for calculating relationships and kinship names.
 #
 #-------------------------------------------------------------------------
 
-import gprime.gen.relationship
+import gprime.relationship
 
 _PARENTS = ['', 'otac i majka', 'djedovi i bake', 'pradjedovi i prabake',
     '%s pradjedovi i %s prabake']
@@ -190,6 +190,6 @@ if __name__ == "__main__":
     #        imported modules):
     #    export PYTHONPATH=/path/to/gramps/src
     # python src/plugins/rel/rel_ru.py
-    from gprime.gen.relationship import test
+    from gprime.relationship import test
     RC = RelationshipCalculator()
     test(RC, True)

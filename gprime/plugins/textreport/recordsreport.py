@@ -35,24 +35,24 @@
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.plugins.lib.librecords import (RECORDS, find_records,
                                            CALLNAME_DONTUSE, CALLNAME_REPLACE,
                                            CALLNAME_UNDERLINE_ADD)
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle,
+from gprime.plug.docgen import (FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER,
                                     IndexMark, INDEX_TYPE_TOC)
-from gprime.gen.plug.menu import (BooleanOption, EnumeratedListOption,
+from gprime.plug.menu import (BooleanOption, EnumeratedListOption,
                                   FilterOption, NumberOption,
                                   PersonOption, StringOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.lib import Span
-from gprime.gen.errors import ReportError
-from gprime.gen.proxy import LivingProxyDb, CacheProxyDb
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.lib import Span
+from gprime.errors import ReportError
+from gprime.proxy import LivingProxyDb, CacheProxyDb
 
 #------------------------------------------------------------------------
 #

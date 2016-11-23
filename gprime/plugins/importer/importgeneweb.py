@@ -43,16 +43,16 @@ LOG = logging.getLogger(".ImportGeneWeb")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
-from gprime.gen.utils.libformatting import ImportInfo
+from gprime.const import LOCALE as glocale
+from gprime.utils.libformatting import ImportInfo
 _ = glocale.translation.gettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
-from gprime.gen.errors import GedcomError, GrampsImportError
-from gprime.gen.lib import (Attribute, AttributeType, ChildRef, Citation,
+from gprime.errors import GedcomError, GrampsImportError
+from gprime.lib import (Attribute, AttributeType, ChildRef, Citation,
         Date, DateError, Event, EventRef, EventRoleType, EventType,
         Family, FamilyRelType, Name, NameType, Note, Person, PersonRef,
         Place, Source, LdsOrd)
-from gprime.gen.db import DbTxn
+from gprime.db import DbTxn
 from html.entities import name2codepoint
 
 _date_parse = re.compile('([kmes~?<>]+)?([0-9/]+)([J|H|F])?(\.\.)?([0-9/]+)?([J|H|F])?')

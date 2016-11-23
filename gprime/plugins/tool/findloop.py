@@ -34,16 +34,16 @@ from gi.repository import GObject
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE
+from gprime.const import URL_MANUAL_PAGE
 from gprime.gui.plug import tool
 from gprime.gui.editors import EditFamily
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 from gprime.gui.managedwindow import ManagedWindow
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.display import display_help
 from gprime.gui.glade import Glade
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.const import LOCALE as glocale
+from gprime.display.name import displayer as _nd
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
 

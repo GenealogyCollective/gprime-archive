@@ -33,9 +33,9 @@ LOG = logging.getLogger(".filter")
 #-------------------------------------------------------------------------
 # we need global variableCustomFilters, so we need to query gramps.gen.filters
 # when we need this variable, not import it at the start!
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-import gprime.gen.filters
+import gprime.filters
 from . import Rule
 
 #-------------------------------------------------------------------------

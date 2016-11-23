@@ -46,21 +46,21 @@ from functools import partial
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.plug.menu import (BooleanOption, EnumeratedListOption,
+from gprime.plug.menu import (BooleanOption, EnumeratedListOption,
                                   FilterOption, PersonOption, ColorOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.lib import ChildRefType, EventRoleType, EventType
-from gprime.gen.utils.file import media_path_full, find_file
-from gprime.gen.utils.thumbnails import get_thumbnail_path
-from gprime.gen.relationship import get_relationship_calculator
-from gprime.gen.utils.db import get_birth_or_fallback, get_death_or_fallback
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.proxy import CacheProxyDb
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.lib import ChildRefType, EventRoleType, EventType
+from gprime.utils.file import media_path_full, find_file
+from gprime.utils.thumbnails import get_thumbnail_path
+from gprime.relationship import get_relationship_calculator
+from gprime.utils.db import get_birth_or_fallback, get_death_or_fallback
+from gprime.display.place import displayer as _pd
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

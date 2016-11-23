@@ -39,24 +39,24 @@ Reports/Text Reports/Descendant Report.
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, INDEX_TYPE_TOC,
                                     PARA_ALIGN_CENTER)
-from gprime.gen.plug.menu import (NumberOption, PersonOption, BooleanOption,
+from gprime.plug.menu import (NumberOption, PersonOption, BooleanOption,
                                   EnumeratedListOption)
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.utils.db import (get_birth_or_fallback, get_death_or_fallback,
+from gprime.errors import ReportError
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.utils.db import (get_birth_or_fallback, get_death_or_fallback,
                                  get_marriage_or_fallback,
                                  get_divorce_or_fallback)
-from gprime.gen.proxy import CacheProxyDb
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.display.name import displayer as _nd
+from gprime.proxy import CacheProxyDb
+from gprime.display.place import displayer as _pd
+from gprime.display.name import displayer as _nd
 
 #------------------------------------------------------------------------
 #

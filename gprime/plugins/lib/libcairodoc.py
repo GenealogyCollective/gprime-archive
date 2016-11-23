@@ -34,7 +34,7 @@
 #
 #------------------------------------------------------------------------
 
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from math import radians
 import re
@@ -44,13 +44,13 @@ import re
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docgen import (BaseDoc, TextDoc, DrawDoc, ParagraphStyle,
+from gprime.plug.docgen import (BaseDoc, TextDoc, DrawDoc, ParagraphStyle,
                         TableCellStyle, SOLID, FONT_SANS_SERIF, FONT_SERIF,
                         FONT_MONOSPACE, PARA_ALIGN_CENTER, PARA_ALIGN_LEFT)
-from gprime.gen.plug.report import utils
-from gprime.gen.errors import PluginError
-from gprime.gen.plug.docbackend import CairoBackend
-from gprime.gen.utils.image import resize_to_buffer
+from gprime.plug.report import utils
+from gprime.errors import PluginError
+from gprime.plug.docbackend import CairoBackend
+from gprime.utils.image import resize_to_buffer
 from gprime.gui.utils import SystemFonts
 
 #------------------------------------------------------------------------

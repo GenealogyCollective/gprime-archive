@@ -31,7 +31,7 @@ import logging
 import contextlib
 from io import TextIOWrapper, BytesIO, StringIO
 
-from gprime.gen.dbstate import DbState
+from gprime.dbstate import DbState
 from gprime.cli.user import User
 from gprime.cli.grampscli import CLIManager
 from gprime.cli.argparser import ArgParser

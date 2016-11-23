@@ -41,12 +41,12 @@ from gi.repository import GExiv2
 #-------------------------------------------------------------------------
 
 from gprime.gui.listmodel import ListModel
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.utils.place import conv_lat_lon
+from gprime.utils.place import conv_lat_lon
 from fractions import Fraction
-from gprime.gen.lib import Date
-from gprime.gen.datehandler import displayer
+from gprime.lib import Date
+from gprime.datehandler import displayer
 from datetime import datetime
 
 def format_datetime(datestring):

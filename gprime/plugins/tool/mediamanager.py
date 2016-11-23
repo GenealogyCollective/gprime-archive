@@ -47,16 +47,16 @@ from gi.repository import GdkPixbuf
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE, ICON, SPLASH
+from gprime.const import URL_MANUAL_PAGE, ICON, SPLASH
 from gprime.gui.display import display_help
-from gprime.gen.lib import Media
-from gprime.gen.db import DbTxn
-from gprime.gen.updatecallback import UpdateCallback
+from gprime.lib import Media
+from gprime.db import DbTxn
+from gprime.updatecallback import UpdateCallback
 from gprime.gui.plug import tool
-from gprime.gen.utils.file import media_path_full, relative_path, media_path
-from gprime.gen.const import LOCALE as glocale
+from gprime.utils.file import media_path_full, relative_path, media_path
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.mime import get_type, is_image_type
+from gprime.mime import get_type, is_image_type
 
 #-------------------------------------------------------------------------
 #

@@ -37,16 +37,16 @@ from gi.repository import GObject
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.db import DbTxn
-from gprime.gen.errors import WindowActiveError
+from gprime.db import DbTxn
+from gprime.errors import WindowActiveError
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.datehandler import displayer as _dd
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.updatecallback import UpdateCallback
+from gprime.datehandler import displayer as _dd
+from gprime.display.place import displayer as _pd
+from gprime.updatecallback import UpdateCallback
 from gprime.gui.plug import tool
 from gprime.gui.glade import Glade
-from gprime.gen.filters import GenericFilterFactory, rules
-from gprime.gen.const import LOCALE as glocale
+from gprime.filters import GenericFilterFactory, rules
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

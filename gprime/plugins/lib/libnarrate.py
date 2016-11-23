@@ -33,16 +33,16 @@ Narrator class for use by plugins.
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.lib.date import Date
-from gprime.gen.lib.person import Person
-from gprime.gen.lib.eventroletype import EventRoleType
-from gprime.gen.lib.eventtype import EventType
-from gprime.gen.lib.familyreltype import FamilyRelType
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.utils.alive import probably_alive
-from gprime.gen.plug.report import utils
-from gprime.gen.const import LOCALE as glocale
+from gprime.lib.date import Date
+from gprime.lib.person import Person
+from gprime.lib.eventroletype import EventRoleType
+from gprime.lib.eventtype import EventType
+from gprime.lib.familyreltype import FamilyRelType
+from gprime.display.name import displayer as _nd
+from gprime.display.place import displayer as _pd
+from gprime.utils.alive import probably_alive
+from gprime.plug.report import utils
+from gprime.const import LOCALE as glocale
 
 #-------------------------------------------------------------------------
 #
@@ -74,7 +74,7 @@ def _get_empty_endnote_numbers(obj):
 # avoid normal translation!
 # enable deferred translations (see Python docs 22.1.3.4)
 # (these days this is done elsewhere as _T_ but it was done here first)
-##from gprime.gen.const import LOCALE as glocale
+##from gprime.const import LOCALE as glocale
 ##_ = glocale.translation.gettext
 def _(message): return message
 

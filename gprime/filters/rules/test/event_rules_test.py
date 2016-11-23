@@ -24,12 +24,12 @@ Unittest that tests event-specific filter rules
 import unittest
 import os
 
-from gprime.gen.merge.diff import import_as_dict
+from gprime.merge.diff import import_as_dict
 from gprime.cli.user import User
-from gprime.gen.filters import GenericFilterFactory
-from gprime.gen.const import DATA_DIR
+from gprime.filters import GenericFilterFactory
+from gprime.const import DATA_DIR
 
-from gprime.gen.filters.rules.event import (
+from gprime.filters.rules.event import (
     AllEvents, HasType, HasIdOf, HasGallery, RegExpIdOf, HasCitation, HasNote,
     HasNoteRegexp, HasReferenceCountOf, HasSourceCount, EventPrivate,
     MatchesSourceConfidence, HasAttribute, HasData, ChangedSince, HasTag,

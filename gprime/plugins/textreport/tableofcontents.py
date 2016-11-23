@@ -30,12 +30,12 @@
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, TableStyle,
+from gprime.plug.report import Report
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, TableStyle,
                                     TableCellStyle, FONT_SANS_SERIF,
                                     IndexMark, INDEX_TYPE_TOC)
 

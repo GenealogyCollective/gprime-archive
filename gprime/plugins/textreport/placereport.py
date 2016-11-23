@@ -34,22 +34,22 @@
 # gramps modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.plug.menu import (FilterOption, PlaceListOption,
+from gprime.plug.menu import (FilterOption, PlaceListOption,
                                   EnumeratedListOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.plug.report import Report
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     TableStyle, TableCellStyle,
                                     FONT_SANS_SERIF, FONT_SERIF,
                                     INDEX_TYPE_TOC, PARA_ALIGN_CENTER)
-from gprime.gen.sort import Sort
-from gprime.gen.utils.location import get_location_list
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.errors import ReportError
-from gprime.gen.proxy import LivingProxyDb, CacheProxyDb
+from gprime.sort import Sort
+from gprime.utils.location import get_location_list
+from gprime.display.place import displayer as _pd
+from gprime.errors import ReportError
+from gprime.proxy import LivingProxyDb, CacheProxyDb
 
 class PlaceReport(Report):
     """
@@ -433,7 +433,7 @@ class PlaceOptions(MenuReportOptions):
 
         # Reload filters to pick any new ones
         CustomFilters = None
-        from gprime.gen.filters import CustomFilters, GenericFilter
+        from gprime.filters import CustomFilters, GenericFilter
 
         self.__filter = FilterOption(_("Select using filter"), 0)
         self.__filter.set_help(_("Select places using a filter"))

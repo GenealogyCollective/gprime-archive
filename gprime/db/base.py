@@ -2120,7 +2120,7 @@ class QuerySet:
         """
         Apply a named proxy to the db.
         """
-        from gprime.gen.proxy import (LivingProxyDb, PrivateProxyDb,
+        from gprime.proxy import (LivingProxyDb, PrivateProxyDb,
                                       ReferencedBySelectionProxyDb)
         if proxy_name == "living":
             proxy_class = LivingProxyDb
@@ -2137,7 +2137,7 @@ class QuerySet:
         """
         Apply a where_clause (closure) to the selection process.
         """
-        from gprime.gen.db.where import eval_where
+        from gprime.db.where import eval_where
         # if there is already a generator, then error:
         if self.generator:
             raise Exception("Queries in invalid order")
@@ -2149,9 +2149,9 @@ class QuerySet:
         """
         Apply a filter to the database.
         """
-        from gprime.gen.proxy import FilterProxyDb
-        from gprime.gen.filters import GenericFilter
-        from gprime.gen.db.where import eval_where
+        from gprime.proxy import FilterProxyDb
+        from gprime.filters import GenericFilter
+        from gprime.db.where import eval_where
         for i in range(len(args)):
             arg = args[i]
             if isinstance(arg, GenericFilter):

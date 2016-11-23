@@ -24,12 +24,12 @@ Unittest that tests person-specific filter rules
 import unittest
 import os
 
-from gprime.gen.merge.diff import import_as_dict
+from gprime.merge.diff import import_as_dict
 from gprime.cli.user import User
-from gprime.gen.filters import GenericFilter
-from gprime.gen.const import DATA_DIR
+from gprime.filters import GenericFilter
+from gprime.const import DATA_DIR
 
-from gprime.gen.filters.rules.person import (
+from gprime.filters.rules.person import (
     Disconnected, Everyone, FamilyWithIncompleteEvent, HasAlternateName,
     HasCommonAncestorWith, HasNickname, HasUnknownGender, HasSourceOf,
     HaveAltFamilies, HaveChildren, IncompleteNames, IsBookmarked,

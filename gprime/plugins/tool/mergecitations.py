@@ -43,24 +43,24 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
-from gprime.gen.utils.string import conf_strings
-from gprime.gen.const import URL_MANUAL_PAGE
+from gprime.utils.string import conf_strings
+from gprime.const import URL_MANUAL_PAGE
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog
 from gprime.gui.display import display_help
-from gprime.gen.datehandler import get_date
+from gprime.datehandler import get_date
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.merge import MergeCitationQuery
+from gprime.merge import MergeCitationQuery
 
 from gprime.gui.glade import Glade
-from gprime.gen.db import DbTxn
-from gprime.gen.lib import (Person, Family, Event, Place, Media, Citation,
+from gprime.db import DbTxn
+from gprime.lib import (Person, Family, Event, Place, Media, Citation,
                      Repository)
-from gprime.gen.errors import MergeError
+from gprime.errors import MergeError
 
 #-------------------------------------------------------------------------
 #

@@ -43,28 +43,28 @@ import glob
 #
 #------------------------------------------------------------------------
 import gprime
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.db import (DbReadBase, DbWriteBase, DbTxn, DbUndo,
+from gprime.db import (DbReadBase, DbWriteBase, DbTxn, DbUndo,
                            KEY_TO_NAME_MAP, KEY_TO_CLASS_MAP,
                            CLASS_TO_KEY_MAP, TXNADD, TXNUPD, TXNDEL,
                            PERSON_KEY, FAMILY_KEY, CITATION_KEY,
                            SOURCE_KEY, EVENT_KEY, MEDIA_KEY,
                            PLACE_KEY, REPOSITORY_KEY, NOTE_KEY,
                            TAG_KEY, eval_order_by)
-from gprime.gen.errors import HandleError
-from gprime.gen.db.base import QuerySet
-from gprime.gen.utils.callback import Callback
-from gprime.gen.updatecallback import UpdateCallback
-from gprime.gen.db.dbconst import *
-from gprime.gen.db import exceptions
+from gprime.errors import HandleError
+from gprime.db.base import QuerySet
+from gprime.utils.callback import Callback
+from gprime.updatecallback import UpdateCallback
+from gprime.db.dbconst import *
+from gprime.db import exceptions
 
-from gprime.gen.utils.id import create_id
-from gprime.gen.lib.researcher import Researcher
-from gprime.gen.lib import (Tag, Media, Person, Family, Source, Citation, Event,
+from gprime.utils.id import create_id
+from gprime.lib.researcher import Researcher
+from gprime.lib import (Tag, Media, Person, Family, Source, Citation, Event,
                             Place, Repository, Note, NameOriginType)
-from gprime.gen.lib.genderstats import GenderStats
-from gprime.gen.config import config
+from gprime.lib.genderstats import GenderStats
+from gprime.config import config
 
 LOG = logging.getLogger(DBLOGNAME)
 

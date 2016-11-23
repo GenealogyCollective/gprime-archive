@@ -19,10 +19,10 @@
 #
 
 # Gramps imports:
-from gramps.plugins.lib.libhtml import Html
-from gramps.gen.lib import *
-from gramps.gen.lib.struct import Struct
-from gramps.gen.display.name import NameDisplay
+from gprime.plugins.lib.libhtml import Html
+from gprime.lib import *
+from gprime.lib.struct import Struct
+from gprime.display.name import NameDisplay
 
 # Globals and functions:
 TAB_HEIGHT = 200

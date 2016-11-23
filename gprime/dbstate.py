@@ -42,7 +42,7 @@ from .db import DbReadBase
 from .proxy.proxybase import ProxyDbBase
 from .utils.callback import Callback
 from .config import config
-from gprime.gen.db.dbconst import DBLOGNAME
+from gprime.db.dbconst import DBLOGNAME
 
 #-------------------------------------------------------------------------
 #
@@ -152,9 +152,9 @@ class DbState(Callback):
         >>> dbstate.apply_proxy(gramps.gen.proxy.LivingProxyDb, 0)
         >>> dbstate.apply_proxy(gramps.gen.proxy.PrivateProxyDb)
 
-        >>> from gprime.gen.filters.rules.person import (IsDescendantOf,
+        >>> from gprime.filters.rules.person import (IsDescendantOf,
                                                          IsAncestorOf)
-        >>> from gprime.gen.filters import GenericFilter
+        >>> from gprime.filters import GenericFilter
         >>> filter = GenericFilter()
         >>> filter.set_logical_op("or")
         >>> filter.add_rule(IsDescendantOf([db.get_default_person().gramps_id,

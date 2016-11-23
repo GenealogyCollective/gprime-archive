@@ -251,7 +251,7 @@ class DateStrings:
 if __name__ == '__main__':
     import sys
     from ..utils.locale import Locale
-    from gprime.gen.const import LOCALE as glocale
+    from gprime.const import LOCALE as glocale
     from ._locale import (_deprecated_long_months as old_long,
             _deprecated_short_months as old_short,
             _deprecated_long_days as old_days)

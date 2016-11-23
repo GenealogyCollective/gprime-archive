@@ -33,30 +33,30 @@ import datetime, time
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import URL_HOMEPAGE
-from gprime.gen.errors import ReportError
-from gprime.gen.lib import NameType, EventType, Name, Date, Person, Surname
-from gprime.gen.lib.date import gregorian
-from gprime.gen.relationship import get_relationship_calculator
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
+from gprime.const import URL_HOMEPAGE
+from gprime.errors import ReportError
+from gprime.lib import NameType, EventType, Name, Date, Person, Surname
+from gprime.lib.date import gregorian
+from gprime.relationship import get_relationship_calculator
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
                                     FONT_SERIF, PARA_ALIGN_RIGHT,
                                     PARA_ALIGN_LEFT, PARA_ALIGN_CENTER,
                                     IndexMark, INDEX_TYPE_TOC)
-from gprime.gen.plug.menu import (BooleanOption, StringOption, NumberOption,
+from gprime.plug.menu import (BooleanOption, StringOption, NumberOption,
                                   EnumeratedListOption, FilterOption,
                                   PersonOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.utils.alive import probably_alive
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.utils.alive import probably_alive
 
 import gprime.plugins.lib.libholiday as libholiday
 
 # localization for BirthdayOptions only!!
-from gprime.gen.datehandler import displayer as date_displayer
+from gprime.datehandler import displayer as date_displayer
 
 # _T_ is a gramps-defined keyword -- see po/update_po.py and po/genpot.sh
 def _T_(value): # enable deferred translations (see Python docs 22.1.3.4)

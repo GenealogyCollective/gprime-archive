@@ -18,8 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
 #
 
-from gprime.gen.db.where import eval_where
-from gprime.gen.lib import Person
+from gprime.db.where import eval_where
+from gprime.lib import Person
 import unittest
 
 ##########
@@ -29,7 +29,7 @@ def make_closure(surname):
     """
     Test closure.
     """
-    from gprime.gen.lib import Person
+    from gprime.lib import Person
     return (lambda person:
             (person.primary_name.surname_list[0].surname == surname and
              person.gender == Person.MALE))

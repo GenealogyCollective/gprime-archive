@@ -20,7 +20,7 @@
 
 import tornado.web
 
-from gramps.gen.utils.grampslocale import GrampsLocale, _
+from gprime.utils.locale import Locale, _
 
 from .handlers import BaseHandler
 from ..forms import PersonForm

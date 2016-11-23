@@ -29,8 +29,8 @@ Specific classes for relationships.
 #
 #-------------------------------------------------------------------------
 
-from gprime.gen.lib import Person
-import gprime.gen.relationship
+from gprime.lib import Person
+import gprime.relationship
 
 #-------------------------------------------------------------------------
 #
@@ -556,6 +556,6 @@ if __name__ == "__main__":
         rel_xx.py module, and test your work with:
         python src/plugins/rel/rel_xx.py
     """
-    from gprime.gen.relationship import test
+    from gprime.relationship import test
     RC = RelationshipCalculator()
     test(RC, True)

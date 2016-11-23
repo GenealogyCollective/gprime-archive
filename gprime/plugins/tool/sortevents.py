@@ -26,7 +26,7 @@
 # python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------
@@ -34,11 +34,11 @@ _ = glocale.translation.gettext
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.sort import Sort
-from gprime.gen.db import DbTxn
+from gprime.sort import Sort
+from gprime.db import DbTxn
 from gprime.gui.plug import MenuToolOptions, PluginWindows
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.menu import FilterOption, PersonOption, \
+from gprime.plug.report import utils
+from gprime.plug.menu import FilterOption, PersonOption, \
                           EnumeratedListOption, BooleanOption
 
 #------------------------------------------------------------------------

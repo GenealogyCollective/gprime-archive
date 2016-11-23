@@ -45,14 +45,14 @@ log = logging.getLogger(".WriteGeneWeb")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib import Date, Event, EventType, FamilyRelType, Person
+from gprime.lib import Date, Event, EventType, FamilyRelType, Person
 from gprime.gui.plug.export import WriterOptionBox
-from gprime.gen.utils.alive import probably_alive
+from gprime.utils.alive import probably_alive
 from gprime.gui.glade import Glade
-from gprime.gen.config import config
-from gprime.gen.display.place import displayer as _pd
+from gprime.config import config
+from gprime.display.place import displayer as _pd
 
 class GeneWebWriter:
     def __init__(self, database, filename, user, option_box=None):

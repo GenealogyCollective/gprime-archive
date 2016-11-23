@@ -37,12 +37,12 @@ from io import StringIO
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import DOCGEN_OPTIONS
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.docgen import BaseDoc, DrawDoc, SOLID, FONT_SANS_SERIF
-from gprime.gen.plug.menu import EnumeratedListOption
-from gprime.gen.plug.report import DocOptions
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import DOCGEN_OPTIONS
+from gprime.errors import ReportError
+from gprime.plug.docgen import BaseDoc, DrawDoc, SOLID, FONT_SANS_SERIF
+from gprime.plug.menu import EnumeratedListOption
+from gprime.plug.report import DocOptions
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

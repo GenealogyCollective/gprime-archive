@@ -27,7 +27,7 @@ class HandleClass(str):
 
     @classmethod
     def get_schema(cls):
-        from gprime.gen.lib import (Person, Family, Event, Place, Source,
+        from gprime.lib import (Person, Family, Event, Place, Source,
                                     Media, Repository, Note, Citation, Tag)
         tables = {
             "Person": Person,

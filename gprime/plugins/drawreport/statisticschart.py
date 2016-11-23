@@ -40,26 +40,26 @@ from functools import partial
 #
 #------------------------------------------------------------------------
 
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 # Person and relation types
-from gprime.gen.lib import Person, FamilyRelType, EventType, EventRoleType
-from gprime.gen.lib.date import Date, gregorian
+from gprime.lib import Person, FamilyRelType, EventType, EventRoleType
+from gprime.lib.date import Date, gregorian
 # gender and report type names
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
                                     FONT_SANS_SERIF, FONT_SERIF,
                                     PARA_ALIGN_CENTER, PARA_ALIGN_LEFT,
                                     IndexMark, INDEX_TYPE_TOC)
-from gprime.gen.plug.menu import (BooleanOption,
+from gprime.plug.menu import (BooleanOption,
                                   EnumeratedListOption, NumberOption,
                                   FilterOption, PersonOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.datehandler import parser
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.proxy import CacheProxyDb
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.datehandler import parser
+from gprime.display.place import displayer as _pd
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

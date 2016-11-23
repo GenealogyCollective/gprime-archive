@@ -43,7 +43,7 @@ except:
         DBPageNotFoundError = 0
         DBInvalidArgError = 0
 
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------
@@ -51,9 +51,9 @@ _ = glocale.translation.gettext
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.db.dbconst import *
+from gprime.db.dbconst import *
 from . import BSDDBTxn
-from gprime.gen.errors import DbError
+from gprime.errors import DbError
 
 #-------------------------------------------------------------------------
 #

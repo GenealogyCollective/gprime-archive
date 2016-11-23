@@ -35,13 +35,13 @@ from gi.repository import GObject
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.lib import EventType
-from gprime.gen.db import DbTxn
+from gprime.lib import EventType
+from gprime.db import DbTxn
 from gprime.gui.plug import tool
 from gprime.gui.glade import Glade
 

@@ -31,7 +31,7 @@ scheme specified in the database's prefix ids
 #
 #------------------------------------------------------------------------
 import re
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -40,9 +40,9 @@ _ = glocale.translation.gettext
 #
 #------------------------------------------------------------------------
 from gprime.gui.utils import ProgressMeter
-from gprime.gen.lib import (Event, Family, Media, Note,
+from gprime.lib import (Event, Family, Media, Note,
         Person, Place, Repository, Source, Citation)
-from gprime.gen.db import DbTxn
+from gprime.db import DbTxn
 from gprime.gui.plug import tool
 
 _findint = re.compile('^[^\d]*(\d+)[^\d]*')

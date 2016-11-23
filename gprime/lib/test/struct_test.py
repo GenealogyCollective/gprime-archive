@@ -25,11 +25,11 @@ import os
 
 from  .. import (Person, Family, Event, Source, Place, Citation,
                  Repository, Media, Note, Tag)
-from gprime.gen.lib.struct import Struct
-from gprime.gen.merge.diff import import_as_dict
+from gprime.lib.struct import Struct
+from gprime.merge.diff import import_as_dict
 from gprime.cli.user import User
-from gprime.gen.merge.diff import *
-from gprime.gen.const import DATA_DIR
+from gprime.merge.diff import *
+from gprime.const import DATA_DIR
 
 TEST_DIR = os.path.abspath(os.path.join(DATA_DIR, "tests"))
 EXAMPLE = os.path.join(TEST_DIR, "example.gramps")

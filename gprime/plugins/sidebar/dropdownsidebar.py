@@ -35,9 +35,9 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.config import config
+from gprime.config import config
 from gprime.gui.basesidebar import BaseSidebar
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 #-------------------------------------------------------------------------
 #

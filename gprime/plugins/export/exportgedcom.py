@@ -40,21 +40,21 @@ import time
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib import (AttributeType, ChildRefType, Citation, Date,
+from gprime.lib import (AttributeType, ChildRefType, Citation, Date,
                             EventRoleType, EventType, LdsOrd, NameType,
                             PlaceType, NoteType, Person, UrlType,
                             SrcAttributeType)
 from gprime.version import VERSION
 import gprime.plugins.lib.libgedcom as libgedcom
-from gprime.gen.errors import DatabaseError
+from gprime.errors import DatabaseError
 from gprime.gui.plug.export import WriterOptionBox
-from gprime.gen.updatecallback import UpdateCallback
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.utils.place import conv_lat_lon
-from gprime.gen.utils.location import get_main_location
-from gprime.gen.display.place import displayer as _pd
+from gprime.updatecallback import UpdateCallback
+from gprime.utils.file import media_path_full
+from gprime.utils.place import conv_lat_lon
+from gprime.utils.location import get_main_location
+from gprime.display.place import displayer as _pd
 
 #-------------------------------------------------------------------------
 #

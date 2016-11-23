@@ -37,7 +37,7 @@ try:
 except ImportError:
     USE_LOCK = False
 
-from gprime.gen.const import HOME_DIR, LOCALE as glocale
+from gprime.const import HOME_DIR, LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

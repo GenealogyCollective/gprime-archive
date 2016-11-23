@@ -37,7 +37,7 @@ import re
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 
 #------------------------------------------------------------------------
 #

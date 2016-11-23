@@ -38,9 +38,9 @@ import unittest
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import TEMP_DIR, USER_HOME, USER_PLUGINS, VERSION
-from gprime.gen.utils.file import media_path, get_empty_tempdir
-from gprime.gen.dbstate import DbState
+from gprime.const import TEMP_DIR, USER_HOME, USER_PLUGINS, VERSION
+from gprime.utils.file import media_path, get_empty_tempdir
+from gprime.dbstate import DbState
 
 #-------------------------------------------------------------------------
 #

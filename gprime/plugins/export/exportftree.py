@@ -28,7 +28,7 @@
 #
 #-------------------------------------------------------------------------
 import os
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -45,7 +45,7 @@ log = logging.getLogger(".WriteFtree")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.utils.alive import probably_alive
+from gprime.utils.alive import probably_alive
 from gprime.gui.plug.export import WriterOptionBox
 from gprime.gui.glade import Glade
 

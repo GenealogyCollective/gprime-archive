@@ -51,10 +51,10 @@ except ImportError:
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docgen import (BaseDoc, TextDoc, PAPER_LANDSCAPE,
+from gprime.plug.docgen import (BaseDoc, TextDoc, PAPER_LANDSCAPE,
                                     FONT_SANS_SERIF, URL_PATTERN)
-from gprime.gen.plug.docbackend import DocBackend
-from gprime.gen.const import LOCALE as glocale
+from gprime.plug.docbackend import DocBackend
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 _LOG = logging.getLogger(".latexdoc")
@@ -1232,9 +1232,9 @@ class LaTeXDoc(BaseDoc, TextDoc):
                                    '\n ***                    to ', outfile,
                                    '%\n')))
         elif not HAVE_PIL:
-            from gprime.gen.config import config
+            from gprime.config import config
             if not config.get('interface.ignore-pil'):
-                from gprime.gen.constfunc import has_display
+                from gprime.constfunc import has_display
                 if has_display():
                     from gprime.gui.dialog import MessageHideDialog
                     title = _("PIL (Python Imaging Library) not loaded.")

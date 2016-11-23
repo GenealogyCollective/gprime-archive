@@ -45,28 +45,28 @@ _LOG = logging.getLogger(".gui.personview")
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import Person, Surname
-from gprime.gen.db import DbTxn
+from gprime.lib import Person, Surname
+from gprime.db import DbTxn
 from gprime.gui.views.listview import ListView, TEXT, MARKUP, ICON
 from gprime.gui.actiongroup import ActionGroup
-from gprime.gen.utils.string import data_recover_msg
-from gprime.gen.display.name import displayer as name_displayer
+from gprime.utils.string import data_recover_msg
+from gprime.display.name import displayer as name_displayer
 from gprime.gui.dialog import ErrorDialog, MultiSelectDialog, QuestionDialog
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 from gprime.gui.views.bookmarks import PersonBookmarks
-from gprime.gen.config import config
+from gprime.config import config
 from gprime.gui.ddtargets import DdTargets
 from gprime.gui.editors import EditPerson
 from gprime.gui.filters.sidebar import PersonSidebarFilter
 from gprime.gui.merge import MergePerson
-from gprime.gen.plug import CATEGORY_QR_PERSON
+from gprime.plug import CATEGORY_QR_PERSON
 
 #-------------------------------------------------------------------------
 #
 # Python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 
 #-------------------------------------------------------------------------

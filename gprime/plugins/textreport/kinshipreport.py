@@ -35,21 +35,21 @@
 # gramps modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import ReportError
-from gprime.gen.relationship import get_relationship_calculator
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.errors import ReportError
+from gprime.relationship import get_relationship_calculator
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, INDEX_TYPE_TOC,
                                     PARA_ALIGN_CENTER)
-from gprime.gen.plug.menu import NumberOption, BooleanOption, PersonOption
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.utils.db import get_birth_or_fallback, get_death_or_fallback
-from gprime.gen.proxy import CacheProxyDb
-from gprime.gen.display.name import displayer as _nd
+from gprime.plug.menu import NumberOption, BooleanOption, PersonOption
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.utils.db import get_birth_or_fallback, get_death_or_fallback
+from gprime.proxy import CacheProxyDb
+from gprime.display.name import displayer as _nd
 
 #------------------------------------------------------------------------
 #

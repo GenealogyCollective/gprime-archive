@@ -40,11 +40,11 @@ import os.path
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docbackend import DocBackend
+from gprime.plug.docbackend import DocBackend
 from gprime.plugins.lib.libhtml import Html, xml_lang
-from gprime.gen.errors import ReportError
+from gprime.errors import ReportError
 
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 

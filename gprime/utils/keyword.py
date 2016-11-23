@@ -48,7 +48,7 @@ Keyword translation interface
 #        'n' : nickname   = nick name
 #        'g' : familynick = family nick name
 
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 KEYWORDS = [("title",     "t", _("Person|Title"),     _("Person|TITLE")),

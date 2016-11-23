@@ -23,8 +23,8 @@ import logging
 import time
 
 from .. import DbTxn
-from gprime.gen.lib import Person, Event, Source, Citation
-from gprime.gen.errors import HandleError
+from gprime.lib import Person, Event, Source, Citation
+from gprime.errors import HandleError
 
 logger = logging.getLogger('Gramps.GrampsDbBase_Test')
 

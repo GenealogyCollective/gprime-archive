@@ -33,28 +33,28 @@ import time
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import URL_HOMEPAGE
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
+from gprime.const import URL_HOMEPAGE
+from gprime.display.name import displayer as _nd
+from gprime.errors import ReportError
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
                                     FONT_SERIF, PARA_ALIGN_CENTER,
                                     PARA_ALIGN_LEFT, PARA_ALIGN_RIGHT,
                                     IndexMark, INDEX_TYPE_TOC)
-from gprime.gen.plug.docgen.fontscale import string_trim
-from gprime.gen.plug.menu import (BooleanOption, StringOption, NumberOption,
+from gprime.plug.docgen.fontscale import string_trim
+from gprime.plug.menu import (BooleanOption, StringOption, NumberOption,
                                   EnumeratedListOption, FilterOption,
                                   PersonOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.utils.alive import probably_alive
-from gprime.gen.datehandler import displayer as date_displayer
-from gprime.gen.lib import (Date, EventRoleType, EventType, Name, NameType,
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.utils.alive import probably_alive
+from gprime.datehandler import displayer as date_displayer
+from gprime.lib import (Date, EventRoleType, EventType, Name, NameType,
                             Person, Surname)
-from gprime.gen.lib.date import gregorian
+from gprime.lib.date import gregorian
 
 import gprime.plugins.lib.libholiday as libholiday
 from gprime.plugins.lib.libholiday import g2iso

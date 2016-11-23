@@ -31,7 +31,7 @@
 #
 #-------------------------------------------------------------------------
 import os
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 import csv
 from io import StringIO
@@ -51,14 +51,14 @@ LOG = logging.getLogger(".ExportCSV")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import EventType, Person
-from gprime.gen.lib.eventroletype import EventRoleType
+from gprime.lib import EventType, Person
+from gprime.lib.eventroletype import EventRoleType
 from gprime.gui.plug.export import WriterOptionBox
-from gprime.gen.utils.string import gender as gender_map
-from gprime.gen.datehandler import get_date
-from gprime.gen.display.place import displayer as _pd
+from gprime.utils.string import gender as gender_map
+from gprime.datehandler import get_date
+from gprime.display.place import displayer as _pd
 from gprime.gui.glade import Glade
-from gprime.gen.constfunc import win
+from gprime.constfunc import win
 
 #-------------------------------------------------------------------------
 #

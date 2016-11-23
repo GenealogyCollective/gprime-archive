@@ -37,7 +37,7 @@ import time
 #
 #-------------------------------------------------------------------------
 from .baseobj import BaseObject
-from gprime.gen.errors import HandleError
+from gprime.errors import HandleError
 
 #-------------------------------------------------------------------------
 #

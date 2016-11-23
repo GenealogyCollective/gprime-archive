@@ -32,20 +32,20 @@ Reports/Graphical Reports/Personal Tree
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.menu import (TextOption, NumberOption, BooleanOption,
+from gprime.errors import ReportError
+from gprime.plug.menu import (TextOption, NumberOption, BooleanOption,
                                   EnumeratedListOption, StringOption,
                                   PersonOption, FamilyOption)
-from gprime.gen.plug.report import Report, MenuReportOptions, stdoptions
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
+from gprime.plug.report import Report, MenuReportOptions, stdoptions
+from gprime.plug.report import utils
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER)
 from gprime.plugins.lib.libtreebase import *
-from gprime.gen.proxy import CacheProxyDb
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.utils.db import family_name
+from gprime.proxy import CacheProxyDb
+from gprime.display.name import displayer as _nd
+from gprime.utils.db import family_name
 
 PT2CM = utils.pt2cm
 

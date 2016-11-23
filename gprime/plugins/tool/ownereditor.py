@@ -35,14 +35,14 @@ from gi.repository import Gtk
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE
-from gprime.gen.config import config
-from gprime.gen.utils.config import get_researcher
+from gprime.const import URL_MANUAL_PAGE
+from gprime.config import config
+from gprime.utils.config import get_researcher
 from gprime.gui.display import display_help
 from gprime.gui.widgets import MonitoredEntry
 from gprime.gui.managedwindow import ManagedWindow
 from gprime.gui.plug import tool
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.gui.glade import Glade
 from gprime.gui.utils import is_right_click

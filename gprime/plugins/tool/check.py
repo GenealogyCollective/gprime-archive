@@ -53,25 +53,25 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
-from gprime.gen.lib import (Citation, Event, EventType, Family, Media,
+from gprime.lib import (Citation, Event, EventType, Family, Media,
                             Name, Note, Person, Place, Repository, Source,
                             StyledText, Tag)
-from gprime.gen.db import DbTxn
-from gprime.gen.config import config
-from gprime.gen.utils.id import create_id
-from gprime.gen.utils.db import family_name
-from gprime.gen.utils.unknown import make_unknown
-from gprime.gen.utils.file import (media_path_full, find_file)
+from gprime.db import DbTxn
+from gprime.config import config
+from gprime.utils.id import create_id
+from gprime.utils.db import family_name
+from gprime.utils.unknown import make_unknown
+from gprime.utils.file import (media_path_full, find_file)
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.utils.file import create_checksum
+from gprime.utils.file import create_checksum
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog, MissingMediaDialog
-from gprime.gen.display.name import displayer as _nd
+from gprime.display.name import displayer as _nd
 from gprime.gui.glade import Glade
-from gprime.gen.errors import HandleError
+from gprime.errors import HandleError
 
 # table for handling control chars in notes.
 # All except 09, 0A, 0D are replaced with space.

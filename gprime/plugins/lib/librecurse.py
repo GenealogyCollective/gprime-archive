@@ -21,8 +21,8 @@
 """ Recursive base classes for reports
 """
 
-from gprime.gen.plug.report import utils
-from gprime.gen.lib import ChildRefType
+from gprime.plug.report import utils
+from gprime.lib import ChildRefType
 
 
 #------------------------------------------------------------------------

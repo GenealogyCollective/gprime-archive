@@ -33,7 +33,7 @@ Base class for map services. Example: open place in openstreetmap.org
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.utils.place import conv_lat_lon
+from gprime.utils.place import conv_lat_lon
 from gprime.gui.display import display_url
 
 class MapService:

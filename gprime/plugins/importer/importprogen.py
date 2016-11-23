@@ -45,16 +45,16 @@ log = logging.getLogger('.ImportProGen')
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.utils.id import create_id
+from gprime.utils.id import create_id
 from gprime.gui.utils import ProgressMeter
-from gprime.gen.lib import (Attribute, AttributeType, ChildRef, Date, Event,
+from gprime.lib import (Attribute, AttributeType, ChildRef, Date, Event,
                             EventRef, EventType, Family, FamilyRelType, Name,
                             NameType, Note, NoteType, Person, Place, Source,
                             Surname, Citation, Location, NameOriginType)
-from gprime.gen.db import DbTxn
-from gprime.gen.utils.libformatting import ImportInfo
+from gprime.db import DbTxn
+from gprime.utils.libformatting import ImportInfo
 
 class ProgenError(Exception):
     """Error used to report Progen errors."""

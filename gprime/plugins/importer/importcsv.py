@@ -47,22 +47,22 @@ LOG = logging.getLogger(".ImportCSV")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
-from gprime.gen.lib import (ChildRef, Citation, Event, EventRef, EventType,
+from gprime.lib import (ChildRef, Citation, Event, EventRef, EventType,
                             Family, FamilyRelType, Name, NameType, Note,
                             NoteType, Person, Place, Source, Surname, Tag,
                             PlaceName, PlaceType, PlaceRef)
-from gprime.gen.db import DbTxn
-from gprime.gen.datehandler import parser as _dp
-from gprime.gen.utils.string import gender as gender_map
-from gprime.gen.utils.id import create_id
-from gprime.gen.utils.location import located_in
-from gprime.gen.lib.eventroletype import EventRoleType
-from gprime.gen.config import config
-from gprime.gen.display.place import displayer as place_displayer
-from gprime.gen.utils.libformatting import ImportInfo
+from gprime.db import DbTxn
+from gprime.datehandler import parser as _dp
+from gprime.utils.string import gender as gender_map
+from gprime.utils.id import create_id
+from gprime.utils.location import located_in
+from gprime.lib.eventroletype import EventRoleType
+from gprime.config import config
+from gprime.display.place import displayer as place_displayer
+from gprime.utils.libformatting import ImportInfo
 
 #-------------------------------------------------------------------------
 #

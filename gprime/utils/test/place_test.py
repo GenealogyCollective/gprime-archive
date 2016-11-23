@@ -34,7 +34,7 @@ import math
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.utils.place import conv_lat_lon
+from gprime.utils.place import conv_lat_lon
 
 #-------------------------------------------------------------------------
 #

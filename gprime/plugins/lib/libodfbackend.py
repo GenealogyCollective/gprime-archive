@@ -41,7 +41,7 @@ import os.path
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docbackend import DocBackend
+from gprime.plug.docbackend import DocBackend
 
 #------------------------------------------------------------------------
 #

@@ -63,10 +63,10 @@ from functools import wraps
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.db.base import DbReadBase
-from gprime.gen.db.dbconst import DBLOGNAME
-from gprime.gen.errors import HandleError
-from gprime.gen.utils.callback import Callback
+from gprime.db.base import DbReadBase
+from gprime.db.dbconst import DBLOGNAME
+from gprime.errors import HandleError
+from gprime.utils.callback import Callback
 
 LOG = logging.getLogger(DBLOGNAME)
 

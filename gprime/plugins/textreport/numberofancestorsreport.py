@@ -37,18 +37,18 @@ import math
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.menu import PersonOption
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.errors import ReportError
+from gprime.plug.menu import PersonOption
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER,
                                     INDEX_TYPE_TOC)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.display.name import displayer as _nd
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.display.name import displayer as _nd
 
 #------------------------------------------------------------------------
 #

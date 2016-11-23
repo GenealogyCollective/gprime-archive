@@ -51,14 +51,11 @@ class ResourcePath:
             __file__)), 'resource-path')
         installed = os.path.exists(resource_file)
         if installed:
-            test_path = os.path.join("gramps", "authors.xml")
+            test_path = os.path.join("gprime", "authors.xml")
         else:
             test_path = os.path.join("data", "authors.xml")
         resource_path = None
-        tmp_path = get_env_var('GRAMPS_RESOURCES')
-        if (tmp_path and os.path.exists(os.path.join(tmp_path, test_path))):
-            resource_path = tmp_path
-        elif installed:
+        if installed:
             try:
                 with open(resource_file, encoding='utf-8',
                                 errors='strict') as fp:
@@ -73,9 +70,8 @@ class ResourcePath:
                 LOG.error("Resource Path %s is invalid", resource_path)
                 sys.exit(1)
         else:
-            # Let's try to run from source without env['GRAMPS_RESOURCES']:
             resource_path = os.path.join(os.path.abspath(os.path.dirname(
-                __file__)), '..', "..", "..")
+                __file__)), "..", "..")
             test_path = os.path.join("data", "authors.xml")
             if (not os.path.exists(os.path.join(resource_path, test_path))):
                 LOG.error("Unable to determine resource path")
@@ -83,15 +79,12 @@ class ResourcePath:
 
         if installed:
             self.locale_dir = os.path.join(resource_path, 'locale')
-            self.data_dir = os.path.join(resource_path, 'gramps')
-            self.image_dir = os.path.join(resource_path, 'gramps', 'images')
-            self.doc_dir = os.path.join(resource_path, 'doc', 'gramps')
-
+            self.data_dir = os.path.join(resource_path, 'gprime')
+            self.image_dir = os.path.join(resource_path, 'gprime', 'images')
         else:
             self.locale_dir = os.path.join(resource_path, 'build', 'mo')
             self.image_dir = os.path.join(resource_path, 'images')
             self.data_dir = os.path.join(resource_path, 'data')
-            self.doc_dir = os.path.join(resource_path, 'build', 'data')
 
         self.initialized = True
 

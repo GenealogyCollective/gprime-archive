@@ -58,11 +58,11 @@ from .markerlayer import MarkerLayer
 from .datelayer import DateLayer
 from .messagelayer import MessageLayer
 from .kmllayer import KmlLayer
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.config import config
+from gprime.config import config
 from gprime.gui.dialog import ErrorDialog
-from gprime.gen.constfunc import get_env_var
+from gprime.constfunc import get_env_var
 
 #-------------------------------------------------------------------------
 #

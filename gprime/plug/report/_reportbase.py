@@ -26,9 +26,9 @@
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.utils.locale import Locale
-from gprime.gen.display.name import NameDisplay
-from gprime.gen.config import config
+from gprime.utils.locale import Locale
+from gprime.display.name import NameDisplay
+from gprime.config import config
 
 #-------------------------------------------------------------------------
 #

@@ -34,13 +34,13 @@ LOG = logging.getLogger(".GedcomImport")
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import DbError, GedcomError
+from gprime.errors import DbError, GedcomError
 from gprime.gui.glade import Glade
 from gprime.plugins.lib.libmixin import DbMixin
 from gprime.plugins.lib import libgedcom
-from gprime.gen.utils.libformatting import ImportInfo
+from gprime.utils.libformatting import ImportInfo
 # The following code is necessary to ensure that when Help->Plugin
 # Manager->Reload is executed, not only is the top-level exportgedcom file
 # reloaded, but also the dependent libgedcom. This ensures that testing can have
@@ -50,7 +50,7 @@ module = __import__("gramps.plugins.lib.libgedcom",
 import imp
 imp.reload(module)
 
-from gprime.gen.config import config
+from gprime.config import config
 
 #-------------------------------------------------------------------------
 #

@@ -40,15 +40,15 @@
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 ngettext = glocale.translation.ngettext # else "nearby" comments are ignored
-from gprime.gen.lib import EventRoleType
-from gprime.gen.db import DbTxn
-from gprime.gen.utils.db import family_name
+from gprime.lib import EventRoleType
+from gprime.db import DbTxn
+from gprime.utils.db import family_name
 
 from gprime.gui.plug import tool
-from gprime.gen.display.name import displayer as name_displayer
+from gprime.display.name import displayer as name_displayer
 
 #-------------------------------------------------------------------------
 #

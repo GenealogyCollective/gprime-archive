@@ -24,12 +24,12 @@ Unittest that tests place-specific filter rules
 import unittest
 import os
 
-from gprime.gen.merge.diff import import_as_dict
+from gprime.merge.diff import import_as_dict
 from gprime.cli.user import User
-from gprime.gen.filters import GenericFilterFactory
-from gprime.gen.const import DATA_DIR
+from gprime.filters import GenericFilterFactory
+from gprime.const import DATA_DIR
 
-from gprime.gen.filters.rules.place import (
+from gprime.filters.rules.place import (
     AllPlaces, HasCitation, HasGallery, HasIdOf, RegExpIdOf, HasNote,
     HasNoteRegexp, HasReferenceCountOf, HasSourceCount, HasSourceOf,
     PlacePrivate, MatchesSourceConfidence, HasData, HasNoLatOrLon,

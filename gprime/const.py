@@ -42,8 +42,8 @@ import uuid
 from .git_revision import get_git_revision
 from .constfunc import get_env_var
 from gprime.version import VERSION, VERSION_TUPLE, major_version
-from gprime.gen.utils.resourcepath import ResourcePath
-from gprime.gen.utils.locale import Locale
+from gprime.utils.resourcepath import ResourcePath
+from gprime.utils.locale import Locale
 
 #-------------------------------------------------------------------------
 #
@@ -176,7 +176,7 @@ ICON = os.path.join(IMAGE_DIR, "gramps.png")
 LOGO = os.path.join(IMAGE_DIR, "logo.png")
 SPLASH = os.path.join(IMAGE_DIR, "splash.jpg")
 
-LICENSE_FILE = os.path.join(_resources.doc_dir, 'COPYING')
+LICENSE_FILE = os.path.join(DATA_DIR, 'LICENSE')
 
 #-------------------------------------------------------------------------
 #

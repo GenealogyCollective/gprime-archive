@@ -43,23 +43,23 @@ def log2(val):
 # gramps modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
+from gprime.errors import ReportError
+from gprime.plug.docgen import (FontStyle, ParagraphStyle, GraphicsStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER,
                                     IndexMark, INDEX_TYPE_TOC)
-from gprime.gen.plug.menu import (EnumeratedListOption, NumberOption,
+from gprime.plug.menu import (EnumeratedListOption, NumberOption,
                                   PersonOption, BooleanOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.config import config
-from gprime.gen.utils.db import get_birth_or_fallback, get_death_or_fallback
-from gprime.gen.lib import EventType
-from gprime.gen.proxy import CacheProxyDb
-from gprime.gen.display.name import displayer as _nd
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.config import config
+from gprime.utils.db import get_birth_or_fallback, get_death_or_fallback
+from gprime.lib import EventType
+from gprime.proxy import CacheProxyDb
+from gprime.display.name import displayer as _nd
 
 #------------------------------------------------------------------------
 #

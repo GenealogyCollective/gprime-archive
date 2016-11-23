@@ -24,7 +24,7 @@ import os
 import shutil
 
 from gprime.test.test_util import Gramps
-from gprime.gen.db import open_database
+from gprime.db import open_database
 
 ddir = os.path.dirname(__file__)
 example = os.path.join(ddir, "..", "..", "..",

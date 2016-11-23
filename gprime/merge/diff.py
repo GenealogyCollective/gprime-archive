@@ -28,7 +28,7 @@ from gprime.cli.user import User
 from ..dbstate import DbState
 from gprime.cli.grampscli import CLIManager
 from ..plug import BasePluginManager
-from gprime.gen.db import make_database
+from gprime.db import make_database
 from ..const import LOCALE as glocale
 _ = glocale.translation.gettext
 

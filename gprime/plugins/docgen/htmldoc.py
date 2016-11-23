@@ -43,14 +43,14 @@ import logging
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.utils.image import resize_to_jpeg
-from gprime.gen.const import DATA_DIR, IMAGE_DIR, PROGRAM_NAME, URL_HOMEPAGE
-from gprime.gen.errors import ReportError
+from gprime.utils.image import resize_to_jpeg
+from gprime.const import DATA_DIR, IMAGE_DIR, PROGRAM_NAME, URL_HOMEPAGE
+from gprime.errors import ReportError
 from gprime.version import VERSION
-from gprime.gen.plug.docgen import BaseDoc, TextDoc, URL_PATTERN
+from gprime.plug.docgen import BaseDoc, TextDoc, URL_PATTERN
 from gprime.plugins.lib.libhtmlbackend import HtmlBackend, process_spaces
 from gprime.plugins.lib.libhtml import Html
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------

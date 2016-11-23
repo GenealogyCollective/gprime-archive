@@ -35,13 +35,13 @@ import os
 # gramps modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.plug.menu import StringOption, MediaOption, NumberOption
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.docgen import (FontStyle, ParagraphStyle,
+from gprime.plug.menu import StringOption, MediaOption, NumberOption
+from gprime.utils.file import media_path_full
+from gprime.plug.report import Report
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.docgen import (FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, PARA_ALIGN_CENTER)
 
 #------------------------------------------------------------------------

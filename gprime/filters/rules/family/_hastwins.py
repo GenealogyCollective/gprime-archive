@@ -30,7 +30,7 @@
 #
 #-------------------------------------------------------------------------
 from .. import Rule
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from ....lib.childreftype import ChildRefType
 

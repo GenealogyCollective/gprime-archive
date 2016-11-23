@@ -24,7 +24,7 @@
 
     Tools/Debug/Dump Gender Statistics
 """
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from gi.repository import Gtk
 from gprime.gui.listmodel import ListModel, INTEGER

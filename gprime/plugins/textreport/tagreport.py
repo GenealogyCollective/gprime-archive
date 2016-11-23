@@ -35,23 +35,23 @@
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.plug.menu import EnumeratedListOption
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.plug.menu import EnumeratedListOption
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     TableStyle, TableCellStyle,
                                     FONT_SANS_SERIF, INDEX_TYPE_TOC,
                                     PARA_ALIGN_CENTER)
-from gprime.gen.lib import NoteType, UrlType
-from gprime.gen.filters import GenericFilterFactory, rules
-from gprime.gen.errors import ReportError
-from gprime.gen.utils.db import get_participant_from_event
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.proxy import LivingProxyDb, CacheProxyDb
+from gprime.lib import NoteType, UrlType
+from gprime.filters import GenericFilterFactory, rules
+from gprime.errors import ReportError
+from gprime.utils.db import get_participant_from_event
+from gprime.display.place import displayer as _pd
+from gprime.proxy import LivingProxyDb, CacheProxyDb
 
 #------------------------------------------------------------------------
 #

@@ -54,14 +54,14 @@ LOG = logging.getLogger(".WriteXML")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import URL_HOMEPAGE
-from gprime.gen.lib import Date, Person
-from gprime.gen.updatecallback import UpdateCallback
-from gprime.gen.db.exceptions import DbWriteFailure
+from gprime.const import URL_HOMEPAGE
+from gprime.lib import Date, Person
+from gprime.updatecallback import UpdateCallback
+from gprime.db.exceptions import DbWriteFailure
 from gprime.version import VERSION
-from gprime.gen.constfunc import win
+from gprime.constfunc import win
 from gprime.gui.plug.export import WriterOptionBox, WriterOptionBoxWithCompression
 import gprime.plugins.lib.libgrampsxml as libgrampsxml
 

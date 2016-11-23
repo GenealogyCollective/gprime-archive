@@ -29,7 +29,7 @@ Eniro Sweden (Denmark) map service plugin. Opens place in kartor.eniro.se
 # python modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------
@@ -39,9 +39,9 @@ _ = glocale.translation.gettext
 #------------------------------------------------------------------------
 from gprime.plugins.lib.libmapservice import MapService
 from gprime.gui.dialog import WarningDialog
-from gprime.gen.utils.location import get_main_location
-from gprime.gen.display.place import displayer as place_displayer
-from gprime.gen.lib import PlaceType
+from gprime.utils.location import get_main_location
+from gprime.display.place import displayer as place_displayer
+from gprime.lib import PlaceType
 
 # Make upper case of translaed country so string search works later
 MAP_NAMES_SWEDEN = [_("Sweden").upper(),

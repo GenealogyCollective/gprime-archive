@@ -40,7 +40,7 @@ from .nametype import NameType
 from .handle import Handle
 from .const import IDENTICAL, EQUAL, DIFFERENT
 from .date import Date
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

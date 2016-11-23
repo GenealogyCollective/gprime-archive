@@ -26,11 +26,11 @@ import unittest
 import random
 
 from gprime.test.test_util import Gramps
-from gprime.gen.const import DATA_DIR
+from gprime.const import DATA_DIR
 from gprime.cli.user import User
-from gprime.gen.utils.id import set_det_id
-from gprime.gen import const
-from gprime.gen.utils.config import config
+from gprime.utils.id import set_det_id
+from gprime import const
+from gprime.utils.config import config
 
 TREE_NAME = "Test_tooltest"
 TEST_DIR = os.path.abspath(os.path.join(DATA_DIR, "tests"))

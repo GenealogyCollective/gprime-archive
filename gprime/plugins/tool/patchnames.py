@@ -42,15 +42,15 @@ from gi.repository import GObject
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE
+from gprime.const import URL_MANUAL_PAGE
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.plug import tool
 from gprime.gui.dialog import OkDialog
 from gprime.gui.managedwindow import ManagedWindow
 from gprime.gui.display import display_help
-from gprime.gen.lib import NameOriginType, Surname
-from gprime.gen.db import DbTxn
-from gprime.gen.const import LOCALE as glocale
+from gprime.lib import NameOriginType, Surname
+from gprime.db import DbTxn
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.gui.glade import Glade
 

@@ -45,33 +45,33 @@ _LOG = logging.getLogger(".WebPage")
 #------------------------------------------------------------------------
 # Gramps module
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.lib import Date, Name, NameType, Person
-from gprime.gen.lib.date import Today
-from gprime.gen.const import PROGRAM_NAME, URL_HOMEPAGE
+from gprime.lib import Date, Name, NameType, Person
+from gprime.lib.date import Today
+from gprime.const import PROGRAM_NAME, URL_HOMEPAGE
 from gprime.version import VERSION
-from gprime.gen.constfunc import win
-from gprime.gen.config import config
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.menu import (BooleanOption, NumberOption, StringOption,
+from gprime.constfunc import win
+from gprime.config import config
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.menu import (BooleanOption, NumberOption, StringOption,
                                   EnumeratedListOption, FilterOption,
                                   PersonOption, DestinationOption, NoteOption)
-from gprime.gen.utils.config import get_researcher
-from gprime.gen.utils.alive import probably_alive
-from gprime.gen.datehandler import displayer as _dd
+from gprime.utils.config import get_researcher
+from gprime.utils.alive import probably_alive
+from gprime.datehandler import displayer as _dd
 
-from gprime.gen.display.name import displayer as _nd
+from gprime.display.name import displayer as _nd
 
 import gprime.plugins.lib.libholiday as libholiday
 from gprime.plugins.lib.libhtml import Html, xml_lang
 from gprime.plugins.lib.libhtmlconst import _CHARACTER_SETS, _CC, _COPY_OPTIONS
 from gprime.gui.pluginmanager import GuiPluginManager
 
-from gprime.gen.lib.date import gregorian
+from gprime.lib.date import gregorian
 
 # import styled notes from
 # src/plugins/lib/libhtmlbackend.py

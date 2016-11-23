@@ -46,13 +46,13 @@ log = logging.getLogger(".ExportVCal")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from gprime.gui.plug.export import WriterOptionBox
-from gprime.gen.utils.db import family_name
-from gprime.gen.lib import Date, EventType
+from gprime.utils.db import family_name
+from gprime.lib import Date, EventType
 from gprime.gui.glade import Glade
-from gprime.gen.display.place import displayer as _pd
+from gprime.display.place import displayer as _pd
 
 class CalendarWriter:
     def __init__(self, database, filename, user, option_box=None):

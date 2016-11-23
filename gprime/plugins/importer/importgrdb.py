@@ -33,9 +33,9 @@ LOG = logging.getLogger(".Db")
 # Gramps Modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import URL_WIKISTRING
+from gprime.const import URL_WIKISTRING
 
 #-------------------------------------------------------------------------
 #

@@ -42,24 +42,24 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.filters import GenericFilter, rules
+from gprime.filters import GenericFilter, rules
 from gprime.gui.filters import build_filter_model
-from gprime.gen.sort import Sort
+from gprime.sort import Sort
 from gprime.gui.utils import ProgressMeter
-from gprime.gen.utils.docgen import ODSTab
-from gprime.gen.const import CUSTOM_FILTERS, URL_MANUAL_PAGE
-from gprime.gen.errors import WindowActiveError
-from gprime.gen.datehandler import get_date
+from gprime.utils.docgen import ODSTab
+from gprime.const import CUSTOM_FILTERS, URL_MANUAL_PAGE
+from gprime.errors import WindowActiveError
+from gprime.datehandler import get_date
 from gprime.gui.dialog import WarningDialog
 from gprime.gui.plug import tool
-from gprime.gen.plug.report import utils
+from gprime.plug.report import utils
 from gprime.gui.display import display_help
 from gprime.gui.managedwindow import ManagedWindow
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.gui.glade import Glade
 from gprime.gui.editors import FilterEditor
-from gprime.gen.constfunc import get_curr_dir
+from gprime.constfunc import get_curr_dir
 
 #-------------------------------------------------------------------------
 #

@@ -34,7 +34,7 @@ Tools/Debug/Check Localized Date Parser and Displayer
 #-------------------------------------------------------------------------
 import traceback
 import sys
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------
@@ -42,13 +42,13 @@ _ = glocale.translation.gettext
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import Date, Event, EventRef, EventType, Name, Person, Surname, Tag
-from gprime.gen.db import DbTxn
+from gprime.lib import Date, Event, EventRef, EventType, Name, Person, Surname, Tag
+from gprime.db import DbTxn
 from gprime.gui.plug import tool
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.dialog import QuestionDialog
-from gprime.gen.datehandler import parser as _dp
-from gprime.gen.datehandler import displayer as _dd
+from gprime.datehandler import parser as _dp
+from gprime.datehandler import displayer as _dd
 
 #-------------------------------------------------------------------------
 #

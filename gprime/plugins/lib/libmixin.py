@@ -27,7 +27,7 @@ Mixin for DbDir to enable find_from_handle and check_from_handle methods.
 # Gramps Modules
 #
 #------------------------------------------------------------------------------
-from gprime.gen.lib import (Person, Family, Event, Place, Source,
+from gprime.lib import (Person, Family, Event, Place, Source,
                      Media, Repository, Note, Tag)
 
 #------------------------------------------------------------------------------

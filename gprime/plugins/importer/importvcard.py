@@ -44,15 +44,15 @@ LOG = logging.getLogger(".ImportVCard")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 ngettext = glocale.translation.ngettext  # else "nearby" comments are ignored
-from gprime.gen.errors import GrampsImportError
-from gprime.gen.lib import (Address, Date, DateError, Event, EventRef,
+from gprime.errors import GrampsImportError
+from gprime.lib import (Address, Date, DateError, Event, EventRef,
         EventType, Name, NameType, Person, Surname, Url, UrlType)
-from gprime.gen.db import DbTxn
-from gprime.gen.plug.utils import OpenFileOrStdin
-from gprime.gen.utils.libformatting import ImportInfo
+from gprime.db import DbTxn
+from gprime.plug.utils import OpenFileOrStdin
+from gprime.utils.libformatting import ImportInfo
 
 #-------------------------------------------------------------------------
 #

@@ -36,7 +36,7 @@ import time
 from ...const import LOCALE as glocale
 _ = glocale.translation.gettext
 from . import Rule
-from gprime.gen.errors import FilterError
+from gprime.errors import FilterError
 
 #-------------------------------------------------------------------------
 #

@@ -126,7 +126,7 @@ class DbTxn(defaultdict):
         # Conditional on __debug__ because all that frame stuff may be slow
         if __debug__:
             caller_frame = inspect.stack()[1]
-            # If the call comes from gprime.gen.db.generic.DbGenericTxn.__init__
+            # If the call comes from gprime.db.generic.DbGenericTxn.__init__
             # then it is just a dummy redirect, so we need to go back another
             # frame to get any real information. The test does not accurately
             # check this, but seems to be good enough for the current diagnostic

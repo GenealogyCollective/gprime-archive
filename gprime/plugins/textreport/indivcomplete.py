@@ -40,25 +40,25 @@ from collections import defaultdict
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib import EventRoleType, EventType, Person, NoteType
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.lib import EventRoleType, EventType, Person, NoteType
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     TableStyle, TableCellStyle,
                                     FONT_SANS_SERIF, INDEX_TYPE_TOC,
                                     PARA_ALIGN_CENTER, PARA_ALIGN_RIGHT)
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.plug.menu import (BooleanOption, FilterOption, PersonOption,
+from gprime.display.place import displayer as _pd
+from gprime.plug.menu import (BooleanOption, FilterOption, PersonOption,
                                   BooleanListOption)
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import Bibliography
-from gprime.gen.plug.report import endnotes as Endnotes
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.utils.lds import TEMPLES
-from gprime.gen.proxy import CacheProxyDb
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import Bibliography
+from gprime.plug.report import endnotes as Endnotes
+from gprime.plug.report import stdoptions
+from gprime.utils.file import media_path_full
+from gprime.utils.lds import TEMPLES
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

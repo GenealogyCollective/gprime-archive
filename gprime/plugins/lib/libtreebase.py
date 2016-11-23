@@ -26,11 +26,11 @@
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
-from gprime.gen.plug.report import utils
+from gprime.plug.report import utils
 from gprime.plugins.lib.libsubstkeyword import SubstKeywords
-from gprime.gen.plug.docgen import (IndexMark, INDEX_TYPE_TOC)
+from gprime.plug.docgen import (IndexMark, INDEX_TYPE_TOC)
 
 PT2CM = utils.pt2cm
 

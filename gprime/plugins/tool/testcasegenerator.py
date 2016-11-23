@@ -32,7 +32,7 @@
 import sys
 import os
 import random
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------
@@ -47,37 +47,37 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.lib import (Address, Attribute, AttributeType, ChildRef,
+from gprime.lib import (Address, Attribute, AttributeType, ChildRef,
                 ChildRefType, Citation, Date, Event, EventRef, EventRoleType,
                 EventType, Family, FamilyRelType, GrampsType, LdsOrd, Location,
                 Media, MediaRef, Name, NameOriginType, NameType, Note,
                 NoteType, Person, PersonRef, Place, PlaceType, PlaceRef, PlaceName,
                 RepoRef, Repository, RepositoryType, Source, SourceMediaType,
                 SrcAttribute, SrcAttributeType, Surname, Tag, Url, UrlType)
-from gprime.gen.lib.addressbase import AddressBase
-from gprime.gen.lib.attrbase import AttributeBase
-from gprime.gen.lib.primaryobj import BasicPrimaryObject
-from gprime.gen.lib.citationbase import CitationBase
-from gprime.gen.lib.date import Today
-from gprime.gen.lib.datebase import DateBase
-from gprime.gen.lib.ldsordbase import LdsOrdBase
-from gprime.gen.lib.locationbase import LocationBase
-from gprime.gen.lib.mediabase import MediaBase
-from gprime.gen.lib.notebase import NoteBase
-from gprime.gen.lib.placebase import PlaceBase
-from gprime.gen.lib.privacybase import PrivacyBase
-from gprime.gen.lib.tagbase import TagBase
-from gprime.gen.lib.urlbase import UrlBase
-from gprime.gen.lib import StyledText, StyledTextTag, StyledTextTagType
-from gprime.gen.db import DbTxn
-from gprime.gen.mime import get_type
+from gprime.lib.addressbase import AddressBase
+from gprime.lib.attrbase import AttributeBase
+from gprime.lib.primaryobj import BasicPrimaryObject
+from gprime.lib.citationbase import CitationBase
+from gprime.lib.date import Today
+from gprime.lib.datebase import DateBase
+from gprime.lib.ldsordbase import LdsOrdBase
+from gprime.lib.locationbase import LocationBase
+from gprime.lib.mediabase import MediaBase
+from gprime.lib.notebase import NoteBase
+from gprime.lib.placebase import PlaceBase
+from gprime.lib.privacybase import PrivacyBase
+from gprime.lib.tagbase import TagBase
+from gprime.lib.urlbase import UrlBase
+from gprime.lib import StyledText, StyledTextTag, StyledTextTagType
+from gprime.db import DbTxn
+from gprime.mime import get_type
 from gprime.gui.plug import tool
-from gprime.gen.utils.string import conf_strings
-from gprime.gen.utils.lds import TEMPLES
-from gprime.gen.db.dbconst import *
-from gprime.gen.const import ICON, LOGO, SPLASH
+from gprime.utils.string import conf_strings
+from gprime.utils.lds import TEMPLES
+from gprime.db.dbconst import *
+from gprime.const import ICON, LOGO, SPLASH
 from gprime.gui.display import display_help
-from gprime.gen.const import URL_MANUAL_PAGE
+from gprime.const import URL_MANUAL_PAGE
 
 #-------------------------------------------------------------------------
 #
@@ -92,7 +92,7 @@ WIKI_HELP_SEC = _('Generate_Testcases_for_Persons_and_Families')
 # to make it repeatable across runs.  The private copy is unaffected by other
 # uses of the global random() functions.
 try:
-    from gprime.gen.const import myrand
+    from gprime.const import myrand
 except (NameError, ImportError):
     myrand = random.Random()
 except:

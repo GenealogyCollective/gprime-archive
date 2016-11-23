@@ -32,13 +32,13 @@ ACSII document generator.
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import DOCGEN_OPTIONS
-from gprime.gen.errors import ReportError
-from gprime.gen.plug.docgen import (BaseDoc, TextDoc,
+from gprime.const import DOCGEN_OPTIONS
+from gprime.errors import ReportError
+from gprime.plug.docgen import (BaseDoc, TextDoc,
                                     PARA_ALIGN_RIGHT, PARA_ALIGN_CENTER)
-from gprime.gen.plug.menu import NumberOption
-from gprime.gen.plug.report import DocOptions
-from gprime.gen.const import LOCALE as glocale
+from gprime.plug.menu import NumberOption
+from gprime.plug.report import DocOptions
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------

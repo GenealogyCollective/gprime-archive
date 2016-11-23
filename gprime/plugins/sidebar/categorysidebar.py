@@ -34,7 +34,7 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.config import config
+from gprime.config import config
 from gprime.gui.basesidebar import BaseSidebar
 
 #-------------------------------------------------------------------------

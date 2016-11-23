@@ -22,8 +22,8 @@ import unittest
 
 from .. import DbBsddb, DbTxn
 from gprime.cli.clidbman import CLIDbManager
-from gprime.gen.dbstate import DbState
-from gprime.gen.lib import (Source, RepoRef, Citation, Repository, Person,
+from gprime.dbstate import DbState
+from gprime.lib import (Source, RepoRef, Citation, Repository, Person,
                             Family, Event, Place, Media)
 
 class GrampsDbBaseTest(unittest.TestCase):

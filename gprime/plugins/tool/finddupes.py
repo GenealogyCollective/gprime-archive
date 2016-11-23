@@ -34,20 +34,20 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import URL_MANUAL_PAGE
-from gprime.gen.lib import Event, Person
+from gprime.const import URL_MANUAL_PAGE
+from gprime.lib import Event, Person
 from gprime.gui.utils import ProgressMeter
 from gprime.gui.plug import tool
-from gprime.gen.soundex import soundex, compare
-from gprime.gen.display.name import displayer as name_displayer
+from gprime.soundex import soundex, compare
+from gprime.display.name import displayer as name_displayer
 from gprime.gui.dialog import OkDialog
 from gprime.gui.listmodel import ListModel
-from gprime.gen.errors import WindowActiveError
+from gprime.errors import WindowActiveError
 from gprime.gui.merge import MergePerson
 from gprime.gui.display import display_help
 from gprime.gui.managedwindow import ManagedWindow
 from gprime.gui.dialog import RunDatabaseRepair
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.sgettext
 from gprime.gui.glade import Glade
 

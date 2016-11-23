@@ -36,7 +36,7 @@ import os
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.db.dbconst import DBLOGNAME
+from gprime.db.dbconst import DBLOGNAME
 _LOG = logging.getLogger(DBLOGNAME)
 
 #-------------------------------------------------------------------------

@@ -36,10 +36,10 @@ import os
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import PLUGINS_DIR, USER_PLUGINS, DATA_DIR
-from gprime.gen.lib.gcalendar import (gregorian_ymd, hebrew_sdn)
+from gprime.const import PLUGINS_DIR, USER_PLUGINS, DATA_DIR
+from gprime.lib.gcalendar import (gregorian_ymd, hebrew_sdn)
 
 #------------------------------------------------------------------------
 #

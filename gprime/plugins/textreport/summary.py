@@ -37,19 +37,19 @@ import posixpath
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.lib import Person
-from gprime.gen.plug.report import Report
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.lib import Person
+from gprime.plug.report import Report
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, INDEX_TYPE_TOC,
                                     PARA_ALIGN_CENTER)
-from gprime.gen.utils.file import media_path_full
-from gprime.gen.datehandler import get_date
-from gprime.gen.proxy import CacheProxyDb
+from gprime.utils.file import media_path_full
+from gprime.datehandler import get_date
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

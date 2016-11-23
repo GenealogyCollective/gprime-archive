@@ -21,7 +21,7 @@
 #
 
 import locale
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 
 """
 Some OS environments do not support the locale.nl_langinfo() method

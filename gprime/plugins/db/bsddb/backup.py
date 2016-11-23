@@ -60,7 +60,7 @@ import pickle
 # Gramps libs
 #
 #------------------------------------------------------------------------
-from gprime.gen.db.exceptions import DbException
+from gprime.db.exceptions import DbException
 from .write import FAMILY_TBL, PLACES_TBL, SOURCES_TBL, MEDIA_TBL, \
     EVENTS_TBL, PERSON_TBL, REPO_TBL, NOTE_TBL, TAG_TBL, META, CITATIONS_TBL
 

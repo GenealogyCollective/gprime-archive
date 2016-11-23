@@ -64,12 +64,12 @@ More details can be found in the manual's
 `Using database API <http://www.gramps-project.org/wiki/index.php?title=Using_database_API>`_.
 """
 
-from gprime.gen.db.base import *
-from gprime.gen.db.dbconst import *
+from gprime.db.base import *
+from gprime.db.dbconst import *
 from .cursor import *
 from .read import *
 from .bsddbtxn import *
-from gprime.gen.db.txn import *
+from gprime.db.txn import *
 from .undoredo import *
-from gprime.gen.db.exceptions import *
+from gprime.db.exceptions import *
 from .write import *

@@ -36,17 +36,17 @@ import logging
 # Gramps Modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.db.base import eval_order_by
-from gprime.gen.db.dbconst import (DBLOGNAME, DBBACKEND, KEY_TO_NAME_MAP,
+from gprime.db.base import eval_order_by
+from gprime.db.dbconst import (DBLOGNAME, DBBACKEND, KEY_TO_NAME_MAP,
                                    TXNADD, TXNUPD, TXNDEL,
                                    PERSON_KEY, FAMILY_KEY, SOURCE_KEY,
                                    EVENT_KEY, MEDIA_KEY, PLACE_KEY, NOTE_KEY,
                                    TAG_KEY, CITATION_KEY, REPOSITORY_KEY)
-from gprime.gen.db.generic import DbGeneric
-from gprime.gen.lib import (Tag, Media, Person, Family, Source,
+from gprime.db.generic import DbGeneric
+from gprime.lib import (Tag, Media, Person, Family, Source,
                             Citation, Event, Place, Repository, Note)
-from gprime.gen.lib.genderstats import GenderStats
-from gprime.gen.const import LOCALE as glocale
+from gprime.lib.genderstats import GenderStats
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 LOG = logging.getLogger(".dbapi")
@@ -147,7 +147,7 @@ class DBAPI(DbGeneric):
 
     def initialize_backend(self, directory):
         # Run code from directory
-        from gprime.gen.utils.configmanager import ConfigManager
+        from gprime.utils.configmanager import ConfigManager
         config_file = os.path.join(directory, 'settings.ini')
         config_mgr = ConfigManager(config_file)
         config_mgr.register('database.dbtype', 'sqlite')
@@ -1933,7 +1933,7 @@ class DBAPI(DbGeneric):
         Given a schema type, return the SQL type for
         a new column.
         """
-        from gprime.gen.lib.handle import HandleClass
+        from gprime.lib.handle import HandleClass
         if isinstance(python_type, HandleClass):
             return "VARCHAR(50)"
         elif python_type == str:

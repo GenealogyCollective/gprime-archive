@@ -34,13 +34,13 @@ import logging
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.plug.docgen import (
+from gprime.plug.docgen import (
     BaseDoc, TextDoc, FONT_SERIF, PARA_ALIGN_RIGHT, PARA_ALIGN_CENTER,
     PARA_ALIGN_JUSTIFY, URL_PATTERN)
-from gprime.gen.utils.image import (image_size, image_actual_size,
+from gprime.utils.image import (image_size, image_actual_size,
                                     resize_to_jpeg_buffer)
-from gprime.gen.errors import ReportError
-from gprime.gen.const import LOCALE as glocale
+from gprime.errors import ReportError
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 LOG = logging.getLogger(".rtfdoc")

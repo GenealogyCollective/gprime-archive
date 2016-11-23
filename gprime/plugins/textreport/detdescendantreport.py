@@ -45,24 +45,24 @@ from functools import partial
 # Gprime modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.errors import ReportError
-from gprime.gen.lib import FamilyRelType, Person, NoteType
-from gprime.gen.plug.menu import (BooleanOption, NumberOption, PersonOption,
+from gprime.errors import ReportError
+from gprime.lib import FamilyRelType, Person, NoteType
+from gprime.plug.menu import (BooleanOption, NumberOption, PersonOption,
                                   EnumeratedListOption)
-from gprime.gen.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
+from gprime.plug.docgen import (IndexMark, FontStyle, ParagraphStyle,
                                     FONT_SANS_SERIF, FONT_SERIF,
                                     INDEX_TYPE_TOC, PARA_ALIGN_CENTER)
-from gprime.gen.plug.report import Report, Bibliography
-from gprime.gen.plug.report import endnotes
-from gprime.gen.plug.report import utils
-from gprime.gen.plug.report import MenuReportOptions
-from gprime.gen.plug.report import stdoptions
+from gprime.plug.report import Report, Bibliography
+from gprime.plug.report import endnotes
+from gprime.plug.report import utils
+from gprime.plug.report import MenuReportOptions
+from gprime.plug.report import stdoptions
 from gprime.plugins.lib.libnarrate import Narrator
-from gprime.gen.display.place import displayer as _pd
-from gprime.gen.display.name import displayer as _nd
-from gprime.gen.proxy import CacheProxyDb
+from gprime.display.place import displayer as _pd
+from gprime.display.name import displayer as _nd
+from gprime.proxy import CacheProxyDb
 
 #------------------------------------------------------------------------
 #

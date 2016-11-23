@@ -368,7 +368,7 @@ class PluginData:
         self._name = None
         self._name_accell = None
         self._version = None
-        self._gramps_target_version = None
+        self._gprime_target_version = None
         self._description = None
         self._status = UNSTABLE
         self._fname = None
@@ -470,11 +470,11 @@ class PluginData:
     def _get_version(self):
         return self._version
 
-    def _set_gramps_target_version(self, version):
-       self._gramps_target_version = version
+    def _set_gprime_target_version(self, version):
+       self._gprime_target_version = version
 
-    def _get_gramps_target_version(self):
-        return self._gramps_target_version
+    def _get_gprime_target_version(self):
+        return self._gprime_target_version
 
     def _set_status(self, status):
         if status not in STATUS:
@@ -583,8 +583,8 @@ class PluginData:
     name_accell = property(_get_name_accell, _set_name_accell)
     description = property(_get_description, _set_description)
     version = property(_get_version, _set_version)
-    gramps_target_version = property(_get_gramps_target_version,
-                                     _set_gramps_target_version)
+    gprime_target_version = property(_get_gprime_target_version,
+                                     _set_gprime_target_version)
     status = property(_get_status, _set_status)
     fname = property(_get_fname, _set_fname)
     fpath = property(_get_fpath, _set_fpath)
@@ -1172,13 +1172,13 @@ class PluginRegister:
             for plugin in self.__plugindata[lenpd:]:
                 ind += 1
                 plugin.directory = dir
-                if not valid_plugin_version(plugin.gramps_target_version):
+                if not valid_plugin_version(plugin.gprime_target_version):
                     print(_('ERROR: Plugin file %(filename)s has a version of '
-                            '"%(gramps_target_version)s" which is invalid for Gramps '
+                            '"%(gprime_target_version)s" which is invalid for Gramps '
                             '"%(gramps_version)s".' %
                             {'filename': os.path.join(dir, plugin.fname),
                              'gramps_version': GRAMPSVERSION,
-                             'gramps_target_version': plugin.gramps_target_version,}
+                             'gprime_target_version': plugin.gprime_target_version,}
                             ))
                     rmlist.append(ind)
                     continue

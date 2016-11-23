@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-MODULE_VERSION="5.0"
+MODULE_VERSION="1.0"
 
 #------------------------------------------------------------------------
 #
@@ -32,7 +32,7 @@ plg.name  = _("Narrated Web Site")
 plg.description =  _("Produces web (HTML) pages for individuals, or a set of "
                      "individuals")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'narrativeweb.py'
 plg.ptype = REPORT
@@ -55,7 +55,7 @@ plg.id    = 'WebCal'
 plg.name  = _("Web Calendar")
 plg.description =  _("Produces web (HTML) calendars.")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'webcal.py'
 plg.ptype = REPORT

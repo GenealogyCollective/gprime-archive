@@ -341,10 +341,10 @@ def load_addon_file(path, callback=None):
             continue
         # There can be multiple addons per gpr file:
         for results in globals()["register_results"]:
-            gramps_target_version = results.get("gramps_target_version", None)
+            gprime_target_version = results.get("gprime_target_version", None)
             id = results.get("id", None)
-            if gramps_target_version:
-                vtup = version_str_to_tup(gramps_target_version, 2)
+            if gprime_target_version:
+                vtup = version_str_to_tup(gprime_target_version, 2)
                 # Is it for the right version of gramps?
                 if vtup == VERSION_TUPLE[0:2]:
                     # If this version is not installed, or > installed, install it
@@ -361,11 +361,11 @@ def load_addon_file(path, callback=None):
                                           + "\n"))
                     continue
             else:
-                # another register function doesn't have gramps_target_version
+                # another register function doesn't have gprime_target_version
                 if gpr_file in good_gpr:
                     s.remove(gpr_file)
                 if callback:
-                    callback("   " + (_("Error: missing gramps_target_version in '%s'...") % gpr_file)  + "\n")
+                    callback("   " + (_("Error: missing gprime_target_version in '%s'...") % gpr_file)  + "\n")
     registered_count = 0
     if len(good_gpr) > 0:
         # Now, install the ok ones

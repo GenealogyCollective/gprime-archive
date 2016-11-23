@@ -45,11 +45,11 @@ import logging
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.plug import BasePluginManager
-from gprime.gen.config import config
-from gprime.gen.constfunc import win
-from gprime.gen.db.dbconst import DBLOGNAME
-from gprime.gen.const import LOCALE as glocale
+from gprime.plug import BasePluginManager
+from gprime.config import config
+from gprime.constfunc import win
+from gprime.db.dbconst import DBLOGNAME
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------

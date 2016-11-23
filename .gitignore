@@ -1,5 +1,6 @@
 # Python
 *.py[cod]
+*egg-info/
 
 # Distutils
 MANIFEST

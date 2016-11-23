@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-MODULE_VERSION="5.0"
+MODULE_VERSION="1.0"
 
 # this is the default in gen/plug/_pluginreg.py: plg.require_active = True
 
@@ -33,7 +33,7 @@ plg.id    = 'familylines_graph'
 plg.name  = _("Family Lines Graph")
 plg.description =  _("Produces family line graphs using Graphviz.")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'gvfamilylines.py'
 plg.ptype = REPORT
@@ -56,7 +56,7 @@ plg.id    = 'hourglass_graph'
 plg.name  = _("Hourglass Graph")
 plg.description =  _("Produces an hourglass graph using Graphviz.")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'gvhourglass.py'
 plg.ptype = REPORT
@@ -78,7 +78,7 @@ plg.id    = 'rel_graph'
 plg.name  = _("Relationship Graph")
 plg.description =  _("Produces relationship graphs using Graphviz.")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'gvrelgraph.py'
 plg.ptype = REPORT

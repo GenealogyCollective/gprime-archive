@@ -28,7 +28,6 @@ import os
 from distutils.command.build import build
 from distutils.util import convert_path, newer
 from distutils import log
-import subprocess
 
 # this list MUST be a subset of _LOCALE_NAMES in gen/utils/grampslocale.py
 # (that is, if you add a new language here, be sure it's in _LOCALE_NAMES too)
@@ -137,6 +136,7 @@ def intltool_version():
     '''
     Return the version of intltool as a tuple.
     '''
+    import subprocess
     if sys.platform == 'win32':
         cmd = ["perl", "-e print qx(intltool-update --version) =~ m/(\d+.\d+.\d+)/;"]
         try:
@@ -159,6 +159,36 @@ def intltool_version():
         if retcode != 0: # unlikely but just barely imaginable, so leave it
             return None
     return tuple([int(num) for num in version_str.split('.')])
+
+def merge(in_file, out_file, option, po_dir='po', cache=True):
+    '''
+    Run the intltool-merge command.
+    '''
+    option += ' -u'
+    if cache:
+        cache_file = os.path.join('po', '.intltool-merge-cache')
+        option += ' -c ' + cache_file
+
+    if (not os.path.exists(out_file) and os.path.exists(in_file)):
+        if sys.platform == 'win32':
+            cmd = (('set LC_ALL=C && perl -S intltool-merge %(opt)s %(po_dir)s %(in_file)s '
+                '%(out_file)s') %
+              {'opt' : option,
+               'po_dir' : po_dir,
+               'in_file' : in_file,
+               'out_file' : out_file})
+        else:
+            cmd = (('LC_ALL=C intltool-merge %(opt)s %(po_dir)s %(in_file)s '
+                '%(out_file)s') %
+              {'opt' : option,
+               'po_dir' : po_dir,
+               'in_file' : in_file,
+               'out_file' : out_file})
+        if os.system(cmd) != 0:
+            msg = ('ERROR: %s was not merged into the translation files!\n' %
+                    out_file)
+            raise SystemExit(msg)
+        log.info('Compiling %s >> %s', in_file, out_file)
 
 setup(name='gprime',
       version=version,

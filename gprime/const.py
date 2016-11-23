@@ -50,7 +50,7 @@ from gprime.utils.locale import Locale
 # Gprime program name
 #
 #-------------------------------------------------------------------------
-PROGRAM_NAME = "Gprime"
+PROGRAM_NAME = "gPrime"
 
 #-------------------------------------------------------------------------
 #
@@ -103,8 +103,7 @@ elif 'USERPROFILE' in os.environ:
         HOME_DIR = os.path.join(USER_HOME, 'gprime')
 else:
     USER_HOME = get_env_var('HOME')
-    HOME_DIR = os.path.join(USER_HOME, '.gprime')
-
+    HOME_DIR = os.path.join(USER_HOME, '.gramps')
 
 VERSION_DIR = os.path.join(
     HOME_DIR, "gprime%s%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1]))
@@ -113,17 +112,12 @@ CUSTOM_FILTERS = os.path.join(VERSION_DIR, "custom_filters.xml")
 REPORT_OPTIONS = os.path.join(HOME_DIR, "report_options.xml")
 TOOL_OPTIONS = os.path.join(HOME_DIR, "tool_options.xml")
 
-ENV_DIR = os.path.join(HOME_DIR, "env")
 TEMP_DIR = os.path.join(HOME_DIR, "temp")
 THUMB_DIR = os.path.join(HOME_DIR, "thumb")
 THUMB_NORMAL = os.path.join(THUMB_DIR, "normal")
 THUMB_LARGE = os.path.join(THUMB_DIR, "large")
 USER_PLUGINS = os.path.join(VERSION_DIR, "plugins")
 USER_CSS = os.path.join(HOME_DIR, "css")
-# dirs checked/made for each Gramps session
-USER_DIRLIST = (USER_HOME, HOME_DIR, VERSION_DIR, ENV_DIR, TEMP_DIR, THUMB_DIR,
-                THUMB_NORMAL, THUMB_LARGE, USER_PLUGINS, USER_CSS)
-
 
 #-------------------------------------------------------------------------
 #
@@ -131,34 +125,14 @@ USER_DIRLIST = (USER_HOME, HOME_DIR, VERSION_DIR, ENV_DIR, TEMP_DIR, THUMB_DIR,
 # above this one, and that the plugins directory is below the root directory.
 #
 #-------------------------------------------------------------------------
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 sys.path.insert(0, ROOT_DIR)
 git_revision = get_git_revision(ROOT_DIR)
 if sys.platform == 'win32' and git_revision == "":
     git_revision = get_git_revision(os.path.split(ROOT_DIR)[1])
 VERSION += git_revision
-#VERSION += "-1"
-
-#
-# Glade files
-#
-GLADE_DIR = os.path.join(ROOT_DIR, "gui", "glade")
-GLADE_FILE = os.path.join(GLADE_DIR, "gprime.glade")
-PERSON_GLADE = os.path.join(GLADE_DIR, "edit_person.glade")
-PLUGINS_GLADE = os.path.join(GLADE_DIR, "plugins.glade")
-MERGE_GLADE = os.path.join(GLADE_DIR, "mergedata.glade")
-RULE_GLADE = os.path.join(GLADE_DIR, "rule.glade")
-
-
 PLUGINS_DIR = os.path.join(ROOT_DIR, "plugins")
-
-USE_TIPS = False
-
-if sys.platform == 'win32':
-    USE_THUMBNAILER = False
-else:
-    USE_THUMBNAILER = True
 
 #-------------------------------------------------------------------------
 #
@@ -189,14 +163,12 @@ ENV = {
     "VERSION": VERSION,
     "major_version": major_version,
     "VERSION_DIR": VERSION_DIR,
-    "ENV_DIR": ENV_DIR,
     "TEMP_DIR": TEMP_DIR,
     "THUMB_DIR": THUMB_DIR,
     "THUMB_NORMAL": THUMB_NORMAL,
     "THUMB_LARGE": THUMB_LARGE,
     "USER_PLUGINS": USER_PLUGINS,
     "ROOT_DIR": ROOT_DIR,
-    "GLADE_DIR": GLADE_DIR,
     "PLUGINS_DIR": PLUGINS_DIR,
     "DATA_DIR": DATA_DIR,
     "IMAGE_DIR": IMAGE_DIR,
@@ -235,10 +207,6 @@ AUTHORS = [
     ]
 
 AUTHORS_FILE = os.path.join(DATA_DIR, "authors.xml")
-
-DOCUMENTERS = [
-    'Alexander Roitman',
-    ]
 
 #-------------------------------------------------------------------------
 #

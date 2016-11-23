@@ -1,12 +1,15 @@
-include *.txt
-include *.rst
-include *.md
-recursive-include docs *.rst
-recursive-include docs *.png
-recursive-include docs *.py
-recursive-include gramps_connect/templates *.html
-prune .git
-prune docs/build
-prune dist
-prune build
-prune docs
+include README.md
+
+include MANIFEST.in
+recursive-include images *
+recursive-include data *
+recursive-include gprime *
+recursive-include po *
+recursive-include data/templates *.html
+
+# Remove files created in the build
+exclude data/tips.xml
+exclude data/holidays.xml
+exclude po/.intltool-merge-cache
+global-exclude *.pyc
+global-exclude *.pyo

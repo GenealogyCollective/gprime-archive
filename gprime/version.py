@@ -20,7 +20,7 @@
 
 __version__ = "0.0.0"
 
-VERSION_TUPLE = (5, 0, 0)
-VERSION_QUALIFIER = "-alpha1"
+VERSION_TUPLE = (1, 0, 0)
+VERSION_QUALIFIER = ""
 VERSION        = '.'.join(map(str,VERSION_TUPLE)) + VERSION_QUALIFIER
 major_version = "%s.%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1])

@@ -68,7 +68,7 @@ class DbState(Callback):
         place holder until a real DB is assigned.
         """
         Callback.__init__(self)
-        self.db = self.make_database("dummydb")
+        self.db = self.make_database("inmemorydb")
         self.open = False  #  Deprecated - use DbState.is_open()
         self.stack = []
 
@@ -134,7 +134,7 @@ class DbState(Callback):
         self.emit('no-database', ())
         if self.is_open():
             self.db.close()
-        self.db = self.make_database("dummydb")
+        self.db = self.make_database("inmemorydb")
         self.open = False
         self.emit('database-changed', (self.db, ))
 
@@ -232,36 +232,60 @@ class DbState(Callback):
                 database.load(dbpath, callback=callback)
         return database
 
+    def create_database(self, dirpath, name="Untitled Family Tree"):
+        """
+        Create a directory with database support in it.
+        """
+        os.makedirs(dirpath)
+        db = self.make_database("dbapi")
+        db.write_version(dirpath)
+        path_name = os.path.join(dirpath, "name.txt")
+        with open(path_name, "w", encoding='utf8') as name_file:
+            name_file.write(name)
+        db.load(dirpath)
+        return db
+    
     def lookup_family_tree(self, dbname):
         """
         Find a Family Tree given its name, and return properties.
         """
+        # test to see if dbname is a directory:
+        dirpath = dbname
+        path_name = os.path.join(dirpath, "name.txt")
+        if os.path.isfile(path_name):
+            return self._open_database_by_path(dirpath)
+        # Failed, look up name:
         dbdir = os.path.expanduser(config.get('database.path'))
         for dpath in os.listdir(dbdir):
             dirpath = os.path.join(dbdir, dpath)
-            path_name = os.path.join(dirpath, "name.txt")
             if os.path.isfile(path_name):
                 with open(path_name, 'r', encoding='utf8') as file:
                     name = file.readline().strip()
                 if dbname == name:
-                    locked = False
-                    locked_by = None
-                    backend = None
-                    fname = os.path.join(dirpath, "database.txt")
-                    if os.path.isfile(fname):
-                        with open(fname, 'r', encoding='utf8') as ifile:
-                            backend = ifile.read().strip()
-                    else:
-                        backend = "bsddb"
-                    try:
-                        fname = os.path.join(dirpath, "lock")
-                        with open(fname, 'r', encoding='utf8') as ifile:
-                            locked_by = ifile.read().strip()
-                            locked = True
-                    except (OSError, IOError):
-                        pass
-                    return (dirpath, locked, locked_by, backend)
+                    return self._open_database_by_path(dirpath)
         return None
+
+    def _open_database_by_path(self, dirpath):
+        """
+        Given a path to a directory, open the database there.
+        """
+        locked = False
+        locked_by = None
+        backend = None
+        fname = os.path.join(dirpath, "database.txt")
+        if os.path.isfile(fname):
+            with open(fname, 'r', encoding='utf8') as ifile:
+                backend = ifile.read().strip()
+        else:
+            backend = "bsddb"
+        try:
+            fname = os.path.join(dirpath, "lock")
+            with open(fname, 'r', encoding='utf8') as ifile:
+                locked_by = ifile.read().strip()
+                locked = True
+        except (OSError, IOError):
+            pass
+        return (dirpath, locked, locked_by, backend)
 
     def import_from_filename(self, db, filename, user=None):
         """
@@ -317,4 +341,3 @@ class DbState(Callback):
     def save_modules(self):
         LOG.info("save_modules!")
         self._modules = sys.modules.copy()
-

@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-MODULE_VERSION="5.0"
+MODULE_VERSION="1.0"
 
 #------------------------------------------------------------------------
 #
@@ -33,7 +33,7 @@ plg.id    = 'im_csv'
 plg.name  = _("Comma Separated Values Spreadsheet (CSV)")
 plg.description =  _("Import data from CSV files")
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importcsv.py'
 plg.ptype = IMPORT
@@ -52,7 +52,7 @@ plg.name  = _('GEDCOM')
 plg.description =  _('GEDCOM is used to transfer data between genealogy programs. '
                 'Most genealogy software will accept a GEDCOM file as input.')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importgedcom.py'
 plg.ptype = IMPORT
@@ -70,7 +70,7 @@ plg.id    = 'im_geneweb'
 plg.name  = _('GeneWeb')
 plg.description =  _('Import data from GeneWeb files')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importgeneweb.py'
 plg.ptype = IMPORT
@@ -89,7 +89,7 @@ plg.name  = _('Gramps package (portable XML)')
 plg.description =  _('Import data from a Gramps package (an archived XML '
                      'Family Tree together with the media object files.)')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importgpkg.py'
 plg.ptype = IMPORT
@@ -110,7 +110,7 @@ plg.description =  _('The Gramps XML format is a text '
                      'read-write compatible with the '
                      'present Gramps database format.')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importxml.py'
 plg.ptype = IMPORT
@@ -128,7 +128,7 @@ plg.id    = 'im_grdb'
 plg.name  = _('Gramps 2.x database')
 plg.description =  _('Import data from Gramps 2.x database files')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importgrdb.py'
 plg.ptype = IMPORT
@@ -146,7 +146,7 @@ plg.id    = 'im_progen'
 plg.name  = _('Pro-Gen')
 plg.description =  _('Import data from Pro-Gen files')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importprogen.py'
 plg.ptype = IMPORT
@@ -164,7 +164,7 @@ plg.id    = 'im_vcard'
 plg.name  = _('vCard')
 plg.description =  _('Import data from vCard files')
 plg.version = '1.0'
-plg.gramps_target_version = MODULE_VERSION
+plg.gprime_target_version = MODULE_VERSION
 plg.status = STABLE
 plg.fname = 'importvcard.py'
 plg.ptype = IMPORT

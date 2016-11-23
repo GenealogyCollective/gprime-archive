@@ -19,8 +19,8 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.person import Person
-from gramps.gen.display.name import NameDisplay
+from gprime.lib.person import Person
+from gprime.display.name import NameDisplay
 
 # Gramps Connect imports:
 from .forms import Form

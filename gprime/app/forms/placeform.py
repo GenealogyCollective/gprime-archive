@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.place import Place
+from gprime.lib.place import Place
 
 # Gramps Connect imports:
 from .forms import Form

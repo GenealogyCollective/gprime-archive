@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.tag import Tag
+from gprime.lib.tag import Tag
 
 # Gramps Connect imports:
 from .forms import Form

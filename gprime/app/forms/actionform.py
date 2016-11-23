@@ -245,7 +245,7 @@ def import_file(db, filename, user):
 
     >>> import_file(DbDjango(), "/home/user/Untitled_1.ged", User())
     """
-    from gramps.gen.dbstate import DbState
+    from gprime.dbstate import DbState
     from gramps.cli.grampscli import CLIManager
     dbstate = DbState()
     climanager = CLIManager(dbstate, setloader=False, user=user) # do not load db_loader
@@ -300,8 +300,8 @@ def export_file(db, filename, user):
 
     >>> export_file(DbDjango(), "/home/user/Untitled_1.ged", User())
     """
-    from gramps.gen.dbstate import DbState
-    from gramps.cli.grampscli import CLIManager
+    from gprime.dbstate import DbState
+    from gprime.cli.grampscli import CLIManager
     dbstate = DbState()
     climanager = CLIManager(dbstate, setloader=False, user=user) # do not load db_loader
     climanager.do_reg_plugins(dbstate, None)

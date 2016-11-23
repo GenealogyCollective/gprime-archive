@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.src import Source
+from gprime.lib.src import Source
 
 # Gramps Connect imports:
 from .forms import Form

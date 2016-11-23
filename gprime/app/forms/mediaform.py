@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.media import Media
+from gprime.lib.media import Media
 
 # Gramps Connect imports:
 from .forms import Form

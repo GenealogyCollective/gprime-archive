@@ -24,8 +24,8 @@ import time
 
 from ..template_functions import make_button
 
-from gramps.gen.display.name import NameDisplay
-from gramps.gen.datehandler import displayer, parser
+from gprime.display.name import NameDisplay
+from gprime.datehandler import displayer, parser
 
 nd = NameDisplay().display
 dd = displayer.display

@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.repo import Repository
+from gprime.lib.repo import Repository
 
 # Gramps Connect imports:
 from .forms import Form

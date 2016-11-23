@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.citation import Citation
+from gprime.lib.citation import Citation
 
 # Gramps Connect imports:
 from .forms import Form

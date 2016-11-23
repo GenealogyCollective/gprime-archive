@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.note import Note
+from gprime.lib.note import Note
 
 # Gramps Connect imports:
 from .forms import Form

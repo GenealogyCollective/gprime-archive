@@ -19,7 +19,7 @@
 #
 
 # Gramps imports:
-from gramps.gen.lib.event import Event
+from gprime.lib.event import Event
 
 # Gramps Connect imports:
 from .forms import Form

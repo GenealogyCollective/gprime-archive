@@ -1,7 +1,7 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# Gramps - a GTK+/GNOME based genealogy program
 #
-# Copyright (C) 2000-2007  Donald N. Allingham
+# Copyright (c) 2016 Gramps Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,13 +15,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-"""
-The gen module provides packages that are common to all gramps
-interfaces (gui, cli and web).
-"""
-
-__all__ = ["datehandler", "db", "display", "filters", "lib", "merge",
-           "mime", "plug", "proxy", "simple", "utils"]
+from .personform import PersonForm
+from .familyform import FamilyForm
+from .actionform import ActionForm
+from .noteform import NoteForm
+from .citationform import CitationForm
+from .eventform import EventForm
+from .mediaform import MediaForm
+from .placeform import PlaceForm
+from .repositoryform import RepositoryForm
+from .sourceform import SourceForm
+from .tagform import TagForm

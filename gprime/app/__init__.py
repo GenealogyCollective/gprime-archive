@@ -1,7 +1,7 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# Gramps - a GTK+/GNOME based genealogy program
 #
-# Copyright (C) 2000-2007  Donald N. Allingham
+# Copyright (c) 2015 Gramps Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,10 +18,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-"""
-The gen module provides packages that are common to all gramps
-interfaces (gui, cli and web).
-"""
-
-__all__ = ["datehandler", "db", "display", "filters", "lib", "merge",
-           "mime", "plug", "proxy", "simple", "utils"]
+__version__ = "0.0.0"

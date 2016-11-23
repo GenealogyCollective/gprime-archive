@@ -24,8 +24,8 @@
 # Gramps Modules
 #
 #------------------------------------------------------------------------
-from gramps.gen.db.generic import *
-from gramps.gen.const import GRAMPS_LOCALE as glocale
+from gprime.db.generic import *
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 import glob

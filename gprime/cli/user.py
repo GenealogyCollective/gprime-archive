@@ -27,10 +27,10 @@ The User class provides basic interaction with the user.
 # Gramps Modules
 #
 #------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.const import URL_BUGHOME
-from gprime.gen import user
+from gprime.const import URL_BUGHOME
+from gprime import user
 
 #------------------------------------------------------------------------
 #

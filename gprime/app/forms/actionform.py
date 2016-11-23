@@ -26,9 +26,9 @@ import os
 from .forms import Form, Column, Row
 
 # Gramps imports:
-from gramps.cli.plug import BasePluginManager, run_report
+from gprime.cli.plug import BasePluginManager, run_report
 from ..dictionarydb import DictionaryDb
-from gramps.cli.user import User
+from gprime.cli.user import User
 
 # Classes:
 class Action(object):
@@ -246,7 +246,7 @@ def import_file(db, filename, user):
     >>> import_file(DbDjango(), "/home/user/Untitled_1.ged", User())
     """
     from gprime.dbstate import DbState
-    from gramps.cli.grampscli import CLIManager
+    from gprime.cli.grampscli import CLIManager
     dbstate = DbState()
     climanager = CLIManager(dbstate, setloader=False, user=user) # do not load db_loader
     climanager.do_reg_plugins(dbstate, None)

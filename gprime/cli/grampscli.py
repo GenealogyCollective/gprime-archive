@@ -31,7 +31,7 @@ Provides also two small base classes: :class:`CLIDbLoader`, :class:`CLIManager`
 # Python modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 import os
 import sys
@@ -44,13 +44,13 @@ LOG = logging.getLogger(".grampscli")
 # Gramps  modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.display.name import displayer as name_displayer
-from gprime.gen.config import config
-from gprime.gen.const import PLUGINS_DIR, USER_PLUGINS
-from gprime.gen.db.dbconst import DBBACKEND
-from gprime.gen.errors import DbError
-from gprime.gen.dbstate import DbState
-from gprime.gen.db.exceptions import (DbUpgradeRequiredError,
+from gprime.display.name import displayer as name_displayer
+from gprime.config import config
+from gprime.const import PLUGINS_DIR, USER_PLUGINS
+from gprime.db.dbconst import DBBACKEND
+from gprime.errors import DbError
+from gprime.dbstate import DbState
+from gprime.db.exceptions import (DbUpgradeRequiredError,
                                       BsddbDowngradeError,
                                       DbVersionError,
                                       DbPythonError,
@@ -59,9 +59,9 @@ from gprime.gen.db.exceptions import (DbUpgradeRequiredError,
                                       BsddbDowngradeRequiredError,
                                       PythonUpgradeRequiredError,
                                       PythonDowngradeError)
-from gprime.gen.plug import BasePluginManager
-from gprime.gen.utils.config import get_researcher
-from gprime.gen.recentfiles import recent_files
+from gprime.plug import BasePluginManager
+from gprime.utils.config import get_researcher
+from gprime.recentfiles import recent_files
 
 #-------------------------------------------------------------------------
 #

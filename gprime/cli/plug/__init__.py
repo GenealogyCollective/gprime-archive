@@ -45,25 +45,25 @@ LOG = logging.getLogger(".")
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.plug import BasePluginManager
-from gprime.gen.plug.docgen import (StyleSheet, StyleSheetList, PaperStyle,
+from gprime.plug import BasePluginManager
+from gprime.plug.docgen import (StyleSheet, StyleSheetList, PaperStyle,
                                     PAPER_PORTRAIT, PAPER_LANDSCAPE, graphdoc)
-from gprime.gen.plug.menu import (FamilyOption, PersonOption, NoteOption,
+from gprime.plug.menu import (FamilyOption, PersonOption, NoteOption,
                                   MediaOption, PersonListOption, NumberOption,
                                   BooleanOption, DestinationOption, Option,
                                   TextOption, EnumeratedListOption,
                                   StringOption)
-from gprime.gen.display.name import displayer as name_displayer
-from gprime.gen.errors import ReportError, FilterError
-from gprime.gen.plug.report import (CATEGORY_TEXT, CATEGORY_DRAW, CATEGORY_BOOK,
+from gprime.display.name import displayer as name_displayer
+from gprime.errors import ReportError, FilterError
+from gprime.plug.report import (CATEGORY_TEXT, CATEGORY_DRAW, CATEGORY_BOOK,
                                     CATEGORY_GRAPHVIZ, CATEGORY_CODE,
                                     ReportOptions, append_styles)
-from gprime.gen.plug.report._paper import paper_sizes
-from gprime.gen.const import USER_HOME, DOCGEN_OPTIONS
-from gprime.gen.dbstate import DbState
+from gprime.plug.report._paper import paper_sizes
+from gprime.const import USER_HOME, DOCGEN_OPTIONS
+from gprime.dbstate import DbState
 from ..grampscli import CLIManager
 from ..user import User
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #------------------------------------------------------------------------

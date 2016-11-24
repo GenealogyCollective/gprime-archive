@@ -304,7 +304,7 @@ class Form(object):
                 retval = """<input id="%(id)s" type="text" name="%(name)s" value="%(value)s" style="display:table-cell; width:100%%">""" % dict
         if field in self.post_process_functions:
             retval = self.post_process_functions[field](data, {})
-        if link:
+        if link and action == "view":
             retval = '''<a href="''' +  (link % kwargs) + '''">''' + retval + """</a>"""
         return str(retval)
 

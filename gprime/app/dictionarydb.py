@@ -1083,8 +1083,8 @@ class DictionaryDb(DbGeneric):
                      force_bsddb_downgrade,
                      force_python_upgrade)
         # Dictionary-specific load:
-        from gramps.plugins.importer.importxml import importData
-        from gramps.cli.user import User
+        from gprime.plugins.importer.importxml import importData
+        from gprime.cli.user import User
         if self._directory:
             backups = list(reversed(glob.glob(os.path.join(
                 self._directory, "backup-*.gramps"))))

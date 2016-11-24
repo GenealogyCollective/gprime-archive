@@ -321,8 +321,8 @@ class Struct:
 
         self is class when called as a classmethod.
         """
-        from  gramps.gen.lib import (Person, Family, Event, Source, Place, Citation,
-                                     Repository, Media, Note, Tag, Date)
+        from  gprime.lib import (Person, Family, Event, Source, Place, Citation,
+                                 Repository, Media, Note, Tag, Date)
         if isinstance(struct, dict):
             if "_class" in struct.keys():
                 if struct["_class"] == "Person":

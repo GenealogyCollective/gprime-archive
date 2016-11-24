@@ -170,3 +170,21 @@ plg.fname = 'importvcard.py'
 plg.ptype = IMPORT
 plg.import_function = 'importData'
 plg.extension = "vcf"
+
+#------------------------------------------------------------------------
+#
+# JSON
+#
+#------------------------------------------------------------------------
+
+plg = newplugin()
+plg.id    = 'JSON Import'
+plg.name  = _('JSON Import')
+plg.description =  _('This is a JSON import')
+plg.version = '1.0.6'
+plg.gprime_target_version = MODULE_VERSION
+plg.status = STABLE
+plg.fname = 'JSONImport.py'
+plg.ptype = IMPORT
+plg.import_function = 'importData'
+plg.extension = "json"

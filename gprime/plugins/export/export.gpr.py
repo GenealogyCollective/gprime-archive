@@ -191,3 +191,24 @@ plg.export_function = 'exportData'
 plg.export_options = 'WriterOptionBox'
 plg.export_options_title = _('vCard export options')
 plg.extension = "vcf"
+
+#------------------------------------------------------------------------
+#
+# JSON
+#
+#------------------------------------------------------------------------
+
+plg = newplugin()
+plg.id    = 'JSON Export'
+plg.name  = _('JSON Export')
+plg.description =  _('This is a JSON export')
+plg.version = '1.0.6'
+plg.gprime_target_version = MODULE_VERSION
+plg.status = STABLE
+plg.fname = 'JSONExport.py'
+plg.ptype = EXPORT
+plg.export_function = 'exportData'
+plg.export_options = 'WriterOptionBox'
+plg.export_options_title = _('JSON options')
+plg.extension = "json"
+

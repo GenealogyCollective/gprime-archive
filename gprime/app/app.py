@@ -9,9 +9,11 @@ import getpass
 import gprime.const # initializes locale
 from gprime.dbstate import DbState
 from gprime.utils.file import media_path_full
+from gprime.cli.user import User
 
 from .handlers import *
 from .forms import *
+from .forms.actionform import import_file
 
 from tornado.web import Application, url, StaticFileHandler
 
@@ -19,18 +21,16 @@ class GPrimeApp(Application):
     """
     Main webapp class
     """
-    def __init__(self, options, settings=None):
+    def __init__(self, options, database, settings=None):
         self.options = options
         if settings is None:
             settings = self.default_settings()
-        if self.options.database is None:
+        if database is None:
             raise Exception("Need to specify Family Tree name with --database='NAME'")
         else:
-            self.database = DbState().open_database(self.options.database)
+            self.database = database
         if self.database is None:
             raise Exception("Unable to open database '%s'" % self.options.database)
-        # If the options.database was a directory, get its name:
-        options.database = self.database.get_dbname()
         self.sitename = self.options.sitename
         super().__init__([
             url(r"/", HomeHandler,
@@ -226,13 +226,16 @@ def main():
            help="Login username", type=str)
     define("password", default=None,
            help="Login encrypted password", type=str)
-    define("make-db", default=None,
+    define("create", default=None,
            help="Create a database directory", type=str)
     define("server", default=True,
            help="Start the server", type=bool)
+    define("import_file", default=None,
+           help="Import a file", type=str)
 
     # Let's go!
     tornado.options.parse_command_line()
+    # Handle standard options:
     if options.config:
         tornado.options.parse_config_file(options.config)
     if options.username is None:
@@ -240,9 +243,19 @@ def main():
     if options.password is None:
         plaintext = getpass.getpass()
         options.password = crypt.crypt(plaintext)
-    ### Handle options
-    if options.make_db:
-        DbState().create_database(self.options.make_db)
+    ### Handle database options:
+    if options.create:
+        DbState().create_database(self.options.create)
+    ## Open the database:
+    database = DbState().open_database(options.database)
+    # If database was a filename, set it to dbname:
+    if database:
+        options.database = database.get_dbname()
+    ## Options after opening:
+    if options.import_file:
+        user = User()
+        import_file(database, options.import_file, user)
+    # Start server up, or exit:
     if not options.server:
         return
     tornado.log.logging.info("gPrime starting...")
@@ -260,7 +273,7 @@ def main():
                 template_filename = os.path.join(dirpath, filename)
                 tornado.log.logging.info("   watching: " + os.path.relpath(template_filename))
                 tornado.autoreload.watch(template_filename)
-    app = GPrimeApp(options)
+    app = GPrimeApp(options, database)
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
     for key in ["port", "home_dir", "hostname", "database", "sitename",

@@ -6,6 +6,9 @@ recursive-include data *
 recursive-include gprime *
 recursive-include po *
 recursive-include data/templates *.html
+recursive-include data/jhtmlarea *
+recursive-include data/css *
+recursive-include data/javascript *.js
 
 # Remove files created in the build
 exclude data/tips.xml

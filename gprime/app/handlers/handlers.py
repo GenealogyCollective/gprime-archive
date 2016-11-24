@@ -24,7 +24,6 @@ import hmac
 import crypt
 
 from gprime.utils.locale import Locale, _
-from gprime.utils.id import create_id
 from gprime.const import VERSION
 
 template_functions = {}
@@ -48,9 +47,9 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.get_secure_cookie("user")
 
     def set_language(self, language):
-        if language == GrampsLocale.DEFAULT_TRANSLATION_STR:
+        if language == Locale.DEFAULT_TRANSLATION_STR:
             language = None
-        locale = GrampsLocale(lang=language)
+        locale = Locale(lang=language)
         self._ = locale.translation.gettext
 
     def get_template_dict(self, **kwargs):

@@ -29,6 +29,8 @@ class GPrimeApp(Application):
             self.database = DbState().open_database(self.options.database)
         if self.database is None:
             raise Exception("Unable to open database '%s'" % self.options.database)
+        # If the options.database was a directory, get its name:
+        options.database = self.database.get_dbname()
         self.sitename = self.options.sitename
         super().__init__([
             url(r"/", HomeHandler,

@@ -20,6 +20,7 @@
 
 from gprime.lib import Source
 from gprime.utils.locale import Locale, _
+from gprime.utils.id import create_id
 
 import tornado.web
 

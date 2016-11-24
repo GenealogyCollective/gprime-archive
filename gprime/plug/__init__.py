@@ -40,7 +40,6 @@ from ._import import ImportPlugin
 from ._export import ExportPlugin
 from ._docgenplugin import DocGenPlugin
 from ._manager import BasePluginManager
-from ._gramplet import Gramplet
 from .utils import *
 from ._options import (Options, OptionListCollection, OptionList,
                       OptionHandler, MenuOptions)

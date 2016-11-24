@@ -62,7 +62,6 @@ from gprime.updatecallback import UpdateCallback
 from gprime.db.exceptions import DbWriteFailure
 from gprime.version import VERSION
 from gprime.constfunc import win
-from gprime.gui.plug.export import WriterOptionBox, WriterOptionBoxWithCompression
 import gprime.plugins.lib.libgrampsxml as libgrampsxml
 
 #-------------------------------------------------------------------------

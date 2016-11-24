@@ -644,55 +644,6 @@ class ArgHandler:
                     print("   %s\t- %s" % (pdata.id, pdata.name),
                           file=sys.stderr)
 
-        elif action == "tool":
-            from gprime.gui.plug import tool
-            try:
-                options_str_dict = dict([tuple(chunk.split('='))
-                                         for chunk in options_str.split(',')])
-            except:
-                options_str_dict = {}
-                print(_("Ignoring invalid options string."),
-                      file=sys.stderr)
-
-            name = options_str_dict.pop('name', None)
-            _cli_tool_list = pmgr.get_reg_tools(gui=False)
-            if name:
-                for pdata in _cli_tool_list:
-                    if name == pdata.id:
-                        mod = pmgr.load_plugin(pdata)
-                        if not mod:
-                            #import of plugin failed
-                            return
-                        category = pdata.category
-                        tool_class = eval('mod.' + pdata.toolclass)
-                        options_class = eval('mod.' + pdata.optionclass)
-                        tool.cli_tool(dbstate=self.dbstate,
-                                      name=name,
-                                      category=category,
-                                      tool_class=tool_class,
-                                      options_class=options_class,
-                                      options_str_dict=options_str_dict,
-                                      user=self.user)
-                        return
-                msg = _("Unknown tool name.")
-            else:
-                msg = _("Tool name not given. "
-                        "Please use one of %(donottranslate)s=toolname."
-                       ) % {'donottranslate' : '[-p|--options] name'}
-
-            print(_("%s\n Available names are:") % msg, file=sys.stderr)
-            for pdata in sorted(_cli_tool_list,
-                                key=lambda pdata: pdata.id.lower()):
-                # Print cli report name ([item[0]), GUI report name (item[4])
-                if len(pdata.id) <= 25:
-                    print("   %s%s- %s" % (pdata.id,
-                                           " " * (26 - len(pdata.id)),
-                                           pdata.name),
-                          file=sys.stderr)
-                else:
-                    print("   %s\t- %s" % (pdata.id, pdata.name),
-                          file=sys.stderr)
-
         elif action == "book":
             try:
                 options_str_dict = _split_options(options_str)

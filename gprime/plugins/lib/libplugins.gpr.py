@@ -217,40 +217,6 @@ authors_email = ["http://gramps-project.org"],
 
 #------------------------------------------------------------------------
 #
-# libpersonview
-#
-#------------------------------------------------------------------------
-register(GENERAL,
-id    = 'libpersonview',
-name  = "person list lib",
-description =  _("Provides the Base needed for the List People views.") ,
-version = '1.0',
-gprime_target_version = MODULE_VERSION,
-status = STABLE,
-fname = 'libpersonview.py',
-authors = ["The Gramps project"],
-authors_email = ["http://gramps-project.org"],
-)
-
-#------------------------------------------------------------------------
-#
-# libplaceview
-#
-#------------------------------------------------------------------------
-register(GENERAL,
-id    = 'libplaceview',
-name  = "place list lib",
-description =  _("Provides the Base needed for the List Place views.") ,
-version = '1.0',
-gprime_target_version = MODULE_VERSION,
-status = STABLE,
-fname = 'libplaceview.py',
-authors = ["The Gramps project"],
-authors_email = ["http://gramps-project.org"],
-)
-
-#------------------------------------------------------------------------
-#
 # libsubstkeyword
 #
 #------------------------------------------------------------------------

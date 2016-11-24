@@ -43,27 +43,6 @@ plg.extension = "txt"
 
 #------------------------------------------------------------------------
 #
-# GTKPrint docgen
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'gtkprint'
-plg.name  = _('Print...')
-plg.description =  _("Generates documents and prints them directly.")
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'gtkprint.py'
-plg.ptype = DOCGEN
-plg.docclass = 'GtkPrint'
-plg.optionclass = None
-plg.paper = True
-plg.style = True
-plg.extension = ""
-
-#------------------------------------------------------------------------
-#
 # HtmlDoc docgen
 #
 #------------------------------------------------------------------------

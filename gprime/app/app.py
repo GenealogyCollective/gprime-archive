@@ -245,7 +245,7 @@ def main():
         options.password = crypt.crypt(plaintext)
     ### Handle database options:
     if options.create:
-        DbState().create_database(self.options.create)
+        DbState().create_database(options.create)
     ## Open the database:
     database = DbState().open_database(options.database)
     # If database was a filename, set it to dbname:

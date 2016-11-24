@@ -47,7 +47,7 @@ class Column(object):
 
     def __len__(self):
         return len(self.string)
-            
+
 class Form(object):
     """
     """
@@ -84,6 +84,9 @@ class Form(object):
         return len(self.select_fields) + 1
 
     def make_query(self, **kwargs):
+        """
+        Turn a dictionary into a URL query.
+        """
         kwargs.update({"search": self.search})
         query = ""
         for kw in kwargs:
@@ -92,8 +95,19 @@ class Form(object):
                     query += "?"
                 else:
                     query += "&"
-                query += "%s=%s" % (kw, kwargs[kw])
+                query += "%s=%s" % (kw, self.escape(kwargs[kw]))
         return query
+
+    def escape(self, expr):
+        """
+        Escape expressions to make sure that they are URL
+        usable.
+        """
+        ## FIXME: escape all others too
+        if isinstance(expr, str):
+            return expr.replace("%", "&#37;")
+        else:
+            return expr
 
     def get_table_count(self):
         return self.database.get_table_func(self.table,"count_func")()
@@ -118,30 +132,39 @@ class Form(object):
         """
         search_pair: field OP value | search_pair OR search_pair
         """
-        if " OR " in search_pair: 
-            search_pairs = [s.strip() for s in search_pair.split(" OR ")]
+        if "|" in search_pair:
+            search_pairs = [s.strip() for s in search_pair.split("|")]
             return ["OR", [self.parse(pair) for pair in search_pairs]]
-        elif " AND " in search_pair: 
-            search_pairs = [s.strip() for s in search_pair.split(" AND ")]
+        elif "," in search_pair:
+            search_pairs = [s.strip() for s in search_pair.split(",")]
             return ["AND", [self.parse(pair) for pair in search_pairs]]
-        elif " NOT LIKE " in search_pair:
-            field, term = [s.strip() for s in search_pair.split(" NOT LIKE ", 1)]
-            return ["NOT", self.expand_fields(field, "LIKE", term)]
-        elif " LIKE " in search_pair:
-            field, term = [s.strip() for s in search_pair.split(" LIKE ", 1)]
-            return self.expand_fields(field, "LIKE", term)
+        if "^" in search_pair: # second level or
+            search_pairs = [s.strip() for s in search_pair.split("^")]
+            return ["OR", [self.parse(pair) for pair in search_pairs]]
+        elif "&" in search_pair:  # second level and
+            search_pairs = [s.strip() for s in search_pair.split("&")]
+            return ["AND", [self.parse(pair) for pair in search_pairs]]
         elif "!=" in search_pair:
             field, term = [s.strip() for s in search_pair.split("!=", 1)]
-            return self.expand_fields(field, "!=", term)
+            if "%" in term:
+                return self.expand_fields(field, "NOT LIKE", term)
+            else:
+                return self.expand_fields(field, "!=", term)
         elif "=" in search_pair:
             field, term = [s.strip() for s in search_pair.split("=", 1)]
-            return self.expand_fields(field, "=", term)
+            if "%" in term:
+                return self.expand_fields(field, "LIKE", term)
+            else:
+                return self.expand_fields(field, "=", term)
         else: # search all defaults, OR
             or_where = []
             for field in self.default_search_fields:
                 term = search_pair.strip()
-                or_where.append(self.expand_fields(field, "LIKE", 
-                                                   "%" + term + "%"))
+                if "%" in term:
+                    or_where.append(self.expand_fields(field, "LIKE", term))
+                else:
+                    or_where.append(self.expand_fields(field, "LIKE",
+                                                       "%" + term + "%"))
             return ["OR", or_where]
 
     def expand_fields(self, field, op, term):
@@ -183,15 +206,12 @@ class Form(object):
         self.search = search
         self.where = None
         if search:
-            searches = search.split(",") # top-level ANDs
-            where = []
-            # get all where terms:
-            for search_pair in searches:
-                where.append(self.parse(search_pair))
-            if len(where) == 1:
-                self.where = where[0]
-            elif len(where) > 1:
-                self.where = ["AND", where]
+            where = self.parse(search)
+            if len(where) == 2:
+                self.where = where
+            elif len(where) == 3:
+                self.where = ["AND", [where]]
+        self.log.debug("search: " + search)
         self.log.debug("where: " + str(self.where))
         queryset = self.database.get_queryset_by_table_name(self.table)
         queryset.limit(start=self.page * self.page_size, count=self.page_size)
@@ -322,7 +342,7 @@ class Form(object):
                 h = y2 - y1
                 return (
                     """<a href="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg"/>""" +
-                    """<img src="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg"/>""" + 
+                    """<img src="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg"/>""" +
                     """</a>"""
                 ) % {
                     "handle": media_handle,
@@ -331,7 +351,7 @@ class Form(object):
                 }
             else:
                 return (
-                    """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" + 
+                    """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
                     """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
                         "handle": media_handle,
                         "width": width,
@@ -384,4 +404,3 @@ class Form(object):
         Textual description of this instance.
         """
         return str(self.instance.gramps_id)
-

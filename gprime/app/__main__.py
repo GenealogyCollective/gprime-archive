@@ -1,3 +1,3 @@
 
-from .app import main
+from gprime.app.app import main
 main()

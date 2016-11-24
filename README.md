@@ -1,6 +1,6 @@
-# gprime
+# gPrime
 
-gprime is a web-based application for genealogy. It uses the Gramps API for data, reports, import/export, etc.
+gPrime is a web-based application for genealogy. It uses the Gramps API for data, reports, import/export, etc.
 
 * Designed for collaboration and large databases
 * Multi-user, password protected
@@ -23,6 +23,7 @@ Install from github:
 git clone --depth 1 https://github.com/GenealogyCollective/gprime
 cd gprime
 python3 setup.py build
+sudo python3 setup.py install
 ```
 
 Released version installation (once released):

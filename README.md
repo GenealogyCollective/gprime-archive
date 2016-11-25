@@ -13,6 +13,7 @@ Requirements
 * tornado
 * PIL
 * simplejson
+* passlib
 
 Installation
 -------------

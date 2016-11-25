@@ -3,7 +3,7 @@ import os
 import sys
 import base64
 import uuid
-import crypt
+from passlib.hash import sha256_crypt as crypt
 import getpass
 import select
 import signal
@@ -325,7 +325,7 @@ def main():
         raise Exception("--username=NAME was not provided")
     if options.password is None:
         plaintext = getpass.getpass()
-        options.password = crypt.crypt(plaintext)
+        options.password = crypt.hash(plaintext)
     ### Handle database options:
     if options.create:
         DbState().create_database(options.create)
@@ -380,7 +380,7 @@ def main():
     if sys.platform.startswith('win'):
         # add no-op to wake every 5s
         # to handle signals that may be ignored by the inner loop
-        pc = ioloop.PeriodicCallback(lambda : None, 5000)
+        pc = tornado.ioloop.PeriodicCallback(lambda : None, 5000)
         pc.start()
 
     # Start Tornado server:

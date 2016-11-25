@@ -21,7 +21,7 @@
 import tornado.web
 import logging
 import hmac
-import crypt
+from passlib.hash import sha256_crypt as crypt
 
 from gprime.utils.locale import Locale, _
 from gprime.const import VERSION
@@ -97,9 +97,7 @@ class LoginHandler(BaseHandler):
         getusername = self.get_argument("username")
         getpassword = self.get_argument("password")
         if (getusername == self.opts.username and
-            hmac.compare_digest(self.opts.password,
-                                crypt.crypt(getpassword,
-                                            self.opts.password))):
+            crypt.verify(getpassword, self.opts.password)):
             self.set_secure_cookie("user", self.get_argument("username"))
             self.redirect(self.get_argument("next",
                                             self.reverse_url("main")))

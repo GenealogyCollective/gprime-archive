@@ -254,7 +254,7 @@ class GPrimeApp(Application):
         if r:
             line = sys.stdin.readline()
             if line.lower().startswith('y') and 'n' not in line.lower():
-                self.log.critical("Shutdown confirmed")
+                tornado.log.logging.critical("Shutdown confirmed")
                 tornado.ioloop.IOLoop.current().stop()
                 return
         else:

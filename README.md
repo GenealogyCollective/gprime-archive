@@ -64,15 +64,15 @@ Options:
 
 * --create - Create a directory and family tree
 * --import-file - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
-* --database - The directory or name of the database
-* --username - Username (demo)
-* --password - Password (demo)
+* --database - The directory or name of the Family Tree database
+* --username - Username 
+* --password-hash - Password hash for username
 * --debug - Use to see additional debugging information
 * --port - Port to use (8000 is default)
 * --hostname - Hostname to use (localhost is default)
 * --sitename - Name to use for the site (gPrime is default)
-* --data_dir - Folder of gprime/data
-* --home_dir - Gramps home
+* --data_dir - Folder of data (templates)
+* --home_dir - Home directory
 * --server - Start the server? Default is True
 * --xsrf - Use cross-site request forgery protection
 

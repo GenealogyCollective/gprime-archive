@@ -1,9 +1,14 @@
 ## Python imports
 import os
+import sys
 import base64
 import uuid
 import crypt
 import getpass
+import select
+import signal
+import webbrowser
+import threading
 
 ## gPrime imports
 import gprime.const # initializes locale
@@ -195,6 +200,82 @@ class GPrimeApp(Application):
             return media_path_full(self.database, media.get_path())
         return ""
 
+    def server_info(self):
+        """
+        Return the server url information
+        """
+        return "The gPrime server is running at: %s:" % (self.options.host,
+                                                         self.options.port)
+
+    def _signal_info(self, sig, frame):
+        print(self.server_info())
+
+    def init_signal(self):
+        if not sys.platform.startswith('win') and sys.stdin.isatty():
+            signal.signal(signal.SIGINT, self._handle_sigint)
+        signal.signal(signal.SIGTERM, self._signal_stop)
+        if hasattr(signal, 'SIGUSR1'):
+            # Windows doesn't support SIGUSR1
+            signal.signal(signal.SIGUSR1, self._signal_info)
+        if hasattr(signal, 'SIGINFO'):
+            # only on BSD-based systems
+            signal.signal(signal.SIGINFO, self._signal_info)
+
+    def _handle_sigint(self, sig, frame):
+        """
+        SIGINT handler spawns confirmation dialog
+        """
+        # register more forceful signal handler for ^C^C case
+        signal.signal(signal.SIGINT, self._signal_stop)
+        # request confirmation dialog in bg thread, to avoid
+        # blocking the App
+        thread = threading.Thread(target=self._confirm_exit)
+        thread.daemon = True
+        thread.start()
+
+    def _restore_sigint_handler(self):
+        """callback for restoring original SIGINT handler"""
+        signal.signal(signal.SIGINT, self._handle_sigint)
+
+    def _confirm_exit(self):
+        """
+        confirm shutdown on ^C
+
+        A second ^C, or answering 'y' within 5s will cause shutdown,
+        otherwise original SIGINT handler will be restored.
+
+        This doesn't work on Windows.
+        """
+        info = tornado.log.logging.info
+        info('interrupted')
+        sys.stdout.write("Shutdown the gPrime server (y/[n])? ")
+        sys.stdout.flush()
+        r,w,x = select.select([sys.stdin], [], [], 5)
+        if r:
+            line = sys.stdin.readline()
+            if line.lower().startswith('y') and 'n' not in line.lower():
+                self.log.critical("Shutdown confirmed")
+                tornado.ioloop.IOLoop.current().stop()
+                return
+        else:
+            print("No answer for 5s:", end=' ')
+        print("resuming operation...")
+        # no answer, or answer is no:
+        # set it back to original SIGINT handler
+        # use IOLoop.add_callback because signal.signal must be called
+        # from main thread
+        tornado.ioloop.IOLoop.current().add_callback(self._restore_sigint_handler)
+
+    def _signal_stop(self, sig, frame):
+        tornado.log.logging.critical("received signal %s, stopping", sig)
+        tornado.ioloop.IOLoop.current().stop()
+
+    def _restore_sigint_handler(self):
+        """
+        callback for restoring original SIGINT handler
+        """
+        signal.signal(signal.SIGINT, self._handle_sigint)
+
 def main():
     ## Tornado imports
     import tornado.ioloop
@@ -214,11 +295,11 @@ def main():
            help="Tornado debug", type=bool)
     define("xsrf", default=True,
            help="Use xsrf cookie", type=bool)
-    define("data_dir", default=os.path.abspath(
+    define("data-dir", default=os.path.abspath(
         os.path.join(os.path.dirname(__file__),
                      "..", "..", "data")),
            help="Base directory (where static, templates, etc. are)", type=str)
-    define("home_dir", default=os.path.expanduser("~/.gramps/"),
+    define("home-dir", default=os.path.expanduser("~/.gramps/"),
            help="Home directory for media", type=str)
     define("config", default=None,
            help="Config file of options", type=str)
@@ -230,8 +311,10 @@ def main():
            help="Create a database directory", type=str)
     define("server", default=True,
            help="Start the server", type=bool)
-    define("import_file", default=None,
+    define("import-file", default=None,
            help="Import a file", type=str)
+    define("open-browser", default=True,
+           help="Open default web browser", type=bool)
 
     # Let's go!
     tornado.options.parse_command_line()
@@ -281,6 +364,26 @@ def main():
                 "password"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
     tornado.log.logging.info("Control+C to stop server. Running...")
+    # Open up a browser window:
+    if options.open_browser:
+        try:
+            browser = webbrowser.get(None)
+        except webbrowser.Error as e:
+            tornado.log.logging.warning('No web browser found: %s.' % e)
+            browser = None
+        if browser:
+            b = lambda : browser.open("http://localhost:%s" % options.port, new=2)
+            threading.Thread(target=b).start()
+
+    app.init_signal()
+
+    if sys.platform.startswith('win'):
+        # add no-op to wake every 5s
+        # to handle signals that may be ignored by the inner loop
+        pc = ioloop.PeriodicCallback(lambda : None, 5000)
+        pc.start()
+
+    # Start Tornado server:
     try:
         tornado.ioloop.IOLoop.current().start()
     except KeyboardInterrupt:

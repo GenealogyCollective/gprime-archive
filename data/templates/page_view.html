@@ -9,7 +9,7 @@
 <form name="SearchForm">
   <p>
   <input type="submit" value="Search:">
-  <input autocomplete="off" name="search" id="get_focus" type="text" size="120" value="{{search}}"> 
+  <input autocomplete="off" name="search" id="get_focus" type="text" size="80%" value="{{search}}"> 
   <input value="X" type="button" onclick="getElementsByName('search')[0].value = '';" > 
   <br/><i>Available search terms</i>: <b>{{", ".join(form.search_terms.keys())}}</b>
   </p>

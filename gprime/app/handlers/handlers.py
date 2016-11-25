@@ -97,7 +97,7 @@ class LoginHandler(BaseHandler):
         getusername = self.get_argument("username")
         getpassword = self.get_argument("password")
         if (getusername == self.opts.username and
-            crypt.verify(getpassword, self.opts.password)):
+            crypt.verify(getpassword, self.opts.password_hash)):
             self.set_secure_cookie("user", self.get_argument("username"))
             self.redirect(self.get_argument("next",
                                             self.reverse_url("main")))

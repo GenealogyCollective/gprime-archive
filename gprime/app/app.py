@@ -284,11 +284,11 @@ def main():
 
     ## Command-line configuration options:
     define("hostname", default="localhost",
-           help="Name of host gPrime server is running on", type=str)
+           help="Name of gPrime server host", type=str)
     define("port", default=8000,
-           help="Run gPrime server on the given port", type=int)
+           help="Number of gPrime server port", type=int)
     define("database", default=None,
-           help="The gPrime Family Tree to serve", type=str)
+           help="The gPrime Family Tree database to serve", type=str)
     define("sitename", default="gPrime",
            help="Name to appear on all pages", type=str)
     define("debug", default=False,
@@ -297,14 +297,14 @@ def main():
            help="Use xsrf cookie", type=bool)
     define("data-dir", default=gprime.const.DATA_DIR,
            help="Base directory (where static, templates, etc. are)", type=str)
-    define("home-dir", default=os.path.expanduser("~/.gramps/"),
-           help="Home directory for media", type=str)
+    define("home-dir", default=gprime.const.HOME_DIR,
+           help="Home directory", type=str)
     define("config", default=None,
-           help="Config file of options", type=str)
+           help="Config file of gPrime options", type=str)
     define("username", default=None,
            help="Login username", type=str)
-    define("password", default=None,
-           help="Login encrypted password", type=str)
+    define("password-hash", default=None,
+           help="Encrypted login password", type=str)
     define("create", default=None,
            help="Create a database directory", type=str)
     define("server", default=True,
@@ -321,9 +321,9 @@ def main():
         tornado.options.parse_config_file(options.config)
     if options.username is None:
         raise Exception("--username=NAME was not provided")
-    if options.password is None:
+    if options.password_hash is None:
         plaintext = getpass.getpass()
-        options.password = crypt.hash(plaintext)
+        options.password_hash = crypt.hash(plaintext)
     ### Handle database options:
     if options.create:
         DbState().create_database(options.create)
@@ -359,7 +359,7 @@ def main():
     tornado.log.logging.info("Starting with the folowing settings:")
     for key in ["port", "home_dir", "hostname", "database", "sitename",
                 "debug", "xsrf", "data_dir", "config", "username",
-                "password"]:
+                "password_hash"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
     tornado.log.logging.info("Control+C twice to stop server. Running...")
     # Open up a browser window:

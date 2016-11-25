@@ -41,19 +41,17 @@ class ResourcePath:
         if not cls.instance:
             cls.instance = super(ResourcePath, cls).__new__(cls)
             cls.instance.initialized = False
-
         return cls.instance
 
     def __init__(self):
         if self.initialized:
             return
-        resource_file = os.path.join(os.path.abspath(os.path.dirname(
-            __file__)), 'resource-path')
+        # Look for "resource-path" file right here:
+        resource_file = os.path.abspath(
+            os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                         'resource-path'))
+        # If exists, we are installed:
         installed = os.path.exists(resource_file)
-        if installed:
-            test_path = os.path.join("gprime", "authors.xml")
-        else:
-            test_path = os.path.join("data", "authors.xml")
         resource_path = None
         if installed:
             try:
@@ -66,26 +64,26 @@ class ResourcePath:
             except IOError as err:
                 LOG.exception("Failed to open resource file", err)
                 sys.exit(1)
-            if not os.path.exists(os.path.join(resource_path, test_path)):
-                LOG.error("Resource Path %s is invalid", resource_path)
-                sys.exit(1)
-        else:
-            resource_path = os.path.join(os.path.abspath(os.path.dirname(
-                __file__)), "..", "..")
-            test_path = os.path.join("data", "authors.xml")
-            if (not os.path.exists(os.path.join(resource_path, test_path))):
-                LOG.error("Unable to determine resource path")
-                sys.exit(1)
-
+        else: # Local:
+            resource_path = os.path.abspath(
+                os.path.join(os.path.abspath(os.path.dirname(
+                __file__)), "..", ".."))
         if installed:
+            # For example, "share/gprime":
             self.locale_dir = os.path.join(resource_path, 'locale')
-            self.data_dir = os.path.join(resource_path, 'gprime')
-            self.image_dir = os.path.join(resource_path, 'gprime', 'images')
-        else:
-            self.locale_dir = os.path.join(resource_path, 'build', 'mo')
-            self.image_dir = os.path.join(resource_path, 'images')
             self.data_dir = os.path.join(resource_path, 'data')
+            self.image_dir = os.path.join(resource_path, 'data', 'images')
+        else:
+            # gprime local directory:
+            self.locale_dir = os.path.join(resource_path, 'build', 'mo')
+            self.data_dir = os.path.join(resource_path, 'data')
+            self.image_dir = os.path.join(resource_path, 'images')
 
+        for folder in [self.locale_dir, self.data_dir, self.image_dir]:
+            if (not os.path.exists(folder)):
+                LOG.error("Unable to find resource on path: %s" % folder)
+                #sys.exit(1)
+            
         self.initialized = True
 
 

@@ -24,8 +24,10 @@ except ImportError:
     from distutils.core import setup
 import sys
 import os
+import argparse
 
 from distutils.command.build import build
+from distutils.command.install import install
 from distutils.util import convert_path, newer
 from distutils import log
 
@@ -42,6 +44,19 @@ svem_flag = '--single-version-externally-managed'
 if svem_flag in sys.argv:
     # Die, setuptools, die.
     sys.argv.remove(svem_flag)
+
+# check if the resourcepath option is used and store the path
+# this is for packagers that build out of the source tree
+# other options to setup.py are passed through
+resource_path = ''
+packaging = False
+argparser = argparse.ArgumentParser(add_help=False)
+argparser.add_argument("--resourcepath", dest="resource_path")
+args, passthrough = argparser.parse_known_args()
+if args.resource_path:
+    resource_path = args.resource_path
+    packaging = True
+sys.argv = [sys.argv[0]] + passthrough
 
 with open('gprime/version.py', 'rb') as fid:
     for line in fid:
@@ -74,7 +89,7 @@ class Build(build):
 
         merge_files = (('data/gramps.desktop', 'share/applications', '-d'),
                         ('data/gramps.keys', 'share/mime-info', '-k'),
-                        ('data/gramps.xml', 'share/mime/packages', '-x'),
+                        ('data/gramps.xml', 'mime/packages', '-x'),
                         ('data/gramps.appdata.xml', 'share/metainfo', '-x'))
 
         for filename, target, option in merge_files:
@@ -113,7 +128,7 @@ class Build(build):
                 log.info('Compiling %s >> %s', po_file, mo_file)
 
             #linux specific piece:
-            target = 'share/locale/' + lang + '/LC_MESSAGES'
+            target = 'share/gprime/locale/' + lang + '/LC_MESSAGES'
             data_files.append((target, [mo_file_unix]))
 
     def strip_files(self, in_file, out_file, mark):
@@ -190,24 +205,56 @@ def merge(in_file, out_file, option, po_dir='po', cache=True):
             raise SystemExit(msg)
         log.info('Compiling %s >> %s', in_file, out_file)
 
+def get_data_files(path):
+    retval = []
+    for folder, subdirs, files in os.walk(path):
+        for filename in files:
+            retval.append(os.path.join(folder, filename))
+    return retval
+
+data_files = [
+    ("share/gprime/data/templates", get_data_files("data/templates")),
+    ("share/gprime/data/images", get_data_files("data/images")),
+    ("share/gprime/data/jhtmlarea", get_data_files("data/jhtmlarea")),
+    ("share/gprime/data/javascript", get_data_files("data/javascript")),
+    ("share/gprime/data/css", get_data_files("data/css")),
+    ("share/gprime/data/", ["data/authors.xml"]),
+]
+
+class Install(install):
+    """
+    Custom install command.
+    """
+    def run(self):
+        resource_file = os.path.join(os.path.dirname(__file__), 'gprime',
+                                     'utils', 'resource-path')
+        with open(resource_file, 'w', encoding='utf-8', errors='strict') as fp:
+            if packaging:
+                path = resource_path
+            else:
+                path = os.path.abspath(
+                    os.path.join(self.install_data, 'share', 'gprime'))
+            fp.write(path)
+        super().run()
+        os.remove(resource_file)
+
+package_data = ["utils/resource-path"]
+
 setup(name='gprime',
       version=version,
       description='gPrime webapp for genealogy',
       long_description=open('README.md', 'rb').read().decode('utf-8'),
-      cmdclass = {'build': Build},
+      cmdclass = {'build': Build, 'install': Install},
       author='Doug Blank',
       author_email='doug.blank@gmail.org',
       url="https://github.com/GenealogyCollective/gprime",
-      install_requires=["tornado", "sqlite3", "simplejson", "passlib"],
+      install_requires=["tornado", "simplejson", "passlib"],
       packages=['gprime',
                 'gprime.app',
                 'gprime.app.handlers'],
-      include_data_files = True,
+      package_data={'gprime': package_data},
       include_package_data=True,
-      data_files = [("./gprime/templates",
-                     [
-                         "gprime/templates/login.html",
-                     ])],
+      data_files=data_files,
       classifiers=[
           "Environment :: Web Environment",
           "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",

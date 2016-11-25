@@ -295,9 +295,7 @@ def main():
            help="Set debugging on/off", type=bool)
     define("xsrf", default=True,
            help="Use xsrf cookie", type=bool)
-    define("data-dir", default=os.path.abspath(
-        os.path.join(os.path.dirname(__file__),
-                     "..", "..", "data")),
+    define("data-dir", default=gprime.const.DATA_DIR,
            help="Base directory (where static, templates, etc. are)", type=str)
     define("home-dir", default=os.path.expanduser("~/.gramps/"),
            help="Home directory for media", type=str)

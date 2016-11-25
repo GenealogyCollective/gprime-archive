@@ -61,7 +61,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "sitename": self.sitename,
             "opts": self.opts,
             "css_theme": "Web_Mainz.css",
-            "gramps_version": VERSION,
+            "gprime_version": VERSION,
             "messages": [],
             "_": self._,
             "next": self.get_argument("next", None),

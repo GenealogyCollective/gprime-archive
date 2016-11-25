@@ -39,7 +39,7 @@ import traceback
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.version import VERSION as GRAMPSVERSION, VERSION_TUPLE
+from gprime.version import VERSION as GPRIMEVERSION, VERSION_TUPLE
 from ..const import IMAGE_DIR
 from ..const import LOCALE as glocale
 _ = glocale.translation.gettext
@@ -1065,7 +1065,7 @@ def make_environment(**kwargs):
         'TOOL_MODE_GUI': TOOL_MODE_GUI,
         'TOOL_MODE_CLI': TOOL_MODE_CLI,
         'DATABASE': DATABASE,
-        'GRAMPSVERSION': GRAMPSVERSION,
+        'GPRIMEVERSION': GPRIMEVERSION,
         'START': START,
         'END': END,
         'IMAGE_DIR': IMAGE_DIR,
@@ -1175,9 +1175,9 @@ class PluginRegister:
                 if not valid_plugin_version(plugin.gprime_target_version):
                     print(_('ERROR: Plugin file %(filename)s has a version of '
                             '"%(gprime_target_version)s" which is invalid for Gramps '
-                            '"%(gramps_version)s".' %
+                            '"%(gprime_version)s".' %
                             {'filename': os.path.join(dir, plugin.fname),
-                             'gramps_version': GRAMPSVERSION,
+                             'gprime_version': GPRIMEVERSION,
                              'gprime_target_version': plugin.gprime_target_version,}
                             ))
                     rmlist.append(ind)

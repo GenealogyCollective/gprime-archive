@@ -292,7 +292,7 @@ def main():
     define("sitename", default="gPrime",
            help="Name to appear on all pages", type=str)
     define("debug", default=False,
-           help="Tornado debug", type=bool)
+           help="Set debugging on/off", type=bool)
     define("xsrf", default=True,
            help="Use xsrf cookie", type=bool)
     define("data-dir", default=os.path.abspath(
@@ -363,7 +363,7 @@ def main():
                 "debug", "xsrf", "data_dir", "config", "username",
                 "password"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
-    tornado.log.logging.info("Control+C to stop server. Running...")
+    tornado.log.logging.info("Control+C twice to stop server. Running...")
     # Open up a browser window:
     if options.open_browser:
         try:
@@ -372,7 +372,7 @@ def main():
             tornado.log.logging.warning('No web browser found: %s.' % e)
             browser = None
         if browser:
-            b = lambda : browser.open("http://localhost:%s" % options.port, new=2)
+            b = lambda : browser.open("http://%s:%s" % (options.hostname, options.port), new=2)
             threading.Thread(target=b).start()
 
     app.init_signal()

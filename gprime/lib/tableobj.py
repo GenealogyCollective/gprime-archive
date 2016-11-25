@@ -56,7 +56,7 @@ class TableObject(BaseObject):
     The TableObject is the base class for all objects that are stored in a
     seperate database table.  Each object has a database handle and a last
     changed time.  The database handle is used as the unique key for a record
-    in the database.  This is not the same as the Gramps ID, which is a user
+    in the database.  This is not the same as the ID, which is a user
     visible identifier for a record.
 
     It is the base class for the BasicPrimaryObject class and Tag class.

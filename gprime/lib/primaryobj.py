@@ -54,7 +54,7 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
 
     The :class:`PrimaryObject` is the base class for all other primary objects
     in the database. Primary objects are the core objects in the database.
-    Each object has a database handle and a Gramps ID value. The database
+    Each object has a database handle and a ID value. The database
     handle is used as the record number for the database, and the Gramps
     ID is the user visible version.
     """
@@ -129,18 +129,18 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
 
     def set_gramps_id(self, gramps_id):
         """
-        Set the Gramps ID for the primary object.
+        Set the ID for the primary object.
 
-        :param gramps_id: Gramps ID
+        :param gramps_id: ID
         :type gramps_id: str
         """
         self.gramps_id = gramps_id
 
     def get_gramps_id(self):
         """
-        Return the Gramps ID for the primary object.
+        Return the ID for the primary object.
 
-        :returns: Gramps ID associated with the object
+        :returns: ID associated with the object
         :rtype: str
         """
         return self.gramps_id
@@ -248,7 +248,7 @@ class PrimaryObject(BasicPrimaryObject):
     database.
 
     Primary objects are the core objects in the database.
-    Each object has a database handle and a Gramps ID value. The database
+    Each object has a database handle and a ID value. The database
     handle is used as the record number for the database, and the Gramps
     ID is the user visible version.
     """

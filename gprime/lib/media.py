@@ -191,7 +191,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         return {
             "_class": _("Media"),
             "handle": _("Media"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "path": _("Path"),
             "mime": _("MIME"),
             "desc": _("Description"),

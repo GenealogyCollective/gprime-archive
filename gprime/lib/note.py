@@ -145,7 +145,7 @@ class Note(BasicPrimaryObject):
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "text": _("Text"),
             "format": _("Format"),
             "type": _("Type"),

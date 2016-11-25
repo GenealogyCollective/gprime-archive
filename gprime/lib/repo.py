@@ -73,7 +73,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "type": _("Type"),
             "name": _("Name"),
             "note_list": _("Notes"),

@@ -243,7 +243,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
     def get_labels(cls, _):
         return {
             "handle":  _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "gender": _("Gender"),
             "primary_name": _("Primary name"),
             "alternate_names": _("Alternate names"),
@@ -638,7 +638,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         acquisition_id = acquisition.get_gramps_id()
         if acquisition_id:
             attr = Attribute()
-            attr.set_type(_("Merged Gramps ID"))
+            attr.set_type(_("Merged ID"))
             attr.set_value(acquisition.get_gramps_id())
             self.add_attribute(attr)
 

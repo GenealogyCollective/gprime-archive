@@ -228,7 +228,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         return {
             "_class": _("Family"),
             "handle": _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "father_handle": _("Father"),
             "mother_handle": _("Mother"),
             "child_ref_list": _("Children"),

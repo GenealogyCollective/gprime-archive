@@ -185,7 +185,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         return {
             "_class": _("Event"),
             "handle":  _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "type": _("Type"),
             "date": _("Date"),
             "description": _("Description"),

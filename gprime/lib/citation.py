@@ -106,7 +106,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         return {
             "_class": _("Citation"),
             "handle":  _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "date": _("Date"),
             "page": _("Page"),
             "confidence":  _("Confidence"),

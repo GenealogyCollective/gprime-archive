@@ -121,7 +121,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "title": _("Title"),
             "long": _("Longitude"),
             "lat": _("Latitude"),

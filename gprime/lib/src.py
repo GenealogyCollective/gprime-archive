@@ -83,7 +83,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("Gramps ID"),
+            "gramps_id": _("ID"),
             "title": _("Title"),
             "author": _("Author"),
             "pubinfo": _("Publication info"),

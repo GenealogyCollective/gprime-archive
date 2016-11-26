@@ -42,6 +42,12 @@ class BaseHandler(tornado.web.RequestHandler):
                 del kwargs[name]
         super().__init__(*args, **kwargs)
 
+    def write_error(self, status_code, **kwargs):
+        if status_code == 404:
+            self.render('error_404.html', page=None, **self.get_template_dict())
+        else:
+            self.render('error_unknown.html', page=None, **self.get_template_dict())
+
     def get_current_user(self):
         return self.get_secure_cookie("user")
 

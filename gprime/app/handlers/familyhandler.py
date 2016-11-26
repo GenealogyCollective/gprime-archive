@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Family
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,10 +49,10 @@ class FamilyHandler(BaseHandler):
                 family = self.database.get_family_from_handle(handle)
             if family:
                 self.render("family.html",
-                            **self.get_template_dict(tview=_("family detail"),
+                            **self.get_template_dict(tview=self._("family detail"),
                                                      page=page,
                                                      action=action,
-                                                     form=FamilyForm(self.database, _, instance=family),
+                                                     form=FamilyForm(self.database, self._, instance=family),
                                                      logform=None))
                 return
             else:
@@ -62,10 +61,10 @@ class FamilyHandler(BaseHandler):
                 self.finish("<html><body>No such family</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("family view"),
+                    **self.get_template_dict(tview=self._("family view"),
                                              page=page,
                                              search=search,
-                                             form=FamilyForm(self.database, _, table="Family"),
+                                             form=FamilyForm(self.database, self._, table="Family"),
                                          )
                 )
 
@@ -80,6 +79,6 @@ class FamilyHandler(BaseHandler):
             family.handle = handle = create_id()
         else:
             family = self.database.get_family_from_handle(handle)
-        form = FamilyForm(self.database, _, instance=family)
+        form = FamilyForm(self.database, self._, instance=family)
         form.save(handler=self)
         self.redirect("/family/%(handle)s" % {"handle": handle})

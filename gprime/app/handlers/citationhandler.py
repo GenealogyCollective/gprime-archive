@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Note
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class CitationHandler(BaseHandler):
                 citation = self.database.get_citation_from_handle(handle)
             if citation:
                 self.render("citation.html",
-                            **self.get_template_dict(tview=_("citation detail"),
+                            **self.get_template_dict(tview=self._("citation detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=CitationForm(self.database, _, instance=citation),
+                                                     form=CitationForm(self.database, self._, instance=citation),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class CitationHandler(BaseHandler):
                 self.finish("<html><body>No such citation</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("citation view"),
+                    **self.get_template_dict(tview=self._("citation view"),
                                              page=page,
                                              search=search,
-                                             form=CitationForm(self.database, _, table="Citation"),
+                                             form=CitationForm(self.database, self._, table="Citation"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class CitationHandler(BaseHandler):
             citation.handle = handle = create_id()
         else:
             citation = self.database.get_citation_from_handle(handle)
-        form = CitationForm(self.database, _, instance=citation)
+        form = CitationForm(self.database, self._, instance=citation)
         form.save(handler=self)
         self.redirect("/citation/%(handle)s" % {"handle": handle})
 

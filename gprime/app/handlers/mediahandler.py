@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Media
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class MediaHandler(BaseHandler):
                 media = self.database.get_media_from_handle(handle)
             if media:
                 self.render("media.html",
-                            **self.get_template_dict(tview=_("media detail"),
+                            **self.get_template_dict(tview=self._("media detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=MediaForm(self.database, _, instance=media),
+                                                     form=MediaForm(self.database, self._, instance=media),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class MediaHandler(BaseHandler):
                 self.finish("<html><body>No such media</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("media view"),
+                    **self.get_template_dict(tview=self._("media view"),
                                              page=page,
                                              search=search,
-                                             form=MediaForm(self.database, _, table="Media"),
+                                             form=MediaForm(self.database, self._, table="Media"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class MediaHandler(BaseHandler):
             media.handle = handle = create_id()
         else:
             media = self.database.get_media_from_handle(handle)
-        form = MediaForm(self.database, _, instance=media)
+        form = MediaForm(self.database, self._, instance=media)
         form.save(handler=self)
         self.redirect("/media/%(handle)s" % {"handle": handle})
 

@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Repository
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class RepositoryHandler(BaseHandler):
                 repository = self.database.get_repository_from_handle(handle)
             if repository:
                 self.render("repository.html",
-                            **self.get_template_dict(tview=_("repository detail"),
+                            **self.get_template_dict(tview=self._("repository detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=RepositoryForm(self.database, _, instance=repository),
+                                                     form=RepositoryForm(self.database, self._, instance=repository),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class RepositoryHandler(BaseHandler):
                 self.finish("<html><body>No such repository</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("repository view"),
+                    **self.get_template_dict(tview=self._("repository view"),
                                              page=page,
                                              search=search,
-                                             form=RepositoryForm(self.database, _, table="Repository"),
+                                             form=RepositoryForm(self.database, self._, table="Repository"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class RepositoryHandler(BaseHandler):
             repository.handle = handle = create_id()
         else:
             repository = self.database.get_repository_from_handle(handle)
-        form = RepositoryForm(self.database, _, instance=repository)
+        form = RepositoryForm(self.database, self._, instance=repository)
         form.save(handler=self)
         self.redirect("/repository/%(handle)s" % {"handle": handle})
 

@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Event
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class EventHandler(BaseHandler):
                 event = self.database.get_event_from_handle(handle)
             if event:
                 self.render("event.html",
-                            **self.get_template_dict(tview=_("event detail"),
+                            **self.get_template_dict(tview=self._("event detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=EventForm(self.database, _, instance=event),
+                                                     form=EventForm(self.database, self._, instance=event),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class EventHandler(BaseHandler):
                 self.finish("<html><body>No such event</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("event view"),
+                    **self.get_template_dict(tview=self._("event view"),
                                              page=page,
                                              search=search,
-                                             form=EventForm(self.database, _, table="Event"),
+                                             form=EventForm(self.database, self._, table="Event"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class EventHandler(BaseHandler):
             event.handle = handle = create_id()
         else:
             event = self.database.get_event_from_handle(handle)
-        form = EventForm(self.database, _, instance=event)
+        form = EventForm(self.database, self._, instance=event)
         form.save(handler=self)
         self.redirect("/event/%(handle)s" % {"handle": handle})
 

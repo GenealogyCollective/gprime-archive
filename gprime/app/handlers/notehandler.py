@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Note
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class NoteHandler(BaseHandler):
                 note = self.database.get_note_from_handle(handle)
             if note:
                 self.render("note.html",
-                            **self.get_template_dict(tview=_("note detail"),
+                            **self.get_template_dict(tview=self._("note detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=NoteForm(self.database, _, instance=note),
+                                                     form=NoteForm(self.database, self._, instance=note),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class NoteHandler(BaseHandler):
                 self.finish("<html><body>No such note</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("note view"),
+                    **self.get_template_dict(tview=self._("note view"),
                                              page=page,
                                              search=search,
-                                             form=NoteForm(self.database, _, table="Note"),
+                                             form=NoteForm(self.database, self._, table="Note"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class NoteHandler(BaseHandler):
             note.handle = handle = create_id()
         else:
             note = self.database.get_note_from_handle(handle)
-        form = NoteForm(self.database, _, instance=note)
+        form = NoteForm(self.database, self._, instance=note)
         form.save(handler=self)
         self.redirect("/note/%(handle)s" % {"handle": handle})
 

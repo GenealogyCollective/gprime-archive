@@ -36,12 +36,11 @@ class BaseHandler(tornado.web.RequestHandler):
         self.database = None
         self.sitename = None
         self.opts = None
-        for name in ["database", "sitename", "opts"]:
+        for name in ["database", "sitename", "opts", "glocale", "_"]:
             if name in kwargs:
                 setattr(self, name, kwargs[name])
                 del kwargs[name]
         super().__init__(*args, **kwargs)
-        self._ = _
 
     def get_current_user(self):
         return self.get_secure_cookie("user")
@@ -49,8 +48,8 @@ class BaseHandler(tornado.web.RequestHandler):
     def set_language(self, language):
         if language == Locale.DEFAULT_TRANSLATION_STR:
             language = None
-        locale = Locale(lang=language)
-        self._ = locale.translation.gettext
+        self.glocale = Locale(lang=language)
+        self._ = self.glocale.translation.gettext
 
     def get_template_dict(self, **kwargs):
         dict = {

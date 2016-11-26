@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Person, Surname
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -52,11 +51,11 @@ class PersonHandler(BaseHandler):
             if person:
                 person.probably_alive = True
                 self.render("person.html",
-                            **self.get_template_dict(tview=_("person detail"),
+                            **self.get_template_dict(tview=self._("person detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PersonForm(self.database, _, instance=person),
+                                                     form=PersonForm(self.database, self._, instance=person),
                                                      logform=None))
                 return
             else:
@@ -65,10 +64,10 @@ class PersonHandler(BaseHandler):
                 self.finish("<html><body>No such person</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("person view"),
+                    **self.get_template_dict(tview=self._("person view"),
                                              page=page,
                                              search=search,
-                                             form=PersonForm(self.database, _, table="Person"),
+                                             form=PersonForm(self.database, self._, table="Person"),
                                          )
                 )
 
@@ -84,7 +83,7 @@ class PersonHandler(BaseHandler):
             person.handle = handle = create_id()
         else:
             person = self.database.get_person_from_handle(handle)
-        form = PersonForm(self.database, _, instance=person)
+        form = PersonForm(self.database, self._, instance=person)
         form.save(handler=self)
         self.redirect("/person/%(handle)s" % {"handle": handle})
 

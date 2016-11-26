@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Tag
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class TagHandler(BaseHandler):
                 tag = self.database.get_tag_from_handle(handle)
             if tag:
                 self.render("tag.html",
-                            **self.get_template_dict(tview=_("tag detail"),
+                            **self.get_template_dict(tview=self._("tag detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=TagForm(self.database, _, instance=tag),
+                                                     form=TagForm(self.database, self._, instance=tag),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class TagHandler(BaseHandler):
                 self.finish("<html><body>No such tag</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("tag view"),
+                    **self.get_template_dict(tview=self._("tag view"),
                                              page=page,
                                              search=search,
-                                             form=TagForm(self.database, _, table="Tag"),
+                                             form=TagForm(self.database, self._, table="Tag"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class TagHandler(BaseHandler):
             tag.handle = handle = create_id()
         else:
             tag = self.database.get_tag_from_handle(handle)
-        form = TagForm(self.database, _, instance=tag)
+        form = TagForm(self.database, self._, instance=tag)
         form.save(handler=self)
         self.redirect("/tag/%(handle)s" % {"handle": handle})
 

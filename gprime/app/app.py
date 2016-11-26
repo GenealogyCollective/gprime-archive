@@ -12,6 +12,7 @@ import threading
 
 ## gPrime imports
 import gprime.const # initializes locale
+from gprime.utils.locale import Locale, _
 from gprime.dbstate import DbState
 from gprime.utils.file import media_path_full
 from gprime.cli.user import User
@@ -30,6 +31,12 @@ class GPrimeApp(Application):
         self.options = options
         if settings is None:
             settings = self.default_settings()
+        if options.language is None:
+            self.glocale = Locale
+            self._ = _
+        else:
+            self.glocale = Locale(lang=options.language)
+            self._ = self.glocale.translation.gettext
         if database is None:
             raise Exception("Need to specify Family Tree name with --database='NAME'")
         else:
@@ -43,18 +50,24 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="main"),
             url(r'/login', LoginHandler,
                 {
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="login"),
             url(r'/logout', LogoutHandler,
                 {
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="logout"),
             url(r'/(.*)/(.*)/delete', DeleteHandler,
@@ -62,6 +75,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
             ),
             url(r'/action/?(.*)', ActionHandler,
@@ -69,6 +84,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="action"),
             url(r'/person/?(.*)', PersonHandler,
@@ -76,6 +93,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="person"),
             url(r'/note/?(.*)', NoteHandler,
@@ -83,6 +102,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="note"),
             url(r'/family/?(.*)', FamilyHandler,
@@ -90,6 +111,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="family"),
             url(r'/citation/?(.*)', CitationHandler,
@@ -97,6 +120,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="citation"),
             url(r'/event/?(.*)', EventHandler,
@@ -104,6 +129,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="event"),
             url(r'/media/?(.*)', MediaHandler,
@@ -111,6 +138,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="media"),
             url(r'/place/?(.*)', PlaceHandler,
@@ -118,6 +147,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="place"),
             url(r'/repository/?(.*)', RepositoryHandler,
@@ -125,6 +156,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="repository"),
             url(r'/source/?(.*)', SourceHandler,
@@ -132,6 +165,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="source"),
             url(r'/tag/?(.*)', TagHandler,
@@ -139,6 +174,8 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="tag"),
             url(r'/imageserver/(.*)', ImageHandler,
@@ -313,6 +350,8 @@ def main():
            help="Import a file", type=str)
     define("open-browser", default=True,
            help="Open default web browser", type=bool)
+    define("language", default=None,
+           help="Language to use", type=str)
 
     # Let's go!
     tornado.options.parse_command_line()

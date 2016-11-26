@@ -19,7 +19,6 @@
 #
 
 from gprime.lib import Place
-from gprime.utils.locale import Locale, _
 from gprime.utils.id import create_id
 
 import tornado.web
@@ -50,11 +49,11 @@ class PlaceHandler(BaseHandler):
                 place = self.database.get_place_from_handle(handle)
             if place:
                 self.render("place.html",
-                            **self.get_template_dict(tview=_("place detail"),
+                            **self.get_template_dict(tview=self._("place detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PlaceForm(self.database, _, instance=place),
+                                                     form=PlaceForm(self.database, self._, instance=place),
                                                      logform=None))
                 return
             else:
@@ -63,10 +62,10 @@ class PlaceHandler(BaseHandler):
                 self.finish("<html><body>No such place</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=_("place view"),
+                    **self.get_template_dict(tview=self._("place view"),
                                              page=page,
                                              search=search,
-                                             form=PlaceForm(self.database, _, table="Place"),
+                                             form=PlaceForm(self.database, self._, table="Place"),
                                          )
                 )
 
@@ -81,7 +80,7 @@ class PlaceHandler(BaseHandler):
             place.handle = handle = create_id()
         else:
             place = self.database.get_place_from_handle(handle)
-        form = PlaceForm(self.database, _, instance=place)
+        form = PlaceForm(self.database, self._, instance=place)
         form.save(handler=self)
         self.redirect("/place/%(handle)s" % {"handle": handle})
 

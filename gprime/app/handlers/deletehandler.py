@@ -20,8 +20,6 @@
 
 import tornado.web
 
-from gprime.utils.locale import Locale, _
-
 from .handlers import BaseHandler
 from ..forms import PersonForm
 

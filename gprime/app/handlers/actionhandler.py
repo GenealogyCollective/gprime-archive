@@ -23,8 +23,6 @@ from ..forms.actionform import ActionForm, Action, Table
 
 import tornado.web
 
-from gprime.utils.locale import Locale, _
-
 class ActionHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, path=""):
@@ -46,18 +44,18 @@ class ActionHandler(BaseHandler):
             table = Table()
             action = table.get_item_by_handle(handle)
             self.render("action.html",
-                        **self.get_template_dict(tview=_("action detail"),
+                        **self.get_template_dict(tview=self._("action detail"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self.database, _, instance=action),
+                                                 form=ActionForm(self.database, self._, instance=action),
                                              )
                     )
         else:
             self.render("page_view.html",
-                        **self.get_template_dict(tview=_("action view"),
+                        **self.get_template_dict(tview=self._("action view"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self.database, _, table="Action"),
+                                                 form=ActionForm(self.database, self._, table="Action"),
                                              )
                     )
 
@@ -66,6 +64,6 @@ class ActionHandler(BaseHandler):
         # Use dict db for place to put Action Table:
         table = Table()
         action = table.get_item_by_handle(handle)
-        form = ActionForm(self.database, _, instance=action)
+        form = ActionForm(self.database, self._, instance=action)
         # Run report on actual database:
         form.run_action(action, self)

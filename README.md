@@ -18,18 +18,30 @@ Requirements
 Installation
 -------------
 
+On Windows and Mac, perhaps the easiest method of using gPrime is to start with an [Anaconda Python3 environment](https://www.continuum.io/downloads).
+
 Install from github:
 
-```shell
+```
 git clone --depth 1 https://github.com/GenealogyCollective/gprime
 cd gprime
+```
+Once you have the source files, you can:
+
+```
 python3 setup.py build
-sudo python3 setup.py install
+python3 setup.py install
+```
+
+or simply:
+
+```
+pip install . --user -U
 ```
 
 Released version installation (once released):
 
-```shell
+```
 pip3 install gprime
 ```
 
@@ -40,25 +52,33 @@ You can run gprime directly from either the downloaded directory, or from the in
 
 Installed version:
 
-```shell
+```
 python3 -m gprime.app --config="familytree.conf"
 ```
 Downloaded versions:
 
-```shell
+```
 export PYTHONPATH=/path/to/gprime
-python3 -m gprime.app --config="familytree.conf"
+python3 -m gprime.app --config="familytree.cfg"
 ```
 
-Where `familytree.conf` contains options and values, such as:
+Where `familytree.cfg` contains options and values, such as:
 
-```python
+```
 port = 8000
 database = "My Family Tree"
 username = "demo"
 ```
+or 
 
-If you do not provide `--password` (a crypt-based password) on the command-line or in the config file then a plaintext password will be interactively requested, and the crypt generated.
+```
+database      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
+username      = "demo"
+password_hash = "$5$rounds=535000$cFxCHFY.x1Ks3owt$PJYZtnr.LMDyRQXjLw8JWenNnNjKSWjRUjYJaPW4bn2"
+language      = "fr"
+```
+
+If you do not provide `--password-hash` (an encrypt password) on the command-line or in the config file then a plaintext password will be interactively requested, and the crypt generated.
 
 Options:
 ------------
@@ -81,7 +101,7 @@ Options:
 Common variations
 -----------------
 
-```shell
+```
 python3 -m gprime.app --create="Smith Family" --username=demo --server=False
 
 python3 -m gprime.app --database="Smith Family" --import-file="myinfo.gramps" --username=demo --server=False

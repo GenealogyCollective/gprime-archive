@@ -1,6 +1,6 @@
 # encoding:utf-8
 #
-# Gprime - a GTK+/GNOME based genealogy program - Records plugin
+# gPrime - A web-based genealogy program - Records plugin
 #
 # Copyright (C) 2008-2011 Reinhard Müller
 # Copyright (C) 2010      Jakim Friant

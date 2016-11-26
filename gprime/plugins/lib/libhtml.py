@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2009 Gerald Britton <gerald.britton@gmail.com>
 #

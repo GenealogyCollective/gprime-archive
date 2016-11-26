@@ -2,7 +2,7 @@
 """ Test program for import modules
 """
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (c) 2016 Gramps Development Team
 #

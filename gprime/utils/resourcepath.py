@@ -1,5 +1,5 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2013       John Ralls <jralls@ceridwen.us>
 #
@@ -27,6 +27,32 @@ LOG.addHandler(_hdlr)
 
 from ..constfunc import get_env_var
 
+"""Get the data files for this package."""
+
+def get_data_files(*search_path):
+    """
+    Walk up until we find search/path
+    Example:
+    >>> get_data_files("share", "gprime")
+    """
+    search_path = os.path.join(*search_path)
+    path = os.path.abspath(os.path.dirname(__file__))
+    starting_points = [path]
+    if not path.startswith(sys.prefix):
+        starting_points.append(sys.prefix)
+    for path in starting_points:
+        # walk up, looking for prefix/search/path
+        while path != '/':
+            location = os.path.join(path, search_path)
+            if os.path.exists(location):
+                return location
+            path, _ = os.path.split(path)
+    # didn't find it, give up
+    return ''
+
+# Package managers can just override this with the appropriate constant
+DATA_FILES_PATH = get_data_files("share", "gprime")
+
 class ResourcePath:
     """
     ResourcePath is a singleton, meaning that only one of them is ever
@@ -46,44 +72,18 @@ class ResourcePath:
     def __init__(self):
         if self.initialized:
             return
-        # Look for "resource-path" file right here:
-        resource_file = os.path.abspath(
-            os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                         'resource-path'))
-        # If exists, we are installed:
-        installed = os.path.exists(resource_file)
-        resource_path = None
-        if installed:
-            try:
-                with open(resource_file, encoding='utf-8',
-                                errors='strict') as fp:
-                    resource_path = fp.readline()
-            except UnicodeError as err:
-                LOG.exception("Encoding error while parsing resource path", err)
-                sys.exit(1)
-            except IOError as err:
-                LOG.exception("Failed to open resource file", err)
-                sys.exit(1)
-        else: # Local:
-            resource_path = os.path.abspath(
-                os.path.join(os.path.abspath(os.path.dirname(
-                __file__)), "..", ".."))
-        if installed:
-            # For example, "share/gprime":
-            self.locale_dir = os.path.join(resource_path, 'locale')
-            self.data_dir = os.path.join(resource_path, 'data')
-            self.image_dir = os.path.join(resource_path, 'data', 'images')
-        else:
-            # gprime local directory:
-            self.locale_dir = os.path.join(resource_path, 'build', 'mo')
-            self.data_dir = os.path.join(resource_path, 'data')
-            self.image_dir = os.path.join(resource_path, 'images')
-
+        resource_path = DATA_FILES_PATH
+        self.data_dir = os.path.join(resource_path, 'data')
+        self.image_dir = os.path.join(resource_path, 'images')
+        self.locale_dir = os.path.join(resource_path, 'locale')
+        if not os.path.exists(self.locale_dir):
+            self.locale_dir = os.path.abspath(
+                os.path.join(os.path.dirname(__file__),
+                             '..', '..', 'build', 'mo'))
+        # Test, give warnings:
         for folder in [self.locale_dir, self.data_dir, self.image_dir]:
             if (not os.path.exists(folder)):
                 LOG.error("Unable to find resource on path: %s" % folder)
-                #sys.exit(1)
-            
         self.initialized = True
 
 

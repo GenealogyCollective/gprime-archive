@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2003-2007  Donald N. Allingham
 # Copyright (C) 2008-2010  Brian G. Matherly

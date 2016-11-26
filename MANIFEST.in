@@ -1,18 +1,18 @@
 include README.md
 
 include MANIFEST.in
-recursive-include images *
-recursive-include data *
+recursive-include share/gprime/images *
+recursive-include share/gprime/data *
+recursive-include share/gprime/data/templates *.html
+recursive-include share/gprime/data/jhtmlarea *
+recursive-include share/gprime/data/css *
+recursive-include share/gprime/data/javascript *.js
 recursive-include gprime *
 recursive-include po *
-recursive-include data/templates *.html
-recursive-include data/jhtmlarea *
-recursive-include data/css *
-recursive-include data/javascript *.js
 
 # Remove files created in the build
-exclude data/tips.xml
-exclude data/holidays.xml
+exclude share/gprime/data/tips.xml
+exclude share/gprime/data/holidays.xml
 exclude po/.intltool-merge-cache
 global-exclude *.pyc
 global-exclude *.pyo

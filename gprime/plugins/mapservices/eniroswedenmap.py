@@ -1,4 +1,4 @@
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009       Benny Malengier

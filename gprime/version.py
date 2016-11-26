@@ -1,5 +1,5 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2013       John Ralls <jralls@ceridwen.us>
 #
@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 VERSION_TUPLE = (1, 0, 0)
 VERSION_QUALIFIER = ""

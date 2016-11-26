@@ -27,7 +27,6 @@ import os
 import argparse
 
 from distutils.command.build import build
-from distutils.command.install import install
 from distutils.util import convert_path, newer
 from distutils import log
 
@@ -38,25 +37,12 @@ ALL_LINGUAS = ('ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en_GB',
                'ja', 'lt', 'nb', 'nl', 'nn', 'pl', 'pt_BR', 'pt_PT',
                'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'tr', 'uk', 'vi',
                'zh_CN', 'zh_HK', 'zh_TW')
-_FILES = ('data/tips.xml', 'data/holidays.xml')
+_FILES = ('share/gprime/data/tips.xml', 'share/gprime/data/holidays.xml')
 
 svem_flag = '--single-version-externally-managed'
 if svem_flag in sys.argv:
     # Die, setuptools, die.
     sys.argv.remove(svem_flag)
-
-# check if the resourcepath option is used and store the path
-# this is for packagers that build out of the source tree
-# other options to setup.py are passed through
-resource_path = ''
-packaging = False
-argparser = argparse.ArgumentParser(add_help=False)
-argparser.add_argument("--resourcepath", dest="resource_path")
-args, passthrough = argparser.parse_known_args()
-if args.resource_path:
-    resource_path = args.resource_path
-    packaging = True
-sys.argv = [sys.argv[0]] + passthrough
 
 with open('gprime/version.py', 'rb') as fid:
     for line in fid:
@@ -87,10 +73,10 @@ class Build(build):
         data_files = self.distribution.data_files
         base = self.build_base
 
-        merge_files = (('data/gramps.desktop', 'share/applications', '-d'),
-                        ('data/gramps.keys', 'share/mime-info', '-k'),
-                        ('data/gramps.xml', 'mime/packages', '-x'),
-                        ('data/gramps.appdata.xml', 'share/metainfo', '-x'))
+        merge_files = (('share/gprime/data/gramps.desktop', 'share/applications', '-d'),
+                        ('share/gprime/data/gramps.keys', 'share/mime-info', '-k'),
+                        ('share/gprime/data/gramps.xml', 'mime/packages', '-x'),
+                        ('share/gprime/data/gramps.appdata.xml', 'share/metainfo', '-x'))
 
         for filename, target, option in merge_files:
             filenamelocal = convert_path(filename)
@@ -213,38 +199,19 @@ def get_data_files(path):
     return retval
 
 data_files = [
-    ("share/gprime/data/templates", get_data_files("data/templates")),
-    ("share/gprime/data/images", get_data_files("data/images")),
-    ("share/gprime/data/jhtmlarea", get_data_files("data/jhtmlarea")),
-    ("share/gprime/data/javascript", get_data_files("data/javascript")),
-    ("share/gprime/data/css", get_data_files("data/css")),
-    ("share/gprime/data/", ["data/authors.xml"]),
+    ("share/gprime/data/templates", get_data_files("share/gprime/data/templates")),
+    ("share/gprime/data/images", get_data_files("share/gprime/data/images")),
+    ("share/gprime/data/jhtmlarea", get_data_files("share/gprime/data/jhtmlarea")),
+    ("share/gprime/data/javascript", get_data_files("share/gprime/data/javascript")),
+    ("share/gprime/data/css", get_data_files("share/gprime/data/css")),
+    ("share/gprime/data/", ["share/gprime/data/authors.xml"]),
 ]
-
-class Install(install):
-    """
-    Custom install command.
-    """
-    def run(self):
-        resource_file = os.path.join(os.path.dirname(__file__), 'gprime',
-                                     'utils', 'resource-path')
-        with open(resource_file, 'w', encoding='utf-8', errors='strict') as fp:
-            if packaging:
-                path = resource_path
-            else:
-                path = os.path.abspath(
-                    os.path.join(self.install_data, 'share', 'gprime'))
-            fp.write(path)
-        super().run()
-        os.remove(resource_file)
-
-package_data = ["utils/resource-path"]
 
 setup(name='gprime',
       version=version,
       description='gPrime webapp for genealogy',
       long_description=open('README.md', 'rb').read().decode('utf-8'),
-      cmdclass = {'build': Build, 'install': Install},
+      cmdclass = {'build': Build},
       author='Doug Blank',
       author_email='doug.blank@gmail.org',
       url="https://github.com/GenealogyCollective/gprime",
@@ -252,8 +219,6 @@ setup(name='gprime',
       packages=['gprime',
                 'gprime.app',
                 'gprime.app.handlers'],
-      package_data={'gprime': package_data},
-      include_package_data=True,
       data_files=data_files,
       classifiers=[
           "Environment :: Web Environment",

@@ -1,5 +1,5 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2008,2011  Gary Burton
 # Copyright (C) 2010       Jakim Friant

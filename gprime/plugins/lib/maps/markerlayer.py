@@ -1,7 +1,7 @@
 # -*- python -*-
 # -*- coding: utf-8 -*-
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2011-2016       Serge Noiraud
 #

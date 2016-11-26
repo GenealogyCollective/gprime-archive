@@ -1,5 +1,5 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2010  Douglas Blank <doug.blank@gmail.com>
 # Copyright (C) 2011 Rob G. Healey <robhealey1@gmail.com>

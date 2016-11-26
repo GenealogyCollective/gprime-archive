@@ -168,7 +168,7 @@ class GPrimeApp(Application):
                 }),
             url(r"/images/(.*)", StaticFileHandler,
                 {
-                    'path': os.path.join(gprime.const.DATA_DIR, "images"),
+                    'path': gprime.const.IMAGE_DIR,
                 }),
             url(r"/misc/(.*)", StaticFileHandler,
                 {
@@ -176,7 +176,7 @@ class GPrimeApp(Application):
                 }),
             url(r"/img/(.*)", StaticFileHandler,
                 {
-                    'path': os.path.join(gprime.const.PLUGINS_DIR, "webstuff", "img"),
+                    'path': gprime.const.IMAGE_DIR,
                 }),
         ], **settings)
 

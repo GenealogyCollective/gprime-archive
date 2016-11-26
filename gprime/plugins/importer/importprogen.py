@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2008-2011  Kees Bakker
 # Copyright (C) 2008       Brian G. Matherly

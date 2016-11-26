@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - A web-based genealogy program
 #
 # Copyright (C) 2004-2005  Donald N. Allingham
 # Copyright (C) 2012       Doug Blank <doug.blank@gmail.com>

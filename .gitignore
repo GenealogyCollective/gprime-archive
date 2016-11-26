@@ -8,8 +8,8 @@ build/
 dist/
 
 # Gramps
-data/tips.xml
-data/holidays.xml
+share/gprime/data/tips.xml
+share/gprime/data/holidays.xml
 po/.intltool-merge-cache
 docs/_build/
 

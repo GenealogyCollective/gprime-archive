@@ -27,6 +27,7 @@ import os
 import argparse
 
 from distutils.command.build import build
+from distutils.command.install import install
 from distutils.util import convert_path, newer
 from distutils import log
 
@@ -200,7 +201,7 @@ def get_data_files(path):
 
 data_files = [
     ("share/gprime/data/templates", get_data_files("share/gprime/data/templates")),
-    ("share/gprime/data/images", get_data_files("share/gprime/data/images")),
+    ("share/gprime/images", get_data_files("share/gprime/images")),
     ("share/gprime/data/jhtmlarea", get_data_files("share/gprime/data/jhtmlarea")),
     ("share/gprime/data/javascript", get_data_files("share/gprime/data/javascript")),
     ("share/gprime/data/css", get_data_files("share/gprime/data/css")),
@@ -211,7 +212,7 @@ setup(name='gprime',
       version=version,
       description='gPrime webapp for genealogy',
       long_description=open('README.md', 'rb').read().decode('utf-8'),
-      cmdclass = {'build': Build},
+      cmdclass = {'build': Build, 'install': install},
       author='Doug Blank',
       author_email='doug.blank@gmail.org',
       url="https://github.com/GenealogyCollective/gprime",

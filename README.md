@@ -68,6 +68,7 @@ Options:
 * --database - The directory or name of the Family Tree database
 * --username - Username 
 * --password-hash - Password hash for username
+* --language - Language code (eg, "fr") for language to show webpages
 * --debug - Use to see additional debugging information
 * --port - Port to use (8000 is default)
 * --hostname - Hostname to use (localhost is default)

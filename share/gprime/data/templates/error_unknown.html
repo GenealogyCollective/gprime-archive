@@ -1,8 +1,11 @@
 {% autoescape None %}
 {% extends "gramps-base.html" %}
 
-{% block title %}{{sitename}}: {{opts.database}}, Unknown Error {% end %}
-{% block heading %}{{sitename}}: {{opts.database}}, Unknown Error {% end %}
+{% block title %}{{sitename}}: {{opts.database}}, {{_("Unknown Error")}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{_("Unknown Error")}} {% end %}
 
-{% block content %} 
+{% block content %}
+
+{{_("There has been an error. Please check the input and try again.")}}
+
 {% end %}

@@ -1,8 +1,8 @@
 {% autoescape None %}
 {% extends "gramps-base.html" %}
 
-{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
-{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block title %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 
 {% block content %} 
    <script type="text/javascript">
@@ -104,7 +104,7 @@ Note:
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">References</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
     {{ note_reference_table(form, user, action) }}

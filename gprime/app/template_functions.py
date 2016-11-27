@@ -97,7 +97,7 @@ class Table(object):
         rowhtml = Html("tr")
         for (name, width) in self.columns:
             cell = Html("th", class_="TableHeaderCell", width=("%s%%" % width), colspan="1")
-            cell += name
+            cell += self.form._(name)
             rowhtml += cell
         table += rowhtml
         for row in self.rows:

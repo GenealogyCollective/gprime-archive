@@ -1,14 +1,14 @@
 {% autoescape None %}
 {% extends "gramps-base.html" %}
 
-{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
-{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block title %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 
 {% block content %}
 
 <form name="SearchForm">
   <p>
-  <input type="submit" value="{{_('Search')}}:">
+  <input type="submit" value={{_T_("Search:")}}>
   <input autocomplete="off" name="search" id="get_focus" type="text" size="80%" value="{{search}}">
   <input value="X" type="button" onclick="getElementsByName('search')[0].value = '';" >
   <br/><i>Search term shortcuts
@@ -50,7 +50,7 @@
 
 <p>
 <div style="background-color: lightgray; padding: 2px 0px 0px 2px">
-{{ make_icon_button(_("Add " + form.tview), "/" + form.view +"/add", icon="+") }}
+{{ make_icon_button(_('Add ' + form.tview), "/" + form.view +"/add", icon="+") }}
 </div>
 </p>
 {% end %}

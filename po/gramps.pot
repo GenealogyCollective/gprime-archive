@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-26 17:22-0500\n"
+"POT-Creation-Date: 2016-11-26 19:04-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4603,8 +4603,8 @@ msgstr ""
 msgid "Caste"
 msgstr ""
 
-#: ../gprime/lib/attrtype.py:65 ../gprime/lib/media.py:197
-#: ../gprime/plugins/lib/libmetadata.py:98
+#: ../gprime/lib/attrtype.py:65 ../gprime/lib/event.py:191
+#: ../gprime/lib/media.py:197 ../gprime/plugins/lib/libmetadata.py:98
 #: ../gprime/plugins/textreport/placereport.py:221
 #: ../gprime/plugins/textreport/placereport.py:298
 #: ../gprime/plugins/webreport/narrativeweb.py:992
@@ -4828,6 +4828,134 @@ msgstr ""
 
 #: ../gprime/lib/date.py:1890
 msgid "textonly"
+msgstr ""
+
+#: ../gprime/lib/event.py:186 ../gprime/plugins/textreport/placereport.py:457
+#: ../gprime/plugins/webreport/narrativeweb.py:989
+msgid "Event"
+msgstr ""
+
+#: ../gprime/lib/event.py:187 ../gprime/lib/person.py:245
+msgid "Handle"
+msgstr ""
+
+#: ../gprime/lib/event.py:188 ../gprime/lib/media.py:194
+#: ../gprime/lib/person.py:246
+msgid "ID"
+msgstr ""
+
+#: ../gprime/lib/event.py:189 ../gprime/lib/name.py:208
+#: ../gprime/plugins/export/exportcsv.py:286
+#: ../gprime/plugins/importer/importcsv.py:223
+#: ../gprime/plugins/textreport/indivcomplete.py:457
+#: ../gprime/plugins/textreport/indivcomplete.py:655
+#: ../gprime/plugins/textreport/tagreport.py:337
+#: ../gprime/plugins/textreport/tagreport.py:432
+#: ../gprime/plugins/textreport/tagreport.py:501
+#: ../gprime/plugins/textreport/tagreport.py:576
+#: ../gprime/plugins/textreport/tagreport.py:660
+#: ../gprime/plugins/webreport/narrativeweb.py:1306
+#: ../gprime/plugins/webreport/narrativeweb.py:1632
+#: ../gprime/plugins/webreport/narrativeweb.py:2458
+#: ../gprime/plugins/webreport/narrativeweb.py:3038
+#: ../gprime/plugins/webreport/narrativeweb.py:4197
+#: ../gprime/plugins/webreport/narrativeweb.py:7752
+#: ../gprime/plugins/webreport/narrativeweb.py:7840
+msgid "Type"
+msgstr ""
+
+#. wrap it all up and return to its callers
+#. position 0 = translatable label, position 1 = column class
+#. position 2 = data
+#: ../gprime/lib/event.py:190 ../gprime/lib/media.py:203
+#: ../gprime/lib/name.py:203 ../gprime/plugins/export/exportcsv.py:287
+#: ../gprime/plugins/export/exportcsv.py:473
+#: ../gprime/plugins/importer/importcsv.py:219
+#: ../gprime/plugins/textreport/indivcomplete.py:458
+#: ../gprime/plugins/textreport/indivcomplete.py:656
+#: ../gprime/plugins/textreport/placereport.py:220
+#: ../gprime/plugins/textreport/placereport.py:298
+#: ../gprime/plugins/textreport/tagreport.py:349
+#: ../gprime/plugins/textreport/tagreport.py:582
+#: ../gprime/plugins/textreport/tagreport.py:825
+#: ../gprime/plugins/webreport/narrativeweb.py:990
+#: ../gprime/plugins/webreport/narrativeweb.py:1277
+#: ../gprime/plugins/webreport/narrativeweb.py:1307
+#: ../gprime/plugins/webreport/narrativeweb.py:1474
+#: ../gprime/plugins/webreport/narrativeweb.py:2588
+#: ../gprime/plugins/webreport/narrativeweb.py:4198
+#: ../gprime/plugins/webreport/narrativeweb.py:5117
+#: ../gprime/plugins/webreport/narrativeweb.py:5486
+#: ../gprime/plugins/webreport/narrativeweb.py:6782
+msgid "Date"
+msgstr ""
+
+#: ../gprime/lib/event.py:192 ../gprime/plugins/export/exportcsv.py:285
+#: ../gprime/plugins/export/exportcsv.py:473
+#: ../gprime/plugins/importer/importcsv.py:220
+#: ../gprime/plugins/textreport/indivcomplete.py:461
+#: ../gprime/plugins/textreport/indivcomplete.py:659
+#: ../gprime/plugins/webreport/narrativeweb.py:991
+#: ../gprime/plugins/webreport/narrativeweb.py:1279
+#: ../gprime/plugins/webreport/narrativeweb.py:1309
+msgid "Place"
+msgstr ""
+
+#: ../gprime/lib/event.py:193 ../gprime/lib/media.py:200
+#: ../gprime/lib/name.py:201 ../gprime/lib/person.py:260
+#: ../gprime/plugins/textreport/tagreport.py:802
+msgid "Citations"
+msgstr ""
+
+#: ../gprime/lib/event.py:194 ../gprime/lib/media.py:201
+#: ../gprime/lib/name.py:202 ../gprime/lib/person.py:261
+#: ../gprime/plugins/textreport/indivcomplete.py:251
+#: ../gprime/plugins/textreport/tagreport.py:484
+#: ../gprime/plugins/webreport/narrativeweb.py:993
+#: ../gprime/plugins/webreport/narrativeweb.py:1634
+#: ../gprime/plugins/webreport/narrativeweb.py:7069
+msgid "Notes"
+msgstr ""
+
+#. add media column
+#: ../gprime/lib/event.py:195 ../gprime/lib/media.py:192
+#: ../gprime/lib/media.py:193 ../gprime/lib/person.py:255
+#: ../gprime/plugins/textreport/tagreport.py:553
+#: ../gprime/plugins/webreport/narrativeweb.py:1880
+#: ../gprime/plugins/webreport/narrativeweb.py:1946
+#: ../gprime/plugins/webreport/narrativeweb.py:2015
+#: ../gprime/plugins/webreport/narrativeweb.py:2062
+#: ../gprime/plugins/webreport/narrativeweb.py:2362
+#: ../gprime/plugins/webreport/narrativeweb.py:5084
+#: ../gprime/plugins/webreport/narrativeweb.py:5283
+msgid "Media"
+msgstr ""
+
+#: ../gprime/lib/event.py:196 ../gprime/lib/media.py:199
+#: ../gprime/lib/person.py:257
+#: ../gprime/plugins/textreport/indivcomplete.py:423
+#: ../gprime/plugins/textreport/indivcomplete.py:642
+#: ../gprime/plugins/webreport/narrativeweb.py:798
+#: ../gprime/plugins/webreport/narrativeweb.py:1361
+#: ../gprime/plugins/webreport/narrativeweb.py:1617
+msgid "Attributes"
+msgstr ""
+
+#: ../gprime/lib/event.py:197 ../gprime/lib/media.py:202
+#: ../gprime/lib/person.py:262
+msgid "Last changed"
+msgstr ""
+
+#: ../gprime/lib/event.py:198 ../gprime/lib/media.py:204
+#: ../gprime/lib/person.py:263
+#: ../gprime/plugins/textreport/indivcomplete.py:499
+msgid "Tags"
+msgstr ""
+
+#: ../gprime/lib/event.py:199 ../gprime/lib/media.py:205
+#: ../gprime/lib/name.py:200 ../gprime/lib/person.py:264
+#: ../gprime/proxy/private.py:945
+msgid "Private"
 msgstr ""
 
 #: ../gprime/lib/eventroletype.py:54
@@ -5370,93 +5498,12 @@ msgstr ""
 msgid "ToDo"
 msgstr ""
 
-#. add media column
-#: ../gprime/lib/media.py:192 ../gprime/lib/media.py:193
-#: ../gprime/lib/person.py:255 ../gprime/plugins/textreport/tagreport.py:553
-#: ../gprime/plugins/webreport/narrativeweb.py:1880
-#: ../gprime/plugins/webreport/narrativeweb.py:1946
-#: ../gprime/plugins/webreport/narrativeweb.py:2015
-#: ../gprime/plugins/webreport/narrativeweb.py:2062
-#: ../gprime/plugins/webreport/narrativeweb.py:2362
-#: ../gprime/plugins/webreport/narrativeweb.py:5084
-#: ../gprime/plugins/webreport/narrativeweb.py:5283
-msgid "Media"
-msgstr ""
-
-#: ../gprime/lib/media.py:194 ../gprime/lib/person.py:246
-msgid "ID"
-msgstr ""
-
 #: ../gprime/lib/media.py:196
 msgid "MIME"
 msgstr ""
 
 #: ../gprime/lib/media.py:198
 msgid "Checksum"
-msgstr ""
-
-#: ../gprime/lib/media.py:199 ../gprime/lib/person.py:257
-#: ../gprime/plugins/textreport/indivcomplete.py:423
-#: ../gprime/plugins/textreport/indivcomplete.py:642
-#: ../gprime/plugins/webreport/narrativeweb.py:798
-#: ../gprime/plugins/webreport/narrativeweb.py:1361
-#: ../gprime/plugins/webreport/narrativeweb.py:1617
-msgid "Attributes"
-msgstr ""
-
-#: ../gprime/lib/media.py:200 ../gprime/lib/name.py:201
-#: ../gprime/lib/person.py:260 ../gprime/plugins/textreport/tagreport.py:802
-msgid "Citations"
-msgstr ""
-
-#: ../gprime/lib/media.py:201 ../gprime/lib/name.py:202
-#: ../gprime/lib/person.py:261
-#: ../gprime/plugins/textreport/indivcomplete.py:251
-#: ../gprime/plugins/textreport/tagreport.py:484
-#: ../gprime/plugins/webreport/narrativeweb.py:993
-#: ../gprime/plugins/webreport/narrativeweb.py:1634
-#: ../gprime/plugins/webreport/narrativeweb.py:7069
-msgid "Notes"
-msgstr ""
-
-#: ../gprime/lib/media.py:202 ../gprime/lib/person.py:262
-msgid "Last changed"
-msgstr ""
-
-#. wrap it all up and return to its callers
-#. position 0 = translatable label, position 1 = column class
-#. position 2 = data
-#: ../gprime/lib/media.py:203 ../gprime/lib/name.py:203
-#: ../gprime/plugins/export/exportcsv.py:287
-#: ../gprime/plugins/export/exportcsv.py:473
-#: ../gprime/plugins/importer/importcsv.py:219
-#: ../gprime/plugins/textreport/indivcomplete.py:458
-#: ../gprime/plugins/textreport/indivcomplete.py:656
-#: ../gprime/plugins/textreport/placereport.py:220
-#: ../gprime/plugins/textreport/placereport.py:298
-#: ../gprime/plugins/textreport/tagreport.py:349
-#: ../gprime/plugins/textreport/tagreport.py:582
-#: ../gprime/plugins/textreport/tagreport.py:825
-#: ../gprime/plugins/webreport/narrativeweb.py:990
-#: ../gprime/plugins/webreport/narrativeweb.py:1277
-#: ../gprime/plugins/webreport/narrativeweb.py:1307
-#: ../gprime/plugins/webreport/narrativeweb.py:1474
-#: ../gprime/plugins/webreport/narrativeweb.py:2588
-#: ../gprime/plugins/webreport/narrativeweb.py:4198
-#: ../gprime/plugins/webreport/narrativeweb.py:5117
-#: ../gprime/plugins/webreport/narrativeweb.py:5486
-#: ../gprime/plugins/webreport/narrativeweb.py:6782
-msgid "Date"
-msgstr ""
-
-#: ../gprime/lib/media.py:204 ../gprime/lib/person.py:263
-#: ../gprime/plugins/textreport/indivcomplete.py:499
-msgid "Tags"
-msgstr ""
-
-#: ../gprime/lib/media.py:205 ../gprime/lib/name.py:200
-#: ../gprime/lib/person.py:264 ../gprime/proxy/private.py:945
-msgid "Private"
 msgstr ""
 
 #: ../gprime/lib/name.py:199 ../gprime/plugins/export/exportcsv.py:285
@@ -5494,25 +5541,6 @@ msgstr ""
 #: ../gprime/plugins/textreport/tagreport.py:739
 #: ../gprime/plugins/webreport/narrativeweb.py:3036
 msgid "Title"
-msgstr ""
-
-#: ../gprime/lib/name.py:208 ../gprime/plugins/export/exportcsv.py:286
-#: ../gprime/plugins/importer/importcsv.py:223
-#: ../gprime/plugins/textreport/indivcomplete.py:457
-#: ../gprime/plugins/textreport/indivcomplete.py:655
-#: ../gprime/plugins/textreport/tagreport.py:337
-#: ../gprime/plugins/textreport/tagreport.py:432
-#: ../gprime/plugins/textreport/tagreport.py:501
-#: ../gprime/plugins/textreport/tagreport.py:576
-#: ../gprime/plugins/textreport/tagreport.py:660
-#: ../gprime/plugins/webreport/narrativeweb.py:1306
-#: ../gprime/plugins/webreport/narrativeweb.py:1632
-#: ../gprime/plugins/webreport/narrativeweb.py:2458
-#: ../gprime/plugins/webreport/narrativeweb.py:3038
-#: ../gprime/plugins/webreport/narrativeweb.py:4197
-#: ../gprime/plugins/webreport/narrativeweb.py:7752
-#: ../gprime/plugins/webreport/narrativeweb.py:7840
-msgid "Type"
 msgstr ""
 
 #: ../gprime/lib/name.py:209
@@ -5720,10 +5748,6 @@ msgstr ""
 
 #: ../gprime/lib/notetype.py:103
 msgid "Child Reference Note"
-msgstr ""
-
-#: ../gprime/lib/person.py:245
-msgid "Handle"
 msgstr ""
 
 #: ../gprime/lib/person.py:247
@@ -9544,17 +9568,6 @@ msgstr ""
 
 #: ../gprime/plugins/export/exportcsv.py:139
 msgid "Translate headers"
-msgstr ""
-
-#: ../gprime/plugins/export/exportcsv.py:285
-#: ../gprime/plugins/export/exportcsv.py:473
-#: ../gprime/plugins/importer/importcsv.py:220
-#: ../gprime/plugins/textreport/indivcomplete.py:461
-#: ../gprime/plugins/textreport/indivcomplete.py:659
-#: ../gprime/plugins/webreport/narrativeweb.py:991
-#: ../gprime/plugins/webreport/narrativeweb.py:1279
-#: ../gprime/plugins/webreport/narrativeweb.py:1309
-msgid "Place"
 msgstr ""
 
 #: ../gprime/plugins/export/exportcsv.py:286
@@ -14535,6 +14548,7 @@ msgid "Your Gtk version is too old."
 msgstr ""
 
 #: ../gprime/plugins/lib/maps/geography.py:899
+#: ../share/gprime/data/templates/place.html:90
 msgid "Edit Place"
 msgstr ""
 
@@ -16040,11 +16054,6 @@ msgstr ""
 
 #: ../gprime/plugins/textreport/placereport.py:456
 msgid "Center on"
-msgstr ""
-
-#: ../gprime/plugins/textreport/placereport.py:457
-#: ../gprime/plugins/webreport/narrativeweb.py:989
-msgid "Event"
 msgstr ""
 
 #: ../gprime/plugins/textreport/placereport.py:458
@@ -18779,4 +18788,201 @@ msgstr ""
 msgid ""
 "All of your research is kept organized, searchable and as precise as you "
 "need it to be."
+msgstr ""
+
+#: ../share/gprime/data/templates/citation.html:72
+#: ../share/gprime/data/templates/citation.html:74
+#: ../share/gprime/data/templates/citation.html:82
+#: ../share/gprime/data/templates/delete.html:13
+#: ../share/gprime/data/templates/event.html:72
+#: ../share/gprime/data/templates/event.html:74
+#: ../share/gprime/data/templates/event.html:82
+#: ../share/gprime/data/templates/media.html:72
+#: ../share/gprime/data/templates/media.html:74
+#: ../share/gprime/data/templates/media.html:82
+#: ../share/gprime/data/templates/note.html:77
+#: ../share/gprime/data/templates/note.html:79
+#: ../share/gprime/data/templates/note.html:87
+#: ../share/gprime/data/templates/person.html:102
+#: ../share/gprime/data/templates/person.html:104
+#: ../share/gprime/data/templates/person.html:112
+#: ../share/gprime/data/templates/place.html:72
+#: ../share/gprime/data/templates/place.html:74
+#: ../share/gprime/data/templates/place.html:82
+#: ../share/gprime/data/templates/repository.html:72
+#: ../share/gprime/data/templates/repository.html:74
+#: ../share/gprime/data/templates/repository.html:82
+#: ../share/gprime/data/templates/source.html:72
+#: ../share/gprime/data/templates/source.html:74
+#: ../share/gprime/data/templates/source.html:82
+#: ../share/gprime/data/templates/tag.html:68
+#: ../share/gprime/data/templates/tag.html:70
+#: ../share/gprime/data/templates/tag.html:78
+msgid "Cancel"
+msgstr ""
+
+#: ../share/gprime/data/templates/citation.html:89
+msgid "Add Citation"
+msgstr ""
+
+#: ../share/gprime/data/templates/citation.html:90
+msgid "Edit Citation"
+msgstr ""
+
+#: ../share/gprime/data/templates/citation.html:91
+msgid "Delete Citation"
+msgstr ""
+
+#: ../share/gprime/data/templates/delete.html:14
+msgid "Delete"
+msgstr ""
+
+#: ../share/gprime/data/templates/error_unknown.html:4
+#: ../share/gprime/data/templates/error_unknown.html:5
+msgid "Unknown Error"
+msgstr ""
+
+#: ../share/gprime/data/templates/error_unknown.html:9
+msgid "There has been an error. Please check the input and try again."
+msgstr ""
+
+#: ../share/gprime/data/templates/event.html:89
+msgid "Add Event"
+msgstr ""
+
+#: ../share/gprime/data/templates/event.html:90
+msgid "Edit Event"
+msgstr ""
+
+#: ../share/gprime/data/templates/event.html:91
+msgid "Delete Event"
+msgstr ""
+
+#: ../share/gprime/data/templates/family.html:161
+msgid "Add Family"
+msgstr ""
+
+#: ../share/gprime/data/templates/family.html:162
+msgid "Edit Family"
+msgstr ""
+
+#: ../share/gprime/data/templates/family.html:163
+msgid "Delete Family"
+msgstr ""
+
+#: ../share/gprime/data/templates/home.html:7
+#, c-format
+msgid "Logged in: %s"
+msgstr ""
+
+#: ../share/gprime/data/templates/home.html:11
+msgid "Item"
+msgstr ""
+
+#: ../share/gprime/data/templates/home.html:12
+msgid "Count"
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:7
+msgid "User Login"
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:9
+msgid "Your username or password were not valid. Please try again."
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:11
+msgid "Enter your login ID and password below."
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:17
+msgid "Username"
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:25
+msgid "Password"
+msgstr ""
+
+#: ../share/gprime/data/templates/media.html:89
+msgid "Add Media"
+msgstr ""
+
+#: ../share/gprime/data/templates/media.html:90
+msgid "Edit Media"
+msgstr ""
+
+#: ../share/gprime/data/templates/media.html:91
+msgid "Delete Media"
+msgstr ""
+
+#: ../share/gprime/data/templates/note.html:94
+msgid "Add Note"
+msgstr ""
+
+#: ../share/gprime/data/templates/note.html:95
+msgid "Edit Note"
+msgstr ""
+
+#: ../share/gprime/data/templates/note.html:96
+msgid "Delete Note"
+msgstr ""
+
+#: ../share/gprime/data/templates/page_view.html:11
+msgid "Search:"
+msgstr ""
+
+#: ../share/gprime/data/templates/person.html:119
+msgid "Add Person"
+msgstr ""
+
+#: ../share/gprime/data/templates/person.html:120
+msgid "Edit Person"
+msgstr ""
+
+#: ../share/gprime/data/templates/person.html:121
+msgid "Delete Person"
+msgstr ""
+
+#: ../share/gprime/data/templates/place.html:89
+msgid "Add Place"
+msgstr ""
+
+#: ../share/gprime/data/templates/place.html:91
+msgid "Delete Place"
+msgstr ""
+
+#: ../share/gprime/data/templates/repository.html:89
+msgid "Add Repository"
+msgstr ""
+
+#: ../share/gprime/data/templates/repository.html:90
+msgid "Edit Repository"
+msgstr ""
+
+#: ../share/gprime/data/templates/repository.html:91
+msgid "Delete Repository"
+msgstr ""
+
+#: ../share/gprime/data/templates/source.html:89
+msgid "Add Source"
+msgstr ""
+
+#: ../share/gprime/data/templates/source.html:90
+msgid "Edit Source"
+msgstr ""
+
+#: ../share/gprime/data/templates/source.html:91
+msgid "Delete Source"
+msgstr ""
+
+#: ../share/gprime/data/templates/tag.html:85
+msgid "Add Tag"
+msgstr ""
+
+#: ../share/gprime/data/templates/tag.html:86
+msgid "Edit Tag"
+msgstr ""
+
+#: ../share/gprime/data/templates/tag.html:87
+msgid "Delete Tag"
 msgstr ""

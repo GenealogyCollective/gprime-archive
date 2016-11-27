@@ -1,8 +1,11 @@
 {% autoescape None %}
 {% extends "gramps-base.html" %}
 
-{% block title %}{{sitename}}: {{opts.database}}, 404 Error {% end %}
-{% block heading %}{{sitename}}: {{opts.database}}, 404 Error {% end %}
+{% block title %}{{sitename}}: {{opts.database}}, {{_("404 Error")}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{_("404 Error")}} {% end %}
 
 {% block content %} 
+
+{{_("Item not found. Please check the input and try again.")}}
+
 {% end %}

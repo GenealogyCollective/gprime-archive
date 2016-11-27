@@ -280,6 +280,7 @@ gprime/filters/rules/source/_sourceprivate.py
 gprime/lib/attrtype.py
 gprime/lib/childreftype.py
 gprime/lib/date.py
+gprime/lib/event.py
 gprime/lib/eventroletype.py
 gprime/lib/eventtype.py
 gprime/lib/familyreltype.py
@@ -438,3 +439,25 @@ share/gprime/data/gramps.xml.in
 share/gprime/data/holidays.xml.in
 share/gprime/data/tips.xml.in
 share/gprime/data/gramps.appdata.xml.in
+#
+# Tornado Templates
+#
+share/gprime/data/templates/action.html
+share/gprime/data/templates/citation.html
+share/gprime/data/templates/delete.html
+share/gprime/data/templates/detail_breadcrumb.html
+share/gprime/data/templates/error_404.html
+share/gprime/data/templates/error_unknown.html
+share/gprime/data/templates/event.html
+share/gprime/data/templates/family.html
+share/gprime/data/templates/gramps-base.html
+share/gprime/data/templates/home.html
+share/gprime/data/templates/login.html
+share/gprime/data/templates/media.html
+share/gprime/data/templates/note.html
+share/gprime/data/templates/page_view.html
+share/gprime/data/templates/person.html
+share/gprime/data/templates/place.html
+share/gprime/data/templates/repository.html
+share/gprime/data/templates/source.html
+share/gprime/data/templates/tag.html

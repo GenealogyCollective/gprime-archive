@@ -42,6 +42,11 @@ class BaseHandler(tornado.web.RequestHandler):
                 del kwargs[name]
         super().__init__(*args, **kwargs)
 
+    def get_template_namespace(self):
+        ns = super(BaseHandler, self).get_template_namespace()
+        ns['_T_'] = lambda *x: '"{0}"'.format(ns['_'](*x))
+        return ns
+
     def write_error(self, status_code, **kwargs):
         if status_code == 404:
             self.render('error_404.html', page=None, **self.get_template_dict())
@@ -49,7 +54,10 @@ class BaseHandler(tornado.web.RequestHandler):
             self.render('error_unknown.html', page=None, **self.get_template_dict())
 
     def get_current_user(self):
-        return self.get_secure_cookie("user")
+        user = self.get_secure_cookie("user")
+        if isinstance(user, bytes):
+            user = user.decode()
+        return user
 
     def set_language(self, language):
         if language == Locale.DEFAULT_TRANSLATION_STR:

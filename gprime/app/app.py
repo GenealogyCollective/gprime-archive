@@ -177,6 +177,8 @@ class GPrimeApp(Application):
                     "HOSTNAME": self.options.hostname,
                     "GET_IMAGE_FN": self.get_image_path_from_handle,
                     "sitename": self.sitename,
+                    "glocale": self.glocale,
+                    "_": self._,
                 },
                 name="imageserver",
             ),

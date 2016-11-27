@@ -59,7 +59,7 @@ from gprime.plug.report import (CATEGORY_TEXT, CATEGORY_DRAW, CATEGORY_BOOK,
                                     CATEGORY_GRAPHVIZ, CATEGORY_CODE,
                                     ReportOptions, append_styles)
 from gprime.plug.report._paper import paper_sizes
-from gprime.const import USER_HOME, DOCGEN_OPTIONS
+from gprime.const import DOCGEN_OPTIONS
 from gprime.dbstate import DbState
 from ..grampscli import CLIManager
 from ..user import User

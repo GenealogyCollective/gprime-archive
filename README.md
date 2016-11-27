@@ -10,6 +10,9 @@ Requirements
 ------------
 
 * Python3
+
+Python packages:
+
 * tornado
 * PIL
 * simplejson
@@ -55,6 +58,7 @@ Installed version:
 ```
 python3 -m gprime.app --config="familytree.conf"
 ```
+
 Downloaded versions:
 
 ```
@@ -65,14 +69,14 @@ python3 -m gprime.app --config="familytree.cfg"
 Where `familytree.cfg` contains options and values, such as:
 
 ```
-port = 8000
-database = "My Family Tree"
+port     = 8000
+site_dir = "My Family Tree"
 username = "demo"
 ```
 or 
 
 ```
-database      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
+site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
 username      = "demo"
 password_hash = "$5$rounds=535000$cFxCHFY.x1Ks3owt$PJYZtnr.LMDyRQXjLw8JWenNnNjKSWjRUjYJaPW4bn2"
 language      = "fr"
@@ -83,30 +87,29 @@ If you do not provide `--password-hash` (an encrypt password) on the command-lin
 Options:
 ------------
 
-* --create - Create a directory and family tree
-* --import-file - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
-* --database - The directory or name of the Family Tree database
-* --username - Username 
-* --password-hash - Password hash for username
-* --language - Language code (eg, "fr") for language to show webpages
-* --debug - Use to see additional debugging information
-* --port - Port to use (8000 is default)
-* --hostname - Hostname to use (localhost is default)
-* --sitename - Name to use for the site (gPrime is default)
-* --data_dir - Folder of data (templates)
-* --home_dir - Home directory
-* --server - Start the server? Default is True
-* --xsrf - Use cross-site request forgery protection
+* --site-dir=PATH - The directory of the gPrime site directory (required)
+* --username=USERNAME - Username (required)
+* --sitename="Site Name" - Name to use for the site (gPrime is default)
+* --password-hash=HASH - Password hash for username
+* --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
+* --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
+* --language=LANG_CODE - Language code (eg, "fr") for language to show webpages
+* --port=PORT-NUMBER - Port to use (8000 is default)
+* --hostname=LOCALHOST - Hostname to use (localhost is default)
+* --server=True|False - Start the server? Default is True
+* --open-browser=True|False - open a web browser on startup?
+* --debug=True|False - Use to see additional debugging information
+* --xsrf=True/False - Use cross-site request forgery protection
 
 Common variations
 -----------------
 
 ```
-python3 -m gprime.app --create="Smith Family" --username=demo --server=False
+python3 -m gprime.app --create="Smith Family" --site-dir="gprime_folder" --username=demo --server=False
 
-python3 -m gprime.app --database="Smith Family" --import-file="myinfo.gramps" --username=demo --server=False
+python3 -m gprime.app --site-dir="gprime_folder" --import-file="myinfo.gramps" --username=demo --server=False
 
-python3 -m gprime.app --database="Smith Family" --username=demo
+python3 -m gprime.app --site-dir="/path/to/gprime_folder" --username=demo
 
 python3 -m gprime.app --help
 ```

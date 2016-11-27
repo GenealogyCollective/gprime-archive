@@ -46,7 +46,7 @@ LOG = logging.getLogger(".grampscli")
 #-------------------------------------------------------------------------
 from gprime.display.name import displayer as name_displayer
 from gprime.config import config
-from gprime.const import PLUGINS_DIR, USER_PLUGINS
+from gprime.const import PLUGINS_DIR
 from gprime.db.dbconst import DBBACKEND
 from gprime.errors import DbError
 from gprime.dbstate import DbState
@@ -335,7 +335,7 @@ class CLIManager:
         Register the plugins at initialization time.
         """
         self._pmgr.reg_plugins(PLUGINS_DIR, dbstate, uistate)
-        self._pmgr.reg_plugins(USER_PLUGINS, dbstate, uistate, load_on_reg=True)
+        #self._pmgr.reg_plugins(USER_PLUGINS, dbstate, uistate, load_on_reg=True)
 
 def startcli(errors, argparser):
     """

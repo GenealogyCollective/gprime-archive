@@ -10,13 +10,6 @@ import signal
 import webbrowser
 import threading
 
-## gPrime imports
-import gprime.const # initializes locale
-from gprime.utils.locale import Locale, _
-from gprime.dbstate import DbState
-from gprime.utils.file import media_path_full
-from gprime.cli.user import User
-
 from .handlers import *
 from .forms import *
 from .forms.actionform import import_file
@@ -28,6 +21,8 @@ class GPrimeApp(Application):
     Main webapp class
     """
     def __init__(self, options, database, settings=None):
+        import gprime.const
+        from gprime.utils.locale import Locale, _
         self.options = options
         if settings is None:
             settings = self.default_settings()
@@ -37,12 +32,7 @@ class GPrimeApp(Application):
         else:
             self.glocale = Locale(lang=options.language)
             self._ = self.glocale.translation.gettext
-        if database is None:
-            raise Exception("Need to specify Family Tree name with --database='NAME'")
-        else:
-            self.database = database
-        if self.database is None:
-            raise Exception("Unable to open database '%s'" % self.options.database)
+        self.database = database
         self.sitename = self.options.sitename
         super().__init__([
             url(r"/", HomeHandler,
@@ -182,7 +172,7 @@ class GPrimeApp(Application):
                 {
                     "database": self.database,
                     "opts" : self.options,
-                    "HOMEDIR": self.options.home_dir,
+                    "SITE_DIR": self.options.site_dir, 
                     "PORT": self.options.port,
                     "HOSTNAME": self.options.hostname,
                     "GET_IMAGE_FN": self.get_image_path_from_handle,
@@ -197,7 +187,7 @@ class GPrimeApp(Application):
             ),
             url(r"/data/(.*)", StaticFileHandler,
                 {
-                    'path': self.options.data_dir,
+                    'path': gprime.const.DATA_DIR,
                 }),
             url(r"/css/(.*)", StaticFileHandler,
                 {
@@ -220,10 +210,11 @@ class GPrimeApp(Application):
     def default_settings(self):
         """
         """
+        import gprime.const
         return {
             "cookie_secret": base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
             "login_url":     "/login",
-            'template_path': os.path.join(self.options.data_dir, "templates"),
+            'template_path': os.path.join(gprime.const.DATA_DIR, "templates"),
             'debug':         self.options.debug,
             "xsrf_cookies":  self.options.xsrf,
         }
@@ -232,6 +223,7 @@ class GPrimeApp(Application):
         """
         Given an image handle, return the full path/filename.
         """
+        from gprime.utils.file import media_path_full
         media = self.database.get_media_from_handle(identifier)
         if media:
             return media_path_full(self.database, media.get_path())
@@ -324,34 +316,30 @@ def main():
            help="Name of gPrime server host", type=str)
     define("port", default=8000,
            help="Number of gPrime server port", type=int)
-    define("database", default=None,
-           help="The gPrime Family Tree database to serve", type=str)
+    define("site-dir", default=None,
+           help="The gPrime site directory to use", type=str)
     define("sitename", default="gPrime",
-           help="Name to appear on all pages", type=str)
+           help="Name to appear on all web pages", type=str)
     define("debug", default=False,
-           help="Set debugging on/off", type=bool)
+           help="Set debugging True/False", type=bool)
     define("xsrf", default=True,
-           help="Use xsrf cookie", type=bool)
-    define("data-dir", default=gprime.const.DATA_DIR,
-           help="Base directory (where static, templates, etc. are)", type=str)
-    define("home-dir", default=gprime.const.HOME_DIR,
-           help="Home directory", type=str)
+           help="Use xsrf cookie, True/False", type=bool)
     define("config", default=None,
            help="Config file of gPrime options", type=str)
     define("username", default=None,
-           help="Login username", type=str)
+           help="Login username (required)", type=str)
     define("password-hash", default=None,
            help="Encrypted login password", type=str)
     define("create", default=None,
-           help="Create a database directory", type=str)
+           help="Create a site directory (given by --site-dir) with this Family TRee name", type=str)
     define("server", default=True,
-           help="Start the server", type=bool)
+           help="Start the server, True/False", type=bool)
     define("import-file", default=None,
            help="Import a file", type=str)
     define("open-browser", default=True,
            help="Open default web browser", type=bool)
     define("language", default=None,
-           help="Language to use", type=str)
+           help="Language code (eg, 'fr') to use", type=str)
 
     # Let's go!
     tornado.options.parse_command_line()
@@ -360,17 +348,34 @@ def main():
         tornado.options.parse_config_file(options.config)
     if options.username is None:
         raise Exception("--username=NAME was not provided")
-    if options.password_hash is None:
-        plaintext = getpass.getpass()
-        options.password_hash = crypt.hash(plaintext)
-    ### Handle database options:
+    if options.site_dir is None:
+        raise Exception("--site-dir=NAME was not provided")
+    # Handle gPrime intialization:
+    import gprime.const # initializes locale
+    from gprime.dbstate import DbState
+    from gprime.cli.user import User
+    ### Handle site options:
+    database_dir = os.path.join(options.site_dir, "database")
+    users_dir = os.path.join(options.site_dir, "users")
+    user_dir = os.path.join(options.site_dir, "users", options.username)
+    media_dir = os.path.join(options.site_dir, "media")
+    media_cache_dir = os.path.join(options.site_dir, "media", "cache")
     if options.create:
-        DbState().create_database(options.create)
+        # Make the site_dir:
+        os.makedirs(options.site_dir)
+        # Make the database:
+        DbState().create_database(database_dir, options.create)
+        # Make the user folders:
+        os.makedirs(users_dir)
+        # Make the media folder:
+        os.makedirs(media_dir)
+        os.makedirs(media_cache_dir)
+    ## Initialize user:
+    if not os.path.exists(user_dir):
+        os.makedirs(user_dir)
     ## Open the database:
-    database = DbState().open_database(options.database)
-    # If database was a filename, set it to dbname:
-    if database:
-        options.database = database.get_dbname()
+    database = DbState().open_database(database_dir)
+    #options.database = database.get_dbname()
     ## Options after opening:
     if options.import_file:
         user = User()
@@ -378,6 +383,12 @@ def main():
     # Start server up, or exit:
     if not options.server:
         return
+    # Starting server:
+    define("database", default="Untitled Family Tree", type=str)
+    options.database = database.get_dbname()
+    if options.password_hash is None:
+        plaintext = getpass.getpass()
+        options.password_hash = crypt.hash(plaintext)
     tornado.log.logging.info("gPrime starting...")
     if options.debug:
         import tornado.autoreload
@@ -385,7 +396,7 @@ def main():
         log = logging.getLogger()
         log.setLevel(logging.DEBUG)
         tornado.log.logging.info("Debug mode...")
-        directory = options.data_dir
+        directory = gprime.const.DATA_DIR
         template_directory = os.path.join(directory, 'templates')
         tornado.log.logging.info(template_directory)
         for dirpath, dirnames, filenames in os.walk(template_directory):
@@ -396,8 +407,8 @@ def main():
     app = GPrimeApp(options, database)
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
-    for key in ["port", "home_dir", "hostname", "database", "sitename",
-                "debug", "xsrf", "data_dir", "config", "username",
+    for key in ["port", "site_dir", "hostname", "sitename",
+                "debug", "xsrf", "config", "username",
                 "password_hash"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
     tornado.log.logging.info("Control+C twice to stop server. Running...")

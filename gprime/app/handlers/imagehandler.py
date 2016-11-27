@@ -722,7 +722,7 @@ class ImageHandler(BaseHandler):
         PORT -
         """
         # File path settings
-        for name in ["HOMEDIR", "PORT", "HOSTNAME", "GET_IMAGE_FN"]:
+        for name in ["SITE_DIR", "PORT", "HOSTNAME", "GET_IMAGE_FN"]:
             if name in kwargs:
                 setattr(self, name, kwargs[name])
                 del kwargs[name]
@@ -730,9 +730,10 @@ class ImageHandler(BaseHandler):
                 raise Exception("ImageHandler needs '%s'" % name)
         super().__init__(*args, **kwargs)
 
-        self.CACHEDIR = os.path.join(self.HOMEDIR, "cache/")
-        self.UPLOADDIR = os.path.join(self.HOMEDIR, "media/")
-        self.UPLOADLINKDIR = os.path.join(self.UPLOADDIR, "urls/")
+        self.CACHEDIR = os.path.join(self.SITE_DIR, "media", "cache")
+        # FIXME, allow uploads:
+        self.UPLOADDIR = os.path.join(self.SITE_DIR, "media", "upload")
+        self.UPLOADLINKDIR = os.path.join(self.SITE_DIR, "media", "upload")
         self.MAXUPLOADFILES = 1000
         self.SUBMIT_URL = "submit"
 

@@ -184,7 +184,7 @@ class DbState(Callback):
         Make a database, given a plugin id.
         """
         from .plug import BasePluginManager
-        from .const import PLUGINS_DIR, USER_PLUGINS
+        from .const import PLUGINS_DIR
 
         pmgr = BasePluginManager.get_instance()
         pdata = pmgr.get_plugin(plugin_id)
@@ -193,7 +193,7 @@ class DbState(Callback):
             # This might happen if using gramps from outside, and
             # we haven't loaded plugins yet
             pmgr.reg_plugins(PLUGINS_DIR, self, None)
-            pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
+            #pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
             pdata = pmgr.get_plugin(plugin_id)
 
         if pdata:
@@ -295,7 +295,7 @@ class DbState(Callback):
         Import the filename into the db.
         """
         from .plug import BasePluginManager
-        from .const import PLUGINS_DIR, USER_PLUGINS
+        from .const import PLUGINS_DIR
         from gprime.cli.user import User
         pmgr = BasePluginManager.get_instance()
         if user is None:
@@ -307,7 +307,7 @@ class DbState(Callback):
             # This might happen if using gramps from outside, and
             # we haven't loaded plugins yet
             pmgr.reg_plugins(PLUGINS_DIR, self, None)
-            pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
+            #pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
             import_list = pmgr.get_reg_importers()
         for pdata in import_list:
             if extension == pdata.extension:

@@ -76,6 +76,7 @@ class ResourcePath:
         self.data_dir = os.path.join(resource_path, 'data')
         self.image_dir = os.path.join(resource_path, 'images')
         self.locale_dir = os.path.join(resource_path, 'locale')
+        # If not installed, use build/mo for translations:
         if not os.path.exists(self.locale_dir):
             self.locale_dir = os.path.abspath(
                 os.path.join(os.path.dirname(__file__),
@@ -86,4 +87,22 @@ class ResourcePath:
                 LOG.error("Unable to find resource on path: %s" % folder)
         self.initialized = True
 
-
+    def get_user_home(self, username):
+        """
+        USER_HOME is now dynamic, based on logged in user.
+        """
+        """
+        VERSION_DIR = os.path.join(
+            USER_HOME, "gprime%s%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1]))
+        CUSTOM_FILTERS = os.path.join(VERSION_DIR, "custom_filters.xml")
+        REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
+        TOOL_OPTIONS = os.path.join(USER_HOME, "tool_options.xml")
+        TEMP_DIR = os.path.join(USER_HOME, "temp")
+        THUMB_DIR = os.path.join(USER_HOME, "thumb")
+        THUMB_NORMAL = os.path.join(THUMB_DIR, "normal")
+        THUMB_LARGE = os.path.join(THUMB_DIR, "large")
+        USER_PLUGINS = os.path.join(VERSION_DIR, "plugins")
+        USER_CSS = os.path.join(USER_HOME, "css")
+        """
+        return None # os.path.join(site, "users", username)
+        

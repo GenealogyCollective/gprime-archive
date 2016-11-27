@@ -40,7 +40,6 @@ import logging
 # Gramps imports
 #
 #---------------------------------------------------------------
-from .const import HOME_DIR, USER_HOME, VERSION_DIR
 from .utils.configmanager import ConfigManager
 from .const import LOCALE as glocale
 _ = glocale.translation.gettext
@@ -54,7 +53,7 @@ def _T_(value): # enable deferred translations (see Python docs 22.1.3.4)
 # Constants
 #
 #---------------------------------------------------------------
-INIFILE = os.path.join(VERSION_DIR, "gramps.ini")
+INIFILE = os.path.join("FIXME", "gprime.ini")
 
 #---------------------------------------------------------------
 #
@@ -160,7 +159,6 @@ register('behavior.addons-url', "https://raw.githubusercontent.com/gramps-projec
 register('database.backend', 'bsddb')
 register('database.compress-backup', True)
 register('database.autobackup', True) ## make backup when exiting, if there are changes
-register('database.path', os.path.join(HOME_DIR, 'grampsdb'))
 
 register('export.proxy-order',
          [["privacy", 0],
@@ -287,11 +285,8 @@ register('interface.treemodel-cache-size', 1000)
 register('paths.recent-export-dir', '')
 register('paths.recent-file', '')
 register('paths.recent-import-dir', '')
-register('paths.report-directory', USER_HOME)
-register('paths.website-directory', USER_HOME)
 register('paths.website-cms-uri', '')
 register('paths.website-cal-uri', '')
-register('paths.quick-backup-directory', USER_HOME)
 register('paths.quick-backup-filename',
          "%(filename)s_%(year)d-%(month)02d-%(day)02d.%(extension)s")
 
@@ -372,12 +367,13 @@ register('plugin.addonplugins', [])
 
 # If we have not already upgraded to this version,
 # we can tell by seeing if there is a key file for this version:
-if not os.path.exists(CONFIGMAN.filename):
+## FIXME
+if False and not os.path.exists(CONFIGMAN.filename):
     # If not, let's read old if there:
-    if os.path.exists(os.path.join(HOME_DIR, "keys.ini")):
+    if os.path.exists(os.path.join(USER_HOME, "keys.ini")):
         # read it in old style:
         logging.warning("Importing old key file 'keys.ini'...")
-        CONFIGMAN.load(os.path.join(HOME_DIR, "keys.ini"),
+        CONFIGMAN.load(os.path.join(USER_HOME, "keys.ini"),
                        oldstyle=True)
         logging.warning("Done importing old key file 'keys.ini'")
     # other version upgrades here...

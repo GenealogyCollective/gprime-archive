@@ -87,40 +87,6 @@ APP_VCARD = ["text/x-vcard", "text/x-vcalendar"]
 
 #-------------------------------------------------------------------------
 #
-# Determine the home directory. According to Wikipedia, most UNIX like
-# systems use HOME. I'm assuming that this would apply to OS X as well.
-# Windows apparently uses USERPROFILE
-#
-#-------------------------------------------------------------------------
-if 'GPRIMEHOME' in os.environ:
-    USER_HOME = get_env_var('GPRIMEHOME')
-    HOME_DIR = os.path.join(USER_HOME, 'gprime')
-elif 'USERPROFILE' in os.environ:
-    USER_HOME = get_env_var('USERPROFILE')
-    if 'APPDATA' in os.environ:
-        HOME_DIR = os.path.join(get_env_var('APPDATA'), 'gprime')
-    else:
-        HOME_DIR = os.path.join(USER_HOME, 'gprime')
-else:
-    USER_HOME = get_env_var('HOME')
-    HOME_DIR = os.path.join(USER_HOME, '.gramps')
-
-VERSION_DIR = os.path.join(
-    HOME_DIR, "gprime%s%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1]))
-
-CUSTOM_FILTERS = os.path.join(VERSION_DIR, "custom_filters.xml")
-REPORT_OPTIONS = os.path.join(HOME_DIR, "report_options.xml")
-TOOL_OPTIONS = os.path.join(HOME_DIR, "tool_options.xml")
-
-TEMP_DIR = os.path.join(HOME_DIR, "temp")
-THUMB_DIR = os.path.join(HOME_DIR, "thumb")
-THUMB_NORMAL = os.path.join(THUMB_DIR, "normal")
-THUMB_LARGE = os.path.join(THUMB_DIR, "large")
-USER_PLUGINS = os.path.join(VERSION_DIR, "plugins")
-USER_CSS = os.path.join(HOME_DIR, "css")
-
-#-------------------------------------------------------------------------
-#
 # Paths to python modules - assumes that the root directory is one level
 # above this one, and that the plugins directory is below the root directory.
 #
@@ -154,34 +120,11 @@ LICENSE_FILE = os.path.join(DATA_DIR, 'LICENSE')
 
 #-------------------------------------------------------------------------
 #
-# Gramps environment variables dictionary
-#
-#-------------------------------------------------------------------------
-ENV = {
-    "USER_HOME": USER_HOME,
-    "HOME_DIR": HOME_DIR,
-    "VERSION": VERSION,
-    "major_version": major_version,
-    "VERSION_DIR": VERSION_DIR,
-    "TEMP_DIR": TEMP_DIR,
-    "THUMB_DIR": THUMB_DIR,
-    "THUMB_NORMAL": THUMB_NORMAL,
-    "THUMB_LARGE": THUMB_LARGE,
-    "USER_PLUGINS": USER_PLUGINS,
-    "ROOT_DIR": ROOT_DIR,
-    "PLUGINS_DIR": PLUGINS_DIR,
-    "DATA_DIR": DATA_DIR,
-    "IMAGE_DIR": IMAGE_DIR,
-}
-
-#-------------------------------------------------------------------------
-#
 # Init Localization
 #
 #-------------------------------------------------------------------------
 LOCALE = Locale(localedir=_resources.locale_dir)
 _ = LOCALE.translation.sgettext
-GTK_GETTEXT_DOMAIN = 'gtk30'
 
 #-------------------------------------------------------------------------
 #
@@ -190,23 +133,8 @@ GTK_GETTEXT_DOMAIN = 'gtk30'
 #-------------------------------------------------------------------------
 COPYRIGHT_MSG = ("© 2001-2006 Donald N. Allingham\n" +
                  "© 2007-2016 The Gramps Developers\n"
-                 "© 2016 The Gprime Developers\n")
-COMMENTS = _("Gprime is a personal genealogy program.")
-AUTHORS = [
-    "Douglas Blank",
-    "Alexander Roitman",
-    "Benny Malengier",
-    "Brian Matherly",
-    "Donald A. Peterson",
-    "Donald N. Allingham",
-    "David Hampton",
-    "Martin Hawlisch",
-    "Richard Taylor",
-    "Tim Waugh",
-    "John Ralls"
-    ]
-
-AUTHORS_FILE = os.path.join(DATA_DIR, "authors.xml")
+                 "© 2016 The gPrime Developers\n")
+COMMENTS = _("gPrime is a web-based genealogy program.")
 
 #-------------------------------------------------------------------------
 #

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-26 19:04-0500\n"
+"POT-Creation-Date: 2016-11-27 08:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -466,7 +466,6 @@ msgstr ""
 #: ../gprime/utils/lds.py:86 ../gprime/utils/unknown.py:119
 #: ../gprime/utils/unknown.py:121 ../gprime/utils/unknown.py:125
 #: ../gprime/utils/unknown.py:131 ../gprime/utils/unknown.py:136
-#: ../gprime/plugins/db/bsddb/write.py:2520
 #: ../gprime/plugins/lib/maps/geography.py:815
 #: ../gprime/plugins/lib/maps/geography.py:825
 #: ../gprime/plugins/lib/maps/geography.py:826
@@ -731,39 +730,39 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../gprime/config.py:304
+#: ../gprime/config.py:303
 msgid "Imported %Y/%m/%d %H:%M:%S"
 msgstr ""
 
-#: ../gprime/config.py:318
+#: ../gprime/config.py:317
 msgid "Missing Given Name"
 msgstr ""
 
-#: ../gprime/config.py:319
+#: ../gprime/config.py:318
 msgid "Missing Record"
 msgstr ""
 
-#: ../gprime/config.py:320
+#: ../gprime/config.py:319
 msgid "Missing Surname"
 msgstr ""
 
-#: ../gprime/config.py:327 ../gprime/config.py:329
+#: ../gprime/config.py:326 ../gprime/config.py:328
 msgid "[Living]"
 msgstr ""
 
-#: ../gprime/config.py:328
+#: ../gprime/config.py:327
 msgid "Private Record"
 msgstr ""
 
-#: ../gprime/const.py:194
+#: ../gprime/const.py:191
 msgid "Gprime is a personal genealogy program."
 msgstr ""
 
-#: ../gprime/const.py:219
+#: ../gprime/const.py:201
 msgid "surname|none"
 msgstr ""
 
-#: ../gprime/const.py:220
+#: ../gprime/const.py:202
 msgid "given-name|none"
 msgstr ""
 
@@ -1723,83 +1722,69 @@ msgid ""
 msgstr ""
 
 #: ../gprime/db/generic.py:182 ../gprime/db/generic.py:221
-#: ../gprime/db/generic.py:907 ../gprime/plugins/db/bsddb/undoredo.py:245
-#: ../gprime/plugins/db/bsddb/undoredo.py:282
-#: ../gprime/plugins/db/bsddb/write.py:2326
+#: ../gprime/db/generic.py:907
 #, python-format
 msgid "_Undo %s"
 msgstr ""
 
 #: ../gprime/db/generic.py:188 ../gprime/db/generic.py:227
-#: ../gprime/plugins/db/bsddb/undoredo.py:251
-#: ../gprime/plugins/db/bsddb/undoredo.py:288
 #, python-format
 msgid "_Redo %s"
 msgstr ""
 
-#: ../gprime/db/generic.py:2145 ../gprime/plugins/db/bsddb/read.py:2070
-#: ../gprime/plugins/db/bsddb/write.py:2523
+#: ../gprime/db/generic.py:2145
 msgid "Number of people"
 msgstr ""
 
-#: ../gprime/db/generic.py:2146 ../gprime/plugins/db/bsddb/read.py:2071
-#: ../gprime/plugins/db/bsddb/write.py:2524
+#: ../gprime/db/generic.py:2146
 #: ../gprime/plugins/webreport/narrativeweb.py:8108
 #: ../gprime/plugins/webreport/narrativeweb.py:8174
 msgid "Number of families"
 msgstr ""
 
-#: ../gprime/db/generic.py:2147 ../gprime/plugins/db/bsddb/read.py:2072
-#: ../gprime/plugins/db/bsddb/write.py:2525
+#: ../gprime/db/generic.py:2147
 #: ../gprime/plugins/webreport/narrativeweb.py:8135
 #: ../gprime/plugins/webreport/narrativeweb.py:8186
 msgid "Number of sources"
 msgstr ""
 
-#: ../gprime/db/generic.py:2148 ../gprime/plugins/db/bsddb/read.py:2073
-#: ../gprime/plugins/db/bsddb/write.py:2526
+#: ../gprime/db/generic.py:2148
 #: ../gprime/plugins/webreport/narrativeweb.py:8139
 #: ../gprime/plugins/webreport/narrativeweb.py:8189
 msgid "Number of citations"
 msgstr ""
 
-#: ../gprime/db/generic.py:2149 ../gprime/plugins/db/bsddb/read.py:2074
-#: ../gprime/plugins/db/bsddb/write.py:2527
+#: ../gprime/db/generic.py:2149
 #: ../gprime/plugins/webreport/narrativeweb.py:8128
 #: ../gprime/plugins/webreport/narrativeweb.py:8180
 msgid "Number of events"
 msgstr ""
 
-#: ../gprime/db/generic.py:2150 ../gprime/plugins/db/bsddb/read.py:2075
-#: ../gprime/plugins/db/bsddb/write.py:2528
+#: ../gprime/db/generic.py:2150
 msgid "Number of media"
 msgstr ""
 
-#: ../gprime/db/generic.py:2151 ../gprime/plugins/db/bsddb/read.py:2076
-#: ../gprime/plugins/db/bsddb/write.py:2529
+#: ../gprime/db/generic.py:2151
 #: ../gprime/plugins/webreport/narrativeweb.py:8131
 #: ../gprime/plugins/webreport/narrativeweb.py:8183
 msgid "Number of places"
 msgstr ""
 
-#: ../gprime/db/generic.py:2152 ../gprime/plugins/db/bsddb/read.py:2077
-#: ../gprime/plugins/db/bsddb/write.py:2530
+#: ../gprime/db/generic.py:2152
 #: ../gprime/plugins/webreport/narrativeweb.py:8143
 #: ../gprime/plugins/webreport/narrativeweb.py:8192
 msgid "Number of repositories"
 msgstr ""
 
-#: ../gprime/db/generic.py:2153 ../gprime/plugins/db/bsddb/read.py:2078
-#: ../gprime/plugins/db/bsddb/write.py:2531
+#: ../gprime/db/generic.py:2153
 msgid "Number of notes"
 msgstr ""
 
-#: ../gprime/db/generic.py:2154 ../gprime/plugins/db/bsddb/read.py:2079
-#: ../gprime/plugins/db/bsddb/write.py:2532
+#: ../gprime/db/generic.py:2154
 msgid "Number of tags"
 msgstr ""
 
-#: ../gprime/db/generic.py:2155 ../gprime/plugins/db/bsddb/write.py:2533
+#: ../gprime/db/generic.py:2155
 msgid "Data version"
 msgstr ""
 
@@ -4832,6 +4817,8 @@ msgstr ""
 
 #: ../gprime/lib/event.py:186 ../gprime/plugins/textreport/placereport.py:457
 #: ../gprime/plugins/webreport/narrativeweb.py:989
+#: ../share/gprime/data/templates/family.html:175
+#: ../share/gprime/data/templates/person.html:132
 msgid "Event"
 msgstr ""
 
@@ -4928,6 +4915,8 @@ msgstr ""
 #: ../gprime/plugins/webreport/narrativeweb.py:2362
 #: ../gprime/plugins/webreport/narrativeweb.py:5084
 #: ../gprime/plugins/webreport/narrativeweb.py:5283
+#: ../share/gprime/data/templates/family.html:179
+#: ../share/gprime/data/templates/person.html:139
 msgid "Media"
 msgstr ""
 
@@ -4997,6 +4986,7 @@ msgstr ""
 #: ../gprime/lib/eventtype.py:139 ../gprime/plugins/export/exportcsv.py:515
 #: ../gprime/plugins/importer/importcsv.py:210
 #: ../gprime/plugins/webreport/narrativeweb.py:3509
+#: ../share/gprime/data/templates/person.html:133
 msgid "Family"
 msgstr ""
 
@@ -5513,6 +5503,7 @@ msgstr ""
 #: ../gprime/plugins/textreport/tagreport.py:426
 #: ../gprime/plugins/textreport/tagreport.py:654
 #: ../gprime/plugins/webreport/narrativeweb.py:7581
+#: ../share/gprime/data/templates/person.html:134
 msgid "Name"
 msgstr ""
 
@@ -5662,7 +5653,8 @@ msgstr ""
 msgid "Source text"
 msgstr ""
 
-#: ../gprime/lib/notetype.py:79
+#: ../gprime/lib/notetype.py:79 ../share/gprime/data/templates/family.html:176
+#: ../share/gprime/data/templates/person.html:135
 msgid "Citation"
 msgstr ""
 
@@ -6549,6 +6541,8 @@ msgstr ""
 #: ../gprime/plugins/importer/importcsv.py:169
 #: ../gprime/plugins/textreport/familygroup.py:365
 #: ../gprime/plugins/textreport/familygroup.py:427
+#: ../share/gprime/data/templates/family.html:178
+#: ../share/gprime/data/templates/person.html:138
 msgid "Note"
 msgstr ""
 
@@ -7642,107 +7636,6 @@ msgstr ""
 
 #: ../gprime/plugins/db/dbapi/dbapi.gpr.py:25
 msgid "DB-API Database"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/bsddb.gpr.py:23
-msgid "BSDDB"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/bsddb.gpr.py:24
-msgid "_BSDDB Database"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/bsddb.gpr.py:25
-msgid "Berkeley Software Distribution Database Backend"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:398
-#, python-format
-msgid ""
-"%(n1)6d  People        upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:399
-#, python-format
-msgid ""
-"%(n1)6d  Families      upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:400
-#, python-format
-msgid ""
-"%(n1)6d  Events        upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:401
-#, python-format
-msgid ""
-"%(n1)6d  Media Objects upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:402
-#, python-format
-msgid ""
-"%(n1)6d  Places        upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:403
-#, python-format
-msgid ""
-"%(n1)6d  Repositories  upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:404
-#, python-format
-msgid ""
-"%(n1)6d  Sources       upgraded with %(n2)6d citations in %(n3)6d secs\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:789
-msgid "Number of new objects upgraded:\n"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:798
-msgid ""
-"\n"
-"\n"
-"You may want to run\n"
-"Tools -> Family Tree Processing -> Merge\n"
-"in order to merge citations that contain similar\n"
-"information"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/upgrade.py:802
-msgid "Upgrade Statistics"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/write.py:1330
-#, python-format
-msgid ""
-"An attempt is made to save a reference key which is partly bytecode, this is "
-"not allowed.\n"
-"Key is %s"
-msgstr ""
-
-#. Make a tuple of the functions and classes that we need for
-#. each of the primary object tables.
-#: ../gprime/plugins/db/bsddb/write.py:1399
-msgid "Rebuild reference map"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/write.py:2173
-#, python-format
-msgid ""
-"A second transaction is started while there is still a transaction, \"%s\", "
-"active in the database."
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/write.py:2522
-msgid "DB-API version"
-msgstr ""
-
-#: ../gprime/plugins/db/bsddb/write.py:2534
-msgid "Database db version"
 msgstr ""
 
 #: ../gprime/plugins/db/dbapi/inmemorydb.gpr.py:23
@@ -11020,6 +10913,7 @@ msgstr ""
 #: ../gprime/plugins/lib/libgedcom.py:5584
 #: ../gprime/plugins/textreport/familygroup.py:347
 #: ../gprime/plugins/webreport/narrativeweb.py:7928
+#: ../share/gprime/data/templates/person.html:137
 msgid "Address"
 msgstr ""
 
@@ -15612,6 +15506,7 @@ msgstr ""
 #: ../gprime/plugins/textreport/familygroup.py:638
 #: ../gprime/plugins/textreport/indivcomplete.py:628
 #: ../gprime/plugins/webreport/narrativeweb.py:753
+#: ../share/gprime/data/templates/family.html:174
 msgid "Children"
 msgstr ""
 
@@ -15956,6 +15851,7 @@ msgid "Failed"
 msgstr ""
 
 #: ../gprime/plugins/textreport/notelinkreport.py:113
+#: ../share/gprime/data/templates/person.html:140
 msgid "Internet"
 msgstr ""
 
@@ -16699,6 +16595,14 @@ msgstr ""
 #: ../gprime/plugins/webreport/narrativeweb.py:3166
 #: ../gprime/plugins/webreport/narrativeweb.py:5734
 #: ../gprime/plugins/webreport/narrativeweb.py:6768
+#: ../share/gprime/data/templates/citation.html:102
+#: ../share/gprime/data/templates/event.html:102
+#: ../share/gprime/data/templates/media.html:102
+#: ../share/gprime/data/templates/note.html:107
+#: ../share/gprime/data/templates/place.html:102
+#: ../share/gprime/data/templates/repository.html:102
+#: ../share/gprime/data/templates/source.html:102
+#: ../share/gprime/data/templates/tag.html:98
 msgid "References"
 msgstr ""
 
@@ -18837,6 +18741,15 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+#: ../share/gprime/data/templates/error_404.html:4
+#: ../share/gprime/data/templates/error_404.html:5
+msgid "404 Error"
+msgstr ""
+
+#: ../share/gprime/data/templates/error_404.html:9
+msgid "Item not found. Please check the input and try again."
+msgstr ""
+
 #: ../share/gprime/data/templates/error_unknown.html:4
 #: ../share/gprime/data/templates/error_unknown.html:5
 msgid "Unknown Error"
@@ -18870,6 +18783,15 @@ msgstr ""
 msgid "Delete Family"
 msgstr ""
 
+#: ../share/gprime/data/templates/family.html:177
+#: ../share/gprime/data/templates/person.html:136
+msgid "Attribute"
+msgstr ""
+
+#: ../share/gprime/data/templates/family.html:180
+msgid "LDS"
+msgstr ""
+
 #: ../share/gprime/data/templates/home.html:7
 #, c-format
 msgid "Logged in: %s"
@@ -18881,6 +18803,11 @@ msgstr ""
 
 #: ../share/gprime/data/templates/home.html:12
 msgid "Count"
+msgstr ""
+
+#: ../share/gprime/data/templates/login.html:3
+#: ../share/gprime/data/templates/login.html:4
+msgid "login"
 msgstr ""
 
 #: ../share/gprime/data/templates/login.html:7
@@ -18941,6 +18868,10 @@ msgstr ""
 
 #: ../share/gprime/data/templates/person.html:121
 msgid "Delete Person"
+msgstr ""
+
+#: ../share/gprime/data/templates/person.html:141
+msgid "Association"
 msgstr ""
 
 #: ../share/gprime/data/templates/place.html:89

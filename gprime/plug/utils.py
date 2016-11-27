@@ -46,7 +46,7 @@ LOG = logging.getLogger(".gen.plug")
 #
 #-------------------------------------------------------------------------
 from ._pluginreg import make_environment
-from ..const import USER_PLUGINS
+#from ..const import USER_PLUGINS
 from gprime.version import VERSION_TUPLE
 from . import BasePluginManager
 from ..utils.configmanager import safe_eval

@@ -42,7 +42,7 @@ LOG = logging.getLogger(".gen.utils.file")
 #
 #-------------------------------------------------------------------------
 from ..constfunc import win, mac, get_env_var
-from ..const import TEMP_DIR, USER_HOME, ENV, LOCALE as glocale
+from ..const import LOCALE as glocale
 
 #-------------------------------------------------------------------------
 #

@@ -343,11 +343,6 @@ gprime/utils/place.py
 gprime/utils/string.py
 gprime/utils/unknown.py
 gprime/plugins/db/dbapi/dbapi.gpr.py
-gprime/plugins/db/bsddb/bsddb.gpr.py
-gprime/plugins/db/bsddb/read.py
-gprime/plugins/db/bsddb/undoredo.py
-gprime/plugins/db/bsddb/upgrade.py
-gprime/plugins/db/bsddb/write.py
 gprime/plugins/db/dbapi/inmemorydb.gpr.py
 gprime/plugins/db/dbapi/inmemorydb.py
 gprime/plugins/docgen/asciidoc.py

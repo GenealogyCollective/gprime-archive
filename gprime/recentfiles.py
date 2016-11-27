@@ -37,7 +37,7 @@ try:
 except ImportError:
     USE_LOCK = False
 
-from gprime.const import HOME_DIR, LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 #-------------------------------------------------------------------------
@@ -45,7 +45,7 @@ _ = glocale.translation.gettext
 # Constants
 #
 #-------------------------------------------------------------------------
-GRAMPS_FILENAME = os.path.join(HOME_DIR, "recent-files-gramps.xml")
+GRAMPS_FILENAME = os.path.join("FIXME", "recent-files-gramps.xml")
 MAX_GRAMPS_ITEMS = 10
 
 #-------------------------------------------------------------------------

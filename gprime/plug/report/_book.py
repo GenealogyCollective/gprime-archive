@@ -57,7 +57,7 @@ from xml.sax.saxutils import escape
 #-------------------------------------------------------------------------
 from ...const import LOCALE as glocale
 _ = glocale.translation.gettext
-from ...const import HOME_DIR
+#from ...const import USER_HOME
 from ...utils.cast import get_type_converter_by_name, type_name
 from ..docgen import StyleSheet, StyleSheetList
 from .. import BasePluginManager
@@ -424,7 +424,7 @@ class BookList:
         self.dbase = dbase
         self.bookmap = {}
         self._needs_saving = None
-        self.file = os.path.join(HOME_DIR, filename)
+        self.file = os.path.join(USER_HOME, filename)
         self.parse()
 
     def delete_book(self, name):

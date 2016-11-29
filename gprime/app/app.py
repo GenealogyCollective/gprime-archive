@@ -199,11 +199,7 @@ class GPrimeApp(Application):
                 {
                     'path': gprime.const.IMAGE_DIR,
                 }),
-            url(r"/misc/(.*)", StaticFileHandler,
-                {
-                    'path': gprime.const.IMAGE_DIR,
-                }),
-            url(r"/img/(.*)", StaticFileHandler,
+            url(r"/img/(.*)", StaticFileHandler, # CSS images
                 {
                     'path': gprime.const.IMAGE_DIR,
                 }),
@@ -357,6 +353,7 @@ def main():
     from gprime.dbstate import DbState
     from gprime.cli.user import User
     ### Handle site options:
+    gprime.const.set_site_dir(options.site_dir) ## when we don't have options
     database_dir = os.path.join(options.site_dir, "database")
     users_dir = os.path.join(options.site_dir, "users")
     user_dir = os.path.join(options.site_dir, "users", options.username)

@@ -154,9 +154,9 @@ def expand_path(path, normalize = True):
     (it is technically possible to use characters "{", "}" in  paths)
     """
     environment = dict(os.environ)
-    environment.update(ENV)
-    if not 'GRAMPSHOME' in environment:
-        environment['GRAMPSHOME'] = USER_HOME
+    # FIXME: reimplement ENV here
+    #environment.update(ENV)
+    #environment['GRAMPSHOME'] = USER_HOME
     path = path.format(**environment)
     if normalize:
         path = os.path.normcase(os.path.normpath(os.path.abspath(path)))
@@ -177,16 +177,17 @@ def expand_media_path(mpath, db):
      - Convert to absolute path
      - Convert slashes and case (on Windows)
     """
+    from gprime.const import get_site_dir
     # Use home dir if no media_path specified
     if mpath is None:
-        mpath = os.path.abspath(USER_HOME)
+        mpath = os.path.abspath(os.path.join(get_site_dir(), "media"))
     # Expand environment variables
     mpath = expand_path(mpath, False)
     # Relative mediapath are considered as relative to the database
     if not os.path.isabs(mpath):
         basepath = db.get_save_path()
         if not basepath:
-            basepath = USER_HOME
+            basepath = os.path.abspath(os.path.join(get_site_dir(), "media"))
         mpath = os.path.join(os.path.abspath(basepath), mpath)
     # Normalize path
     mpath = os.path.normcase(os.path.normpath(os.path.abspath(mpath)))

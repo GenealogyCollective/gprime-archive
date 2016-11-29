@@ -730,10 +730,10 @@ class ImageHandler(BaseHandler):
                 raise Exception("ImageHandler needs '%s'" % name)
         super().__init__(*args, **kwargs)
 
-        self.CACHEDIR = os.path.join(self.SITE_DIR, "media", "cache")
+        self.CACHEDIR = os.path.join(self.SITE_DIR, "media", "cache/")
         # FIXME, allow uploads:
-        self.UPLOADDIR = os.path.join(self.SITE_DIR, "media", "upload")
-        self.UPLOADLINKDIR = os.path.join(self.SITE_DIR, "media", "upload")
+        self.UPLOADDIR = os.path.join(self.SITE_DIR, "media", "upload/")
+        self.UPLOADLINKDIR = os.path.join(self.SITE_DIR, "media", "upload/")
         self.MAXUPLOADFILES = 1000
         self.SUBMIT_URL = "submit"
 

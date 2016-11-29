@@ -34,13 +34,13 @@ def make_button(text, link):
 def make_icon_button(text, link, **kwargs):
     if "icon" in kwargs:
         if kwargs["icon"] == "+":
-            img_src = "/misc/add.png"
+            img_src = "/images/add.png"
         elif kwargs["icon"] == "?":
-            img_src = "/misc/text-editor.png"
+            img_src = "/images/text-editor.png"
         elif kwargs["icon"] == "-":
-            img_src = "/misc/gtk-remove.png"
+            img_src = "/images/gtk-remove.png"
         elif kwargs["icon"] == "p": # pick
-            img_src = "/misc/stock_index_24.png"
+            img_src = "/images/stock_index_24.png"
         else:
             raise Exception("invalid icon: %s" % kwargs["icon"])
         return ("""<img height="22" width="22" alt="%(text)s" title="%(text)s"
@@ -106,19 +106,19 @@ class Table(object):
             div = Html("div", style="background-color: lightgray; padding: 2px 0px 0px 2px")
             div += Html("img", height="22", width="22",
                         alt="Delete row", title="Delete row",
-                        src="/misc/gtk-remove.png",
+                        src="/images/gtk-remove.png",
                         onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
                         onclick="document.location.href='/person/b2cfa6ca1e174b1f63d/remove/eventref/1'",
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row up", title="Move row up",
-                        src="/misc/up.png",
+                        src="/images/up.png",
                         onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
                         onclick="document.location.href='/person/b2cfa6ca1e174b1f63d/up/eventref/1'",
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row down", title="Move row down",
-                        src="/misc/down.png",
+                        src="/images/down.png",
                         onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
                         onclick="document.location.href='/person/b2cfa6ca1e174b1f63d/down/eventref/1'",
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")

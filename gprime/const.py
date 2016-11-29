@@ -260,3 +260,34 @@ EXPANDED = 2
 
 TYPE_BOX_NORMAL = 0
 TYPE_BOX_FAMILY = 1
+
+_SITE_DIR = None
+
+def set_site_dir(site_dir):
+    global _SITE_DIR
+    _SITE_DIR = site_dir
+
+def get_site_dir():
+    return _SITE_DIR
+
+def get_user_home(self, username):
+    """
+    USER_HOME is now dynamic, based on logged in user.
+    """
+    return os.path.join(get_site_dir(), username)
+
+"""
+All of these were based on USER_HOME:
+
+VERSION_DIR = os.path.join(
+  USER_HOME, "gprime%s%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1]))
+CUSTOM_FILTERS = os.path.join(VERSION_DIR, "custom_filters.xml")
+REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
+TOOL_OPTIONS = os.path.join(USER_HOME, "tool_options.xml")
+TEMP_DIR = os.path.join(USER_HOME, "temp")
+THUMB_DIR = os.path.join(USER_HOME, "thumb")
+THUMB_NORMAL = os.path.join(THUMB_DIR, "normal")
+THUMB_LARGE = os.path.join(THUMB_DIR, "large")
+USER_PLUGINS = os.path.join(VERSION_DIR, "plugins")
+USER_CSS = os.path.join(USER_HOME, "css")
+"""

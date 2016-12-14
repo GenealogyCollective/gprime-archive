@@ -352,6 +352,8 @@ def main():
         raise Exception("--username=NAME was not provided")
     if options.site_dir is None:
         raise Exception("--site-dir=NAME was not provided")
+    else:
+        options.site_dir = os.path.expanduser(options.site_dir)
     # Handle gPrime intialization:
     import gprime.const # initializes locale
     from gprime.dbstate import DbState

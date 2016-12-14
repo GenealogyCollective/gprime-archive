@@ -251,22 +251,9 @@ class DbState(Callback):
         """
         # test to see if dbname is a directory:
         if os.path.isdir(dbname):
-            try:
-                return self._open_database_by_path(dbname)
-            except:
-                pass
-        # Failed, look up name:
-        dbdir = os.path.expanduser(config.get('database.path'))
-        if os.path.exists(dbdir):
-            for dpath in os.listdir(dbdir):
-                dirpath = os.path.join(dbdir, dpath)
-                path_name = os.path.join(dirpath, "name.txt")
-                if os.path.isfile(path_name):
-                    with open(path_name, 'r', encoding='utf8') as file:
-                        name = file.readline().strip()
-                    if dbname == name:
-                        return self._open_database_by_path(dirpath)
-        return None
+            return self._open_database_by_path(dbname)
+        else:
+            raise Exception("No such database: %s" % dbname)
 
     def _open_database_by_path(self, dirpath):
         """

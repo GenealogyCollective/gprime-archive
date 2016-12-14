@@ -195,6 +195,10 @@ class GPrimeApp(Application):
                 {
                     'path': os.path.join(gprime.const.DATA_DIR, "css"),
                 }),
+            url(r"/js/(.*)", StaticFileHandler,
+                {
+                    'path': os.path.join(gprime.const.DATA_DIR, "javascript"),
+                }),
             url(r"/images/(.*)", StaticFileHandler,
                 {
                     'path': gprime.const.IMAGE_DIR,

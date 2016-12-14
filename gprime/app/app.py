@@ -205,7 +205,7 @@ class GPrimeApp(Application):
                 }),
             url(r"/img/(.*)", StaticFileHandler, # CSS images
                 {
-                    'path': gprime.const.IMAGE_DIR,
+                    'path': os.path.join(gprime.const.DATA_DIR, "img"),
                 }),
         ], **settings)
 

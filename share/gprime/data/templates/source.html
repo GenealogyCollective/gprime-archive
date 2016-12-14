@@ -33,16 +33,27 @@
     </div>
     <hr>
   {% end %}
-
-{#
-
-Gramps ID: N0001                               Type: General
-  Private: False                               Tags:
-Source:        
-
-#}
-
 <form method="post">{% module xsrf_form_html() %}
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("title") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("title", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("author") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("author", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("pubinfo") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("pubinfo", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("abbrev") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("abbrev", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
@@ -99,6 +110,10 @@ Source:
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-notes">{{_("Notes")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-gallery">{{_("Gallery")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-attributes">{{_("Attributes")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-repositories">{{_("Repositories")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 

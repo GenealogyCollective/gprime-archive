@@ -115,7 +115,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
                   be considered persistent.
         :rtype: tuple
         """
-        return (self.handle, self.gramps_id, self.father_handle,
+        return (self.handle, self.gid, self.father_handle,
                 self.mother_handle,
                 [cr.serialize() for cr in self.child_ref_list],
                 self.type.serialize(),
@@ -149,7 +149,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         """
         return {"_class": "Family",
                 "handle": Handle("Family", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "father_handle": Handle("Person", self.father_handle),
                 "mother_handle": Handle("Person", self.mother_handle),
                 "child_ref_list": [cr.to_struct() for cr in self.child_ref_list],
@@ -173,7 +173,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         """
         default = Family()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 Handle.from_struct(struct.get("father_handle",
                                               default.father_handle)),
                 Handle.from_struct(struct.get("mother_handle",
@@ -207,7 +207,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         from .attribute import Attribute
         return {
             "handle": Handle("Family", "FAMILY-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "father_handle": Handle("Person", "PERSON-HANDLE"),
             "mother_handle": Handle("Person", "PERSON-HANDLE"),
             "child_ref_list": [ChildRef],
@@ -228,7 +228,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         return {
             "_class": _("Family"),
             "handle": _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "father_handle": _("Father"),
             "mother_handle": _("Mother"),
             "child_ref_list": _("Children"),
@@ -284,7 +284,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         Convert the data held in a tuple created by the serialize method
         back into the data in a Family structure.
         """
-        (self.handle, self.gramps_id, self.father_handle, self.mother_handle,
+        (self.handle, self.gid, self.father_handle, self.mother_handle,
          child_ref_list, the_type, event_ref_list, media_list,
          attribute_list, lds_seal_list, citation_list, note_list,
          self.change, tag_list, self.private) = data
@@ -414,7 +414,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.gramps_id]
+        return [self.gid]
 
     def get_text_data_child_list(self):
         """

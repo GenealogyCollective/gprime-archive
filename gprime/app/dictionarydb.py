@@ -270,7 +270,7 @@ class DictionaryDb(DbGeneric):
             given_name, surname, gender_type = self.get_person_data(person)
             # update the person:
             self._person_dict[person.handle] = person
-            self._person_id_dict[person.gramps_id] = person
+            self._person_id_dict[person.gid] = person
         else:
             emit = "person-add"
             self.genderStats.count_person(person)
@@ -278,7 +278,7 @@ class DictionaryDb(DbGeneric):
             given_name, surname, gender_type = self.get_person_data(person)
             # Insert the person:
             self._person_dict[person.handle] = person
-            self._person_id_dict[person.gramps_id] = person
+            self._person_id_dict[person.gid] = person
         if not trans.batch:
             self.update_backlinks(person)
             if old_person:
@@ -328,11 +328,11 @@ class DictionaryDb(DbGeneric):
             emit = "family-update"
             old_family = self.get_family_from_handle(family.handle).serialize()
             self._family_dict[family.handle] = family
-            self._family_id_dict[family.gramps_id] = family
+            self._family_id_dict[family.gid] = family
         else:
             emit = "family-add"
             self._family_dict[family.handle] = family
-            self._family_id_dict[family.gramps_id] = family
+            self._family_id_dict[family.gid] = family
         if not trans.batch:
             self.update_backlinks(family)
             op = TXNUPD if old_family else TXNADD
@@ -377,11 +377,11 @@ class DictionaryDb(DbGeneric):
             emit = "citation-update"
             old_citation = self.get_citation_from_handle(citation.handle).serialize()
             self._citation_dict[citation.handle] = citation
-            self._citation_id_dict[citation.gramps_id] = citation
+            self._citation_id_dict[citation.gid] = citation
         else:
             emit = "citation-add"
             self._citation_dict[citation.handle] = citation
-            self._citation_id_dict[citation.gramps_id] = citation
+            self._citation_id_dict[citation.gid] = citation
         if not trans.batch:
             self.update_backlinks(citation)
             op = TXNUPD if old_citation else TXNADD
@@ -411,11 +411,11 @@ class DictionaryDb(DbGeneric):
             emit = "source-update"
             old_source = self.get_source_from_handle(source.handle).serialize()
             self._source_dict[source.handle] = source
-            self._source_id_dict[source.gramps_id] = source
+            self._source_id_dict[source.gid] = source
         else:
             emit = "source-add"
             self._source_dict[source.handle] = source
-            self._source_id_dict[source.gramps_id] = source
+            self._source_id_dict[source.gid] = source
         if not trans.batch:
             self.update_backlinks(source)
             op = TXNUPD if old_source else TXNADD
@@ -447,11 +447,11 @@ class DictionaryDb(DbGeneric):
             emit = "repository-update"
             old_repository = self.get_repository_from_handle(repository.handle).serialize()
             self._repository_dict[repository.handle] = repository
-            self._repository_id_dict[repository.gramps_id] = repository
+            self._repository_id_dict[repository.gid] = repository
         else:
             emit = "repository-add"
             self._repository_dict[repository.handle] = repository
-            self._repository_id_dict[repository.gramps_id] = repository
+            self._repository_id_dict[repository.gid] = repository
         if not trans.batch:
             self.update_backlinks(repository)
             op = TXNUPD if old_repository else TXNADD
@@ -476,11 +476,11 @@ class DictionaryDb(DbGeneric):
             emit = "note-update"
             old_note = self.get_note_from_handle(note.handle).serialize()
             self._note_dict[note.handle] = note
-            self._note_id_dict[note.gramps_id] = note
+            self._note_id_dict[note.gid] = note
         else:
             emit = "note-add"
             self._note_dict[note.handle] = note
-            self._note_id_dict[note.gramps_id] = note
+            self._note_id_dict[note.gid] = note
         if not trans.batch:
             self.update_backlinks(note)
             op = TXNUPD if old_note else TXNADD
@@ -502,11 +502,11 @@ class DictionaryDb(DbGeneric):
             emit = "place-update"
             old_place = self.get_place_from_handle(place.handle).serialize()
             self._place_dict[place.handle] = place
-            self._place_id_dict[place.gramps_id] = place
+            self._place_id_dict[place.gid] = place
         else:
             emit = "place-add"
             self._place_dict[place.handle] = place
-            self._place_id_dict[place.gramps_id] = place
+            self._place_id_dict[place.gid] = place
         if not trans.batch:
             self.update_backlinks(place)
             op = TXNUPD if old_place else TXNADD
@@ -537,11 +537,11 @@ class DictionaryDb(DbGeneric):
             emit = "event-update"
             old_event = self.get_event_from_handle(event.handle).serialize()
             self._event_dict[event.handle] = event
-            self._event_id_dict[event.gramps_id] = event
+            self._event_id_dict[event.gid] = event
         else:
             emit = "event-add"
             self._event_dict[event.handle] = event
-            self._event_id_dict[event.gramps_id] = event
+            self._event_id_dict[event.gid] = event
         if not trans.batch:
             self.update_backlinks(event)
             op = TXNUPD if old_event else TXNADD
@@ -590,11 +590,11 @@ class DictionaryDb(DbGeneric):
             emit = "media-update"
             old_media = self.get_media_from_handle(media.handle).serialize()
             self._media_dict[media.handle] = media
-            self._media_id_dict[media.gramps_id] = media
+            self._media_id_dict[media.gid] = media
         else:
             emit = "media-add"
             self._media_dict[media.handle] = media
-            self._media_id_dict[media.gramps_id] = media
+            self._media_id_dict[media.gid] = media
         if not trans.batch:
             self.update_backlinks(media)
             op = TXNUPD if old_media else TXNADD
@@ -638,7 +638,7 @@ class DictionaryDb(DbGeneric):
         if handle in self.person_map:
             person = Person.create(self.person_map[handle])
             del self._person_dict[handle]
-            del self._person_id_dict[person.gramps_id]
+            del self._person_id_dict[person.gid]
             self.emit("person-delete", ([handle],))
             if not transaction.batch:
                 transaction.add(PERSON_KEY, TXNDEL, person.handle,
@@ -664,7 +664,7 @@ class DictionaryDb(DbGeneric):
             obj = dict[handle]
             del dict[handle]
             dict = getattr(self, "_%s_id_dict" % key2table[key])
-            del dict[obj.gramps_id]
+            del dict[obj.gid]
             self.emit(KEY_TO_NAME_MAP[key] + "-delete", ([handle],))
             if not transaction.batch:
                 data = data_map[handle]
@@ -825,59 +825,59 @@ class DictionaryDb(DbGeneric):
             key = str(key, "utf-8")
         return key in self._tag_dict
 
-    def has_gramps_id_for_person(self, key):
+    def has_gid_for_person(self, key):
         return (key in self._person_id_dict)
 
-    def has_gramps_id_for_family(self, key):
+    def has_gid_for_family(self, key):
         return (key in self._family_id_dict)
 
-    def has_gramps_id_for_source(self, key):
+    def has_gid_for_source(self, key):
         return (key in self._source_id_dict)
 
-    def has_gramps_id_for_citation(self, key):
+    def has_gid_for_citation(self, key):
         return (key in self._citation_id_dict)
 
-    def has_gramps_id_for_event(self, key):
+    def has_gid_for_event(self, key):
         return (key in self._event_id_dict)
 
-    def has_gramps_id_for_media(self, key):
+    def has_gid_for_media(self, key):
         return (key in self._media_id_dict)
 
-    def has_gramps_id_for_place(self, key):
+    def has_gid_for_place(self, key):
         return (key in self._place_id_dict)
 
-    def has_gramps_id_for_repository(self, key):
+    def has_gid_for_repository(self, key):
         return (key in self._repository_id_dict)
 
-    def has_gramps_id_for_note(self, key):
+    def has_gid_for_note(self, key):
         return (key in self._note_id_dict)
 
-    def get_person_gramps_ids(self):
-        return [x.gramps_id for x in self._person_dict.values()]
+    def get_person_gids(self):
+        return [x.gid for x in self._person_dict.values()]
 
-    def get_family_gramps_ids(self):
-        return [x.gramps_id for x in self._family_dict.values()]
+    def get_family_gids(self):
+        return [x.gid for x in self._family_dict.values()]
 
-    def get_source_gramps_ids(self):
-        return [x.gramps_id for x in self._source_dict.values()]
+    def get_source_gids(self):
+        return [x.gid for x in self._source_dict.values()]
 
-    def get_citation_gramps_ids(self):
-        return [x.gramps_id for x in self._citation_dict.values()]
+    def get_citation_gids(self):
+        return [x.gid for x in self._citation_dict.values()]
 
-    def get_event_gramps_ids(self):
-        return [x.gramps_id for x in self._event_dict.values()]
+    def get_event_gids(self):
+        return [x.gid for x in self._event_dict.values()]
 
-    def get_media_gramps_ids(self):
-        return [x.gramps_id for x in self._media_dict.values()]
+    def get_media_gids(self):
+        return [x.gid for x in self._media_dict.values()]
 
-    def get_place_gramps_ids(self):
-        return [x.gramps_id for x in self._place_dict.values()]
+    def get_place_gids(self):
+        return [x.gid for x in self._place_dict.values()]
 
-    def get_repository_gramps_ids(self):
-        return [x.gramps_id for x in self._repository_dict.values()]
+    def get_repository_gids(self):
+        return [x.gid for x in self._repository_dict.values()]
 
-    def get_note_gramps_ids(self):
-        return [x.gramps_id for x in self._note_dict.values()]
+    def get_note_gids(self):
+        return [x.gid for x in self._note_dict.values()]
 
     def _get_raw_person_data(self, key):
         if isinstance(key, bytes):

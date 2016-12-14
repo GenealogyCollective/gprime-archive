@@ -95,7 +95,7 @@ class HourGlassReport(Report):
         self.max_descend = menu.get_option_by_name('maxdescend').get_value()
         self.max_ascend = menu.get_option_by_name('maxascend').get_value()
         pid = menu.get_option_by_name('pid').get_value()
-        self.center_person = self.__db.get_person_from_gramps_id(pid)
+        self.center_person = self.__db.get_person_from_gid(pid)
         if self.center_person is None:
             raise ReportError(_("Person %s is not in the Database") % pid)
 
@@ -144,7 +144,7 @@ class HourGlassReport(Report):
         for family_handle in person.get_family_handle_list():
             family = self.__db.get_family_from_handle(family_handle)
             self.add_family(family)
-            self.doc.add_link(person.get_gramps_id(), family.get_gramps_id())
+            self.doc.add_link(person.get_gid(), family.get_gid())
             for child_ref in family.get_child_ref_list():
                 child_handle = child_ref.get_reference_handle()
                 if child_handle not in self.__used_people:
@@ -152,8 +152,8 @@ class HourGlassReport(Report):
                     self.__used_people.append(child_handle)
                     child = self.__db.get_person_from_handle(child_handle)
                     self.add_person(child)
-                    self.doc.add_link(family.get_gramps_id(),
-                                      child.get_gramps_id())
+                    self.doc.add_link(family.get_gid(),
+                                      child.get_gid())
                     self.traverse_down(child, gen+1)
 
     def traverse_up(self, person, gen):
@@ -165,9 +165,9 @@ class HourGlassReport(Report):
         family_handle = person.get_main_parents_family_handle()
         if family_handle:
             family = self.__db.get_family_from_handle(family_handle)
-            family_id = family.get_gramps_id()
+            family_id = family.get_gid()
             self.add_family(family)
-            self.doc.add_link(family_id, person.get_gramps_id(),
+            self.doc.add_link(family_id, person.get_gid(),
                               head='none', tail='normal')
 
             # create link from family to father
@@ -177,7 +177,7 @@ class HourGlassReport(Report):
                 self.__family_father.append(family_handle)
                 father = self.__db.get_person_from_handle(father_handle)
                 self.add_person(father)
-                self.doc.add_link(father.get_gramps_id(), family_id,
+                self.doc.add_link(father.get_gid(), family_id,
                                   head='none', tail='normal')
                 # no need to go up if he is a father in another family
                 if father_handle not in self.__used_people:
@@ -191,7 +191,7 @@ class HourGlassReport(Report):
                 self.__family_mother.append(family_handle)
                 mother = self.__db.get_person_from_handle(mother_handle)
                 self.add_person(mother)
-                self.doc.add_link(mother.get_gramps_id(), family_id,
+                self.doc.add_link(mother.get_gid(), family_id,
                                   head='none', tail='normal')
                 # no need to go up if she is a mother in another family
                 if mother_handle not in self.__used_people:
@@ -202,7 +202,7 @@ class HourGlassReport(Report):
         """
         Add a person to the Graph. The node id will be the person's gramps id.
         """
-        p_id = person.get_gramps_id()
+        p_id = person.get_gid()
         name = self._name_display.display(person)
 
         birth_evt = get_birth_or_fallback(self.__db, person)
@@ -233,7 +233,7 @@ class HourGlassReport(Report):
         """
         Add a family to the Graph. The node id will be the family's gramps id.
         """
-        family_id = family.get_gramps_id()
+        family_id = family.get_gid()
         label = ""
         marriage = utils.find_marriage(self.__db, family)
         if marriage:

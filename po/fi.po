@@ -11642,7 +11642,7 @@ msgstr "Siirrä valittu ominaisuus alaspäin"
 msgid "_Attributes"
 msgstr "_Ominaisuudet"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12890,18 +12890,18 @@ msgstr "Mormonisakramentti muokkain"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s ja %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s ja %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24586,19 +24586,19 @@ msgstr "Tietueita ei tuotu paikkaan"
 #: ../gramps/plugins/lib/libgedcom.py:3069
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
-"Virhe: %(msg)s  '%(gramps_id)s' (tuotuna @%(xref)s@) ei ole GEDCOM "
+"Virhe: %(msg)s  '%(gid)s' (tuotuna @%(xref)s@) ei ole GEDCOM "
 "syöttötiedostossa. Tietue syntetisoitu"
 
 #: ../gramps/plugins/lib/libgedcom.py:3078
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
-"Virhe: %(msg)s '%(gramps_id)s' (syötteenä @%(xref)s@) ei GEDCOM aineistossa. "
+"Virhe: %(msg)s '%(gid)s' (syötteenä @%(xref)s@) ei GEDCOM aineistossa. "
 "Luotu tietue tyyppiominaisuudeltaan 'Tuntematon' "
 
 #: ../gramps/plugins/lib/libgedcom.py:3117
@@ -24755,7 +24755,7 @@ msgstr "Lainauksen perustelu"
 msgid "REFN ignored"
 msgstr "REFN ohitettu"
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6287
 #, python-format
 msgid "No title - ID %s"
@@ -33835,8 +33835,8 @@ msgstr "Perheiden läheisyys"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(gramps_id)s : %(father)s ja %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(gid)s : %(father)s ja %(mother)s"
 
 # Muutettu20160702
 #: ../gramps/plugins/view/geofamclose.py:264

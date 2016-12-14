@@ -135,7 +135,7 @@ class DeepRelationshipPathBetween(Rule):
         # FIXME: this should use the User class
         from gprime.gui.utils import ProgressMeter
         root_person_id = self.list[0]
-        root_person = db.get_person_from_gramps_id(root_person_id)
+        root_person = db.get_person_from_gid(root_person_id)
 
         progress = ProgressMeter( # TODO no-parent
                                  _('Finding relationship paths'))

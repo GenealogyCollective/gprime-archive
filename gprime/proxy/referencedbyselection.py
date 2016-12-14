@@ -89,7 +89,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Person':
             {
                 "handle_func": self.get_person_from_handle,
-                "gramps_id_func": self.get_person_from_gramps_id,
+                "gid_func": self.get_person_from_gid,
                 "class_func": Person,
                 "cursor_func": self.get_person_cursor,
                 "handles_func": self.get_person_handles,
@@ -99,7 +99,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Family':
             {
                 "handle_func": self.get_family_from_handle,
-                "gramps_id_func": self.get_family_from_gramps_id,
+                "gid_func": self.get_family_from_gid,
                 "class_func": Family,
                 "cursor_func": self.get_family_cursor,
                 "handles_func": self.get_family_handles,
@@ -109,7 +109,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Source':
             {
                 "handle_func": self.get_source_from_handle,
-                "gramps_id_func": self.get_source_from_gramps_id,
+                "gid_func": self.get_source_from_gid,
                 "class_func": Source,
                 "cursor_func": self.get_source_cursor,
                 "handles_func": self.get_source_handles,
@@ -119,7 +119,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Citation':
             {
                 "handle_func": self.get_citation_from_handle,
-                "gramps_id_func": self.get_citation_from_gramps_id,
+                "gid_func": self.get_citation_from_gid,
                 "class_func": Citation,
                 "cursor_func": self.get_citation_cursor,
                 "handles_func": self.get_citation_handles,
@@ -129,7 +129,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Event':
             {
                 "handle_func": self.get_event_from_handle,
-                "gramps_id_func": self.get_event_from_gramps_id,
+                "gid_func": self.get_event_from_gid,
                 "class_func": Event,
                 "cursor_func": self.get_event_cursor,
                 "handles_func": self.get_event_handles,
@@ -139,7 +139,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Media':
             {
                 "handle_func": self.get_media_from_handle,
-                "gramps_id_func": self.get_media_from_gramps_id,
+                "gid_func": self.get_media_from_gid,
                 "class_func": Media,
                 "cursor_func": self.get_media_cursor,
                 "handles_func": self.get_media_handles,
@@ -149,7 +149,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Place':
             {
                 "handle_func": self.get_place_from_handle,
-                "gramps_id_func": self.get_place_from_gramps_id,
+                "gid_func": self.get_place_from_gid,
                 "class_func": Place,
                 "cursor_func": self.get_place_cursor,
                 "handles_func": self.get_place_handles,
@@ -159,7 +159,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Repository':
             {
                 "handle_func": self.get_repository_from_handle,
-                "gramps_id_func": self.get_repository_from_gramps_id,
+                "gid_func": self.get_repository_from_gid,
                 "class_func": Repository,
                 "cursor_func": self.get_repository_cursor,
                 "handles_func": self.get_repository_handles,
@@ -169,7 +169,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Note':
             {
                 "handle_func": self.get_note_from_handle,
-                "gramps_id_func": self.get_note_from_gramps_id,
+                "gid_func": self.get_note_from_gid,
                 "class_func": Note,
                 "cursor_func": self.get_note_cursor,
                 "handles_func": self.get_note_handles,
@@ -179,7 +179,7 @@ class ReferencedBySelectionProxyDb(ProxyDbBase):
             'Tag':
             {
                 "handle_func": self.get_tag_from_handle,
-                "gramps_id_func": None,
+                "gid_func": None,
                 "class_func": Tag,
                 "cursor_func": self.get_tag_cursor,
                 "handles_func": self.get_tag_handles,

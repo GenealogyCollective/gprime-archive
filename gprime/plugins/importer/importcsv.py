@@ -202,7 +202,7 @@ class CSVParser:
                             _("death source")),
             "deathcause": ("deathcause", "death_cause", "death cause",
                            _("death cause")),
-            "grampsid": (_("Gramps ID"), "grampsid", "id", "gramps_id",
+            "grampsid": (_("Gramps ID"), "grampsid", "id", "gid",
                          "gramps id"),
             "person": ("person", _("person"), _("Person")),
             # ----------------------------------
@@ -267,7 +267,7 @@ class CSVParser:
         if type_ == "family":
             if id_.startswith("[") and id_.endswith("]"):
                 id_ = self.db.fid2user_format(id_[1:-1])
-                db_lookup = self.db.get_family_from_gramps_id(id_)
+                db_lookup = self.db.get_family_from_gid(id_)
                 if db_lookup is None:
                     return self.lookup(type_, id_)
                 else:
@@ -281,7 +281,7 @@ class CSVParser:
         elif type_ == "person":
             if id_.startswith("[") and id_.endswith("]"):
                 id_ = self.db.id2user_format(id_[1:-1])
-                db_lookup = self.db.get_person_from_gramps_id(id_)
+                db_lookup = self.db.get_person_from_gid(id_)
                 if db_lookup is None:
                     return self.lookup(type_, id_)
                 else:
@@ -295,7 +295,7 @@ class CSVParser:
         elif type_ == "place":
             if id_.startswith("[") and id_.endswith("]"):
                 id_ = self.db.pid2user_format(id_[1:-1])
-                db_lookup = self.db.get_place_from_gramps_id(id_)
+                db_lookup = self.db.get_place_from_gid(id_)
                 if db_lookup is None:
                     return self.lookup(type_, id_)
                 else:
@@ -509,7 +509,7 @@ class CSVParser:
                                       family.get_child_ref_list()]:
             # add child to family
             LOG.debug("   adding child [%s] to family [%s]",
-                      child.get_gramps_id(), family.get_gramps_id())
+                      child.get_gid(), family.get_gid())
             childref = ChildRef()
             childref.set_reference_handle(child.get_handle())
             family.add_child_ref( childref)
@@ -647,10 +647,10 @@ class CSVParser:
                 self.db.add_note(new_note, self.trans)
                 person.add_note(new_note.handle)
         if grampsid is not None:
-            person.gramps_id = grampsid
+            person.gid = grampsid
         elif person_ref is not None:
             if person_ref.startswith("[") and person_ref.endswith("]"):
-                person.gramps_id = self.db.id2user_format(person_ref[1:-1])
+                person.gid = self.db.id2user_format(person_ref[1:-1])
         if (person.get_gender() == Person.UNKNOWN and
                 gender is not None):
             gender = gender.lower()
@@ -781,7 +781,7 @@ class CSVParser:
             place = self.create_place()
             if place_id is not None:
                 if place_id.startswith("[") and place_id.endswith("]"):
-                    place.gramps_id = self.db.pid2user_format(place_id[1:-1])
+                    place.gid = self.db.pid2user_format(place_id[1:-1])
                 self.storeup("place", place_id, place)
         if place_title is not None:
             place.title = place_title
@@ -798,7 +798,7 @@ class CSVParser:
         if place_enclosed_by_id is not None:
             place_enclosed_by = self.lookup("place", place_enclosed_by_id)
             if place_enclosed_by is None:
-                raise Exception("cannot enclose %s in %s as it doesn't exist" % (place.gramps_id, place_enclosed_by_id))
+                raise Exception("cannot enclose %s in %s as it doesn't exist" % (place.gid, place_enclosed_by_id))
             if not place_enclosed_by.handle in place.placeref_list:
                 placeref = PlaceRef()
                 placeref.ref = place_enclosed_by.handle
@@ -817,11 +817,11 @@ class CSVParser:
 
     def get_or_create_family(self, family_ref, husband, wife):
         "Return the family object for the give family ID."
-        # if a gramps_id and exists:
+        # if a gid and exists:
         LOG.debug("get_or_create_family")
         if family_ref.startswith("[") and family_ref.endswith("]"):
             id_ = self.db.fid2user_format(family_ref[1:-1])
-            family = self.db.get_family_from_gramps_id(id_)
+            family = self.db.get_family_from_gid(id_)
             if family:
                 # don't delete, only add
                 fam_husband_handle = family.get_father_handle()
@@ -838,10 +838,10 @@ class CSVParser:
                 return family
         # if not, create one:
         family = Family()
-        # was marked with a gramps_id, but didn't exist, so we'll use it:
+        # was marked with a gid, but didn't exist, so we'll use it:
         if family_ref.startswith("[") and family_ref.endswith("]"):
             id_ = self.db.fid2user_format(family_ref[1:-1])
-            family.set_gramps_id(id_)
+            family.set_gid(id_)
         # add it:
         family.set_handle(create_id())
         if self.default_tag:
@@ -950,15 +950,15 @@ class CSVParser:
     def find_and_set_citation(self, obj, source):
         # look for the source in the existing citations for the object
         LOG.debug("find_and_set_citation: looking for source: %s",
-                  source.get_gramps_id())
+                  source.get_gid())
         for citation_handle in obj.get_citation_list():
             citation = self.db.get_citation_from_handle(citation_handle)
             LOG.debug("find_and_set_citation: existing citation: %s",
-                      citation.get_gramps_id())
+                      citation.get_gid())
             poss_source = self.db.get_source_from_handle(
                                     citation.get_reference_handle())
-            LOG.debug("   compare source %s == %s", source.get_gramps_id(),
-                      poss_source.get_gramps_id())
+            LOG.debug("   compare source %s == %s", source.get_gid(),
+                      poss_source.get_gid())
             if poss_source.get_handle() == source.get_handle():
                 # The source is already cited
                 LOG.debug("   source already cited")
@@ -969,5 +969,5 @@ class CSVParser:
         citation.set_reference_handle(source.get_handle())
         self.db.add_citation(citation, self.trans)
         LOG.debug("   created citation, citation %s %s" %
-                  (citation, citation.get_gramps_id()))
+                  (citation, citation.get_gid()))
         obj.add_citation(citation.get_handle())

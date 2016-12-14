@@ -49,7 +49,7 @@ class IsAncestorOf(Rule):
     def prepare(self, db):
         self.map = set()
         first = False if int(self.list[1]) else True
-        root_family = db.get_family_from_gramps_id(self.list[0])
+        root_family = db.get_family_from_gid(self.list[0])
         self.init_list(db, root_family, first)
 
     def reset(self):

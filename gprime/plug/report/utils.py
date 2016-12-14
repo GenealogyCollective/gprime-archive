@@ -274,34 +274,34 @@ def get_person_filters(person, include_single=True, name_format=None):
             name_displayer.set_default_format(name_format)
         name = name_displayer.display(person)
         name_displayer.set_default_format(real_format)
-        gramps_id = person.get_gramps_id()
+        gid = person.get_gid()
     else:
         # Do this in case of command line options query (show=filter)
         name = _("PERSON")
-        gramps_id = ''
+        gid = ''
 
     if include_single:
         filt_id = GenericFilter()
         filt_id.set_name(name)
-        filt_id.add_rule(rules.person.HasIdOf([gramps_id]))
+        filt_id.add_rule(rules.person.HasIdOf([gid]))
 
     all = DeferredFilter(_T_("Entire Database"), None)
     all.add_rule(rules.person.Everyone([]))
 
     # feature request 2356: avoid genitive form
     des = DeferredFilter(_T_("Descendants of %s"), name)
-    des.add_rule(rules.person.IsDescendantOf([gramps_id, 1]))
+    des.add_rule(rules.person.IsDescendantOf([gid, 1]))
 
     # feature request 2356: avoid genitive form
     df = DeferredFilter(_T_("Descendant Families of %s"), name)
-    df.add_rule(rules.person.IsDescendantFamilyOf([gramps_id, 1]))
+    df.add_rule(rules.person.IsDescendantFamilyOf([gid, 1]))
 
     # feature request 2356: avoid genitive form
     ans = DeferredFilter(_T_("Ancestors of %s"), name)
-    ans.add_rule(rules.person.IsAncestorOf([gramps_id, 1]))
+    ans.add_rule(rules.person.IsAncestorOf([gid, 1]))
 
     com = DeferredFilter(_T_("People with common ancestor with %s"), name)
-    com.add_rule(rules.person.HasCommonAncestorWith([gramps_id]))
+    com.add_rule(rules.person.HasCommonAncestorWith([gid]))
 
     if include_single:
         the_filters = [filt_id, all, des, df, ans, com]
@@ -349,33 +349,33 @@ def get_family_filters(database, family,
             mother_name = name_displayer.display(mother)
         else:
             mother_name = _("unknown mother")
-        gramps_id = family.get_gramps_id()
+        gid = family.get_gid()
         name = _("%(father_name)s and %(mother_name)s (%(family_id)s)") % {
                     'father_name': father_name,
                     'mother_name': mother_name,
-                    'family_id': gramps_id}
+                    'family_id': gid}
         name_displayer.set_default_format(real_format)
     else:
         # Do this in case of command line options query (show=filter)
         name = _("FAMILY")
-        gramps_id = ''
+        gid = ''
 
     if include_single:
         FilterClass = GenericFilterFactory('Family')
         filt_id = FilterClass()
         filt_id.set_name(name)
-        filt_id.add_rule(rules.family.HasIdOf([gramps_id]))
+        filt_id.add_rule(rules.family.HasIdOf([gid]))
 
     all = DeferredFamilyFilter(_T_("Every family"), None)
     all.add_rule(rules.family.AllFamilies([]))
 
     # feature request 2356: avoid genitive form
     df = DeferredFamilyFilter(_T_("Descendant Families of %s"), name)
-    df.add_rule(rules.family.IsDescendantOf([gramps_id, 1]))
+    df.add_rule(rules.family.IsDescendantOf([gid, 1]))
 
     # feature request 2356: avoid genitive form
     ans = DeferredFamilyFilter(_T_("Ancestor Families of %s"), name)
-    ans.add_rule(rules.family.IsAncestorOf([gramps_id, 1]))
+    ans.add_rule(rules.family.IsAncestorOf([gid, 1]))
 
     if include_single:
         the_filters = [filt_id, all, df, ans]

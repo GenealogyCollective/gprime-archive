@@ -55,7 +55,7 @@ class IsAncestorOf(Rule):
         except IndexError:
             first = 1
         try:
-            root_person = db.get_person_from_gramps_id(self.list[0])
+            root_person = db.get_person_from_gid(self.list[0])
             self.init_ancestor_list(db,root_person,first)
         except:
             pass

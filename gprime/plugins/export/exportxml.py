@@ -819,7 +819,7 @@ class GrampsXmlWriter(UpdateCallback):
         if not obj:
             return
         priv_text = conf_priv(obj)
-        id_text = ' id="%s"' % escxml(obj.gramps_id)
+        id_text = ' id="%s"' % escxml(obj.gid)
 
         self.write_table_tag(tagname, obj, index, False)
         self.g.write(id_text + priv_text)
@@ -1256,7 +1256,7 @@ class GrampsXmlWriter(UpdateCallback):
 
     def write_object(self, obj, index=1):
         self.write_primary_tag("object", obj, index)
-        handle = obj.get_gramps_id()
+        handle = obj.get_gid()
         mime_type = obj.get_mime_type()
         path = obj.get_path()
         desc = obj.get_description()
@@ -1300,8 +1300,8 @@ class GrampsXmlWriter(UpdateCallback):
 #
 #-------------------------------------------------------------------------
 def sortById(first,second):
-    fid = first.get_gramps_id()
-    sid = second.get_gramps_id()
+    fid = first.get_gid()
+    sid = second.get_gid()
 
     if fid < sid:
         return -1

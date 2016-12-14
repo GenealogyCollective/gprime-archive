@@ -88,7 +88,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         from .date import Date
         return {
             "handle": Handle("Citation", "CITATION-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "date": Date,
             "page": str,
             "confidence": str,
@@ -106,7 +106,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         return {
             "_class": _("Citation"),
             "handle":  _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "date": _("Date"),
             "page": _("Page"),
             "confidence":  _("Confidence"),
@@ -124,7 +124,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         Convert the object to a serialized tuple of data.
         """
         return (self.handle,                           #  0
-                self.gramps_id,                        #  1
+                self.gid,                        #  1
                 DateBase.serialize(self, no_text_date),#  2
                 str(self.page),                       #  3
                 self.confidence,                       #  4
@@ -158,7 +158,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         """
         return {"_class": "Citation",
                 "handle": Handle("Citation", self.handle),       #  0
-                "gramps_id": self.gramps_id,                     #  1
+                "gid": self.gid,                     #  1
                 "date": DateBase.to_struct(self),                #  2
                 "page": str(self.page),                         #  3
                 "confidence": self.confidence,                   #  4
@@ -179,7 +179,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         """
         default = Citation()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 DateBase.from_struct(struct.get("date", {})),
                 struct.get("page", default.page),
                 struct.get("confidence", default.confidence),
@@ -197,7 +197,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         back into the data in a Citation structure.
         """
         (self.handle,                                  #  0
-         self.gramps_id,                               #  1
+         self.gid,                               #  1
          date,                                         #  2
          self.page,                                    #  3
          self.confidence,                              #  4
@@ -283,7 +283,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.page, self.gramps_id]
+        return [self.page, self.gid]
 
     def get_text_data_child_list(self):
         """

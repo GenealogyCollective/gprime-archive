@@ -100,7 +100,7 @@ class LivingProxyDb(ProxyDbBase):
             'Person':
             {
                 "handle_func": self.get_person_from_handle,
-                "gramps_id_func": self.get_person_from_gramps_id,
+                "gid_func": self.get_person_from_gid,
                 "class_func": Person,
                 "cursor_func": self.get_person_cursor,
                 "handles_func": self.get_person_handles,
@@ -110,7 +110,7 @@ class LivingProxyDb(ProxyDbBase):
             'Family':
             {
                 "handle_func": self.get_family_from_handle,
-                "gramps_id_func": self.get_family_from_gramps_id,
+                "gid_func": self.get_family_from_gid,
                 "class_func": Family,
                 "cursor_func": self.get_family_cursor,
                 "handles_func": self.get_family_handles,
@@ -120,7 +120,7 @@ class LivingProxyDb(ProxyDbBase):
             'Source':
             {
                 "handle_func": self.get_source_from_handle,
-                "gramps_id_func": self.get_source_from_gramps_id,
+                "gid_func": self.get_source_from_gid,
                 "class_func": Source,
                 "cursor_func": self.get_source_cursor,
                 "handles_func": self.get_source_handles,
@@ -130,7 +130,7 @@ class LivingProxyDb(ProxyDbBase):
             'Citation':
             {
                 "handle_func": self.get_citation_from_handle,
-                "gramps_id_func": self.get_citation_from_gramps_id,
+                "gid_func": self.get_citation_from_gid,
                 "class_func": Citation,
                 "cursor_func": self.get_citation_cursor,
                 "handles_func": self.get_citation_handles,
@@ -140,7 +140,7 @@ class LivingProxyDb(ProxyDbBase):
             'Event':
             {
                 "handle_func": self.get_event_from_handle,
-                "gramps_id_func": self.get_event_from_gramps_id,
+                "gid_func": self.get_event_from_gid,
                 "class_func": Event,
                 "cursor_func": self.get_event_cursor,
                 "handles_func": self.get_event_handles,
@@ -150,7 +150,7 @@ class LivingProxyDb(ProxyDbBase):
             'Media':
             {
                 "handle_func": self.get_media_from_handle,
-                "gramps_id_func": self.get_media_from_gramps_id,
+                "gid_func": self.get_media_from_gid,
                 "class_func": Media,
                 "cursor_func": self.get_media_cursor,
                 "handles_func": self.get_media_handles,
@@ -160,7 +160,7 @@ class LivingProxyDb(ProxyDbBase):
             'Place':
             {
                 "handle_func": self.get_place_from_handle,
-                "gramps_id_func": self.get_place_from_gramps_id,
+                "gid_func": self.get_place_from_gid,
                 "class_func": Place,
                 "cursor_func": self.get_place_cursor,
                 "handles_func": self.get_place_handles,
@@ -170,7 +170,7 @@ class LivingProxyDb(ProxyDbBase):
             'Repository':
             {
                 "handle_func": self.get_repository_from_handle,
-                "gramps_id_func": self.get_repository_from_gramps_id,
+                "gid_func": self.get_repository_from_gid,
                 "class_func": Repository,
                 "cursor_func": self.get_repository_cursor,
                 "handles_func": self.get_repository_handles,
@@ -180,7 +180,7 @@ class LivingProxyDb(ProxyDbBase):
             'Note':
             {
                 "handle_func": self.get_note_from_handle,
-                "gramps_id_func": self.get_note_from_gramps_id,
+                "gid_func": self.get_note_from_gid,
                 "class_func": Note,
                 "cursor_func": self.get_note_cursor,
                 "handles_func": self.get_note_handles,
@@ -190,7 +190,7 @@ class LivingProxyDb(ProxyDbBase):
             'Tag':
             {
                 "handle_func": self.get_tag_from_handle,
-                "gramps_id_func": None,
+                "gid_func": None,
                 "class_func": Tag,
                 "cursor_func": self.get_tag_cursor,
                 "handles_func": self.get_tag_handles,
@@ -261,12 +261,12 @@ class LivingProxyDb(ProxyDbBase):
                 else:
                     yield person
 
-    def get_person_from_gramps_id(self, val):
+    def get_person_from_gid(self, val):
         """
         Finds a Person in the database from the passed Gramps ID.
         If no such Person exists, None is returned.
         """
-        person = self.db.get_person_from_gramps_id(val)
+        person = self.db.get_person_from_gid(val)
         if person and self.__is_living(person):
             if self.mode == self.MODE_EXCLUDE_ALL:
                 return None
@@ -275,12 +275,12 @@ class LivingProxyDb(ProxyDbBase):
         else:
             return person
 
-    def get_family_from_gramps_id(self, val):
+    def get_family_from_gid(self, val):
         """
         Finds a Family in the database from the passed Gramps ID.
         If no such Family exists, None is returned.
         """
-        family = self.db.get_family_from_gramps_id(val)
+        family = self.db.get_family_from_gid(val)
         family = self.__remove_living_from_family(family)
         return family
 
@@ -455,7 +455,7 @@ class LivingProxyDb(ProxyDbBase):
         new_person.set_primary_name(new_name)
         new_person.set_privacy(person.get_privacy())
         new_person.set_gender(person.get_gender())
-        new_person.set_gramps_id(person.get_gramps_id())
+        new_person.set_gid(person.get_gid())
         new_person.set_handle(person.get_handle())
         new_person.set_change_time(person.get_change_time())
         new_person.set_family_handle_list(person.get_family_handle_list())

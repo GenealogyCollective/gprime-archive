@@ -64,9 +64,9 @@ class CompleteCheck(unittest.TestCase):
                 msg = self._report_diff(obj_type, item1.to_struct(),
                                         item2.to_struct())
                 if msg != "":
-                    if hasattr(item1, "gramps_id"):
+                    if hasattr(item1, "gid"):
                         self.msg += "%s: %s  handle=%s\n" % \
-                            (obj_type, item1.gramps_id,
+                            (obj_type, item1.gid,
                              getattr(item1, "handle"))
                     else:
                         self.msg += "%s: %s\n" % (obj_type, item1.get_name())

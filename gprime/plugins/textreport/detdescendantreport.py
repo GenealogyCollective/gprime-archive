@@ -174,7 +174,7 @@ class DetDescendantReport(Report):
         self.inc_materef = get_value('incmateref')
 
         pid = get_value('pid')
-        self.center_person = self._db.get_person_from_gramps_id(pid)
+        self.center_person = self._db.get_person_from_gid(pid)
         if self.center_person is None:
             raise ReportError(_("Person %s is not in the Database") % pid)
 
@@ -963,7 +963,7 @@ class DetDescendantOptions(MenuReportOptions):
     def get_subject(self):
         """ Return a string that describes the subject of the report. """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         return _nd.display(person)
 
     def add_menu_options(self, menu):

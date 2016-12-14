@@ -177,7 +177,7 @@ class SimpleAccess:
         :rtype: unicode
         """
         if obj:
-            return obj.get_gramps_id()
+            return obj.get_gid()
         else:
             return ''
 
@@ -957,8 +957,8 @@ class SimpleAccess:
         describing object.
 
         :param object_class: "Person", "Source", etc.
-        :param prop: "gramps_id", or "handle"
-        :param value: gramps_id or handle.
+        :param prop: "gid", or "handle"
+        :param value: gid or handle.
         """
         if object_class in self.dbase.get_table_names():
             obj = self.dbase.get_table_metadata(object_class)\
@@ -1060,8 +1060,8 @@ class SimpleAccess:
         Given a object_class, prop, and value return the object.
 
         :param object_class: "Person", "Source", etc.
-        :param prop: "gramps_id", or "handle"
-        :param value: gramps_id or handle.
+        :param prop: "gid", or "handle"
+        :param value: gid or handle.
         """
         if object_class in self.dbase.get_table_names():
             return self.dbase.get_table_metadata(object_class) \

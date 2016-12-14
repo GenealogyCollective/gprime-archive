@@ -157,9 +157,9 @@ class DbState(Callback):
         >>> from gprime.filters import GenericFilter
         >>> filter = GenericFilter()
         >>> filter.set_logical_op("or")
-        >>> filter.add_rule(IsDescendantOf([db.get_default_person().gramps_id,
+        >>> filter.add_rule(IsDescendantOf([db.get_default_person().gid,
                                             True]))
-        >>> filter.add_rule(IsAncestorOf([db.get_default_person().gramps_id,
+        >>> filter.add_rule(IsAncestorOf([db.get_default_person().gid,
                                           True]))
         >>> dbstate.apply_proxy(gramps.gen.proxy.FilterProxyDb, filter)
         """

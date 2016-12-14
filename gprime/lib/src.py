@@ -66,7 +66,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         Convert the object to a serialized tuple of data.
         """
         return (self.handle,                                       # 0
-                self.gramps_id,                                    # 1
+                self.gid,                                    # 1
                 str(self.title),                                  # 2
                 str(self.author),                                 # 3
                 str(self.pubinfo),                                # 4
@@ -83,7 +83,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "title": _("Title"),
             "author": _("Author"),
             "pubinfo": _("Publication info"),
@@ -107,7 +107,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         from .url import Url
         return {
             "handle": Handle("Source", "SOURCE-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "title": str,
             "author": str,
             "pubinfo": str,
@@ -143,7 +143,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         """
         return {"_class": "Source",
                 "handle": Handle("Source", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "title": str(self.title),
                 "author": str(self.author),
                 "pubinfo": str(self.pubinfo),
@@ -166,7 +166,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         from .srcattribute import SrcAttribute
         default = Source()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 struct.get("title", default.title),
                 struct.get("author", default.author),
                 struct.get("pubinfo", default.pubinfo),
@@ -188,7 +188,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         back into the data in a Source structure.
         """
         (self.handle,       #  0
-         self.gramps_id,    #  1
+         self.gid,    #  1
          self.title,        #  2
          self.author,       #  3
          self.pubinfo,      #  4
@@ -266,7 +266,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :rtype: list
         """
         return [self.title, self.author, self.pubinfo, self.abbrev,
-                self.gramps_id]
+                self.gid]
 
     def get_text_data_child_list(self):
         """

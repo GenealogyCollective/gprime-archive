@@ -112,7 +112,7 @@ class DBAPI(DbGeneric):
     def write_version(self, directory):
         """Write files for a newly created DB."""
         versionpath = os.path.join(directory, "bdbversion.txt")
-        _LOG.debug("Write bsddb version %s", str(self.VERSION))
+        _LOG.debug("Write db version %s", str(self.VERSION))
         with open(versionpath, "w") as version_file:
             version_file.write(str(self.VERSION))
 
@@ -167,191 +167,259 @@ class DBAPI(DbGeneric):
             code = compile(fp.read(), settings_file, 'exec')
             exec(code, globals(), settings)
         self.dbapi = settings["dbapi"]
+        # Make sure scheme is up to date:
+        self.update_schema()
 
-        # We use the existence of the person table as a proxy for the database
-        # being new
-        if not self.dbapi.table_exists("person"):
-            self.update_schema()
-
+    def update_table(self, table):
+        ## FIXME: need an upgrade schema methodology
+        ## This assumes that you had gramps_id, and creates new column
+        ## Should create new table and copy old into it (eg, migrate)
+        if not self.dbapi.table_column_exists(table, "gid"):
+            LOG.info("Updating %s.gid... ", table)
+            self.dbapi.execute("ALTER TABLE %s ADD COLUMN gid TEXT;" % table);
+            self.dbapi.execute("UPDATE %s SET gid = gramps_id;" % table)
+        
     def update_schema(self):
         """
         Create and update schema.
         """
         # make sure schema is up to date:
-        self.dbapi.execute("""CREATE TABLE person (
+        if not self.dbapi.table_exists("person"):
+            self.dbapi.execute("""CREATE TABLE person (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
                                     given_name     TEXT        ,
                                     surname        TEXT        ,
                                     gender_type    INTEGER     ,
                                     order_by  TEXT             ,
-                                    gramps_id TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE family (
+            );""")
+        else:
+            self.update_table("person")
+        if not self.dbapi.table_exists("family"):
+            self.dbapi.execute("""CREATE TABLE family (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
                                     father_handle VARCHAR(50),
                                     mother_handle VARCHAR(50),
-                                    gramps_id TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE source (
+            );""")
+        else:
+            self.update_table("family")
+        if not self.dbapi.table_exists("source"):
+            self.dbapi.execute("""CREATE TABLE source (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
                                     order_by  TEXT             ,
-                                    gramps_id TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE citation (
+            );""")
+        else:
+            self.update_table("source")
+        if not self.dbapi.table_exists("citation"):
+            self.dbapi.execute("""CREATE TABLE citation (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
                                     order_by  TEXT             ,
-                                    gramps_id TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE event (
+            );""")
+        else:
+            self.update_table("citation")
+        if not self.dbapi.table_exists("event"):
+            self.dbapi.execute("""CREATE TABLE event (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gramps_id TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE media (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gramps_id TEXT             ,
-                                    blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE place (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gramps_id TEXT             ,
-                                    blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE repository (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gramps_id TEXT             ,
-                                    blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE note (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gramps_id TEXT             ,
-                                    blob_data      BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE tag (
+            );""")
+        else:
+            self.update_table("event")
+        if not self.dbapi.table_exists("media"):
+            self.dbapi.execute("""CREATE TABLE media (
                                     handle    VARCHAR(50) PRIMARY KEY NOT NULL,
                                     order_by  TEXT             ,
+                                    gid TEXT             ,
                                     blob_data      BLOB
-        );""")
+            );""")
+        else:
+            self.update_table("media")
+        if not self.dbapi.table_exists("place"):
+            self.dbapi.execute("""CREATE TABLE place (
+                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
+                                    order_by  TEXT             ,
+                                    gid TEXT             ,
+                                    blob_data      BLOB
+            );""")
+        else:
+            self.update_table("place")
+        if not self.dbapi.table_exists("repository"):
+            self.dbapi.execute("""CREATE TABLE repository (
+                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
+                                    gid TEXT             ,
+                                    blob_data      BLOB
+            );""")
+        else:
+            self.update_table("repository")
+        if not self.dbapi.table_exists("note"):
+            self.dbapi.execute("""CREATE TABLE note (
+                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
+                                    gid TEXT             ,
+                                    blob_data      BLOB
+            );""")
+        else:
+            self.update_table("note")
+        if not self.dbapi.table_exists("tag"):
+            self.dbapi.execute("""CREATE TABLE tag (
+                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
+                                    order_by  TEXT             ,
+                                    blob_data      BLOB
+            );""")
         # Secondary:
-        self.dbapi.execute("""CREATE TABLE reference (
+        if not self.dbapi.table_exists("reference"):
+            self.dbapi.execute("""CREATE TABLE reference (
                                     obj_handle    VARCHAR(50),
                                     obj_class     TEXT,
                                     ref_handle    VARCHAR(50),
                                     ref_class     TEXT
-        );""")
-        self.dbapi.execute("""CREATE TABLE name_group (
+            );""")
+        if not self.dbapi.table_exists("name_group"):
+            self.dbapi.execute("""CREATE TABLE name_group (
                                     name     VARCHAR(50) PRIMARY KEY NOT NULL,
                                     grouping TEXT
-        );""")
-        self.dbapi.execute("""CREATE TABLE metadata (
+            );""")
+        if not self.dbapi.table_exists("metadata"):
+            self.dbapi.execute("""CREATE TABLE metadata (
                                     setting  VARCHAR(50) PRIMARY KEY NOT NULL,
                                     value    BLOB
-        );""")
-        self.dbapi.execute("""CREATE TABLE gender_stats (
+            );""")
+        if not self.dbapi.table_exists("gender_stats"):
+            self.dbapi.execute("""CREATE TABLE gender_stats (
                                     given_name TEXT,
                                     female     INTEGER,
                                     male       INTEGER,
                                     unknown    INTEGER
-        );""")
+            );""")
         ## Indices:
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("person_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   person_order_by ON person(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  person_gramps_id ON person(gramps_id);
+        if not self.dbapi.index_exists("person_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  person_gid ON person(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("person_surname"):
+            self.dbapi.execute("""CREATE INDEX
                                   person_surname ON person(surname);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("person_given_name"):
+            self.dbapi.execute("""CREATE INDEX
                                   person_given_name ON person(given_name);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("source_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   source_order_by ON source(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  source_gramps_id ON source(gramps_id);
+        if not self.dbapi.index_exists("source_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  source_gid ON source(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("citation_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   citation_order_by ON citation(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  citation_gramps_id ON citation(gramps_id);
+        if not self.dbapi.index_exists("citation_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  citation_gid ON citation(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("media_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   media_order_by ON media(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  media_gramps_id ON media(gramps_id);
+        if not self.dbapi.index_exists("media_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  media_gid ON media(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("place_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   place_order_by ON place(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  place_gramps_id ON place(gramps_id);
+        if not self.dbapi.index_exists("place_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  place_gid ON place(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("tag_order_by"):
+            self.dbapi.execute("""CREATE INDEX
                                   tag_order_by ON tag(order_by);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("reference_ref_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   reference_ref_handle ON reference(ref_handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("name_group_name"):
+            self.dbapi.execute("""CREATE INDEX
                                   name_group_name ON name_group(name);
         """)
 
         # Fixes:
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("place_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   place_handle ON place(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("citation_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   citation_handle ON citation(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("media_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   media_handle ON media(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("person_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   person_handle ON person(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("family_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   family_handle ON family(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("event_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   event_handle ON event(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("repository_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   repository_handle ON repository(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("tag_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   tag_handle ON tag(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("note_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   note_handle ON note(handle);
         """)
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("source_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   source_handle ON source(handle);
         """)
 
-        self.dbapi.execute("""CREATE INDEX
-                                  family_gramps_id ON family(gramps_id);
+        if not self.dbapi.index_exists("family_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  family_gid ON family(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  event_gramps_id ON event(gramps_id);
+        if not self.dbapi.index_exists("event_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  event_gid ON event(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  repository_gramps_id ON repository(gramps_id);
+        if not self.dbapi.index_exists("repository_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  repository_gid ON repository(gid);
         """)
-        self.dbapi.execute("""CREATE INDEX
-                                  note_gramps_id ON note(gramps_id);
+        if not self.dbapi.index_exists("note_gid"):
+            self.dbapi.execute("""CREATE INDEX
+                                  note_gid ON note(gid);
         """)
 
-        self.dbapi.execute("""CREATE INDEX
+        if not self.dbapi.index_exists("reference_obj_handle"):
+            self.dbapi.execute("""CREATE INDEX
                                   reference_obj_handle ON reference(obj_handle);
         """)
         self.rebuild_secondary_fields()
@@ -777,14 +845,14 @@ class DBAPI(DbGeneric):
                 self.add_to_surname_list(person, trans.batch)
             given_name, surname, gender_type = self.get_person_data(person)
             # update the person:
-            self.dbapi.execute("""UPDATE person SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE person SET gid = ?,
                                                     order_by = ?,
                                                     blob_data = ?,
                                                     given_name = ?,
                                                     surname = ?,
                                                     gender_type = ?
                                                 WHERE handle = ?;""",
-                               [person.gramps_id,
+                               [person.gid,
                                 self._order_by_person_key(person),
                                 pickle.dumps(person.serialize()),
                                 given_name,
@@ -797,12 +865,12 @@ class DBAPI(DbGeneric):
             given_name, surname, gender_type = self.get_person_data(person)
             # Insert the person:
             self.dbapi.execute(
-                """INSERT INTO person (handle, order_by, gramps_id, blob_data,
+                """INSERT INTO person (handle, order_by, gid, blob_data,
                                        given_name, surname, gender_type)
                                       VALUES(?, ?, ?, ?, ?, ?, ?);""",
                 [person.handle,
                  self._order_by_person_key(person),
-                 person.gramps_id,
+                 person.gid,
                  pickle.dumps(person.serialize()),
                  given_name, surname, gender_type])
         self.update_secondary_values(person)
@@ -853,23 +921,23 @@ class DBAPI(DbGeneric):
         family.change = int(change_time or time.time())
         if family.handle in self.family_map:
             old_family = self.get_family_from_handle(family.handle).serialize()
-            self.dbapi.execute("""UPDATE family SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE family SET gid = ?,
                                                     father_handle = ?,
                                                     mother_handle = ?,
                                                     blob_data = ?
                                                 WHERE handle = ?;""",
-                               [family.gramps_id,
+                               [family.gid,
                                 family.father_handle,
                                 family.mother_handle,
                                 pickle.dumps(family.serialize()),
                                 family.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO family (handle, gramps_id,
+                """INSERT INTO family (handle, gid,
                                        father_handle, mother_handle, blob_data)
                                       VALUES(?, ?, ?, ?, ?);""",
                 [family.handle,
-                 family.gramps_id,
+                 family.gid,
                  family.father_handle,
                  family.mother_handle,
                  pickle.dumps(family.serialize())])
@@ -917,21 +985,21 @@ class DBAPI(DbGeneric):
         if citation.handle in self.citation_map:
             old_citation = self.get_citation_from_handle(
                 citation.handle).serialize()
-            self.dbapi.execute("""UPDATE citation SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE citation SET gid = ?,
                                                       order_by = ?,
                                                       blob_data = ?
                                                 WHERE handle = ?;""",
-                               [citation.gramps_id,
+                               [citation.gid,
                                 self._order_by_citation_key(citation),
                                 pickle.dumps(citation.serialize()),
                                 citation.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO citation (handle, order_by, gramps_id, blob_data)
+                """INSERT INTO citation (handle, order_by, gid, blob_data)
                                         VALUES(?, ?, ?, ?);""",
                 [citation.handle,
                  self._order_by_citation_key(citation),
-                 citation.gramps_id,
+                 citation.gid,
                  pickle.dumps(citation.serialize())])
         self.update_secondary_values(citation)
         if not trans.batch:
@@ -960,21 +1028,21 @@ class DBAPI(DbGeneric):
         source.change = int(change_time or time.time())
         if source.handle in self.source_map:
             old_source = self.get_source_from_handle(source.handle).serialize()
-            self.dbapi.execute("""UPDATE source SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE source SET gid = ?,
                                                     order_by = ?,
                                                     blob_data = ?
                                                 WHERE handle = ?;""",
-                               [source.gramps_id,
+                               [source.gid,
                                 self._order_by_source_key(source),
                                 pickle.dumps(source.serialize()),
                                 source.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO source (handle, order_by, gramps_id, blob_data)
+                """INSERT INTO source (handle, order_by, gid, blob_data)
                                       VALUES(?, ?, ?, ?);""",
                 [source.handle,
                  self._order_by_source_key(source),
-                 source.gramps_id,
+                 source.gid,
                  pickle.dumps(source.serialize())])
         self.update_secondary_values(source)
         if not trans.batch:
@@ -1007,17 +1075,17 @@ class DBAPI(DbGeneric):
         if repository.handle in self.repository_map:
             old_repository = self.get_repository_from_handle(
                 repository.handle).serialize()
-            self.dbapi.execute("""UPDATE repository SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE repository SET gid = ?,
                                                     blob_data = ?
                                                 WHERE handle = ?;""",
-                               [repository.gramps_id,
+                               [repository.gid,
                                 pickle.dumps(repository.serialize()),
                                 repository.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO repository (handle, gramps_id, blob_data)
+                """INSERT INTO repository (handle, gid, blob_data)
                                           VALUES(?, ?, ?);""",
-                [repository.handle, repository.gramps_id,
+                [repository.handle, repository.gid,
                  pickle.dumps(repository.serialize())])
         self.update_secondary_values(repository)
         if not trans.batch:
@@ -1042,17 +1110,17 @@ class DBAPI(DbGeneric):
         note.change = int(change_time or time.time())
         if note.handle in self.note_map:
             old_note = self.get_note_from_handle(note.handle).serialize()
-            self.dbapi.execute("""UPDATE note SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE note SET gid = ?,
                                                     blob_data = ?
                                                 WHERE handle = ?;""",
-                               [note.gramps_id,
+                               [note.gid,
                                 pickle.dumps(note.serialize()),
                                 note.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO note (handle, gramps_id, blob_data)
+                """INSERT INTO note (handle, gid, blob_data)
                                     VALUES(?, ?, ?);""",
-                [note.handle, note.gramps_id, pickle.dumps(note.serialize())])
+                [note.handle, note.gid, pickle.dumps(note.serialize())])
         self.update_secondary_values(note)
         if not trans.batch:
             self.update_backlinks(note)
@@ -1073,21 +1141,21 @@ class DBAPI(DbGeneric):
         place.change = int(change_time or time.time())
         if place.handle in self.place_map:
             old_place = self.get_place_from_handle(place.handle).serialize()
-            self.dbapi.execute("""UPDATE place SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE place SET gid = ?,
                                                    order_by = ?,
                                                    blob_data = ?
                                                 WHERE handle = ?;""",
-                               [place.gramps_id,
+                               [place.gid,
                                 self._order_by_place_key(place),
                                 pickle.dumps(place.serialize()),
                                 place.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO place (handle, order_by, gramps_id, blob_data)
+                """INSERT INTO place (handle, order_by, gid, blob_data)
                                      VALUES(?, ?, ?, ?);""",
                 [place.handle,
                  self._order_by_place_key(place),
-                 place.gramps_id,
+                 place.gid,
                  pickle.dumps(place.serialize())])
         self.update_secondary_values(place)
         if not trans.batch:
@@ -1118,18 +1186,18 @@ class DBAPI(DbGeneric):
         event.change = int(change_time or time.time())
         if event.handle in self.event_map:
             old_event = self.get_event_from_handle(event.handle).serialize()
-            self.dbapi.execute("""UPDATE event SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE event SET gid = ?,
                                                     blob_data = ?
                                                 WHERE handle = ?;""",
-                               [event.gramps_id,
+                               [event.gid,
                                 pickle.dumps(event.serialize()),
                                 event.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO event (handle, gramps_id, blob_data)
+                """INSERT INTO event (handle, gid, blob_data)
                                      VALUES(?, ?, ?);""",
                 [event.handle,
-                 event.gramps_id,
+                 event.gid,
                  pickle.dumps(event.serialize())])
         self.update_secondary_values(event)
         if not trans.batch:
@@ -1181,21 +1249,21 @@ class DBAPI(DbGeneric):
         media.change = int(change_time or time.time())
         if media.handle in self.media_map:
             old_media = self.get_media_from_handle(media.handle).serialize()
-            self.dbapi.execute("""UPDATE media SET gramps_id = ?,
+            self.dbapi.execute("""UPDATE media SET gid = ?,
                                                    order_by = ?,
                                                    blob_data = ?
                                                 WHERE handle = ?;""",
-                               [media.gramps_id,
+                               [media.gid,
                                 self._order_by_media_key(media),
                                 pickle.dumps(media.serialize()),
                                 media.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO media (handle, order_by, gramps_id, blob_data)
+                """INSERT INTO media (handle, order_by, gid, blob_data)
                                      VALUES(?, ?, ?, ?);""",
                 [media.handle,
                  self._order_by_media_key(media),
-                 media.gramps_id,
+                 media.gid,
                  pickle.dumps(media.serialize())])
         self.update_secondary_values(media)
         if not trans.batch:
@@ -1624,85 +1692,85 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("SELECT 1 FROM tag WHERE handle = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_person(self, key):
-        self.dbapi.execute("SELECT 1 FROM person WHERE gramps_id = ?", [key])
+    def has_gid_for_person(self, key):
+        self.dbapi.execute("SELECT 1 FROM person WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_family(self, key):
-        self.dbapi.execute("SELECT 1 FROM family WHERE gramps_id = ?", [key])
+    def has_gid_for_family(self, key):
+        self.dbapi.execute("SELECT 1 FROM family WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_source(self, key):
-        self.dbapi.execute("SELECT 1 FROM source WHERE gramps_id = ?", [key])
+    def has_gid_for_source(self, key):
+        self.dbapi.execute("SELECT 1 FROM source WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_citation(self, key):
-        self.dbapi.execute("SELECT 1 FROM citation WHERE gramps_id = ?", [key])
+    def has_gid_for_citation(self, key):
+        self.dbapi.execute("SELECT 1 FROM citation WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_event(self, key):
-        self.dbapi.execute("SELECT 1 FROM event WHERE gramps_id = ?", [key])
+    def has_gid_for_event(self, key):
+        self.dbapi.execute("SELECT 1 FROM event WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_media(self, key):
-        self.dbapi.execute("SELECT 1 FROM media WHERE gramps_id = ?", [key])
+    def has_gid_for_media(self, key):
+        self.dbapi.execute("SELECT 1 FROM media WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_place(self, key):
-        self.dbapi.execute("SELECT 1 FROM place WHERE gramps_id = ?", [key])
+    def has_gid_for_place(self, key):
+        self.dbapi.execute("SELECT 1 FROM place WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_repository(self, key):
+    def has_gid_for_repository(self, key):
         self.dbapi.execute(
-            "SELECT 1 FROM repository WHERE gramps_id = ?", [key])
+            "SELECT 1 FROM repository WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def has_gramps_id_for_note(self, key):
-        self.dbapi.execute("SELECT 1 FROM note WHERE gramps_id = ?", [key])
+    def has_gid_for_note(self, key):
+        self.dbapi.execute("SELECT 1 FROM note WHERE gid = ?", [key])
         return self.dbapi.fetchone() != None
 
-    def get_person_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM person;")
+    def get_person_gids(self):
+        self.dbapi.execute("SELECT gid FROM person;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_family_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM family;")
+    def get_family_gids(self):
+        self.dbapi.execute("SELECT gid FROM family;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_source_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM source;")
+    def get_source_gids(self):
+        self.dbapi.execute("SELECT gid FROM source;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_citation_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM citation;")
+    def get_citation_gids(self):
+        self.dbapi.execute("SELECT gid FROM citation;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_event_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM event;")
+    def get_event_gids(self):
+        self.dbapi.execute("SELECT gid FROM event;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_media_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM media;")
+    def get_media_gids(self):
+        self.dbapi.execute("SELECT gid FROM media;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_place_gramps_ids(self):
+    def get_place_gids(self):
         self.dbapi.execute("SELECT gramps FROM place;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_repository_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM repository;")
+    def get_repository_gids(self):
+        self.dbapi.execute("SELECT gid FROM repository;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
-    def get_note_gramps_ids(self):
-        self.dbapi.execute("SELECT gramps_id FROM note;")
+    def get_note_gids(self):
+        self.dbapi.execute("SELECT gid FROM note;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
 
@@ -1717,7 +1785,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_person_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM person WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM person WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1733,7 +1801,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_family_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM family WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM family WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1749,7 +1817,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_source_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM source WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM source WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1765,7 +1833,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_citation_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM citation WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM citation WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1781,7 +1849,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_event_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM event WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM event WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1797,7 +1865,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_media_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM media WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM media WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1813,7 +1881,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_place_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM place WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM place WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])
@@ -1847,7 +1915,7 @@ class DBAPI(DbGeneric):
 
     def _get_raw_note_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM note WHERE gramps_id = ?", [key])
+            "SELECT blob_data FROM note WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
             return pickle.loads(row[0])

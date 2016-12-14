@@ -44,8 +44,8 @@ Citation:
 
 <form method="post">{% module xsrf_form_html() %}
 <tr>
- <td class="ColumnAttribute">{{ form.get_label("gramps_id") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("gramps_id", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>

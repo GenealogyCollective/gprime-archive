@@ -52,7 +52,7 @@ class IsLessThanNthGenerationAncestorOf(Rule):
         self.db = db
         self.map = set()
         try:
-            root_handle = db.get_person_from_gramps_id(self.list[0]).get_handle()
+            root_handle = db.get_person_from_gid(self.list[0]).get_handle()
             self.init_ancestor_list(root_handle,0)
         except:
             pass

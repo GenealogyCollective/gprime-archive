@@ -364,7 +364,7 @@ class FamilyLinesReport(Report):
             self._user.warn(_('Empty report'),
                             _('You did not specify anybody'))
         for gid in self._gidlist.split():
-            person = self._db.get_person_from_gramps_id(gid)
+            person = self._db.get_person_from_gid(gid)
             if person:
                 #option can be from another family tree, so person can be None
                 self._interest_set.add(person.get_handle())
@@ -443,7 +443,7 @@ class FamilyLinesReport(Report):
                              self._('Initial list of people of interest:'))
         for handle in self._interest_set:
             person = self._db.get_person_from_handle(handle)
-            gid = person.get_gramps_id()
+            gid = person.get_gid()
             name = person.get_primary_name().get_regular_name()
             # translators: needed for Arabic, ignore othewise
             id_n = self._("%(str1)s, %(str2)s") % {'str1':gid, 'str2':name}
@@ -748,7 +748,7 @@ class FamilyLinesReport(Report):
         for handle in sorted(self._people): # enable a diff
             person = self._db.get_person_from_handle(handle)
             name = self._name_display.display(person)
-            p_id = person.get_gramps_id()
+            p_id = person.get_gid()
 
             # figure out what colour to use
             gender = person.get_gender()
@@ -897,7 +897,7 @@ class FamilyLinesReport(Report):
         # loop through all the families we need to output
         for family_handle in sorted(self._families): # enable a diff
             family = self._db.get_family_from_handle(family_handle)
-            fgid = family.get_gramps_id()
+            fgid = family.get_gid()
 
             # figure out a wedding date or placename we can use
             wedding_date = None
@@ -987,7 +987,7 @@ class FamilyLinesReport(Report):
 
             # get the parents for this family
             family = self._db.get_family_from_handle(family_handle)
-            fgid = family.get_gramps_id()
+            fgid = family.get_gid()
             father_handle = family.get_father_handle()
             mother_handle = family.get_mother_handle()
 
@@ -1002,7 +1002,7 @@ class FamilyLinesReport(Report):
                     father = self._db.get_person_from_handle(father_handle)
                     father_rn = father.get_primary_name().get_regular_name()
                     comment = self._("father: %s") % father_rn
-                    self.doc.add_link(father.get_gramps_id(),
+                    self.doc.add_link(father.get_gid(),
                                       fgid, comment=comment)
 
             # see if we have a mother to link to this family
@@ -1011,7 +1011,7 @@ class FamilyLinesReport(Report):
                     mother = self._db.get_person_from_handle(mother_handle)
                     mother_rn = mother.get_primary_name().get_regular_name()
                     comment = self._("mother: %s") % mother_rn
-                    self.doc.add_link(mother.get_gramps_id(),
+                    self.doc.add_link(mother.get_gid(),
                                       fgid, comment=comment)
 
             if self._usesubgraphs and father_handle and mother_handle:
@@ -1023,7 +1023,7 @@ class FamilyLinesReport(Report):
                     child = self._db.get_person_from_handle(childref.ref)
                     child_rn = child.get_primary_name().get_regular_name()
                     comment = self._("child: %s") % child_rn
-                    self.doc.add_link(fgid, child.get_gramps_id(),
+                    self.doc.add_link(fgid, child.get_gid(),
                                       comment=comment)
 
     def get_event_place(self, event):

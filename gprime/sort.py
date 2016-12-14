@@ -234,14 +234,14 @@ class Sort:
 ##            return 0
 ##        evt_a = self.database.get_event_from_handle(a_id)
 ##        evt_b = self.database.get_event_from_handle(b_id)
-##        return glocale.strcoll(evt_a.get_gramps_id(), evt_b.get_gramps_id())
+##        return glocale.strcoll(evt_a.get_gid(), evt_b.get_gid())
 
     def by_event_id_key(self, a_id):
         """Sort routine for comparing two events by their ID. """
         if not a_id:
             return 0
         evt_a = self.database.get_event_from_handle(a_id)
-        return glocale.sort_key(evt_a.get_gramps_id())
+        return glocale.sort_key(evt_a.get_gid())
 
 ##    def by_event_type(self, a_id, b_id):
 ##        """Sort routine for comparing two events by their type. """

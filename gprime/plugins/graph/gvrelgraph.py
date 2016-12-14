@@ -173,7 +173,7 @@ class RelGraphReport(Report):
         stdoptions.run_name_format_option(self, menu)
 
         pid = get_value('pid')
-        self.center_person = self._db.get_person_from_gramps_id(pid)
+        self.center_person = self._db.get_person_from_gid(pid)
 
         self.increlname = get_value('increlname')
         if self.increlname:
@@ -203,7 +203,7 @@ class RelGraphReport(Report):
 
         for person_handle in person_handles:
             person = self._db.get_person_from_handle(person_handle)
-            p_id = person.get_gramps_id()
+            p_id = person.get_gid()
             for fam_handle in person.get_parent_family_handle_list():
                 family = self._db.get_family_from_handle(fam_handle)
                 father_handle = family.get_father_handle()
@@ -237,7 +237,7 @@ class RelGraphReport(Report):
             adopted = False
         if adopted and self.adoptionsdashed:
             style = 'dotted'
-        self.doc.add_link(family.get_gramps_id(), p_id, style,
+        self.doc.add_link(family.get_gid(), p_id, style,
                           self.arrowheadstyle, self.arrowtailstyle)
 
     def add_parent_link(self, p_id, parent_handle, rel):
@@ -246,7 +246,7 @@ class RelGraphReport(Report):
         if (int(rel) != ChildRefType.BIRTH) and self.adoptionsdashed:
             style = 'dotted'
         parent = self._db.get_person_from_handle(parent_handle)
-        self.doc.add_link(parent.get_gramps_id(), p_id, style,
+        self.doc.add_link(parent.get_gid(), p_id, style,
                           self.arrowheadstyle, self.arrowtailstyle)
 
     def add_persons_and_families(self, person_handles):
@@ -264,7 +264,7 @@ class RelGraphReport(Report):
             person = self._db.get_person_from_handle(person_handle)
             if person is None:
                 continue
-            p_id = person.get_gramps_id()
+            p_id = person.get_gid()
             # Output the person's node
             label = self.get_person_label(person)
             (shape, style, color, fill) = self.get_gender_style(person)
@@ -292,7 +292,7 @@ class RelGraphReport(Report):
                     # control over the layout of the whole graph but
                     # may leave spouses not positioned together.
                     if not self.use_subgraphs:
-                        self.doc.add_link(p_id, family.get_gramps_id(), "",
+                        self.doc.add_link(p_id, family.get_gid(), "",
                                           self.arrowheadstyle,
                                           self.arrowtailstyle)
 
@@ -301,7 +301,7 @@ class RelGraphReport(Report):
         fam = self._db.get_family_from_handle(fam_handle)
         if fam is None:
             return
-        fam_id = fam.get_gramps_id()
+        fam_id = fam.get_gid()
 
         m_type = m_date = m_place = ""
         d_type = d_date = d_place = ""
@@ -387,13 +387,13 @@ class RelGraphReport(Report):
             m_handle = fam.get_mother_handle()
             if f_handle:
                 father = self._db.get_person_from_handle(f_handle)
-                self.doc.add_link(father.get_gramps_id(),
+                self.doc.add_link(father.get_gid(),
                                   fam_id, "",
                                   self.arrowheadstyle,
                                   self.arrowtailstyle)
             if m_handle:
                 mother = self._db.get_person_from_handle(m_handle)
-                self.doc.add_link(mother.get_gramps_id(),
+                self.doc.add_link(mother.get_gid(),
                                   fam_id, "",
                                   self.arrowheadstyle,
                                   self.arrowtailstyle)
@@ -485,7 +485,7 @@ class RelGraphReport(Report):
             label += p_name.replace('<', '&#60;').replace('>', '&#62;')
         else:
             label += p_name
-        p_id = person.get_gramps_id()
+        p_id = person.get_gid()
         if self.includeid == 1: # same line
             label += " (%s)" % p_id
         elif self.includeid == 2: # own line
@@ -823,7 +823,7 @@ class RelGraphOptions(MenuReportOptions):
         Update the filter list based on the selected person
         """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         nfv = self._nf.get_value()
         filter_list = utils.get_person_filters(person,
                                                      include_single=False,

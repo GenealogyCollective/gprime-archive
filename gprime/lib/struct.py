@@ -27,7 +27,7 @@ class Struct:
     """
     Class for getting and setting parts of a struct by dotted path.
 
-    >>> s = Struct({"gramps_id": "I0001", ...}, database)
+    >>> s = Struct({"gid": "I0001", ...}, database)
     >>> s.primary_name.surname_list[0].surname
     Jones
     >>> s.primary_name.surname_list[0].surname = "Smith"

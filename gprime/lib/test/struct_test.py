@@ -121,11 +121,11 @@ for table in db.get_table_func():
 
 class StructTest(unittest.TestCase):
     def test(self):
-        family = db.get_family_from_gramps_id("F0001")
+        family = db.get_family_from_gid("F0001")
         s = Struct(family.to_struct(), db)
-        self.assertEqual(s["gramps_id"], "F0001")
-        s["gramps_id"] = "TEST"
-        self.assertEqual(s["gramps_id"], "TEST")
+        self.assertEqual(s["gid"], "F0001")
+        s["gid"] = "TEST"
+        self.assertEqual(s["gid"], "TEST")
         self.assertEqual(s.father_handle.primary_name.first_name,
                          "Allen Carl")
         s["father_handle.primary_name.first_name"] = "Edward"

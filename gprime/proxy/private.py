@@ -60,7 +60,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Person':
             {
                 "handle_func": self.get_person_from_handle,
-                "gramps_id_func": self.get_person_from_gramps_id,
+                "gid_func": self.get_person_from_gid,
                 "class_func": Person,
                 "cursor_func": self.get_person_cursor,
                 "handles_func": self.get_person_handles,
@@ -70,7 +70,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Family':
             {
                 "handle_func": self.get_family_from_handle,
-                "gramps_id_func": self.get_family_from_gramps_id,
+                "gid_func": self.get_family_from_gid,
                 "class_func": Family,
                 "cursor_func": self.get_family_cursor,
                 "handles_func": self.get_family_handles,
@@ -80,7 +80,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Source':
             {
                 "handle_func": self.get_source_from_handle,
-                "gramps_id_func": self.get_source_from_gramps_id,
+                "gid_func": self.get_source_from_gid,
                 "class_func": Source,
                 "cursor_func": self.get_source_cursor,
                 "handles_func": self.get_source_handles,
@@ -90,7 +90,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Citation':
             {
                 "handle_func": self.get_citation_from_handle,
-                "gramps_id_func": self.get_citation_from_gramps_id,
+                "gid_func": self.get_citation_from_gid,
                 "class_func": Citation,
                 "cursor_func": self.get_citation_cursor,
                 "handles_func": self.get_citation_handles,
@@ -100,7 +100,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Event':
             {
                 "handle_func": self.get_event_from_handle,
-                "gramps_id_func": self.get_event_from_gramps_id,
+                "gid_func": self.get_event_from_gid,
                 "class_func": Event,
                 "cursor_func": self.get_event_cursor,
                 "handles_func": self.get_event_handles,
@@ -110,7 +110,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Media':
             {
                 "handle_func": self.get_media_from_handle,
-                "gramps_id_func": self.get_media_from_gramps_id,
+                "gid_func": self.get_media_from_gid,
                 "class_func": Media,
                 "cursor_func": self.get_media_cursor,
                 "handles_func": self.get_media_handles,
@@ -120,7 +120,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Place':
             {
                 "handle_func": self.get_place_from_handle,
-                "gramps_id_func": self.get_place_from_gramps_id,
+                "gid_func": self.get_place_from_gid,
                 "class_func": Place,
                 "cursor_func": self.get_place_cursor,
                 "handles_func": self.get_place_handles,
@@ -130,7 +130,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Repository':
             {
                 "handle_func": self.get_repository_from_handle,
-                "gramps_id_func": self.get_repository_from_gramps_id,
+                "gid_func": self.get_repository_from_gid,
                 "class_func": Repository,
                 "cursor_func": self.get_repository_cursor,
                 "handles_func": self.get_repository_handles,
@@ -140,7 +140,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Note':
             {
                 "handle_func": self.get_note_from_handle,
-                "gramps_id_func": self.get_note_from_gramps_id,
+                "gid_func": self.get_note_from_gid,
                 "class_func": Note,
                 "cursor_func": self.get_note_cursor,
                 "handles_func": self.get_note_handles,
@@ -150,7 +150,7 @@ class PrivateProxyDb(ProxyDbBase):
             'Tag':
             {
                 "handle_func": self.get_tag_from_handle,
-                "gramps_id_func": None,
+                "gid_func": None,
                 "class_func": Tag,
                 "cursor_func": self.get_tag_cursor,
                 "handles_func": self.get_tag_handles,
@@ -262,92 +262,92 @@ class PrivateProxyDb(ProxyDbBase):
             return note
         return None
 
-    def get_person_from_gramps_id(self, val):
+    def get_person_from_gid(self, val):
         """
         Finds a Person in the database from the passed GRAMPS ID.
         If no such Person exists, None is returned.
         """
-        person = self.db.get_person_from_gramps_id(val)
+        person = self.db.get_person_from_gid(val)
         if person and not person.get_privacy():
             return sanitize_person(self.db, person)
         return None
 
-    def get_family_from_gramps_id(self, val):
+    def get_family_from_gid(self, val):
         """
         Finds a Family in the database from the passed GRAMPS ID.
         If no such Family exists, None is returned.
         """
-        family = self.db.get_family_from_gramps_id(val)
+        family = self.db.get_family_from_gid(val)
         if family and not family.get_privacy():
             return sanitize_family(self.db, family)
         return None
 
-    def get_event_from_gramps_id(self, val):
+    def get_event_from_gid(self, val):
         """
         Finds an Event in the database from the passed GRAMPS ID.
         If no such Event exists, None is returned.
         """
-        event = self.db.get_event_from_gramps_id(val)
+        event = self.db.get_event_from_gid(val)
         if event and not event.get_privacy():
             return sanitize_event(self.db, event)
         return None
 
-    def get_place_from_gramps_id(self, val):
+    def get_place_from_gid(self, val):
         """
         Finds a Place in the database from the passed Gramps ID.
         If no such Place exists, None is returned.
         """
-        place = self.db.get_place_from_gramps_id(val)
+        place = self.db.get_place_from_gid(val)
         if place and not place.get_privacy():
             return sanitize_place(self.db, place)
         return None
 
-    def get_source_from_gramps_id(self, val):
+    def get_source_from_gid(self, val):
         """
         Finds a Source in the database from the passed Gramps ID.
         If no such Source exists, None is returned.
         """
-        source = self.db.get_source_from_gramps_id(val)
+        source = self.db.get_source_from_gid(val)
         if source and not source.get_privacy():
             return sanitize_source(self.db, source)
         return None
 
-    def get_citation_from_gramps_id(self, val):
+    def get_citation_from_gid(self, val):
         """
         Finds a Citation in the database from the passed Gramps ID.
         If no such Citation exists, None is returned.
         """
-        citation = self.db.get_citation_from_gramps_id(val)
+        citation = self.db.get_citation_from_gid(val)
         if citation and not citation.get_privacy():
             return sanitize_citation(self.db, citation)
         return None
 
-    def get_media_from_gramps_id(self, val):
+    def get_media_from_gid(self, val):
         """
         Finds a Media in the database from the passed Gramps ID.
         If no such Media exists, None is returned.
         """
-        obj = self.db.get_media_from_gramps_id(val)
+        obj = self.db.get_media_from_gid(val)
         if obj and not obj.get_privacy():
             return sanitize_media(self.db, obj)
         return None
 
-    def get_repository_from_gramps_id(self, val):
+    def get_repository_from_gid(self, val):
         """
         Finds a Repository in the database from the passed Gramps ID.
         If no such Repository exists, None is returned.
         """
-        repository = self.db.get_repository_from_gramps_id(val)
+        repository = self.db.get_repository_from_gid(val)
         if repository and not repository.get_privacy():
             return sanitize_repository(self.db, repository)
         return None
 
-    def get_note_from_gramps_id(self, val):
+    def get_note_from_gid(self, val):
         """
         Finds a Note in the database from the passed Gramps ID.
         If no such Note exists, None is returned.
         """
-        note = self.db.get_note_from_gramps_id(val)
+        note = self.db.get_note_from_gid(val)
         if note and not note.get_privacy():
             return note
         return None
@@ -881,7 +881,7 @@ def sanitize_citation(db, citation):
     new_citation.set_page(citation.get_page())
     new_citation.set_confidence_level(citation.get_confidence_level())
     new_citation.set_reference_handle(citation.get_reference_handle())
-    new_citation.set_gramps_id(citation.get_gramps_id())
+    new_citation.set_gid(citation.get_gid())
     new_citation.set_handle(citation.get_handle())
     new_citation.set_change_time(citation.get_change_time())
     copy_srcattributes(db, citation, new_citation)
@@ -931,7 +931,7 @@ def sanitize_person(db, person):
 
     # copy gender
     new_person.set_gender(person.get_gender())
-    new_person.set_gramps_id(person.get_gramps_id())
+    new_person.set_gid(person.get_gid())
     new_person.set_handle(person.get_handle())
     new_person.set_change_time(person.get_change_time())
     new_person.set_tag_list(person.get_tag_list())
@@ -1026,7 +1026,7 @@ def sanitize_source(db, source):
     new_source.set_title(source.get_title())
     new_source.set_publication_info(source.get_publication_info())
     new_source.set_abbreviation(source.get_abbreviation())
-    new_source.set_gramps_id(source.get_gramps_id())
+    new_source.set_gid(source.get_gid())
     new_source.set_handle(source.get_handle())
     new_source.set_change_time(source.get_change_time())
 
@@ -1062,7 +1062,7 @@ def sanitize_media(db, media):
     new_media.set_mime_type(media.get_mime_type())
     new_media.set_path(media.get_path())
     new_media.set_description(media.get_description())
-    new_media.set_gramps_id(media.get_gramps_id())
+    new_media.set_gid(media.get_gid())
     new_media.set_handle(media.get_handle())
     new_media.set_change_time(media.get_change_time())
     new_media.set_date_object(media.get_date_object())
@@ -1091,7 +1091,7 @@ def sanitize_place(db, place):
     new_place = Place()
 
     new_place.set_title(place.get_title())
-    new_place.set_gramps_id(place.get_gramps_id())
+    new_place.set_gid(place.get_gid())
     new_place.set_handle(place.get_handle())
     new_place.set_change_time(place.get_change_time())
     new_place.set_longitude(place.get_longitude())
@@ -1128,7 +1128,7 @@ def sanitize_event(db, event):
 
     new_event.set_type(event.get_type())
     new_event.set_description(event.get_description())
-    new_event.set_gramps_id(event.get_gramps_id())
+    new_event.set_gid(event.get_gid())
     new_event.set_handle(event.get_handle())
     new_event.set_date_object(event.get_date_object())
     new_event.set_change_time(event.get_change_time())
@@ -1162,7 +1162,7 @@ def sanitize_family(db, family):
     """
     new_family = Family()
 
-    new_family.set_gramps_id(family.get_gramps_id())
+    new_family.set_gid(family.get_gid())
     new_family.set_handle(family.get_handle())
     new_family.set_relationship(family.get_relationship())
     new_family.set_change_time(family.get_change_time())
@@ -1232,7 +1232,7 @@ def sanitize_repository(db, repository):
 
     new_repository.set_type(repository.get_type())
     new_repository.set_name(repository.get_name())
-    new_repository.set_gramps_id(repository.get_gramps_id())
+    new_repository.set_gid(repository.get_gid())
     new_repository.set_handle(repository.get_handle())
     new_repository.set_change_time(repository.get_change_time())
 

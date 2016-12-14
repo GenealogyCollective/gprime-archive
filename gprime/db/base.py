@@ -163,56 +163,56 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def find_next_event_gramps_id(self):
+    def find_next_event_gid(self):
         """
         Return the next available Gramps ID for a Event object based off the
         event ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_family_gramps_id(self):
+    def find_next_family_gid(self):
         """
         Return the next available Gramps ID for a Family object based off the
         family ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_note_gramps_id(self):
+    def find_next_note_gid(self):
         """
         Return the next available Gramps ID for a Note object based off the
         note ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_media_gramps_id(self):
+    def find_next_media_gid(self):
         """
         Return the next available Gramps ID for a Media object based
         off the media object ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_person_gramps_id(self):
+    def find_next_person_gid(self):
         """
         Return the next available Gramps ID for a Person object based off the
         person ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_place_gramps_id(self):
+    def find_next_place_gid(self):
         """
         Return the next available Gramps ID for a Place object based off the
         place ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_repository_gramps_id(self):
+    def find_next_repository_gid(self):
         """
         Return the next available Gramps ID for a Repository object based
         off the repository ID prefix.
         """
         raise NotImplementedError
 
-    def find_next_source_gramps_id(self):
+    def find_next_source_gid(self):
         """
         Return the next available Gramps ID for a Source object based off the
         source ID prefix.
@@ -256,7 +256,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_event_from_gramps_id(self, val):
+    def get_event_from_gid(self, val):
         """
         Find an Event in the database from the passed Gramps ID.
 
@@ -325,7 +325,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_family_from_gramps_id(self, val):
+    def get_family_from_gid(self, val):
         """
         Find a Family in the database from the passed Gramps ID.
 
@@ -358,7 +358,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_gramps_ids(self, obj_key):
+    def get_gids(self, obj_key):
         """
         Returns all the keys from a table given a table name
         """
@@ -436,7 +436,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_note_from_gramps_id(self, val):
+    def get_note_from_gid(self, val):
         """
         Find a Note in the database from the passed Gramps ID.
 
@@ -521,7 +521,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_media_from_gramps_id(self, val):
+    def get_media_from_gid(self, val):
         """
         Find a Media in the database from the passed Gramps ID.
 
@@ -557,7 +557,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_person_from_gramps_id(self, val):
+    def get_person_from_gid(self, val):
         """
         Find a Person in the database from the passed Gramps ID.
 
@@ -602,7 +602,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_place_from_gramps_id(self, val):
+    def get_place_from_gid(self, val):
         """
         Find a Place in the database from the passed Gramps ID.
 
@@ -700,7 +700,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_repository_from_gramps_id(self, val):
+    def get_repository_from_gid(self, val):
         """
         Find a Repository in the database from the passed Gramps ID.
 
@@ -756,7 +756,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_source_from_gramps_id(self, val):
+    def get_source_from_gid(self, val):
         """
         Find a Source in the database from the passed Gramps ID.
 
@@ -801,7 +801,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def get_citation_from_gramps_id(self, val):
+    def get_citation_from_gid(self, val):
         """
         Find a Citation in the database from the passed Gramps ID.
 
@@ -891,7 +891,7 @@ class DbReadBase:
         """
         raise NotImplementedError
 
-    def has_gramps_id(self, obj_key, gramps_id):
+    def has_gid(self, obj_key, gid):
         """
         Returns True if the key exists in table given a table name
 
@@ -1421,7 +1421,7 @@ class DbWriteBase(DbReadBase):
         Add an Event to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1430,7 +1430,7 @@ class DbWriteBase(DbReadBase):
         Add a Family to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1439,7 +1439,7 @@ class DbWriteBase(DbReadBase):
         Add a Note to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1448,7 +1448,7 @@ class DbWriteBase(DbReadBase):
         Add a Media to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1457,7 +1457,7 @@ class DbWriteBase(DbReadBase):
         Add a Person to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1466,7 +1466,7 @@ class DbWriteBase(DbReadBase):
         Add a Place to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1475,7 +1475,7 @@ class DbWriteBase(DbReadBase):
         Add a Repository to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 
@@ -1484,7 +1484,7 @@ class DbWriteBase(DbReadBase):
         Add a Source to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         raise NotImplementedError
 

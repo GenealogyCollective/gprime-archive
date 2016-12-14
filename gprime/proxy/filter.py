@@ -77,7 +77,7 @@ class FilterProxyDb(ProxyDbBase):
             'Person':
             {
                 "handle_func": self.get_person_from_handle,
-                "gramps_id_func": self.get_person_from_gramps_id,
+                "gid_func": self.get_person_from_gid,
                 "class_func": Person,
                 "cursor_func": self.get_person_cursor,
                 "handles_func": self.get_person_handles,
@@ -87,7 +87,7 @@ class FilterProxyDb(ProxyDbBase):
             'Family':
             {
                 "handle_func": self.get_family_from_handle,
-                "gramps_id_func": self.get_family_from_gramps_id,
+                "gid_func": self.get_family_from_gid,
                 "class_func": Family,
                 "cursor_func": self.get_family_cursor,
                 "handles_func": self.get_family_handles,
@@ -97,7 +97,7 @@ class FilterProxyDb(ProxyDbBase):
             'Source':
             {
                 "handle_func": self.get_source_from_handle,
-                "gramps_id_func": self.get_source_from_gramps_id,
+                "gid_func": self.get_source_from_gid,
                 "class_func": Source,
                 "cursor_func": self.get_source_cursor,
                 "handles_func": self.get_source_handles,
@@ -107,7 +107,7 @@ class FilterProxyDb(ProxyDbBase):
             'Citation':
             {
                 "handle_func": self.get_citation_from_handle,
-                "gramps_id_func": self.get_citation_from_gramps_id,
+                "gid_func": self.get_citation_from_gid,
                 "class_func": Citation,
                 "cursor_func": self.get_citation_cursor,
                 "handles_func": self.get_citation_handles,
@@ -117,7 +117,7 @@ class FilterProxyDb(ProxyDbBase):
             'Event':
             {
                 "handle_func": self.get_event_from_handle,
-                "gramps_id_func": self.get_event_from_gramps_id,
+                "gid_func": self.get_event_from_gid,
                 "class_func": Event,
                 "cursor_func": self.get_event_cursor,
                 "handles_func": self.get_event_handles,
@@ -127,7 +127,7 @@ class FilterProxyDb(ProxyDbBase):
             'Media':
             {
                 "handle_func": self.get_media_from_handle,
-                "gramps_id_func": self.get_media_from_gramps_id,
+                "gid_func": self.get_media_from_gid,
                 "class_func": Media,
                 "cursor_func": self.get_media_cursor,
                 "handles_func": self.get_media_handles,
@@ -137,7 +137,7 @@ class FilterProxyDb(ProxyDbBase):
             'Place':
             {
                 "handle_func": self.get_place_from_handle,
-                "gramps_id_func": self.get_place_from_gramps_id,
+                "gid_func": self.get_place_from_gid,
                 "class_func": Place,
                 "cursor_func": self.get_place_cursor,
                 "handles_func": self.get_place_handles,
@@ -147,7 +147,7 @@ class FilterProxyDb(ProxyDbBase):
             'Repository':
             {
                 "handle_func": self.get_repository_from_handle,
-                "gramps_id_func": self.get_repository_from_gramps_id,
+                "gid_func": self.get_repository_from_gid,
                 "class_func": Repository,
                 "cursor_func": self.get_repository_cursor,
                 "handles_func": self.get_repository_handles,
@@ -157,7 +157,7 @@ class FilterProxyDb(ProxyDbBase):
             'Note':
             {
                 "handle_func": self.get_note_from_handle,
-                "gramps_id_func": self.get_note_from_gramps_id,
+                "gid_func": self.get_note_from_gid,
                 "class_func": Note,
                 "cursor_func": self.get_note_cursor,
                 "handles_func": self.get_note_handles,
@@ -167,7 +167,7 @@ class FilterProxyDb(ProxyDbBase):
             'Tag':
             {
                 "handle_func": self.get_tag_from_handle,
-                "gramps_id_func": None,
+                "gid_func": None,
                 "class_func": Tag,
                 "cursor_func": self.get_tag_cursor,
                 "handles_func": self.get_tag_handles,
@@ -402,100 +402,100 @@ class FilterProxyDb(ProxyDbBase):
         else:
             return None
 
-    def get_person_from_gramps_id(self, val):
+    def get_person_from_gid(self, val):
         """
         Finds a Person in the database from the passed Gramps ID.
         If no such Person exists, None is returned.
         """
-        person = self.db.get_person_from_gramps_id(val)
+        person = self.db.get_person_from_gid(val)
         if person:
             return self.get_person_from_handle(person.get_handle())
         else:
             return None
 
-    def get_family_from_gramps_id(self, val):
+    def get_family_from_gid(self, val):
         """
         Finds a Family in the database from the passed Gramps ID.
         If no such Family exists, None is returned.
         """
-        family = self.db.get_family_from_gramps_id(val)
+        family = self.db.get_family_from_gid(val)
         if family:
             return self.get_family_from_handle(family.get_handle())
         else:
             return None
 
-    def get_event_from_gramps_id(self, val):
+    def get_event_from_gid(self, val):
         """
         Finds an Event in the database from the passed Gramps ID.
         If no such Event exists, None is returned.
         """
-        event = self.db.get_event_from_gramps_id(val)
+        event = self.db.get_event_from_gid(val)
         if event:
             return self.get_event_from_handle(event.get_handle())
         else:
             return None
 
-    def get_place_from_gramps_id(self, val):
+    def get_place_from_gid(self, val):
         """
         Finds a Place in the database from the passed Gramps ID.
         If no such Place exists, None is returned.
         """
-        place = self.db.get_place_from_gramps_id(val)
+        place = self.db.get_place_from_gid(val)
         if place:
             return self.get_place_from_handle(place.get_handle())
         else:
             return None
 
-    def get_source_from_gramps_id(self, val):
+    def get_source_from_gid(self, val):
         """
         Finds a Source in the database from the passed Gramps ID.
         If no such Source exists, None is returned.
         """
-        source = self.db.get_source_from_gramps_id(val)
+        source = self.db.get_source_from_gid(val)
         if source:
             return self.get_source_from_handle(source.get_handle())
         else:
             return None
 
-    def get_citation_from_gramps_id(self, val):
+    def get_citation_from_gid(self, val):
         """
         Finds a Citation in the database from the passed Gramps ID.
         If no such Citation exists, None is returned.
         """
-        citation = self.db.get_citation_from_gramps_id(val)
+        citation = self.db.get_citation_from_gid(val)
         if citation:
             return self.get_citation_from_handle(citation.get_handle())
         else:
             return None
 
-    def get_media_from_gramps_id(self, val):
+    def get_media_from_gid(self, val):
         """
         Finds a Media in the database from the passed Gramps ID.
         If no such Media exists, None is returned.
         """
-        media = self.db.get_media_from_gramps_id(val)
+        media = self.db.get_media_from_gid(val)
         if media:
             return self.get_media_from_handle(media.get_handle())
         else:
             return None
 
-    def get_repository_from_gramps_id(self, val):
+    def get_repository_from_gid(self, val):
         """
         Finds a Repository in the database from the passed Gramps ID.
         If no such Repository exists, None is returned.
         """
-        repository = self.db.get_repository_from_gramps_id(val)
+        repository = self.db.get_repository_from_gid(val)
         if repository:
             return self.get_repository_from_handle(repository.get_handle())
         else:
             return None
 
-    def get_note_from_gramps_id(self, val):
+    def get_note_from_gid(self, val):
         """
         Finds a Note in the database from the passed Gramps ID.
         If no such Note exists, None is returned.
         """
-        note = self.db.get_note_from_gramps_id(val)
+        note = self.db.get_note_from_gid(val)
         if note:
             return self.get_note_from_handle(note.get_handle())
         else:

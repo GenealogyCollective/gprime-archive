@@ -53,4 +53,4 @@ class RegExpIdBase(Rule):
     allow_regex = True
 
     def apply(self, db, obj):
-        return self.match_substring(0, obj.gramps_id)
+        return self.match_substring(0, obj.gid)

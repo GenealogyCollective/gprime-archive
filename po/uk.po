@@ -11524,7 +11524,7 @@ msgstr "Перемістити обраний атрибут до низу"
 msgid "_Attributes"
 msgstr "_Атрибути"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12749,18 +12749,18 @@ msgstr "Редактор ритуалів LDS"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s та %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s та %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24281,19 +24281,19 @@ msgstr "Запис не імпортовано до "
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
-"Помилка: %(msg)s  '%(gramps_id)s' (вхідний як @%(xref)s@) не знайдено у "
+"Помилка: %(msg)s  '%(gid)s' (вхідний як @%(xref)s@) не знайдено у "
 "вхідному GEDCOM. Запис синтезовано"
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
-"Помилка: %(msg)s '%(gramps_id)s' (вхідний як @%(xref)s@) не знайдено у "
+"Помилка: %(msg)s '%(gid)s' (вхідний як @%(xref)s@) не знайдено у "
 "вхідному GEDCOM. Створено запис з типологічним атрибутом 'Unknown'"
 
 #: ../gramps/plugins/lib/libgedcom.py:3202
@@ -24426,7 +24426,7 @@ msgstr "Увага: ADDR перезаписано"
 msgid "REFN ignored"
 msgstr "REFN: проігноровано"
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -33493,8 +33493,8 @@ msgstr ""
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(gramps_id)s : %(father)s та %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(gid)s : %(father)s та %(mother)s"
 
 #: ../gramps/plugins/view/geofamclose.py:265
 #, python-format
@@ -36178,10 +36178,10 @@ msgstr "Без таблиці стилів"
 
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
-#~ "Ви намагаєтесь використати Gramps ID із значенням %(gramps_id)s. Це "
+#~ "Ви намагаєтесь використати Gramps ID із значенням %(gid)s. Це "
 #~ "значення вже використовується '%(prim_object)s'. Будь ласка, вкажіть інше "
 #~ "ID , або залиште поле пустим для автоматичного заповнення ID."
 

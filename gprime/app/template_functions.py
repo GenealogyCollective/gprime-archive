@@ -143,7 +143,7 @@ def event_table(form, user, action, link=None, **kwargs):
         ("", 11),
         (event.get_label("description", form._), 19),
         (event.get_label("type", form._), 10),
-        (event.get_label("gramps_id", form._),11),
+        (event.get_label("gid", form._),11),
         (event.get_label("date", form._), 20),
         (event.get_label("place", form._), 19),
         (eventref.get_label("role", form._), 10),
@@ -153,7 +153,7 @@ def event_table(form, user, action, link=None, **kwargs):
     for event_ref in s.event_ref_list: # eventrefs
         table.append_row(event_ref.ref.description,
                          event_ref.ref.type.string,
-                         event_ref.ref.gramps_id,
+                         event_ref.ref.gid,
                          event_ref.ref.date.from_struct(),
                          event_ref.ref.place.name.value,
                          event_ref.role.string)
@@ -287,7 +287,7 @@ def citation_table(form, user, action, link=None, **kwargs):
     #             citation = table.db.get_citation_from_handle(
     #                 citation_ref.citation.handle)
     #             table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user and link and action == "view" else "",
-    #                       citation.gramps_id,
+    #                       citation.gid,
     #                       str(citation.confidence),
     #                       str(citation.page),
     #                       )
@@ -344,7 +344,7 @@ def repository_table(form, user, action, link=None, **kwargs):
     #         repository = repo_ref.ref_object
     #         table.append_row(
     #             Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #             repository.gramps_id,
+    #             repository.gid,
     #             repository.name,
     #             repo_ref.call_number,
     #             str(repository.repository_type),
@@ -386,7 +386,7 @@ def note_table(form, user, action, link=None, **kwargs):
     #     for note_ref in note_refs:
     #         note = note_ref.ref_object
     #         table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #                   note.gramps_id,
+    #                   note.gid,
     #                   str(note.note_type),
     #                   note.text[:50]
     #                   )
@@ -612,7 +612,7 @@ def association_table(form, user, action, link=None, **kwargs):
     #         for association in associations: # PersonRef
     #             table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user and link and action == "view" else "",
     #                       association.ref_object.get_primary_name(),
-    #                       association.ref_object.gramps_id,
+    #                       association.ref_object.gid,
     #                       association.description,
     #                       )
     #             links.append(('URL', "/person/%s/association/%d" % (obj.handle, count)))
@@ -726,7 +726,7 @@ def person_reference_table(form, user, action, link=None, **kwargs):
     #         reference = through.family
     #         table1.row(
     #             Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #             reference.gramps_id,
+    #             reference.gid,
     #             reference,
     #             )
     #         has_data = True
@@ -747,7 +747,7 @@ def person_reference_table(form, user, action, link=None, **kwargs):
     #         reference = through.family
     #         table2.row(
     #             Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #             reference.gramps_id,
+    #             reference.gid,
     #             reference,
     #             )
     #         has_data = True
@@ -802,7 +802,7 @@ def note_reference_table(form, user, action, link=None, **kwargs):
     #         table.append_row(
     #             item.__class__.__name__,
     #             item,
-    #             item.gramps_id)
+    #             item.gid)
     #         has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -831,7 +831,7 @@ def event_reference_table(form, user, action, link=None, **kwargs):
     #         table.append_row(
     #             item.__class__.__name__,
     #             item,
-    #             item.gramps_id)
+    #             item.gid)
     #         has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -856,7 +856,7 @@ def repository_reference_table(form, user, action, link=None, **kwargs):
     #         table.append_row(
     #             item.__class__.__name__,
     #             item,
-    #             item.gramps_id)
+    #             item.gid)
     #         has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -903,7 +903,7 @@ def source_reference_table(form, user, action, link=None, **kwargs):
     #         table.append_row(
     #             item.__class__.__name__,
     #             item,
-    #             item.gramps_id)
+    #             item.gid)
     #         has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -928,7 +928,7 @@ def media_reference_table(form, user, action, link=None, **kwargs):
     #         table.append_row(
     #             item.__class__.__name__,
     #             item,
-    #             item.gramps_id)
+    #             item.gid)
     #         has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -977,7 +977,7 @@ def tag_reference_table(form, user, action, link=None, **kwargs):
     #             table.append_row(
     #                 item.__class__.__name__,
     #                 item,
-    #                 item.gramps_id)
+    #                 item.gid)
     #             has_data = True
     retval += table.get_html()
     retval += nbsp("") # to keep tabs same height
@@ -1012,7 +1012,7 @@ def children_table(form, user, action, link=None, **kwargs):
     #     if user.is_authenticated() or obj.public:
     #         table.row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user.is_superuser and url and act == "view" else "",
     #                   str(count),
-    #                   "[%s]" % child.gramps_id,
+    #                   "[%s]" % child.gid,
     #                   render_name(child, user),
     #                   child.gender_type,
     #                   childref.father_rel_type,
@@ -1025,7 +1025,7 @@ def children_table(form, user, action, link=None, **kwargs):
     #     else:
     #         table.row("",
     #                   str(count),
-    #                   "[%s]" % child.gramps_id,
+    #                   "[%s]" % child.gid,
     #                   render_name(child, user) if not child.private else "[Private]",
     #                   child.gender_type if not child.private else "[Private]",
     #                   "[Private]",

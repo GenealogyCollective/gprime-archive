@@ -53,8 +53,8 @@ class RelationshipPathBetween(Rule):
         self.db = db
         self.map = set()
         try:
-            root1_handle = db.get_person_from_gramps_id(self.list[0]).get_handle()
-            root2_handle = db.get_person_from_gramps_id(self.list[1]).get_handle()
+            root1_handle = db.get_person_from_gid(self.list[0]).get_handle()
+            root2_handle = db.get_person_from_gid(self.list[1]).get_handle()
             self.init_list(root1_handle,root2_handle)
         except:
             pass

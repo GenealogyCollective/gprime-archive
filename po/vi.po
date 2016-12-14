@@ -11515,7 +11515,7 @@ msgstr "Di chuyển thông số đã chọn xuống "
 msgid "_Attributes"
 msgstr "_Thông số "
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12758,18 +12758,18 @@ msgstr "Bộ sửa lệnh LDS "
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s và %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s và %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24361,14 +24361,14 @@ msgstr "%s không nhập được "
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
 
@@ -24501,7 +24501,7 @@ msgstr ""
 msgid "REFN ignored"
 msgstr ""
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -33600,7 +33600,7 @@ msgstr "GeoFamily"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, fuzzy, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
 msgstr "Con của %(father)s và %(mother)s."
 
 #: ../gramps/plugins/view/geofamclose.py:265
@@ -36114,10 +36114,10 @@ msgstr "Không có style sheet "
 
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
-#~ "Bạn đang cố dùng ID Gramps đã tồn tại với giá trị là %(gramps_id)s. Giá "
+#~ "Bạn đang cố dùng ID Gramps đã tồn tại với giá trị là %(gid)s. Giá "
 #~ "trị này hiện đang được dùng bởi '%(prim_object)s'. Xin nhập một ID khác "
 #~ "hay bỏ trống để nhận giá trị ID có sẵn tiếp theo. "
 
@@ -36393,7 +36393,7 @@ msgstr "Không có style sheet "
 
 #, fuzzy
 #~ msgid "%(name)s [%(gid)s]"
-#~ msgstr "%(father)s [%(gramps_id)s]"
+#~ msgstr "%(father)s [%(gid)s]"
 
 #~ msgid "Include private data"
 #~ msgstr "Gồm số liệu riêng "

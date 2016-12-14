@@ -53,9 +53,9 @@ class HasCommonAncestorWith(Rule):
         # For each(!) person we keep track of who their ancestors
         # are, in a set(). So we only have to compute a person's
         # ancestor list once.
-        # Start with filling the cache for root person (gramps_id in self.list[0])
+        # Start with filling the cache for root person (gid in self.list[0])
         self.ancestor_cache = {}
-        root_person = db.get_person_from_gramps_id(self.list[0])
+        root_person = db.get_person_from_gid(self.list[0])
         if root_person:
             self.add_ancs(db, root_person)
             self.with_people = [root_person.handle]

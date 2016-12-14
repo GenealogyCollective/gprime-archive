@@ -62,7 +62,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         """
         Convert the object to a serialized tuple of data.
         """
-        return (self.handle, self.gramps_id, self.type.serialize(),
+        return (self.handle, self.gid, self.type.serialize(),
                 str(self.name),
                 NoteBase.serialize(self),
                 AddressBase.serialize(self),
@@ -73,7 +73,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "type": _("Type"),
             "name": _("Name"),
             "note_list": _("Notes"),
@@ -93,7 +93,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         from .url import Url
         return {
             "handle": Handle("Repository", "REPOSITORY-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "type": RepositoryType,
             "name": str,
             "note_list": [Handle("Note", "NOTE-HANDLE")],
@@ -126,7 +126,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         """
         return {"_class": "Repository",
                 "handle": Handle("Repository", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "type": self.type.to_struct(),
                 "name": str(self.name),
                 "note_list": NoteBase.to_struct(self),
@@ -145,7 +145,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         """
         default = Repository()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 RepositoryType.from_struct(struct.get("type", {})),
                 struct.get("name", default.name),
                 NoteBase.from_struct(struct.get("note_list", default.note_list)),
@@ -160,7 +160,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         Convert the data held in a tuple created by the serialize method
         back into the data in a Repository structure.
         """
-        (self.handle, self.gramps_id, the_type, self.name, note_list,
+        (self.handle, self.gid, the_type, self.name, note_list,
          address_list, urls, self.change, tag_list, self.private) = data
 
         self.type = RepositoryType()

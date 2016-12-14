@@ -56,10 +56,10 @@ class VCardCheck(unittest.TestCase):
     def canonicalize(self, doc):
         handles = {}
         for element in doc.iter("*"):
-            gramps_id = element.get('id')
-            if gramps_id is not None:
-                handles[element.get('handle')] = gramps_id
-                element.set('handle', gramps_id)
+            gid = element.get('id')
+            if gid is not None:
+                handles[element.get('handle')] = gid
+                element.set('handle', gid)
             hlink = element.get('hlink')
             if hlink is not None:
                 element.set('hlink', handles.get(hlink))

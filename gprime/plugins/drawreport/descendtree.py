@@ -191,7 +191,7 @@ class DescendantTitleBase(TitleBox):
     def get_parents(self, family_id):
         """ For a family_id, return the father and mother """
 
-        family1 = self.database.get_family_from_gramps_id(family_id)
+        family1 = self.database.get_family_from_gid(family_id)
         father_h = family1.get_father_handle()
         mother_h = family1.get_mother_handle()
 
@@ -223,7 +223,7 @@ class TitleDPY(DescendantTitleBase):
     def calc_title(self, person_id):
         """Calculate the title of the report"""
 
-        center = self.database.get_person_from_gramps_id(person_id)
+        center = self.database.get_person_from_gid(person_id)
         family2_h = center.get_main_parents_family_handle()
         family2 = self.database.get_family_from_handle(family2_h)
 
@@ -250,7 +250,7 @@ class TitleDPN(DescendantTitleBase):
     def calc_title(self, person_id):
         """Calculate the title of the report"""
 
-        center = self.database.get_person_from_gramps_id(person_id)
+        center = self.database.get_person_from_gid(person_id)
 
         title = self.descendant_print([center])
         self.text = title
@@ -342,7 +342,7 @@ class TitleC(DescendantTitleBase):
     def calc_title(self, family_id):
         """Calculate the title of the report"""
 
-        family = self.database.get_family_from_gramps_id(family_id)
+        family = self.database.get_family_from_gid(family_id)
 
         kids = [self.database.get_person_from_handle(kid.ref)
                 for kid in family.get_child_ref_list()]
@@ -684,7 +684,7 @@ class MakePersonTree(RecurseDown):
         """follow the steps to make a tree off of a person"""
         persons = []
 
-        center1 = self.database.get_person_from_gramps_id(person_id)
+        center1 = self.database.get_person_from_gid(person_id)
         if center1 is None:
             raise ReportError(_("Person %s is not in the Database") % person_id)
         center1_h = center1.get_handle()  #could be mom too.
@@ -752,7 +752,7 @@ class MakeFamilyTree(RecurseDown):
         ## (my) referes to the children of family_id
         # Step 1 print out my fathers, fathers,
         # other wives families first (if needed)
-        family1 = self.database.get_family_from_gramps_id(family_id)
+        family1 = self.database.get_family_from_gid(family_id)
         if family1 is None:
             raise ReportError(_("Family %s is not in the Database") % family_id)
         family1_h = family1.get_handle()
@@ -1503,11 +1503,11 @@ class DescendTreeOptions(MenuReportOptions):
         """ Return a string that describes the subject of the report. """
         gid = self.__pid.get_value()
         if self.name.split(",")[0] == _RPT_NAME:
-            person = self.__db.get_person_from_gramps_id(gid)
+            person = self.__db.get_person_from_gid(gid)
             if person:
                 return _nd.display(person)
         else:
-            family = self.__db.get_family_from_gramps_id(gid)
+            family = self.__db.get_family_from_gid(gid)
             if family:
                 return family_name(family, self.__db)
         return ""

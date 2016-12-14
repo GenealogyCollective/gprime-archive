@@ -138,6 +138,33 @@ class Sqlite:
                      "WHERE type='table' AND name='%s';" % table)
         return self.fetchone()[0] != 0
 
+    def index_exists(self, index):
+        """
+        Test whether the specified SQL database index exists.
+
+        :param index: index name to check.
+        :type index: str
+        :returns: True if the index exists, false otherwise.
+        :rtype: bool
+        """
+        self.execute("SELECT COUNT(*) FROM sqlite_master "
+                     "WHERE type='index' AND name='%s';" % index)
+        return self.fetchone()[0] != 0
+
+    def table_column_exists(self, table, column):
+        """
+        Test whether the specified SQL database table.column exists.
+
+        :param table: table name to check.
+        :param column: column name to check.
+        :type table: str
+        :returns: True if the table.column exists, false otherwise.
+        :rtype: bool
+        """
+        self.execute("PRAGMA table_info('%s');" % table)
+        # (1, 'given_name', 'TEXT', 0, None, 0)
+        return column in [row[1] for row in self.fetchall()]
+
     def close(self):
         """
         Close the current database.

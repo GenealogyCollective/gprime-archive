@@ -377,7 +377,7 @@ def navigation_label(db, nav_type, handle):
                 label = label[:40] + "..."
 
     if label and obj:
-        label = '[%s] %s' % (obj.get_gramps_id(), label)
+        label = '[%s] %s' % (obj.get_gid(), label)
 
     return (label, obj)
 

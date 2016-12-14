@@ -54,7 +54,7 @@ class IsRelatedWith(Rule):
         self.db = db
 
         self.relatives = []
-        self.add_relative(db.get_person_from_gramps_id(self.list[0]))
+        self.add_relative(db.get_person_from_gid(self.list[0]))
 
     def reset(self):
         self.relatives = []

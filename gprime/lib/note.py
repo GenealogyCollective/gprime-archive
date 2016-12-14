@@ -91,7 +91,7 @@ class Note(BasicPrimaryObject):
         :rtype: tuple
 
         """
-        return (self.handle, self.gramps_id, self.text.serialize(), self.format,
+        return (self.handle, self.gid, self.text.serialize(), self.format,
                 self.type.serialize(), self.change, TagBase.serialize(self),
                 self.private)
 
@@ -117,7 +117,7 @@ class Note(BasicPrimaryObject):
         """
         return {"_class": "Note",
                 "handle": Handle("Note", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "text": self.text.to_struct(),
                 "format": self.format,
                 "type": self.type.to_struct(),
@@ -132,7 +132,7 @@ class Note(BasicPrimaryObject):
         """
         return {
             "handle": Handle("Note", "NOTE-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "text": StyledText,
             "format": int,
             "type": NoteType,
@@ -145,7 +145,7 @@ class Note(BasicPrimaryObject):
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "text": _("Text"),
             "format": _("Format"),
             "type": _("Type"),
@@ -163,7 +163,7 @@ class Note(BasicPrimaryObject):
         """
         default = Note()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 StyledText.from_struct(struct.get("text", {})),
                 struct.get("format", default.format),
                 NoteType.from_struct(struct.get("type", {})),
@@ -177,7 +177,7 @@ class Note(BasicPrimaryObject):
         :param data: The serialized format of a Note.
         :type: data: tuple
         """
-        (self.handle, self.gramps_id, the_text, self.format,
+        (self.handle, self.gid, the_text, self.format,
          the_type, self.change, tag_list, self.private) = data
 
         self.text = StyledText()

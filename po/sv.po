@@ -11560,7 +11560,7 @@ msgstr "Flytta det valda attributet neråt"
 msgid "_Attributes"
 msgstr "Attrib_ut"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12793,18 +12793,18 @@ msgstr "Redigera SDH-ceremoni"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s och %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s och %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24339,19 +24339,19 @@ msgstr "Poster, som ej importerats till "
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
-"FEL: %(msg)s  '%(gramps_id)s' (indata som @%(xref)s@) ej i GEDCOM-indata. "
+"FEL: %(msg)s  '%(gid)s' (indata som @%(xref)s@) ej i GEDCOM-indata. "
 "Post syntetiserad"
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
-"FEL: %(msg)s '%(gramps_id)s' (indata som @%(xref)s@) ej i GEDCOM-indata. "
+"FEL: %(msg)s '%(gid)s' (indata som @%(xref)s@) ej i GEDCOM-indata. "
 "Post med typiskt attribut \"Okänd\" skapats"
 
 #: ../gramps/plugins/lib/libgedcom.py:3202
@@ -24484,7 +24484,7 @@ msgstr "Varning: ADDR överskrivet"
 msgid "REFN ignored"
 msgstr "REFN ignorerad"
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -33481,8 +33481,8 @@ msgstr "GeoFamClose"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(gramps_id)s : %(father)s och %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(gid)s : %(father)s och %(mother)s"
 
 #: ../gramps/plugins/view/geofamclose.py:265
 #, python-format
@@ -36269,11 +36269,11 @@ msgstr "Inget mallblad"
 
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
 #~ "Du har försökt att använda ett befintligt Gramps-ID med värdet "
-#~ "%(gramps_id)s. Detta värde används redan av '%(prim_object)s'. Skriv in "
+#~ "%(gid)s. Detta värde används redan av '%(prim_object)s'. Skriv in "
 #~ "ett annat ID eller lämna tomt för att få nästa tillgängliga ID-värde."
 
 #~ msgid "Top level place"

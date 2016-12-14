@@ -135,7 +135,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         """
         return (
             self.handle,                                         #  0
-            self.gramps_id,                                      #  1
+            self.gid,                                      #  1
             self.__gender,                                       #  2
             self.primary_name.serialize(),                       #  3
             [name.serialize() for name in self.alternate_names], #  4
@@ -180,7 +180,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         return {
             "_class": "Person",
             "handle":  Handle("Person", self.handle),            #  0
-            "gramps_id": self.gramps_id,                         #  1
+            "gid": self.gid,                         #  1
             "gender": self.__gender,                             #  2
             "primary_name": self.primary_name.to_struct(),       #  3
             "alternate_names": [name.to_struct()
@@ -243,7 +243,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
     def get_labels(cls, _):
         return {
             "handle":  _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "gender": _("Gender"),
             "primary_name": _("Primary name"),
             "alternate_names": _("Alternate names"),
@@ -276,7 +276,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         default = Person()
         return (
             Handle.from_struct(struct.get("handle", default.handle)),
-            struct.get("gramps_id", default.gramps_id),
+            struct.get("gid", default.gid),
             struct.get("gender", default.gender),
             Name.from_struct(struct.get("primary_name", {})),
             [Name.from_struct(name)
@@ -320,7 +320,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         from .ldsord import LdsOrd
         return {
             "handle":  Handle("Person", "PERSON-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "gender": int,
             "primary_name": Name,
             "alternate_names": [Name],
@@ -352,7 +352,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         :type data: tuple
         """
         (self.handle,             #  0
-         self.gramps_id,          #  1
+         self.gid,          #  1
          self.__gender,           #  2
          primary_name,            #  3
          alternate_names,         #  4
@@ -537,7 +537,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.gramps_id]
+        return [self.gid]
 
     def get_text_data_child_list(self):
         """
@@ -635,11 +635,11 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         :param acquisition: The person to merge with the present person.
         :type acquisition: Person
         """
-        acquisition_id = acquisition.get_gramps_id()
+        acquisition_id = acquisition.get_gid()
         if acquisition_id:
             attr = Attribute()
             attr.set_type(_("Merged ID"))
-            attr.set_value(acquisition.get_gramps_id())
+            attr.set_value(acquisition.get_gid())
             self.add_attribute(attr)
 
         self._merge_privacy(acquisition)

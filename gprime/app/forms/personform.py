@@ -48,7 +48,7 @@ class PersonForm(Form):
         "primary_name.surname_list.0.surname",
         "primary_name.surname_list.0.origintype",
         "gender",
-        "gramps_id",
+        "gid",
         "tag_list",
         "private",
     ]
@@ -67,7 +67,7 @@ class PersonForm(Form):
     search_terms = {
         "surname": "surname", 
         "given": "given", 
-        "id": "gramps_id", 
+        "id": "gid", 
         "gender": "gender", 
         "birth": "birth", 
         "death": "death",
@@ -79,7 +79,7 @@ class PersonForm(Form):
     select_fields = [
         ("primary_name.surname_list.0.surname", 25),
         ("primary_name.first_name", 20),
-        ("gramps_id", 10),
+        ("gid", 10),
         ("gender", 10),
         ("birth_ref_index", 15),
         ("death_ref_index", 15),

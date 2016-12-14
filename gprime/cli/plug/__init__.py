@@ -157,7 +157,7 @@ def _validate_options(options, dbase):
 
         if isinstance(option, PersonOption):
             pid = option.get_value()
-            person = dbase.get_person_from_gramps_id(pid)
+            person = dbase.get_person_from_gid(pid)
             if not person:
                 person = dbase.get_default_person()
                 if not person:
@@ -170,11 +170,11 @@ def _validate_options(options, dbase):
                         print(_("ERROR: Please specify a person"),
                               file=sys.stderr)
             if person:
-                option.set_value(person.get_gramps_id())
+                option.set_value(person.get_gid())
 
         elif isinstance(option, FamilyOption):
             fid = option.get_value()
-            family = dbase.get_family_from_gramps_id(fid)
+            family = dbase.get_family_from_gid(fid)
             if not family:
                 person = dbase.get_default_person()
                 family_list = []
@@ -190,7 +190,7 @@ def _validate_options(options, dbase):
                         family_handle = None
                 if family_handle:
                     family = dbase.get_family_from_handle(family_handle)
-                    option.set_value(family.get_gramps_id())
+                    option.set_value(family.get_gid())
                 else:
                     print(_("ERROR: Please specify a family"), file=sys.stderr)
 
@@ -380,7 +380,7 @@ class CommandLineReport:
                 for person_handle in self.database.get_person_handles(True):
                     person = self.database.get_person_from_handle(person_handle)
                     id_list.append("%s\t%s"
-                                   % (person.get_gramps_id(),
+                                   % (person.get_gid(),
                                       name_displayer.display(person)))
                 self.options_help[name].append(id_list)
             elif isinstance(option, FamilyOption):
@@ -398,7 +398,7 @@ class CommandLineReport:
                         father = self.database.get_person_from_handle(fhandle)
                         if father:
                             fname = name_displayer.display(father)
-                    text = "%s:\t%s, %s" % (family.get_gramps_id(),
+                    text = "%s:\t%s, %s" % (family.get_gid(),
                                             fname, mname)
                     id_list.append(text)
                 self.options_help[name].append(id_list)
@@ -406,13 +406,13 @@ class CommandLineReport:
                 id_list = []
                 for nhandle in self.database.get_note_handles():
                     note = self.database.get_note_from_handle(nhandle)
-                    id_list.append(note.get_gramps_id())
+                    id_list.append(note.get_gid())
                 self.options_help[name].append(id_list)
             elif isinstance(option, MediaOption):
                 id_list = []
                 for mhandle in self.database.get_media_handles():
                     mobject = self.database.get_media_from_handle(mhandle)
-                    id_list.append(mobject.get_gramps_id())
+                    id_list.append(mobject.get_gid())
                 self.options_help[name].append(id_list)
             elif isinstance(option, PersonListOption):
                 self.options_help[name].append("")

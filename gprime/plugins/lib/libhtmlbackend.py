@@ -301,7 +301,7 @@ class HtmlBackend(DocBackend):
         if value.startswith("gramps://"):
             if self.build_link:
                 obj_class, prop, handle = value[9:].split("/", 3)
-                if prop in ["handle", "gramps_id"]:
+                if prop in ["handle", "gid"]:
                     value = self.build_link(prop, handle, obj_class)
                     if not value:
                         return self.STYLETAG_MARKUP[DocBackend.UNDERLINE]

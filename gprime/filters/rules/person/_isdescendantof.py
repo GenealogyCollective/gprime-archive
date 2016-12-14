@@ -55,7 +55,7 @@ class IsDescendantOf(Rule):
         except IndexError:
             first = True
         try:
-            root_person = db.get_person_from_gramps_id(self.list[0])
+            root_person = db.get_person_from_gid(self.list[0])
             self.init_list(root_person,first)
         except:
             pass

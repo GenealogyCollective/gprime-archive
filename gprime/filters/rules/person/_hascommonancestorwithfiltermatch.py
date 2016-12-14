@@ -59,7 +59,7 @@ class HasCommonAncestorWithFilterMatch(HasCommonAncestorWith):
         # For each(!) person we keep track of who their ancestors
         # are, in a set(). So we only have to compute a person's
         # ancestor list once.
-        # Start with filling the cache for root person (gramps_id in self.list[0])
+        # Start with filling the cache for root person (gid in self.list[0])
         self.ancestor_cache = {}
         self.with_people = []
         filt = MatchesFilter(self.list)

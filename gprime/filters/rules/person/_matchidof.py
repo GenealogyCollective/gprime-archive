@@ -47,4 +47,4 @@ class MatchIdOf(Rule):
     category    = _('General filters')
 
     def apply(self,db,person):
-        return person.gramps_id.find(self.list[0]) !=-1
+        return person.gid.find(self.list[0]) !=-1

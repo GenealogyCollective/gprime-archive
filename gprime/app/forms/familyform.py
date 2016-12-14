@@ -38,7 +38,7 @@ class FamilyForm(Form):
 
     # Fields for page view; width sum = 95%:
     select_fields = [
-        ("gramps_id", 10),
+        ("gid", 10),
         ("father_handle", 30),
         ("mother_handle", 30),
         ("type.string", 25),
@@ -51,7 +51,7 @@ class FamilyForm(Form):
     search_terms = {
         "father": ["father_surname", "father_given"], 
         "mother": ["mother_surname", "mother_given"], 
-        "id": "gramps_id",
+        "id": "gid",
     }
 
     # Search fields to use if not specified:

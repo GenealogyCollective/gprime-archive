@@ -140,7 +140,7 @@ class IndivCompleteReport(Report):
 
         self.use_attrs = menu.get_option_by_name('incl_attrs').get_value()
         self.use_census = menu.get_option_by_name('incl_census').get_value()
-        self.use_gramps_id = menu.get_option_by_name('grampsid').get_value()
+        self.use_gid = menu.get_option_by_name('grampsid').get_value()
         self.use_images = menu.get_option_by_name('images').get_value()
         self.use_notes = menu.get_option_by_name('incl_notes').get_value()
         self.use_srcs = menu.get_option_by_name('cites').get_value()
@@ -325,9 +325,9 @@ class IndivCompleteReport(Report):
     def get_name(self, person):
         """ prepare the name to display """
         name = self._name_display.display(person)
-        if self.use_gramps_id:
+        if self.use_gid:
             return '%(name)s [%(gid)s]' % {'name': name,
-                                           'gid': person.get_gramps_id()}
+                                           'gid': person.get_gid()}
         else:
             return name
 
@@ -1081,7 +1081,7 @@ class IndivCompleteOptions(MenuReportOptions):
         Update the filter list based on the selected person
         """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         nfv = self._nf.get_value()
         filter_list = utils.get_person_filters(person,
                                                      include_single=True,

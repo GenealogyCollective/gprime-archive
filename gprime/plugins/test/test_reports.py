@@ -52,7 +52,7 @@ class ReportControl:
         out, err = self.call("-C", TREE_NAME,
                              "--import", example)
         db = open_database(TREE_NAME, force_unlock=True)
-        db.Person.filter(lambda person: person.gramps_id == "I0000").tag("Cool")
+        db.Person.filter(lambda person: person.gid == "I0000").tag("Cool")
         db.close()
 
     def addreport(self, class_, report_name, test_function,

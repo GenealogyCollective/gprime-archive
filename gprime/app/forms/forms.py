@@ -403,4 +403,4 @@ class Form(object):
         """
         Textual description of this instance.
         """
-        return str(self.instance.gramps_id)
+        return str(self.instance.gid)

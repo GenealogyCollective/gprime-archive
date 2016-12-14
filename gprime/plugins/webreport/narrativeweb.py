@@ -552,7 +552,7 @@ class BasePage:
         """ Used to sort on name and gramps ID. """
         person = self.r_db.get_person_from_handle(handle)
         name = _nd.display(person)
-        return (name, person.get_gramps_id())
+        return (name, person.get_gid())
 
     def sort_on_grampsid(self, event_ref):
         """
@@ -560,7 +560,7 @@ class BasePage:
         """
         evt = self.r_db.get_event_from_handle(
             event_ref.ref)
-        return evt.get_gramps_id()
+        return evt.get_gid()
 
     def copy_thumbnail(self, handle, photo, region=None):
         """
@@ -658,7 +658,7 @@ class BasePage:
                         link = self.family_link(
                             family_handle,
                             self.report.obj_dict[Family][family_handle][1],
-                            gid=family.get_gramps_id(), uplink=True)
+                            gid=family.get_gid(), uplink=True)
                         trow = Html("tr", class_="BeginFamily") + (
                             Html("td", "&nbsp", class_="ColumnType",
                                  inline=True),
@@ -1010,7 +1010,7 @@ class BasePage:
         @param: hyperlink      -- Add a hyperlink or not
         @param: omit           -- Role to be omitted in output
         """
-        event_gid = event.get_gramps_id()
+        event_gid = event.get_gid()
 
         place_handle = event.get_place_handle()
         if place_handle:
@@ -1325,7 +1325,7 @@ class BasePage:
                         place_title = _pd.display(self.r_db, place)
                         place_hyper = self.place_link(
                             place_handle, place_title,
-                            place.get_gramps_id(), uplink=True)
+                            place.get_gid(), uplink=True)
 
                 # begin ordinance rows
                 trow = Html("tr")
@@ -1663,7 +1663,7 @@ class BasePage:
             footer_note = self.report.options['footernote']
             if footer_note:
                 note = self.get_note_format(
-                    self.r_db.get_note_from_gramps_id(footer_note),
+                    self.r_db.get_note_from_gid(footer_note),
                     False
                     )
                 user_footer = Html("div", id='user_footer')
@@ -1692,7 +1692,7 @@ class BasePage:
             filt_number = self.report.options['filter']
             # optional "link-home" feature; see bug report #2736
             if self.report.options['linkhome']:
-                center_person = self.r_db.get_person_from_gramps_id(
+                center_person = self.r_db.get_person_from_gid(
                     self.report.options['pid'])
                 if (center_person and
                         self.report.person_in_webreport(center_person.handle)):
@@ -1814,7 +1814,7 @@ class BasePage:
         header_note = self.report.options['headernote']
         if header_note:
             note = self.get_note_format(
-                self.r_db.get_note_from_gramps_id(header_note),
+                self.r_db.get_note_from_gid(header_note),
                 False)
 
             user_header = Html("div", id='user_header')
@@ -2080,7 +2080,7 @@ class BasePage:
         """
         pic_id = self.report.options[option_name]
         if pic_id:
-            obj = self.r_db.get_media_from_gramps_id(pic_id)
+            obj = self.r_db.get_media_from_gid(pic_id)
             if obj is None:
                 return None
             mime_type = obj.get_mime_type()
@@ -2570,7 +2570,7 @@ class BasePage:
                                      self.source_link(
                                          source.get_handle(),
                                          authorstring + source.get_title(),
-                                         source.get_gramps_id(), cindex,
+                                         source.get_gid(), cindex,
                                          uplink=self.uplink))
                 else:
                     list_html = Html("li", "None")
@@ -2779,7 +2779,7 @@ class BasePage:
                 person = self.r_db.get_person_from_handle(person_handle)
             if person:
                 name = self.report.get_person_name(person)
-                gid = person.get_gramps_id()
+                gid = person.get_gid()
             else:
                 name = _("Unknown")
                 gid = ""
@@ -2903,7 +2903,7 @@ class BasePage:
         tbody = Html("tbody")
         table += tbody
 
-        gid = place.gramps_id
+        gid = place.gid
         if not self.noid and gid:
             trow = Html("tr") + (
                 Html("td", self._("Gramps ID"), class_="ColumnAttribute",
@@ -3055,7 +3055,7 @@ class BasePage:
                             Html("td",
                                  self.repository_link(repo_ref.ref,
                                                       repo.get_name(),
-                                                      repo.get_gramps_id(),
+                                                      repo.get_gid(),
                                                       self.uplink)),
                             Html("td",
                                  self._(repo_ref.get_media_type().xml_str()),
@@ -3534,7 +3534,7 @@ class FamilyPages(BasePage):
                         person = self.r_db.get_person_from_handle(person_handle)
                         if person:
                             family_list = sorted(pers_fam_dict[person_handle],
-                                                 key=lambda x: x.get_gramps_id()
+                                                 key=lambda x: x.get_gid()
                                                 )
                             first_family = True
                             for family in family_list:
@@ -3577,7 +3577,7 @@ class FamilyPages(BasePage):
                                 tcell += self.family_link(
                                     family.get_handle(),
                                     self.report.get_family_name(family),
-                                    family.get_gramps_id(), self.uplink)
+                                    family.get_gid(), self.uplink)
 
                                 # family events; such as marriage and divorce
                                 # events
@@ -3639,7 +3639,7 @@ class FamilyPages(BasePage):
         family = report.database.get_family_from_handle(family_handle)
         if not family:
             return
-        BasePage.__init__(self, report, title, family.get_gramps_id())
+        BasePage.__init__(self, report, title, family.get_gid())
         ldatec = family.get_change_time()
 
         self.bibli = Bibliography()
@@ -3878,7 +3878,7 @@ class PlacePages(BasePage):
                         trow += Html("td",
                                      self.place_link(
                                          place.get_handle(),
-                                         place_title, place.get_gramps_id()),
+                                         place_title, place.get_gid()),
                                      class_="ColumnName")
 
                         trow.extend(
@@ -3929,7 +3929,7 @@ class PlacePages(BasePage):
         place = report.database.get_place_from_handle(place_handle)
         if not place:
             return None
-        BasePage.__init__(self, report, title, place.get_gramps_id())
+        BasePage.__init__(self, report, title, place.get_gid())
         self.bibli = Bibliography()
         place_name = self.report.obj_dict[Place][place_handle][1]
         ldatec = place.get_change_time()
@@ -4220,11 +4220,11 @@ class EventPages(BasePage):
                     for (sort_value, event_handle) in data_list:
                         event = self.r_db.get_event_from_handle(event_handle)
                         _type = event.get_type()
-                        gid = event.get_gramps_id()
+                        gid = event.get_gid()
                         if event.get_change_time() > ldatec:
                             ldatec = event.get_change_time()
 
-                        # check to see if we have listed this gramps_id yet?
+                        # check to see if we have listed this gid yet?
                         if gid not in _event_displayed:
 
                             # family event
@@ -4369,7 +4369,7 @@ class EventPages(BasePage):
         @param: event_handle -- The event handle for the database
         """
         event = report.database.get_event_from_handle(event_handle)
-        BasePage.__init__(self, report, title, event.get_gramps_id())
+        BasePage.__init__(self, report, title, event.get_gid())
         if not event:
             return None
 
@@ -4404,7 +4404,7 @@ class EventPages(BasePage):
                 tbody = Html("tbody")
                 table += tbody
 
-                evt_gid = event.get_gramps_id()
+                evt_gid = event.get_gid()
                 if not self.noid and evt_gid:
                     trow = Html("tr") + (
                         Html("td", self._("Gramps ID"),
@@ -4678,7 +4678,7 @@ class IntroductionPage(BasePage):
 
             note_id = report.options['intronote']
             if note_id:
-                note = self.r_db.get_note_from_gramps_id(note_id)
+                note = self.r_db.get_note_from_gid(note_id)
                 note_text = self.get_note_format(note, False)
 
                 # attach note
@@ -4722,7 +4722,7 @@ class HomePage(BasePage):
 
             note_id = report.options['homenote']
             if note_id:
-                note = self.r_db.get_note_from_gramps_id(note_id)
+                note = self.r_db.get_note_from_gid(note_id)
                 note_text = self.get_note_format(note, False)
 
                 # attach note
@@ -4836,7 +4836,7 @@ class SourcePages(BasePage):
                 source = self.r_db.get_source_from_handle(handle)
                 if source is not None:
                     key = source.get_title() + source.get_author()
-                    key += str(source.get_gramps_id())
+                    key += str(source.get_gid())
                     source_dict[key] = (source, handle)
 
             keys = sorted(source_dict, key=self.rlocale.sort_key)
@@ -4886,7 +4886,7 @@ class SourcePages(BasePage):
                     trow.extend(
                         Html("td", self.source_link(source_handle,
                                                     source.get_title(),
-                                                    source.get_gramps_id()),
+                                                    source.get_gid()),
                              class_="ColumnName")
                     )
 
@@ -4909,7 +4909,7 @@ class SourcePages(BasePage):
         @param: source_handle -- The handle of the source to be output
         """
         source = report.database.get_source_from_handle(source_handle)
-        BasePage.__init__(self, report, title, source.get_gramps_id())
+        BasePage.__init__(self, report, title, source.get_gid())
         if not source:
             return
 
@@ -4949,7 +4949,7 @@ class SourcePages(BasePage):
 
                 source_gid = False
                 if not self.noid and self.gid:
-                    source_gid = source.get_gramps_id()
+                    source_gid = source.get_gid()
 
                     # last modification of this source
                     ldatec = source.get_change_time()
@@ -5048,7 +5048,7 @@ class MediaPages(BasePage):
                 """
                 Sort by media description and gramps ID
                 """
-                return (obj.desc.lower(), obj.gramps_id)
+                return (obj.desc.lower(), obj.gid)
 
             sorted_media_handles = sorted(
                 self.report.obj_dict[Media].keys(),
@@ -5152,7 +5152,7 @@ class MediaPages(BasePage):
                 """
                 Sort by media description and gramps ID
                 """
-                return (obj.desc, obj.gramps_id)
+                return (obj.desc, obj.gid)
 
             unused_media_handles = []
             if self.create_unused_media:
@@ -5251,7 +5251,7 @@ class MediaPages(BasePage):
                                 number, and the total number of media pages
         """
         media = report.database.get_media_from_handle(media_handle)
-        BasePage.__init__(self, report, title, media.gramps_id)
+        BasePage.__init__(self, report, title, media.gid)
         (prev, next_, page_number, total_pages) = info
 
         ldatec = media.get_change_time()
@@ -5457,7 +5457,7 @@ class MediaPages(BasePage):
                     summaryarea += table
 
                     # Gramps ID
-                    media_gid = media.gramps_id
+                    media_gid = media.gid
                     if not self.noid and media_gid:
                         trow = Html("tr") + (
                             Html("td", self._("Gramps ID"),
@@ -5559,7 +5559,7 @@ class MediaPages(BasePage):
 
         fullpath = media_path_full(self.r_db, photo.get_path())
         if not os.path.isfile(fullpath):
-            _WRONGMEDIAPATH.append([photo.get_gramps_id(), fullpath])
+            _WRONGMEDIAPATH.append([photo.get_gid(), fullpath])
             return None
         try:
             mtime = os.stat(fullpath).st_mtime
@@ -5576,7 +5576,7 @@ class MediaPages(BasePage):
         except (IOError, OSError) as msg:
             error = _("Missing media object:"
                      ) + "%s (%s)" % (photo.get_description(),
-                                      photo.get_gramps_id())
+                                      photo.get_gid())
             self.r_user.warn(error, str(msg))
             return None
 
@@ -5599,7 +5599,7 @@ class ThumbnailPreviewPage(BasePage):
             """
             Sort by media description and gramps ID
             """
-            return (obj.desc, obj.gramps_id)
+            return (obj.desc, obj.gid)
 
         self.photo_keys = sorted(self.report.obj_dict[Media],
                                  key=lambda x: sort_by_desc_and_gid(
@@ -5995,7 +5995,7 @@ class ContactPage(BasePage):
 
                     note_id = report.options['contactnote']
                     if note_id:
-                        note = self.r_db.get_note_from_gramps_id(note_id)
+                        note = self.r_db.get_note_from_gid(note_id)
                         note_text = self.get_note_format(note, False)
 
                         # attach note
@@ -6339,7 +6339,7 @@ class PersonPages(BasePage):
         @param: title  -- Is the title of the web page
         @param: person -- The person to use for this page.
         """
-        BasePage.__init__(self, report, title, person.get_gramps_id())
+        BasePage.__init__(self, report, title, person.get_gid())
         place_lat_long = []
 
         self.person = person
@@ -7290,7 +7290,7 @@ class PersonPages(BasePage):
                         table += trow
 
                 # Gramps ID
-                person_gid = self.person.get_gramps_id()
+                person_gid = self.person.get_gid()
                 if not self.noid and person_gid:
                     trow = Html("tr") + (
                         Html("td", self._("Gramps ID"),
@@ -7529,7 +7529,7 @@ class PersonPages(BasePage):
         """
         Display the person's relationship to the center person
         """
-        center_person = self.r_db.get_person_from_gramps_id(
+        center_person = self.r_db.get_person_from_gid(
             self.report.options['pid'])
         relationship = self.rel_class.get_one_relationship(self.r_db,
                                                            self.person,
@@ -7697,7 +7697,7 @@ class RepositoryPages(BasePage):
             repos_dict = {}
             for repo_handle in self.report.obj_dict[Repository]:
                 repository = self.r_db.get_repository_from_handle(repo_handle)
-                key = repository.get_name() + str(repository.get_gramps_id())
+                key = repository.get_name() + str(repository.get_gid())
                 repos_dict[key] = (repository, repo_handle)
 
             keys = sorted(repos_dict, key=self.rlocale.sort_key)
@@ -7779,7 +7779,7 @@ class RepositoryPages(BasePage):
                         trow += Html("td",
                                      self.repository_link(handle,
                                                           repo.get_name(),
-                                                          repo.get_gramps_id(),
+                                                          repo.get_gid(),
                                                           self.uplink),
                                      class_="ColumnName")
                         ldatec = repo.get_change_time()
@@ -7804,7 +7804,7 @@ class RepositoryPages(BasePage):
         @param: repo   -- the repository to use
         @param: handle -- the handle to use
         """
-        gid = repo.get_gramps_id()
+        gid = repo.get_gid()
         BasePage.__init__(self, report, title, gid)
         ldatec = repo.get_change_time()
 
@@ -8001,7 +8001,7 @@ class AddressBookPage(BasePage):
         @param: has_url       -- the url to use for the report
         """
         person = report.database.get_person_from_handle(person_handle)
-        BasePage.__init__(self, report, title, person.gramps_id)
+        BasePage.__init__(self, report, title, person.gid)
         self.bibli = Bibliography()
 
         self.uplink = True
@@ -8148,7 +8148,7 @@ class StatisticsPage(BasePage):
         (males,
          females,
          unknown) = self.get_gender(self.report.bkref_dict[Person].keys())
-        center_person = self.report.database.get_person_from_gramps_id(
+        center_person = self.report.database.get_person_from_gid(
                     self.report.options['pid'])
 
         origin = " :<br/>" + report.filter.get_name(self.rlocale)
@@ -8554,7 +8554,7 @@ class NavWebReport(Report):
         (e.g. gen.lib.Person).
         The second key is the handle of the object.
 
-        For the obj_dict, the value is a tuple containing the gramps_id,
+        For the obj_dict, the value is a tuple containing the gid,
         the text name for the object, and the file name for the display.
 
         For the bkref_dict, the value is a tuple containg the class of object
@@ -8612,7 +8612,7 @@ class NavWebReport(Report):
             person_fname = self.build_url_fname(person_handle, "ppl",
                                                 False) + self.ext
             self.obj_dict[Person][person_handle] = (person_fname, person_name,
-                                                    person.gramps_id)
+                                                    person.gid)
             self.bkref_dict[Person][person_handle].add((bkref_class,
                                                         bkref_handle))
 
@@ -8754,7 +8754,7 @@ class NavWebReport(Report):
         else:
             family_fname = ""
         self.obj_dict[Family][family_handle] = (family_fname, family_name,
-                                                family.gramps_id)
+                                                family.gid)
         self.bkref_dict[Family][family_handle].add((bkref_class, bkref_handle))
 
         if self.inc_gallery:
@@ -8872,7 +8872,7 @@ class NavWebReport(Report):
         else:
             event_fname = ""
         self.obj_dict[Event][event_handle] = (event_fname, event_name,
-                                              event.gramps_id)
+                                              event.gid)
         self.bkref_dict[Event][event_handle].add((bkref_class, bkref_handle))
 
         ############### Attribute section ##############
@@ -8908,7 +8908,7 @@ class NavWebReport(Report):
         place_fname = self.build_url_fname(place_handle, "plc",
                                            False) + self.ext
         self.obj_dict[Place][place_handle] = (place_fname, place_name,
-                                              place.gramps_id, event)
+                                              place.gid, event)
         self.bkref_dict[Place][place_handle].add((bkref_class, bkref_handle))
 
         ############### Media section ##############
@@ -8934,7 +8934,7 @@ class NavWebReport(Report):
         source_fname = self.build_url_fname(source_handle, "src",
                                             False) + self.ext
         self.obj_dict[Source][source_handle] = (source_fname, source_name,
-                                                source.gramps_id)
+                                                source.gid)
         self.bkref_dict[Source][source_handle].add((bkref_class, bkref_handle))
 
         ############### Media section ##############
@@ -8963,7 +8963,7 @@ class NavWebReport(Report):
         citation_name = citation.get_page() or ""
         source_handle = citation.get_reference_handle()
         self.obj_dict[Citation][citation_handle] = ("", citation_name,
-                                                    citation.gramps_id)
+                                                    citation.gid)
         self.bkref_dict[Citation][citation_handle].add((bkref_class,
                                                         bkref_handle))
 
@@ -8999,7 +8999,7 @@ class NavWebReport(Report):
         else:
             media_fname = ""
         self.obj_dict[Media][media_handle] = (media_fname, media_name,
-                                              media.gramps_id)
+                                              media.gid)
         self.bkref_dict[Media][media_handle].add((bkref_class, bkref_handle))
 
         ############### Attribute section ##############
@@ -9027,7 +9027,7 @@ class NavWebReport(Report):
         else:
             repos_fname = ""
         self.obj_dict[Repository][repos_handle] = (repos_fname, repos_name,
-                                                   repos.gramps_id)
+                                                   repos.gid)
         self.bkref_dict[Repository][repos_handle].add((bkref_class,
                                                        bkref_handle))
 
@@ -9344,17 +9344,17 @@ class NavWebReport(Report):
         @param: handle    -- The handle for which we need to build a link
         @param: obj_class -- The class of the related object.
         """
-        if prop == "gramps_id":
+        if prop == "gid":
             if obj_class in self._db.get_table_names():
                 obj = self._db.get_table_metadata(obj_class)[
-                    "gramps_id_func"](handle)
+                    "gid_func"](handle)
                 if obj:
                     handle = obj.handle
                 else:
-                    raise AttributeError("gramps_id '%s' not found in '%s'" %
+                    raise AttributeError("gid '%s' not found in '%s'" %
                                          handle, obj_class)
             else:
-                raise AttributeError("invalid gramps_id lookup "
+                raise AttributeError("invalid gid lookup "
                                      "in table name '%s'" % obj_class)
         uplink = self.link_prefix_up
         # handle, ppl
@@ -10072,7 +10072,7 @@ class NavWebOptions(MenuReportOptions):
         Update the filter list based on the selected person
         """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         filter_list = utils.get_person_filters(person, False)
         self.__filter.set_filters(filter_list)
 
@@ -10227,7 +10227,7 @@ def sort_event_types(dbase, event_types, event_handle_list, rlocale):
         event = dbase.get_event_from_handle(event_handle)
         event_type = rlocale.translation.sgettext(event.get_type().xml_str())
 
-        # add (gramps_id, date, handle) from this event
+        # add (gid, date, handle) from this event
         if event_type in event_dict:
             sort_value = event.get_date_object().get_sort_value()
             event_dict[event_type].append((sort_value, event_handle))

@@ -74,9 +74,9 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
         PrivacyBase.__init__(self, source)
         TagBase.__init__(self)
         if source:
-            self.gramps_id = source.gramps_id
+            self.gid = source.gid
         else:
-            self.gramps_id = None
+            self.gid = None
 
     @abstractmethod
     def serialize(self):
@@ -127,23 +127,23 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
         :returns: Returns an object of this type.
         """
 
-    def set_gramps_id(self, gramps_id):
+    def set_gid(self, gid):
         """
         Set the ID for the primary object.
 
-        :param gramps_id: ID
-        :type gramps_id: str
+        :param gid: ID
+        :type gid: str
         """
-        self.gramps_id = gramps_id
+        self.gid = gid
 
-    def get_gramps_id(self):
+    def get_gid(self):
         """
         Return the ID for the primary object.
 
         :returns: ID associated with the object
         :rtype: str
         """
-        return self.gramps_id
+        return self.gid
 
     def has_handle_reference(self, classname, handle):
         """

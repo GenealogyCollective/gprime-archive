@@ -7673,7 +7673,7 @@ msgstr ""
 #: ../gramps/gen/lib/name.py:548
 #, fuzzy, python-format
 msgid "%(first)s %(surname)s, %(suffix)s"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #: ../gramps/gen/lib/nameorigintype.py:76
 msgid "Surname|Inherited"
@@ -9140,7 +9140,7 @@ msgstr "nëna e panjohur"
 #: ../gramps/gui/plug/_guioptions.py:893
 #, fuzzy, python-format
 msgid "%(father_name)s and %(mother_name)s (%(family_id)s)"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #. Do this in case of command line options query (show=filter)
 #: ../gramps/gen/plug/report/utils.py:360
@@ -11770,7 +11770,7 @@ msgstr "Zhvendos te poshtë atributin e përzgjedhur"
 msgid "_Attributes"
 msgstr "_Atribute"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -13057,18 +13057,18 @@ msgstr "LDS Redaktues i urdhëresës"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -17601,7 +17601,7 @@ msgstr "Përzgjedh skedar"
 #: ../gramps/gui/plug/report/_bookdialog.py:184
 #, fuzzy, python-format
 msgid "%(father)s and %(mother)s (%(id)s)"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/plug/report/_bookdialog.py:220
 msgid "Available Books"
@@ -24987,14 +24987,14 @@ msgstr "%s nuk mund të importohet"
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
 
@@ -25127,7 +25127,7 @@ msgstr ""
 msgid "REFN ignored"
 msgstr ""
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -31352,7 +31352,7 @@ msgstr "Modifiko ngjarjen"
 #: ../gramps/plugins/textreport/placereport.py:266
 #, fuzzy, python-format
 msgid "%(persons)s and %(name)s (%(id)s)"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #: ../gramps/plugins/textreport/placereport.py:293
 #, fuzzy
@@ -31362,7 +31362,7 @@ msgstr "Njerëz me <emër>"
 #: ../gramps/plugins/textreport/placereport.py:328
 #, fuzzy, python-format
 msgid "%(father)s (%(father_id)s) and %(mother)s (%(mother_id)s)"
-msgstr "%(father)s dhe %(mother)s [%(gramps_id)s]"
+msgstr "%(father)s dhe %(mother)s [%(gid)s]"
 
 #: ../gramps/plugins/textreport/placereport.py:420
 #, fuzzy
@@ -34476,7 +34476,7 @@ msgstr "Familja"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, fuzzy, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
 msgstr "I biri i %(father)s dhe %(mother)s."
 
 #: ../gramps/plugins/view/geofamclose.py:265
@@ -37113,7 +37113,7 @@ msgstr "Nuk ka fletë stili"
 #, fuzzy
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
 #~ "Jeni përpjekur të përdorni Numrin e Identifikimit të GRAMPS me vlerë "
@@ -37301,7 +37301,7 @@ msgstr "Nuk ka fletë stili"
 
 #, fuzzy
 #~ msgid "%(name)s [%(gid)s]"
-#~ msgstr "%(father)s [%(gramps_id)s]"
+#~ msgstr "%(father)s [%(gid)s]"
 
 #, fuzzy
 #~ msgid "Include private data"

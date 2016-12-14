@@ -68,7 +68,7 @@ class DbMixin:
         if raw is not None:
             obj.unserialize(raw)
             #references create object with id None before object is really made
-            if obj.gramps_id is not None:
+            if obj.gid is not None:
                 new = False
         else:
             obj.set_handle(handle)
@@ -105,7 +105,7 @@ class DbMixin:
         exists in the database.
 
         If no such object exists, a new object is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         handle = str(handle)
         if not has_handle_func(handle):
@@ -249,7 +249,7 @@ class DbMixin:
         Check whether a Person with the passed handle exists in the database.
 
         If no such Person exists, a new Person is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Person,
                                  self.has_person_handle, self.add_person,
@@ -260,7 +260,7 @@ class DbMixin:
         Check whether a Source with the passed handle exists in the database.
 
         If no such Source exists, a new Source is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Source,
                                  self.has_source_handle, self.add_source,
@@ -271,7 +271,7 @@ class DbMixin:
         Check whether an Event with the passed handle exists in the database.
 
         If no such Event exists, a new Event is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Event,
                                  self.has_event_handle, self.add_event,
@@ -283,7 +283,7 @@ class DbMixin:
         database.
 
         If no such Media exists, a new Object is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
 
         self.__check_primary_from_handle(handle, transaction, Media,
@@ -295,7 +295,7 @@ class DbMixin:
         Check whether a Place with the passed handle exists in the database.
 
         If no such Place exists, a new Place is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Place,
                                  self.has_place_handle, self.add_place,
@@ -306,7 +306,7 @@ class DbMixin:
         Check whether a Family with the passed handle exists in the database.
 
         If no such Family exists, a new Family is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Family,
                                  self.has_family_handle, self.add_family,
@@ -318,7 +318,7 @@ class DbMixin:
         database.
 
         If no such Repository exists, a new Repository is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Repository,
                                self.has_repository_handle, self.add_repository,
@@ -329,7 +329,7 @@ class DbMixin:
         Check whether a Note with the passed handle exists in the database.
 
         If no such Note exists, a new Note is added to the database.
-        If set_gid then a new gramps_id is created, if not, None is used.
+        If set_gid then a new gid is created, if not, None is used.
         """
         self.__check_primary_from_handle(handle, transaction, Note,
                                  self.has_note_handle, self.add_note,

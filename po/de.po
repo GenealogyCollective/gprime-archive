@@ -11676,7 +11676,7 @@ msgstr "Gewähltes Attribut nach unten verschieben"
 msgid "_Attributes"
 msgstr "_Attribute"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12919,18 +12919,18 @@ msgstr "LDS Ordinationseditor"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s und %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s und %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24532,19 +24532,19 @@ msgstr "Datensätze nicht importiert nach "
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
-"FEHLER: %(msg)s  '%(gramps_id)s' (eingelesen als @%(xref)s@) ist nicht im "
+"FEHLER: %(msg)s  '%(gid)s' (eingelesen als @%(xref)s@) ist nicht im "
 "eingelesenen GEDCOM. Der Datensatz wird synthetisiert."
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
-"FEHLER: %(msg)s '%(gramps_id)s' (eingelesen als @%(xref)s@) ist nicht im "
+"FEHLER: %(msg)s '%(gid)s' (eingelesen als @%(xref)s@) ist nicht im "
 "eingelesenen GEDCOM. Der Datensatz wird mit dem versinnbildlichenden "
 "Attribut 'Unbekannt' erstellt."
 
@@ -24678,7 +24678,7 @@ msgstr "Warn: ADDR überschrieben"
 msgid "REFN ignored"
 msgstr "REFN ignoriert"
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -33757,8 +33757,8 @@ msgstr "GeoFamNah"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(gramps_id)s : %(father)s und %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(gid)s : %(father)s und %(mother)s"
 
 #: ../gramps/plugins/view/geofamclose.py:265
 #, python-format
@@ -36686,10 +36686,10 @@ msgstr "Kein Stylesheet"
 
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
-#~ "Du hast versucht eine existierende Gramps ID mit dem Wert %(gramps_id)s "
+#~ "Du hast versucht eine existierende Gramps ID mit dem Wert %(gid)s "
 #~ "zu verwenden. Dieser Wert wird bereits von '%(prim_object)s' verwendet. "
 #~ "Bitte gib eine andere ID ein oder lasse sie leer, um den nächsten "
 #~ "verfügbaren ID Wert zu erhalten."

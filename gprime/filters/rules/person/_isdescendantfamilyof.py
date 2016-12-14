@@ -55,7 +55,7 @@ class IsDescendantFamilyOf(Rule):
     def prepare(self,db):
         self.db = db
         self.matches = set()
-        self.root_person = db.get_person_from_gramps_id(self.list[0])
+        self.root_person = db.get_person_from_gid(self.list[0])
         self.add_matches(self.root_person)
         try:
             if int(self.list[1]):

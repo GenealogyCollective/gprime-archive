@@ -52,4 +52,4 @@ class HasGrampsId(Rule):
         apply the rule on the obj.
         return true if the rule passes, false otherwise.
         """
-        return obj.gramps_id == self.list[0]
+        return obj.gid == self.list[0]

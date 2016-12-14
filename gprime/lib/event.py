@@ -109,7 +109,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
                   be considered persistent.
         :rtype: tuple
         """
-        return (self.handle, self.gramps_id, self.__type.serialize(),
+        return (self.handle, self.gid, self.__type.serialize(),
                 DateBase.serialize(self, no_text_date),
                 self.__description, self.place,
                 CitationBase.serialize(self),
@@ -140,7 +140,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         """
         return {"_class": "Event",
                 "handle": Handle("Event", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "type": self.__type.to_struct(),
                 "date": DateBase.to_struct(self),
                 "description": self.__description,
@@ -166,7 +166,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         from .media import Media
         return {
             "handle": Handle("Event", "EVENT-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "type": EventType,
             "date": Date,
             "description": str,
@@ -185,7 +185,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         return {
             "_class": _("Event"),
             "handle":  _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "type": _("Type"),
             "date": _("Date"),
             "description": _("Description"),
@@ -208,7 +208,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         """
         default = Event()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 EventType.from_struct(struct.get("type", {})),
                 DateBase.from_struct(struct.get("date", {})),
                 struct.get("description", default.description),
@@ -230,7 +230,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
                      Event object
         :type data: tuple
         """
-        (self.handle, self.gramps_id, the_type, date,
+        (self.handle, self.gid, the_type, date,
          self.__description, self.place,
          citation_list, note_list, media_list, attribute_list,
          self.change, tag_list, self.private) = data
@@ -295,7 +295,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.__description, str(self.__type), self.gramps_id]
+        return [self.__description, str(self.__type), self.gid]
 
     def get_text_data_child_list(self):
         """

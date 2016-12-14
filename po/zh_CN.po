@@ -11357,7 +11357,7 @@ msgstr "下移所选属性"
 msgid "_Attributes"
 msgstr "属性(_A)"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -12596,18 +12596,18 @@ msgstr "后期圣徒教会教仪编辑器"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s 和 %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s 和 %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -24072,14 +24072,14 @@ msgstr "%s 无法导入"
 #: ../gramps/plugins/lib/libgedcom.py:3154
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
 
 #: ../gramps/plugins/lib/libgedcom.py:3163
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
 
@@ -24211,7 +24211,7 @@ msgstr ""
 msgid "REFN ignored"
 msgstr ""
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6265
 #, python-format
 msgid "No title - ID %s"
@@ -33419,7 +33419,7 @@ msgstr "家庭"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, fuzzy, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
+msgid "%(gid)s : %(father)s and %(mother)s"
 msgstr "%(father)s 和 %(mother)s的子女."
 
 #: ../gramps/plugins/view/geofamclose.py:265
@@ -35988,7 +35988,7 @@ msgstr "无样式表"
 
 #, fuzzy
 #~ msgid "%(name)s [%(gid)s]"
-#~ msgstr "%(father)s [%(gramps_id)s]"
+#~ msgstr "%(father)s [%(gid)s]"
 
 #~ msgid "Html View"
 #~ msgstr "HTML 视图"
@@ -36178,7 +36178,7 @@ msgstr "无样式表"
 #, fuzzy
 #~ msgid ""
 #~ "You have attempted to use the existing Gramps ID with value "
-#~ "%(gramps_id)s. This value is already used by '%(prim_object)s'. Please "
+#~ "%(gid)s. This value is already used by '%(prim_object)s'. Please "
 #~ "enter a different ID or leave blank to get the next available ID value."
 #~ msgstr ""
 #~ "您正尝试使用现有存在的 Gramps ID编号  %(id)s . 这个号码已经被 "

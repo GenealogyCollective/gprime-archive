@@ -108,7 +108,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
                   be considered persistent.
         :rtype: tuple
         """
-        return (self.handle, self.gramps_id, self.path, self.mime, self.desc,
+        return (self.handle, self.gid, self.path, self.mime, self.desc,
                 self.checksum,
                 AttributeBase.serialize(self),
                 CitationBase.serialize(self),
@@ -140,7 +140,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         """
         return {"_class": "Media",
                 "handle": Handle("Media", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "path": self.path,
                 "mime": self.mime,
                 "desc": self.desc,
@@ -165,7 +165,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         from .date import Date
         return {
             "handle": Handle("Media", "MEDIA-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "path": str,
             "mime": str,
             "desc": str,
@@ -191,7 +191,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         return {
             "_class": _("Media"),
             "handle": _("Media"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "path": _("Path"),
             "mime": _("MIME"),
             "desc": _("Description"),
@@ -214,7 +214,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         """
         default = Media()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 struct.get("path", default.path),
                 struct.get("mime", default.mime),
                 struct.get("desc", default.desc),
@@ -235,7 +235,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         :param data: tuple containing the persistent data associated the object
         :type data: tuple
         """
-        (self.handle, self.gramps_id, self.path, self.mime, self.desc,
+        (self.handle, self.gid, self.path, self.mime, self.desc,
          self.checksum, attribute_list, citation_list, note_list, self.change,
          date, tag_list, self.private) = data
 
@@ -253,7 +253,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.path, self.mime, self.desc, self.gramps_id]
+        return [self.path, self.mime, self.desc, self.gid]
 
     def get_text_data_child_list(self):
         """

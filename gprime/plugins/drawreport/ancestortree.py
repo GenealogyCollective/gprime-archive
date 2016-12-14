@@ -351,7 +351,7 @@ class MakeAncestorTree(AscendPerson):
 
     def start(self, person_id):
         """ go ahead and make it happen """
-        center = self.database.get_person_from_gramps_id(person_id)
+        center = self.database.get_person_from_gid(person_id)
         if center is None:
             raise ReportError(
                 _("Person %s is not in the Database") % person_id)
@@ -613,7 +613,7 @@ class AncestorTree(Report):
 
             #Title
             title = self.connect.title_class(self.doc)
-            center = self.database.get_person_from_gramps_id(
+            center = self.database.get_person_from_gid(
                 self.connect.get_val('pid'))
             title.calc_title(center)
             self.canvas.add_title(title)
@@ -777,7 +777,7 @@ class AncestorTreeOptions(MenuReportOptions):
     def get_subject(self):
         """ Return a string that describes the subject of the report. """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         return _nd.display(person)
 
     def add_menu_options(self, menu):

@@ -12383,7 +12383,7 @@ msgstr "Déplacer l'attribut vers le bas"
 msgid "_Attributes"
 msgstr "_Attributs"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60
 #: ../gramps/gui/editors/displaytabs/citationembedlist.py:83
@@ -13688,18 +13688,18 @@ msgstr "Éditeur d'ordonnance Saints des Derniers Jours"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s et %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s et %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315
 #: ../gramps/gui/editors/editldsord.py:438
@@ -26098,19 +26098,19 @@ msgstr "Enregistrements non-importés dans "
 #: ../gramps/plugins/lib/libgedcom.py:3069
 #, python-format
 msgid ""
-"Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record synthesised"
 msgstr ""
-"Erreur : %(msg)s  '%(gramps_id)s' (saisi comme @%(xref)s@) absent du fichier "
+"Erreur : %(msg)s  '%(gid)s' (saisi comme @%(xref)s@) absent du fichier "
 "Gedcom. Enregistrement synthétisé"
 
 #: ../gramps/plugins/lib/libgedcom.py:3078
 #, python-format
 msgid ""
-"Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. "
+"Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. "
 "Record with typifying attribute 'Unknown' created"
 msgstr ""
-"Erreur : %(msg)s '%(gramps_id)s' (saisi comme @%(xref)s@) absent du fichier "
+"Erreur : %(msg)s '%(gid)s' (saisi comme @%(xref)s@) absent du fichier "
 "Gedcom. Enregistrement avec le type d'attribut 'Inconnu' créé"
 
 #: ../gramps/plugins/lib/libgedcom.py:3117
@@ -26284,7 +26284,7 @@ msgid "REFN ignored"
 msgstr "REFN ignoré"
 
 # trunk
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6287
 #, python-format
 msgid "No title - ID %s"
@@ -35959,8 +35959,8 @@ msgstr "GéoFamilleProche"
 #: ../gramps/plugins/view/geofamclose.py:217
 #: ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(father)s et %(mother)s [%(gramps_id)s]"
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(father)s et %(mother)s [%(gid)s]"
 
 #: ../gramps/plugins/view/geofamclose.py:264
 #, python-format

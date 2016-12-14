@@ -174,7 +174,7 @@ class PlaceReport(Report):
         """
         place = self._db.get_place_from_handle(handle)
 
-        place_details = [self._("Gramps ID: %s ") % place.get_gramps_id()]
+        place_details = [self._("Gramps ID: %s ") % place.get_gid()]
         for level in get_location_list(self._db, place):
             # translators: needed for French, ignore otherwise
             place_details.append(self._("%(str1)s: %(str2)s"
@@ -261,12 +261,12 @@ class PlaceReport(Report):
                         if people == "":
                             people = "%(name)s (%(id)s)" % {
                                 'name' : person_name,
-                                'id'   : person.get_gramps_id()}
+                                'id'   : person.get_gid()}
                         else:
                             people = self._("%(persons)s and %(name)s (%(id)s)"
                                            ) % {'persons' : people,
                                                 'name'    : person_name,
-                                                'id' : person.get_gramps_id()}
+                                                'id' : person.get_gid()}
 
                 event_details = [date, event_type, people, descr]
                 self.doc.start_row()
@@ -313,7 +313,7 @@ class PlaceReport(Report):
                 if ref_type == 'Person':
                     person = self._db.get_person_from_handle(ref_handle)
                     name_entry = "%s (%s)" % (self._nd.display(person),
-                                              person.get_gramps_id())
+                                              person.get_gid())
                 else:
                     family = self._db.get_family_from_handle(ref_handle)
                     f_handle = family.get_father_handle()
@@ -323,8 +323,8 @@ class PlaceReport(Report):
                         mother = self._db.get_person_from_handle(m_handle)
                         father_name = self._nd.display(father)
                         mother_name = self._nd.display(mother)
-                        father_id = father.get_gramps_id()
-                        mother_id = mother.get_gramps_id()
+                        father_id = father.get_gid()
+                        mother_id = mother.get_gid()
                         name_entry = self._("%(father)s (%(father_id)s) and "
                                             "%(mother)s (%(mother_id)s)"
                                            ) % {'father'    : father_name,
@@ -339,7 +339,7 @@ class PlaceReport(Report):
                         person = self._db.get_person_from_handle(p_handle)
 
                         name_entry = "%s (%s)" % (self._nd.display(person),
-                                                  person.get_gramps_id())
+                                                  person.get_gid())
                     else:
                         # No parents - bug #7299
                         continue
@@ -386,7 +386,7 @@ class PlaceReport(Report):
         """
         place_handles = []
         for place_gid in places.split():
-            place = self._db.get_place_from_gramps_id(place_gid)
+            place = self._db.get_place_from_gid(place_gid)
             if place is not None:
                 #place can be None if option is gid of other fam tree
                 place_handles.append(place.get_handle())
@@ -421,7 +421,7 @@ class PlaceOptions(MenuReportOptions):
             for place_id in self.__places.get_value().split():
                 if subject:
                     subject += " + "
-                place = self.__db.get_place_from_gramps_id(place_id)
+                place = self.__db.get_place_from_gid(place_id)
                 subject += _pd.display(self.__db, place)
         return subject
 

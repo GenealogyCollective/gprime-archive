@@ -85,7 +85,7 @@ class EndOfLineReport(Report):
         self.database = CacheProxyDb(self.database)
 
         pid = menu.get_option_by_name('pid').get_value()
-        self.center_person = self.database.get_person_from_gramps_id(pid)
+        self.center_person = self.database.get_person_from_gid(pid)
         if self.center_person is None:
             raise ReportError(_("Person %s is not in the Database") % pid)
 
@@ -259,7 +259,7 @@ class EndOfLineOptions(MenuReportOptions):
     def get_subject(self):
         """ Return a string that describes the subject of the report. """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         return _nd.display(person)
 
     def add_menu_options(self, menu):

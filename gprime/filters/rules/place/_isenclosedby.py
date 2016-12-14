@@ -52,7 +52,7 @@ class IsEnclosedBy(Rule):
 
     def prepare(self, db):
         self.handle = None
-        place = db.get_place_from_gramps_id(self.list[0])
+        place = db.get_place_from_gid(self.list[0])
         if place:
             self.handle = place.handle
 

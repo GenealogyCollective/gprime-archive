@@ -69,8 +69,8 @@ class BSDDBTest(unittest.TestCase):
 
     def test_get_field_1(self):
         person = self.db.get_default_person()
-        gramps_id = person.get_field("gramps_id")
-        self.assertTrue(gramps_id == "I0037", gramps_id)
+        gid = person.get_field("gid")
+        self.assertTrue(gid == "I0037", gid)
 
     def test_get_field_2(self):
         person = self.db.get_default_person()
@@ -79,27 +79,27 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(all([isinstance(r, EventRef) for r in result]), result)
 
     def test_select_1(self):
-        result = list(self.db._select("Person", ["gramps_id"]))
+        result = list(self.db._select("Person", ["gid"]))
         self.assertTrue(len(result) == 60, len(result))
 
     def test_select_2(self):
-        result = list(self.db._select("Person", ["gramps_id"],
-                                      where=("gramps_id", "LIKE", "I000%")))
+        result = list(self.db._select("Person", ["gid"],
+                                      where=("gid", "LIKE", "I000%")))
         self.assertTrue(len(result) == 10, len(result))
 
     def test_select_3(self):
-        result = list(self.db._select("Family", ["mother_handle.gramps_id"],
-                        where=("mother_handle.gramps_id", "LIKE", "I003%")))
+        result = list(self.db._select("Family", ["mother_handle.gid"],
+                        where=("mother_handle.gid", "LIKE", "I003%")))
         self.assertTrue(len(result) == 6, result)
 
     def test_select_4(self):
         result = list(self.db._select("Family",
-              ["mother_handle.event_ref_list.ref.gramps_id"]))
+              ["mother_handle.event_ref_list.ref.gid"]))
         self.assertTrue(len(result) == 23, len(result))
 
     def test_select_5(self):
         result = list(self.db._select("Family",
-              ["mother_handle.event_ref_list.ref.self.gramps_id"]))
+              ["mother_handle.event_ref_list.ref.self.gid"]))
         self.assertTrue(len(result) == 23, len(result))
 
     def test_select_6(self):
@@ -114,8 +114,8 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(len(result) == 21, len(result))
 
     def test_select_8(self):
-        result = list(self.db._select("Family", ["mother_handle.event_ref_list.ref.gramps_id"],
-                                where=("mother_handle.event_ref_list.ref.gramps_id", "=", 'E0156')))
+        result = list(self.db._select("Family", ["mother_handle.event_ref_list.ref.gid"],
+                                where=("mother_handle.event_ref_list.ref.gid", "=", 'E0156')))
         self.assertTrue(len(result) == 1, len(result))
 
     def test_queryset_1(self):
@@ -123,12 +123,12 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(len(result) == 60, len(result))
 
     def test_queryset_2(self):
-        result = list(self.db.Person.where(lambda person: LIKE(person.gramps_id, "I000%")).select())
+        result = list(self.db.Person.where(lambda person: LIKE(person.gid, "I000%")).select())
         self.assertTrue(len(result) == 10, len(result))
 
     def test_queryset_3(self):
         result = list(self.db.Family
-                      .where(lambda family: LIKE(family.mother_handle.gramps_id, "I003%"))
+                      .where(lambda family: LIKE(family.mother_handle.gid, "I003%"))
                       .select())
         self.assertTrue(len(result) == 6, result)
 
@@ -138,13 +138,13 @@ class BSDDBTest(unittest.TestCase):
 
     def test_queryset_4b(self):
         result = list(self.db.Family
-                      .where(lambda family: family.mother_handle.event_ref_list.ref.gramps_id == 'E0156')
+                      .where(lambda family: family.mother_handle.event_ref_list.ref.gid == 'E0156')
                       .select())
         self.assertTrue(len(result) == 1, len(result))
 
     def test_queryset_5(self):
         result = list(self.db.Family
-                      .select("mother_handle.event_ref_list.ref.self.gramps_id"))
+                      .select("mother_handle.event_ref_list.ref.self.gid"))
         self.assertTrue(len(result) == 23, len(result))
 
     def test_queryset_6(self):
@@ -160,11 +160,11 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(len(result) == 21, len(result))
 
     def test_order_1(self):
-        result = list(self.db.Person.order("gramps_id").select())
+        result = list(self.db.Person.order("gid").select())
         self.assertTrue(len(result) == 60, len(result))
 
     def test_order_2(self):
-        result = list(self.db.Person.order("-gramps_id").select())
+        result = list(self.db.Person.order("-gid").select())
         self.assertTrue(len(result) == 60, len(result))
 
     def test_proxy_1(self):
@@ -178,8 +178,8 @@ class BSDDBTest(unittest.TestCase):
     def test_proxy_3(self):
         result = len(list(self.db.Person
                           .proxy("private")
-                          .order("-gramps_id")
-                          .select("gramps_id")))
+                          .order("-gid")
+                          .select("gid")))
         self.assertTrue(result == 59, result)
 
     def test_map_1(self):
@@ -187,15 +187,15 @@ class BSDDBTest(unittest.TestCase):
         self.assertTrue(result == 60, result)
 
     def test_tag_1(self):
-        self.db.Person.where(lambda person: person.gramps_id == "I0001").tag("Test")
+        self.db.Person.where(lambda person: person.gid == "I0001").tag("Test")
         result = self.db.Person.where(lambda person: person.tag_list.name == "Test").count()
         self.assertTrue(result == 1, result)
 
     def test_tag_2(self):
-        self.db.Person.where(lambda person: person.gramps_id == "I0001").tag("Test")
+        self.db.Person.where(lambda person: person.gid == "I0001").tag("Test")
         result = self.db.Person.where(lambda person: person.tag_list.name == "Test").count()
         self.assertTrue(result == 1, result)
-        self.db.Person.where(lambda person: person.gramps_id == "I0001").tag("Test", remove=True)
+        self.db.Person.where(lambda person: person.gid == "I0001").tag("Test", remove=True)
         result = self.db.Person.where(lambda person: person.tag_list.name == "Test").count()
         self.assertTrue(result == 0, result)
 

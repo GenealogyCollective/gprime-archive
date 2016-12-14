@@ -36,7 +36,7 @@ class CitationForm(Form):
     edit_fields = [
         "type",
         "text.string",
-        "gramps_id",
+        "gid",
         "tag_list",
         "private",
     ]
@@ -47,20 +47,20 @@ class CitationForm(Form):
     # Search fields to use if not specified:
     default_search_fields = [
         "text.string",
-        "gramps_id",
+        "gid",
     ]
 
     # Search fields, list is OR
     search_terms = {
         "text": "text.string",
-        "id": "gramps_id",
+        "id": "gid",
     }
 
-    order_by = [("gramps_id", "ASC")]
+    order_by = [("gid", "ASC")]
 
     # Fields for page view; width sum = 95%:
     select_fields = [
-        ("gramps_id", 10),
+        ("gid", 10),
         ("date", 10),
         ("page", 10),
         ("confidence", 5),

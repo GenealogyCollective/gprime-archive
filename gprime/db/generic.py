@@ -85,23 +85,23 @@ def touch(fname, mode=0o666, dir_fd=None, **kwargs):
 class IDMapTransaction:
     """
     Provide compatibility with BSDDB. A class to provide a lookup
-    to see if a gramps_id has been inserted.
+    to see if a gid has been inserted.
     """
     def __init__(self, table_name, database):
         """
         Takes a table_name and database.
-        Provides .get(b"gramps_id")
+        Provides .get(b"gid")
         """
         self.table_name = table_name
         self.database = database
 
     def get(self, bkey, default=None, txn=None, **kwargs):
         """
-        Returns True if bkey (binary gramps_id) is in database.
+        Returns True if bkey (binary gid) is in database.
         """
         skey = bkey.decode("utf-8")
         return self.database.get_table_func(self.table_name,
-                                            "has_gramps_id_func")(skey)
+                                            "has_gid_func")(skey)
 
 class DbGenericUndo(DbUndo):
     def __init__(self, grampsdb, path):
@@ -465,16 +465,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Person':
             {
                 "handle_func": self.get_person_from_handle,
-                "gramps_id_func": self.get_person_from_gramps_id,
+                "gid_func": self.get_person_from_gid,
                 "class_func": Person,
                 "cursor_func": self.get_person_cursor,
                 "handles_func": self.get_person_handles,
                 "add_func": self.add_person,
                 "commit_func": self.commit_person,
                 "iter_func": self.iter_people,
-                "ids_func": self.get_person_gramps_ids,
+                "ids_func": self.get_person_gids,
                 "has_handle_func": self.has_handle_for_person,
-                "has_gramps_id_func": self.has_gramps_id_for_person,
+                "has_gid_func": self.has_gid_for_person,
                 "count_func": self.get_number_of_people,
                 "raw_func": self._get_raw_person_data,
                 "raw_id_func": self._get_raw_person_from_id_data,
@@ -483,16 +483,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Family':
             {
                 "handle_func": self.get_family_from_handle,
-                "gramps_id_func": self.get_family_from_gramps_id,
+                "gid_func": self.get_family_from_gid,
                 "class_func": Family,
                 "cursor_func": self.get_family_cursor,
                 "handles_func": self.get_family_handles,
                 "add_func": self.add_family,
                 "commit_func": self.commit_family,
                 "iter_func": self.iter_families,
-                "ids_func": self.get_family_gramps_ids,
+                "ids_func": self.get_family_gids,
                 "has_handle_func": self.has_handle_for_family,
-                "has_gramps_id_func": self.has_gramps_id_for_family,
+                "has_gid_func": self.has_gid_for_family,
                 "count_func": self.get_number_of_families,
                 "raw_func": self._get_raw_family_data,
                 "raw_id_func": self._get_raw_family_from_id_data,
@@ -501,16 +501,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Source':
             {
                 "handle_func": self.get_source_from_handle,
-                "gramps_id_func": self.get_source_from_gramps_id,
+                "gid_func": self.get_source_from_gid,
                 "class_func": Source,
                 "cursor_func": self.get_source_cursor,
                 "handles_func": self.get_source_handles,
                 "add_func": self.add_source,
                 "commit_func": self.commit_source,
                 "iter_func": self.iter_sources,
-                "ids_func": self.get_source_gramps_ids,
+                "ids_func": self.get_source_gids,
                 "has_handle_func": self.has_handle_for_source,
-                "has_gramps_id_func": self.has_gramps_id_for_source,
+                "has_gid_func": self.has_gid_for_source,
                 "count_func": self.get_number_of_sources,
                 "raw_func": self._get_raw_source_data,
                 "raw_id_func": self._get_raw_source_from_id_data,
@@ -519,16 +519,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Citation':
             {
                 "handle_func": self.get_citation_from_handle,
-                "gramps_id_func": self.get_citation_from_gramps_id,
+                "gid_func": self.get_citation_from_gid,
                 "class_func": Citation,
                 "cursor_func": self.get_citation_cursor,
                 "handles_func": self.get_citation_handles,
                 "add_func": self.add_citation,
                 "commit_func": self.commit_citation,
                 "iter_func": self.iter_citations,
-                "ids_func": self.get_citation_gramps_ids,
+                "ids_func": self.get_citation_gids,
                 "has_handle_func": self.has_handle_for_citation,
-                "has_gramps_id_func": self.has_gramps_id_for_citation,
+                "has_gid_func": self.has_gid_for_citation,
                 "count_func": self.get_number_of_citations,
                 "raw_func": self._get_raw_citation_data,
                 "raw_id_func": self._get_raw_citation_from_id_data,
@@ -537,16 +537,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Event':
             {
                 "handle_func": self.get_event_from_handle,
-                "gramps_id_func": self.get_event_from_gramps_id,
+                "gid_func": self.get_event_from_gid,
                 "class_func": Event,
                 "cursor_func": self.get_event_cursor,
                 "handles_func": self.get_event_handles,
                 "add_func": self.add_event,
                 "commit_func": self.commit_event,
                 "iter_func": self.iter_events,
-                "ids_func": self.get_event_gramps_ids,
+                "ids_func": self.get_event_gids,
                 "has_handle_func": self.has_handle_for_event,
-                "has_gramps_id_func": self.has_gramps_id_for_event,
+                "has_gid_func": self.has_gid_for_event,
                 "count_func": self.get_number_of_events,
                 "raw_func": self._get_raw_event_data,
                 "raw_id_func": self._get_raw_event_from_id_data,
@@ -555,16 +555,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Media':
             {
                 "handle_func": self.get_media_from_handle,
-                "gramps_id_func": self.get_media_from_gramps_id,
+                "gid_func": self.get_media_from_gid,
                 "class_func": Media,
                 "cursor_func": self.get_media_cursor,
                 "handles_func": self.get_media_handles,
                 "add_func": self.add_media,
                 "commit_func": self.commit_media,
                 "iter_func": self.iter_media,
-                "ids_func": self.get_media_gramps_ids,
+                "ids_func": self.get_media_gids,
                 "has_handle_func": self.has_handle_for_media,
-                "has_gramps_id_func": self.has_gramps_id_for_media,
+                "has_gid_func": self.has_gid_for_media,
                 "count_func": self.get_number_of_media,
                 "raw_func": self._get_raw_media_data,
                 "raw_id_func": self._get_raw_media_from_id_data,
@@ -573,16 +573,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Place':
             {
                 "handle_func": self.get_place_from_handle,
-                "gramps_id_func": self.get_place_from_gramps_id,
+                "gid_func": self.get_place_from_gid,
                 "class_func": Place,
                 "cursor_func": self.get_place_cursor,
                 "handles_func": self.get_place_handles,
                 "add_func": self.add_place,
                 "commit_func": self.commit_place,
                 "iter_func": self.iter_places,
-                "ids_func": self.get_place_gramps_ids,
+                "ids_func": self.get_place_gids,
                 "has_handle_func": self.has_handle_for_place,
-                "has_gramps_id_func": self.has_gramps_id_for_place,
+                "has_gid_func": self.has_gid_for_place,
                 "count_func": self.get_number_of_places,
                 "raw_func": self._get_raw_place_data,
                 "raw_id_func": self._get_raw_place_from_id_data,
@@ -591,16 +591,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Repository':
             {
                 "handle_func": self.get_repository_from_handle,
-                "gramps_id_func": self.get_repository_from_gramps_id,
+                "gid_func": self.get_repository_from_gid,
                 "class_func": Repository,
                 "cursor_func": self.get_repository_cursor,
                 "handles_func": self.get_repository_handles,
                 "add_func": self.add_repository,
                 "commit_func": self.commit_repository,
                 "iter_func": self.iter_repositories,
-                "ids_func": self.get_repository_gramps_ids,
+                "ids_func": self.get_repository_gids,
                 "has_handle_func": self.has_handle_for_repository,
-                "has_gramps_id_func": self.has_gramps_id_for_repository,
+                "has_gid_func": self.has_gid_for_repository,
                 "count_func": self.get_number_of_repositories,
                 "raw_func": self._get_raw_repository_data,
                 "raw_id_func": self._get_raw_repository_from_id_data,
@@ -609,16 +609,16 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Note':
             {
                 "handle_func": self.get_note_from_handle,
-                "gramps_id_func": self.get_note_from_gramps_id,
+                "gid_func": self.get_note_from_gid,
                 "class_func": Note,
                 "cursor_func": self.get_note_cursor,
                 "handles_func": self.get_note_handles,
                 "add_func": self.add_note,
                 "commit_func": self.commit_note,
                 "iter_func": self.iter_notes,
-                "ids_func": self.get_note_gramps_ids,
+                "ids_func": self.get_note_gids,
                 "has_handle_func": self.has_handle_for_note,
-                "has_gramps_id_func": self.has_gramps_id_for_note,
+                "has_gid_func": self.has_gid_for_note,
                 "count_func": self.get_number_of_notes,
                 "raw_func": self._get_raw_note_data,
                 "raw_id_func": self._get_raw_note_from_id_data,
@@ -627,7 +627,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             'Tag':
             {
                 "handle_func": self.get_tag_from_handle,
-                "gramps_id_func": None,
+                "gid_func": None,
                 "class_func": Tag,
                 "cursor_func": self.get_tag_cursor,
                 "handles_func": self.get_tag_handles,
@@ -687,47 +687,47 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         self.person_map = Map(Table(self, "Person"))
         self.person_id_map = Map(Table(self, "Person"),
                                  keys_func="ids_func",
-                                 contains_func="has_gramps_id_func",
+                                 contains_func="has_gid_func",
                                  raw_func="raw_id_func")
         self.family_map = Map(Table(self, "Family"))
         self.family_id_map = Map(Table(self, "Family"),
                                  keys_func="ids_func",
-                                 contains_func="has_gramps_id_func",
+                                 contains_func="has_gid_func",
                                  raw_func="raw_id_func")
         self.place_map  = Map(Table(self, "Place"))
         self.place_id_map = Map(Table(self, "Place"),
                                 keys_func="ids_func",
-                                contains_func="has_gramps_id_func",
+                                contains_func="has_gid_func",
                                 raw_func="raw_id_func")
         self.citation_map = Map(Table(self, "Citation"))
         self.citation_id_map = Map(Table(self, "Citation"),
                                    keys_func="ids_func",
-                                   contains_func="has_gramps_id_func",
+                                   contains_func="has_gid_func",
                                    raw_func="raw_id_func")
         self.source_map = Map(Table(self, "Source"))
         self.source_id_map = Map(Table(self, "Source"),
                                  keys_func="ids_func",
-                                 contains_func="has_gramps_id_func",
+                                 contains_func="has_gid_func",
                                  raw_func="raw_id_func")
         self.repository_map  = Map(Table(self, "Repository"))
         self.repository_id_map = Map(Table(self, "Repository"),
                                      keys_func="ids_func",
-                                     contains_func="has_gramps_id_func",
+                                     contains_func="has_gid_func",
                                      raw_func="raw_id_func")
         self.note_map = Map(Table(self, "Note"))
         self.note_id_map = Map(Table(self, "Note"),
                                keys_func="ids_func",
-                               contains_func="has_gramps_id_func",
+                               contains_func="has_gid_func",
                                raw_func="raw_id_func")
         self.media_map  = Map(Table(self, "Media"))
         self.media_id_map = Map(Table(self, "Media"),
                                 keys_func="ids_func",
-                                contains_func="has_gramps_id_func",
+                                contains_func="has_gid_func",
                                 raw_func="raw_id_func")
         self.event_map  = Map(Table(self, "Event"))
         self.event_id_map = Map(Table(self, "Event"),
                                 keys_func="ids_func",
-                                contains_func="has_gramps_id_func",
+                                contains_func="has_gid_func",
                                 raw_func="raw_id_func")
         self.tag_map  = Map(Table(self, "Tag"))
         self.metadata   = Map(Table(self, "Metadata", funcs={"cursor_func": lambda: MetaCursor()}))
@@ -935,9 +935,9 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         if pattern_match:
             str_prefix = pattern_match.group(1)
             nr_width = int(pattern_match.group(2))
-            def closure_func(gramps_id):
-                if gramps_id and gramps_id.startswith(str_prefix):
-                    id_number = gramps_id[len(str_prefix):]
+            def closure_func(gid):
+                if gid and gid.startswith(str_prefix):
+                    id_number = gid[len(str_prefix):]
                     if id_number.isdigit():
                         id_value = int(id_number, 10)
                         #if len(str(id_value)) > nr_width:
@@ -948,13 +948,13 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
                         #    # the problem of colliding import and already
                         #    # present IDs is solved the code here also needs
                         #    # some solution.
-                        #    gramps_id = id_pattern % 1
+                        #    gid = id_pattern % 1
                         #else:
-                        gramps_id = id_pattern % id_value
-                return gramps_id
+                        gid = id_pattern % id_value
+                return gid
         else:
-            def closure_func(gramps_id):
-                return gramps_id
+            def closure_func(gid):
+                return gid
         return closure_func
 
     def set_person_id_prefix(self, val):
@@ -1055,9 +1055,9 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         self.note_prefix = self._validated_id_prefix(val, "N")
         self.nid2user_format = self.__id2user_format(self.note_prefix)
 
-    def _find_next_gramps_id(self, prefix, map_index, map):
+    def _find_next_gid(self, prefix, map_index, map):
         """
-        Helper function for find_next_<object>_gramps_id methods
+        Helper function for find_next_<object>_gid methods
         """
         index = prefix % map_index
         while map.get(str(index)) is not None:
@@ -1066,92 +1066,92 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         map_index += 1
         return (map_index, index)
 
-    def find_next_person_gramps_id(self):
+    def find_next_person_gid(self):
         """
         Return the next available GRAMPS' ID for a Person object based off the
         person ID prefix.
         """
-        self.pmap_index, gid = self._find_next_gramps_id(self.person_prefix,
+        self.pmap_index, gid = self._find_next_gid(self.person_prefix,
                                                          self.pmap_index,
                                                          self.person_id_map)
         return gid
 
-    def find_next_place_gramps_id(self):
+    def find_next_place_gid(self):
         """
         Return the next available GRAMPS' ID for a Place object based off the
         place ID prefix.
         """
-        self.lmap_index, gid = self._find_next_gramps_id(self.place_prefix,
+        self.lmap_index, gid = self._find_next_gid(self.place_prefix,
                                                          self.lmap_index,
                                                          self.place_id_map)
         return gid
 
-    def find_next_event_gramps_id(self):
+    def find_next_event_gid(self):
         """
         Return the next available GRAMPS' ID for a Event object based off the
         event ID prefix.
         """
-        self.emap_index, gid = self._find_next_gramps_id(self.event_prefix,
+        self.emap_index, gid = self._find_next_gid(self.event_prefix,
                                                          self.emap_index,
                                                          self.event_id_map)
         return gid
 
-    def find_next_media_gramps_id(self):
+    def find_next_media_gid(self):
         """
         Return the next available GRAMPS' ID for a Media object based
         off the media object ID prefix.
         """
-        self.omap_index, gid = self._find_next_gramps_id(self.media_prefix,
+        self.omap_index, gid = self._find_next_gid(self.media_prefix,
                                                          self.omap_index,
                                                          self.media_id_map)
         return gid
 
-    def find_next_citation_gramps_id(self):
+    def find_next_citation_gid(self):
         """
         Return the next available GRAMPS' ID for a Citation object based off the
         citation ID prefix.
         """
-        self.cmap_index, gid = self._find_next_gramps_id(self.citation_prefix,
+        self.cmap_index, gid = self._find_next_gid(self.citation_prefix,
                                                          self.cmap_index,
                                                          self.citation_id_map)
         return gid
 
-    def find_next_source_gramps_id(self):
+    def find_next_source_gid(self):
         """
         Return the next available GRAMPS' ID for a Source object based off the
         source ID prefix.
         """
-        self.smap_index, gid = self._find_next_gramps_id(self.source_prefix,
+        self.smap_index, gid = self._find_next_gid(self.source_prefix,
                                                          self.smap_index,
                                                          self.source_id_map)
         return gid
 
-    def find_next_family_gramps_id(self):
+    def find_next_family_gid(self):
         """
         Return the next available GRAMPS' ID for a Family object based off the
         family ID prefix.
         """
-        self.fmap_index, gid = self._find_next_gramps_id(self.family_prefix,
+        self.fmap_index, gid = self._find_next_gid(self.family_prefix,
                                                          self.fmap_index,
                                                          self.family_id_map)
         return gid
 
-    def find_next_repository_gramps_id(self):
+    def find_next_repository_gid(self):
         """
         Return the next available GRAMPS' ID for a Respository object based
         off the repository ID prefix.
         """
-        self.rmap_index, gid = self._find_next_gramps_id(self.repository_prefix,
+        self.rmap_index, gid = self._find_next_gid(self.repository_prefix,
                                                          self.rmap_index,
                                                          self.repository_id_map)
         return gid
 
-    def find_next_note_gramps_id(self):
+    def find_next_note_gid(self):
         """
         Return the next available GRAMPS' ID for a Note object based off the
         note ID prefix.
         """
-        self.nmap_index, gid = self._find_next_gramps_id(self.note_prefix,
+        self.nmap_index, gid = self._find_next_gid(self.note_prefix,
                                                          self.nmap_index,
                                                          self.note_id_map)
         return gid
@@ -1341,32 +1341,32 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
     def iter_families(self, order_by=None):
         return self.iter_items(order_by, Family)
 
-    def get_person_from_gramps_id(self, gramps_id):
-        return Person.create(self.person_id_map[gramps_id])
+    def get_person_from_gid(self, gid):
+        return Person.create(self.person_id_map[gid])
 
-    def get_family_from_gramps_id(self, gramps_id):
-        return Family.create(self.family_id_map[gramps_id])
+    def get_family_from_gid(self, gid):
+        return Family.create(self.family_id_map[gid])
 
-    def get_citation_from_gramps_id(self, gramps_id):
-        return Citation.create(self.citation_id_map[gramps_id])
+    def get_citation_from_gid(self, gid):
+        return Citation.create(self.citation_id_map[gid])
 
-    def get_source_from_gramps_id(self, gramps_id):
-        return Source.create(self.source_id_map[gramps_id])
+    def get_source_from_gid(self, gid):
+        return Source.create(self.source_id_map[gid])
 
-    def get_event_from_gramps_id(self, gramps_id):
-        return Event.create(self.event_id_map[gramps_id])
+    def get_event_from_gid(self, gid):
+        return Event.create(self.event_id_map[gid])
 
-    def get_media_from_gramps_id(self, gramps_id):
-        return Media.create(self.media_id_map[gramps_id])
+    def get_media_from_gid(self, gid):
+        return Media.create(self.media_id_map[gid])
 
-    def get_place_from_gramps_id(self, gramps_id):
-        return Place.create(self.place_id_map[gramps_id])
+    def get_place_from_gid(self, gid):
+        return Place.create(self.place_id_map[gid])
 
-    def get_repository_from_gramps_id(self, gramps_id):
-        return Repository.create(self.repository_id_map[gramps_id])
+    def get_repository_from_gid(self, gid):
+        return Repository.create(self.repository_id_map[gid])
 
-    def get_note_from_gramps_id(self, gramps_id):
-        return Note.create(self.note_id_map[gramps_id])
+    def get_note_from_gid(self, gid):
+        return Note.create(self.note_id_map[gid])
 
     def get_place_cursor(self):
         return Cursor(self.place_map)
@@ -1401,7 +1401,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
     def get_source_cursor(self):
         return Cursor(self.source_map)
 
-    def has_gramps_id(self, obj_key, gramps_id):
+    def has_gid(self, obj_key, gid):
         key2table = {
             PERSON_KEY:     self.person_id_map,
             FAMILY_KEY:     self.family_id_map,
@@ -1413,7 +1413,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             REPOSITORY_KEY: self.repository_id_map,
             NOTE_KEY:       self.note_id_map,
             }
-        return gramps_id in key2table[obj_key]
+        return gid in key2table[obj_key]
 
     def has_person_handle(self, handle):
         if isinstance(handle, bytes):
@@ -1518,88 +1518,88 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
     def add_person(self, person, trans, set_gid=True):
         if not person.handle:
             person.handle = create_id()
-        if (not person.gramps_id) and set_gid:
-            person.gramps_id = self.find_next_person_gramps_id()
-        if (not person.gramps_id):
+        if (not person.gid) and set_gid:
+            person.gid = self.find_next_person_gid()
+        if (not person.gid):
             # give it a random value for the moment:
-            person.gramps_id = str(random.random())
+            person.gid = str(random.random())
         self.commit_person(person, trans)
         return person.handle
 
     def add_family(self, family, trans, set_gid=True):
         if not family.handle:
             family.handle = create_id()
-        if (not family.gramps_id) and set_gid:
-            family.gramps_id = self.find_next_family_gramps_id()
-        if (not family.gramps_id):
+        if (not family.gid) and set_gid:
+            family.gid = self.find_next_family_gid()
+        if (not family.gid):
             # give it a random value for the moment:
-            family.gramps_id = str(random.random())
+            family.gid = str(random.random())
         self.commit_family(family, trans)
         return family.handle
 
     def add_citation(self, citation, trans, set_gid=True):
         if not citation.handle:
             citation.handle = create_id()
-        if (not citation.gramps_id) and set_gid:
-            citation.gramps_id = self.find_next_citation_gramps_id()
-        if (not citation.gramps_id):
+        if (not citation.gid) and set_gid:
+            citation.gid = self.find_next_citation_gid()
+        if (not citation.gid):
             # give it a random value for the moment:
-            citation.gramps_id = str(random.random())
+            citation.gid = str(random.random())
         self.commit_citation(citation, trans)
         return citation.handle
 
     def add_source(self, source, trans, set_gid=True):
         if not source.handle:
             source.handle = create_id()
-        if (not source.gramps_id) and set_gid:
-            source.gramps_id = self.find_next_source_gramps_id()
-        if (not source.gramps_id):
+        if (not source.gid) and set_gid:
+            source.gid = self.find_next_source_gid()
+        if (not source.gid):
             # give it a random value for the moment:
-            source.gramps_id = str(random.random())
+            source.gid = str(random.random())
         self.commit_source(source, trans)
         return source.handle
 
     def add_repository(self, repository, trans, set_gid=True):
         if not repository.handle:
             repository.handle = create_id()
-        if (not repository.gramps_id) and set_gid:
-            repository.gramps_id = self.find_next_repository_gramps_id()
-        if (not repository.gramps_id):
+        if (not repository.gid) and set_gid:
+            repository.gid = self.find_next_repository_gid()
+        if (not repository.gid):
             # give it a random value for the moment:
-            repository.gramps_id = str(random.random())
+            repository.gid = str(random.random())
         self.commit_repository(repository, trans)
         return repository.handle
 
     def add_note(self, note, trans, set_gid=True):
         if not note.handle:
             note.handle = create_id()
-        if (not note.gramps_id) and set_gid:
-            note.gramps_id = self.find_next_note_gramps_id()
-        if (not note.gramps_id):
+        if (not note.gid) and set_gid:
+            note.gid = self.find_next_note_gid()
+        if (not note.gid):
             # give it a random value for the moment:
-            note.gramps_id = str(random.random())
+            note.gid = str(random.random())
         self.commit_note(note, trans)
         return note.handle
 
     def add_place(self, place, trans, set_gid=True):
         if not place.handle:
             place.handle = create_id()
-        if (not place.gramps_id) and set_gid:
-            place.gramps_id = self.find_next_place_gramps_id()
-        if (not place.gramps_id):
+        if (not place.gid) and set_gid:
+            place.gid = self.find_next_place_gid()
+        if (not place.gid):
             # give it a random value for the moment:
-            place.gramps_id = str(random.random())
+            place.gid = str(random.random())
         self.commit_place(place, trans)
         return place.handle
 
     def add_event(self, event, trans, set_gid=True):
         if not event.handle:
             event.handle = create_id()
-        if (not event.gramps_id) and set_gid:
-            event.gramps_id = self.find_next_event_gramps_id()
-        if (not event.gramps_id):
+        if (not event.gid) and set_gid:
+            event.gid = self.find_next_event_gid()
+        if (not event.gid):
             # give it a random value for the moment:
-            event.gramps_id = str(random.random())
+            event.gid = str(random.random())
         self.commit_event(event, trans)
         return event.handle
 
@@ -1614,15 +1614,15 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         Add a Media to the database, assigning internal IDs if they have
         not already been defined.
 
-        If not set_gid, then gramps_id is not set.
+        If not set_gid, then gid is not set.
         """
         if not obj.handle:
             obj.handle = create_id()
-        if (not obj.gramps_id) and set_gid:
-            obj.gramps_id = self.find_next_media_gramps_id()
-        if (not obj.gramps_id):
+        if (not obj.gid) and set_gid:
+            obj.gid = self.find_next_media_gid()
+        if (not obj.gid):
             # give it a random value for the moment:
-            obj.gramps_id = str(random.random())
+            obj.gid = str(random.random())
         self.commit_media(obj, transaction)
         return obj.handle
 
@@ -1666,7 +1666,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         if name in self.surname_list:
             self.surname_list.remove(name)
 
-    def get_gramps_ids(self, obj_key):
+    def get_gids(self, obj_key):
         key2table = {
             PERSON_KEY:     self.person_id_map,
             FAMILY_KEY:     self.family_id_map,
@@ -1732,19 +1732,19 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             return self.get_table_func(table_name,"handle_func")(handle)
         return None
 
-    def get_from_name_and_gramps_id(self, table_name, gramps_id):
+    def get_from_name_and_gid(self, table_name, gid):
         """
         Returns a gen.lib object (or None) given table_name and
         Gramps ID.
 
         Examples:
 
-        >>> self.get_from_name_and_gramps_id("Person", "I00002")
-        >>> self.get_from_name_and_gramps_id("Family", "F056")
-        >>> self.get_from_name_and_gramps_id("Media", "M00012")
+        >>> self.get_from_name_and_gid("Person", "I00002")
+        >>> self.get_from_name_and_gid("Family", "F056")
+        >>> self.get_from_name_and_gid("Media", "M00012")
         """
         if table_name in self.get_table_func():
-            return self.get_table_func(table_name,"gramps_id_func")(gramps_id)
+            return self.get_table_func(table_name,"gid_func")(gid)
         return None
 
     def remove_source(self, handle, transaction):

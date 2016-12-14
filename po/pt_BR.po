@@ -8777,7 +8777,7 @@ msgstr "Mover o atributo selecionado para baixo"
 msgid "_Attributes"
 msgstr "_Atributos"
 
-#. Add column with object gramps_id
+#. Add column with object gid
 #. Gramps ID
 #: ../gramps/gui/editors/displaytabs/backreflist.py:60 ../gramps/gui/editors/displaytabs/citationembedlist.py:83 ../gramps/gui/editors/displaytabs/eventembedlist.py:79 ../gramps/gui/editors/displaytabs/personrefembedlist.py:65 ../gramps/gui/editors/displaytabs/placerefembedlist.py:58 ../gramps/gui/editors/displaytabs/repoembedlist.py:66 ../gramps/gui/editors/editfamily.py:122 ../gramps/gui/editors/filtereditor.py:977 ../gramps/gui/filters/sidebar/_citationsidebarfilter.py:104 ../gramps/gui/filters/sidebar/_citationsidebarfilter.py:111 ../gramps/gui/filters/sidebar/_eventsidebarfilter.py:103 ../gramps/gui/filters/sidebar/_familysidebarfilter.py:111 ../gramps/gui/filters/sidebar/_mediasidebarfilter.py:87
 #: ../gramps/gui/filters/sidebar/_notesidebarfilter.py:100 ../gramps/gui/filters/sidebar/_personsidebarfilter.py:127 ../gramps/gui/filters/sidebar/_placesidebarfilter.py:104 ../gramps/gui/filters/sidebar/_reposidebarfilter.py:103 ../gramps/gui/filters/sidebar/_sourcesidebarfilter.py:86 ../gramps/gui/merge/mergeperson.py:178 ../gramps/gui/plug/_guioptions.py:1165 ../gramps/gui/plug/_guioptions.py:1343 ../gramps/gui/selectors/selectcitation.py:76 ../gramps/gui/selectors/selectevent.py:75 ../gramps/gui/selectors/selectfamily.py:70 ../gramps/gui/selectors/selectnote.py:76 ../gramps/gui/selectors/selectobject.py:81 ../gramps/gui/selectors/selectperson.py:95 ../gramps/gui/selectors/selectplace.py:72
@@ -9718,18 +9718,18 @@ msgstr "Editor de ordenações SUD"
 
 #: ../gramps/gui/editors/editldsord.py:289
 #, python-format
-msgid "%(father)s and %(mother)s [%(gramps_id)s]"
-msgstr "%(father)s e %(mother)s [%(gramps_id)s]"
+msgid "%(father)s and %(mother)s [%(gid)s]"
+msgstr "%(father)s e %(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:295
 #, python-format
-msgid "%(father)s [%(gramps_id)s]"
-msgstr "%(father)s [%(gramps_id)s]"
+msgid "%(father)s [%(gid)s]"
+msgstr "%(father)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:300
 #, python-format
-msgid "%(mother)s [%(gramps_id)s]"
-msgstr "%(mother)s [%(gramps_id)s]"
+msgid "%(mother)s [%(gid)s]"
+msgstr "%(mother)s [%(gid)s]"
 
 #: ../gramps/gui/editors/editldsord.py:315 ../gramps/gui/editors/editldsord.py:438 ../gramps/plugins/textreport/indivcomplete.py:450 ../gramps/plugins/textreport/indivcomplete.py:651 ../gramps/plugins/webreport/narrativeweb.py:792
 msgid "LDS Ordinance"
@@ -19398,13 +19398,13 @@ msgstr "Registros não importados para "
 
 #: ../gramps/plugins/lib/libgedcom.py:3189
 #, python-format
-msgid "Error: %(msg)s  '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. Record synthesised"
-msgstr "Erro: %(msg)s  '%(gramps_id)s' (entrada como @%(xref)s@) não está na entrada GEDCOM. Registro sintetizado"
+msgid "Error: %(msg)s  '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. Record synthesised"
+msgstr "Erro: %(msg)s  '%(gid)s' (entrada como @%(xref)s@) não está na entrada GEDCOM. Registro sintetizado"
 
 #: ../gramps/plugins/lib/libgedcom.py:3198
 #, python-format
-msgid "Error: %(msg)s '%(gramps_id)s' (input as @%(xref)s@) not in input GEDCOM. Record with typifying attribute 'Unknown' created"
-msgstr "Erro: %(msg)s  '%(gramps_id)s' (entrada como @%(xref)s@) não está na entrada GEDCOM. Foi criado um registro com atributo 'Desconhecido'"
+msgid "Error: %(msg)s '%(gid)s' (input as @%(xref)s@) not in input GEDCOM. Record with typifying attribute 'Unknown' created"
+msgstr "Erro: %(msg)s  '%(gid)s' (entrada como @%(xref)s@) não está na entrada GEDCOM. Foi criado um registro com atributo 'Desconhecido'"
 
 #: ../gramps/plugins/lib/libgedcom.py:3237
 #, python-format
@@ -19512,7 +19512,7 @@ msgstr "Aviso: ADDR sobrescrito"
 msgid "REFN ignored"
 msgstr "REFN ignorado"
 
-#. SOURce with the given gramps_id had no title
+#. SOURce with the given gid had no title
 #: ../gramps/plugins/lib/libgedcom.py:6327
 #, python-format
 msgid "No title - ID %s"
@@ -27439,8 +27439,8 @@ msgstr "GeoFamClose"
 
 #: ../gramps/plugins/view/geofamclose.py:217 ../gramps/plugins/view/geofamily.py:291
 #, python-format
-msgid "%(gramps_id)s : %(father)s and %(mother)s"
-msgstr "%(gramps_id)s : %(father)s e %(mother)s."
+msgid "%(gid)s : %(father)s and %(mother)s"
+msgstr "%(gid)s : %(father)s e %(mother)s."
 
 #: ../gramps/plugins/view/geofamclose.py:264
 #, python-format
@@ -29697,8 +29697,8 @@ msgstr "Sem folha de estilo"
 #~ msgid "%s (copy, %s)"
 #~ msgstr "%s %s, %s"
 
-#~ msgid "You have attempted to use the existing Gramps ID with value %(gramps_id)s. This value is already used by '%(prim_object)s'. Please enter a different ID or leave blank to get the next available ID value."
-#~ msgstr "Você tentou usar um ID Gramps que já existe, com o valor %(gramps_id)s. Este valor já está em uso por '%(prim_object)s'. Por favor, informe um ID diferente ou deixe-o em branco para que o próximo ID disponível seja atribuído automaticamente."
+#~ msgid "You have attempted to use the existing Gramps ID with value %(gid)s. This value is already used by '%(prim_object)s'. Please enter a different ID or leave blank to get the next available ID value."
+#~ msgstr "Você tentou usar um ID Gramps que já existe, com o valor %(gid)s. Este valor já está em uso por '%(prim_object)s'. Por favor, informe um ID diferente ou deixe-o em branco para que o próximo ID disponível seja atribuído automaticamente."
 
 #~ msgid "Cannot save place"
 #~ msgstr "Não foi possível salvar o local"

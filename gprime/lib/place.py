@@ -105,7 +105,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
                   be considered persistent.
         :rtype: tuple
         """
-        return (self.handle, self.gramps_id, self.title, self.long, self.lat,
+        return (self.handle, self.gid, self.title, self.long, self.lat,
                 [pr.serialize() for pr in self.placeref_list],
                 self.name.serialize(),
                 [an.serialize() for an in self.alt_names],
@@ -121,7 +121,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),
-            "gramps_id": _("ID"),
+            "gid": _("ID"),
             "title": _("Title"),
             "long": _("Longitude"),
             "lat": _("Latitude"),
@@ -147,7 +147,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         from .url import Url
         return {
             "handle": Handle("Place", "PLACE-HANDLE"),
-            "gramps_id": str,
+            "gid": str,
             "title": str,
             "long": str,
             "lat": str,
@@ -188,7 +188,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         """
         return {"_class": "Place",
                 "handle": Handle("Place", self.handle),
-                "gramps_id": self.gramps_id,
+                "gid": self.gid,
                 "title": self.title,
                 "long": self.long,
                 "lat": self.lat,
@@ -215,7 +215,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         """
         default = Place()
         return (Handle.from_struct(struct.get("handle", default.handle)),
-                struct.get("gramps_id", default.gramps_id),
+                struct.get("gid", default.gid),
                 struct.get("title", default.title),
                 struct.get("long", default.long),
                 struct.get("lat", default.lat),
@@ -247,7 +247,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
                      Place object
         :type data: tuple
         """
-        (self.handle, self.gramps_id, self.title, self.long, self.lat,
+        (self.handle, self.gid, self.title, self.long, self.lat,
          placeref_list, name, alt_names, the_type, self.code,
          alt_loc, urls, media_list, citation_list, note_list,
          self.change, tag_list, self.private) = data
@@ -272,7 +272,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         :returns: Returns the list of all textual attributes of the object.
         :rtype: list
         """
-        return [self.long, self.lat, self.title, self.gramps_id]
+        return [self.long, self.lat, self.title, self.gid]
 
     def get_text_data_child_list(self):
         """

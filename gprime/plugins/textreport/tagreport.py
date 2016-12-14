@@ -182,7 +182,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(person.get_gramps_id())
+            self.doc.write_text(person.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -270,7 +270,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(family.get_gramps_id())
+            self.doc.write_text(family.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -359,7 +359,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(event.get_gramps_id())
+            self.doc.write_text(event.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -443,7 +443,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(place.get_gramps_id())
+            self.doc.write_text(place.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -517,7 +517,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(note.get_gramps_id())
+            self.doc.write_text(note.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -592,7 +592,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(media.get_gramps_id())
+            self.doc.write_text(media.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -676,7 +676,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(repo.get_gramps_id())
+            self.doc.write_text(repo.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -761,7 +761,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(source.get_gramps_id())
+            self.doc.write_text(source.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 
@@ -841,7 +841,7 @@ class TagReport(Report):
 
             self.doc.start_cell('TR-TableCell')
             self.doc.start_paragraph('TR-Normal')
-            self.doc.write_text(citation.get_gramps_id())
+            self.doc.write_text(citation.get_gid())
             self.doc.end_paragraph()
             self.doc.end_cell()
 

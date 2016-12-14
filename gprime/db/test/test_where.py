@@ -39,7 +39,7 @@ class Thing:
         self.list = ["I0", "I1", "I2"]
 
     def where(self):
-        return lambda person: person.gramps_id == self.list[1]
+        return lambda person: person.gid == self.list[1]
 
     def apply(self, db, person):
         return person.gender == Person.MALE
@@ -52,29 +52,29 @@ class ClosureTest(unittest.TestCase):
     def test_01(self):
         self.check(
             (lambda family: (family.private and
-                             family.mother_handle.gramps_id != "I0001"),
+                             family.mother_handle.gid != "I0001"),
              ['AND', [['private', '==', True],
-                      ['mother_handle.gramps_id', '!=', 'I0001']]]))
+                      ['mother_handle.gid', '!=', 'I0001']]]))
 
     def test_02(self):
         self.check(
-            (lambda person: LIKE(person.gramps_id, "I0001"),
-             ['gramps_id', 'LIKE', 'I0001']))
+            (lambda person: LIKE(person.gid, "I0001"),
+             ['gid', 'LIKE', 'I0001']))
 
     def test_03(self):
         self.check(
-            (lambda note: note.gramps_id == "N0001",
-             ['gramps_id', '==', 'N0001']))
+            (lambda note: note.gid == "N0001",
+             ['gid', '==', 'N0001']))
 
     def test_04(self):
         self.check(
-            (lambda person: person.event_ref_list.ref.gramps_id == "E0001",
-             ['event_ref_list.ref.gramps_id', '==', 'E0001']))
+            (lambda person: person.event_ref_list.ref.gid == "E0001",
+             ['event_ref_list.ref.gid', '==', 'E0001']))
 
     def test_05(self):
         self.check(
-            (lambda person: LIKE(person.gramps_id, "I0001") or person.private,
-             ["OR", [['gramps_id', 'LIKE', 'I0001'],
+            (lambda person: LIKE(person.gid, "I0001") or person.private,
+             ["OR", [['gid', 'LIKE', 'I0001'],
                      ["private", "==", True]]]))
 
     def test_06(self):
@@ -95,12 +95,12 @@ class ClosureTest(unittest.TestCase):
 
     def test_09(self):
         self.check(
-            [Thing().where(), ["gramps_id", "==", "I1"]])
+            [Thing().where(), ["gid", "==", "I1"]])
 
     def test_10(self):
         self.check(
-            (lambda person: LIKE(person.gramps_id, "I000%"),
-             ["gramps_id", "LIKE", "I000%"]))
+            (lambda person: LIKE(person.gid, "I000%"),
+             ["gid", "LIKE", "I000%"]))
 
     def test_11(self):
         self.check(

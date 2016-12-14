@@ -992,7 +992,7 @@ class WebCalReport(Report):
                 # but January =1
                 note = self.month_notes[month-1].strip()
                 if note:
-                    note = self.database.get_note_from_gramps_id(note)
+                    note = self.database.get_note_from_gid(note)
                     note = self.get_note_format(note)
 
                 # table foot  section
@@ -1849,7 +1849,7 @@ class WebCalOptions(MenuReportOptions):
         Update the filter list based on the selected person
         """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         filter_list = utils.get_person_filters(person, False)
         self.__filter.set_filters(filter_list)
 

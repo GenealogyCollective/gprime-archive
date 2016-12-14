@@ -55,7 +55,7 @@ class HasSourceOfBase(Rule):
 
         self.nosource = False
         try:
-            self.source_handle = db.get_source_from_gramps_id(
+            self.source_handle = db.get_source_from_gid(
                     self.list[0]).get_handle()
         except:
             self.source_handle = None

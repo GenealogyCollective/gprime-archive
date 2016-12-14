@@ -553,12 +553,12 @@ class ProgenParser:
         if self.db.has_person_handle(intid):
             person.unserialize(self.db.get_raw_person_data(intid))
         else:
-            gramps_id = self.db.id2user_format("I%d" % progen_id)
-            if self.db.id_trans.get(gramps_id):
-                gramps_id = self.db.find_next_person_gramps_id()
+            gid = self.db.id2user_format("I%d" % progen_id)
+            if self.db.id_trans.get(gid):
+                gid = self.db.find_next_person_gid()
             intid = _find_from_handle(progen_id, self.gid2id)
             person.set_handle(intid)
-            person.set_gramps_id(gramps_id)
+            person.set_gid(gid)
         return person
 
     def __find_or_create_family(self, progen_id):
@@ -572,12 +572,12 @@ class ProgenParser:
         if self.db.has_family_handle(intid):
             family.unserialize(self.db.get_raw_family_data(intid))
         else:
-            gramps_id = self.db.fid2user_format("F%d" % progen_id)
-            if self.db.id_trans.get(gramps_id):
-                gramps_id = self.db.find_next_family_gramps_id()
+            gid = self.db.fid2user_format("F%d" % progen_id)
+            if self.db.id_trans.get(gid):
+                gid = self.db.find_next_family_gid()
             intid = _find_from_handle(progen_id, self.fid2id)
             family.set_handle(intid)
-            family.set_gramps_id(gramps_id)
+            family.set_gid(gid)
         return family
 
     def __get_or_create_place(self, place_name):
@@ -854,7 +854,7 @@ class ProgenParser:
                 title2 = recflds[title2_ix]         # INDI _TITL2
                 title3 = recflds[title3_ix]         # INDI _TITL3
 
-                diag_msg = "%s: %s %s" % (person.gramps_id, first_name.encode('utf-8'), surname.encode('utf-8'))
+                diag_msg = "%s: %s %s" % (person.gid, first_name.encode('utf-8'), surname.encode('utf-8'))
 
                 # process the name/given name
                 name = Name()
@@ -1126,9 +1126,9 @@ class ProgenParser:
                     wife_person = self.db.get_person_from_handle(wife_handle)
                     wife_person.add_family_handle(fam.get_handle())
                     self.db.commit_person(wife_person, self.trans)
-                diag_msg = "%s: %s %s" % (fam.gramps_id,
-                            husband_person.gramps_id if husband_handle else "",
-                            wife_person.gramps_id if wife_handle else "")
+                diag_msg = "%s: %s %s" % (fam.gid,
+                            husband_person.gid if husband_handle else "",
+                            wife_person.gid if wife_handle else "")
                 self.fm2fam[husband_handle, wife_handle] = fam
 
                 rel_code = recflds[rel_code_ix]

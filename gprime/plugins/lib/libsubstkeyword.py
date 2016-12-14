@@ -452,7 +452,7 @@ class EventFormat(GenericFormat):
         function = [event.get_description,
                     format_date,
                     format_place,
-                    event.get_gramps_id,
+                    event.get_gid,
                     format_attrib
                    ]
 
@@ -568,7 +568,7 @@ class GalleryFormat(GenericFormat):
         upper = ""
         function = [photo.get_description,
                     format_date,
-                    photo.get_gramps_id,
+                    photo.get_gid,
                     format_attrib
                    ]
 
@@ -901,7 +901,7 @@ class VariableParse:
 
     def __parse_id(self, first_class_object):
         if first_class_object is not None:
-            return first_class_object.get_gramps_id()
+            return first_class_object.get_gid()
         else:
             return
 

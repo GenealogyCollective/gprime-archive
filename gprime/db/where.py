@@ -35,26 +35,26 @@ class ParseFilter(Visitor):
     Examples:
 
     db.Person.where(
-        lambda person: person.gramps_id == "I0001"
+        lambda person: person.gid == "I0001"
     ).select()
 
     Some uses look (and evaluate) like regular Python.
 
     db.Person.where(
-        lambda person: LIKE(person.gramps_id, "I000%")
+        lambda person: LIKE(person.gid, "I000%")
     ).select()
 
     LIKE is not a real Python function, but the syntax is used to
     indicate a fuzzy match.
 
     db.Family.where(
-        lambda family: LIKE(family.mother_handle.gramps_id, "I003%")
+        lambda family: LIKE(family.mother_handle.gid, "I003%")
     ).select()
 
     LIKE uses % as a wildcard matching character, like ".*" in re.
 
     db.Family.where(
-        lambda family: family.mother_handle.event_ref_list.ref.gramps_id == 'E0156'
+        lambda family: family.mother_handle.event_ref_list.ref.gid == 'E0156'
     ).select()
 
     Here, property chaining is shown without having to check to see if

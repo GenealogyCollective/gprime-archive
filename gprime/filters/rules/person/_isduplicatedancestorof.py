@@ -53,7 +53,7 @@ class IsDuplicatedAncestorOf(Rule):
         self.db = db
         self.map = set()
         self.map2 = set()
-        root_person = db.get_person_from_gramps_id(self.list[0])
+        root_person = db.get_person_from_gid(self.list[0])
         if root_person:
             self.init_ancestor_list(db,root_person)
 

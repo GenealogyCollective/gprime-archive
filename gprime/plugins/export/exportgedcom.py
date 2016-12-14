@@ -140,7 +140,7 @@ def sort_handles_by_id(handle_list, handle_to_object):
     for handle in handle_list:
         obj = handle_to_object(handle)
         if obj:
-            data = (obj.get_gramps_id(), handle)
+            data = (obj.get_gid(), handle)
             sorted_list.append (data)
     sorted_list.sort()
     return sorted_list
@@ -394,7 +394,7 @@ class GedcomWriter(UpdateCallback):
         for handle in phandles:
             person = self.dbase.get_person_from_handle(handle)
             if person:
-                data = (person.get_gramps_id(), handle)
+                data = (person.get_gid(), handle)
                 sorted_list.append(data)
         sorted_list.sort()
 
@@ -431,7 +431,7 @@ class GedcomWriter(UpdateCallback):
         """
         if person is None:
             return
-        self._writeln(0, "@%s@" % person.get_gramps_id(),  "INDI")
+        self._writeln(0, "@%s@" % person.get_gid(),  "INDI")
 
         self._names(person)
         self._gender(person)
@@ -460,7 +460,7 @@ class GedcomWriter(UpdateCallback):
         for ref in person.get_person_ref_list():
             person = self.dbase.get_person_from_handle(ref.ref)
             if person:
-                self._writeln(level, "ASSO", "@%s@" % person.get_gramps_id())
+                self._writeln(level, "ASSO", "@%s@" % person.get_gid())
                 self._writeln(level+1, "RELA", ref.get_relation())
                 self._note_references(ref.get_note_list(), level+1)
                 self._source_references(ref.get_citation_list(), level+1)
@@ -475,7 +475,7 @@ class GedcomWriter(UpdateCallback):
         for note_handle in notelist:
             note = self.dbase.get_note_from_handle(note_handle)
             if note:
-                self._writeln(level, 'NOTE', '@%s@' % note.get_gramps_id())
+                self._writeln(level, 'NOTE', '@%s@' % note.get_gid())
 
     def _names(self, person):
         """
@@ -618,7 +618,7 @@ class GedcomWriter(UpdateCallback):
         for (fam, frel, mrel) in adoptions:
             if not adop_written:
                 self._writeln(1, 'ADOP', 'Y')
-            self._writeln(2, 'FAMC', '@%s@' % fam.get_gramps_id())
+            self._writeln(2, 'FAMC', '@%s@' % fam.get_gid())
             if mrel == frel:
                 self._writeln(3, 'ADOP', 'BOTH')
             elif mrel == ChildRefType.ADOPTED:
@@ -709,7 +709,7 @@ class GedcomWriter(UpdateCallback):
 
         for family in family_list:
             if family:
-                self._writeln(1, 'FAMC', '@%s@' % family.get_gramps_id())
+                self._writeln(1, 'FAMC', '@%s@' % family.get_gid())
 
     def _parent_families(self, person):
         """
@@ -723,7 +723,7 @@ class GedcomWriter(UpdateCallback):
 
         for family in family_list:
             if family:
-                self._writeln(1, 'FAMS', '@%s@' % family.get_gramps_id())
+                self._writeln(1, 'FAMS', '@%s@' % family.get_gid())
 
     def _person_sources(self, person):
         """
@@ -797,9 +797,9 @@ class GedcomWriter(UpdateCallback):
         """
         if family is None:
             return
-        gramps_id = family.get_gramps_id()
+        gid = family.get_gid()
 
-        self._writeln(0, '@%s@' % gramps_id, 'FAM' )
+        self._writeln(0, '@%s@' % gid, 'FAM' )
 
         self._family_reference('HUSB', family.get_father_handle())
         self._family_reference('WIFE', family.get_mother_handle())
@@ -818,7 +818,7 @@ class GedcomWriter(UpdateCallback):
         Write the child XREF values to the GEDCOM file.
         """
         child_list = [
-            self.dbase.get_person_from_handle(cref.ref).get_gramps_id()
+            self.dbase.get_person_from_handle(cref.ref).get_gid()
             for cref in child_ref_list]
 
         for gid in child_list:
@@ -836,7 +836,7 @@ class GedcomWriter(UpdateCallback):
         if person_handle:
             person = self.dbase.get_person_from_handle(person_handle)
             if person:
-                self._writeln(1, token, '@%s@' % person.get_gramps_id())
+                self._writeln(1, token, '@%s@' % person.get_gid())
 
     def _family_events(self, family):
         """
@@ -991,7 +991,7 @@ class GedcomWriter(UpdateCallback):
         +1 <<CHANGE_DATE>> {0:1}
         """
         if note:
-            self._writeln(0, '@%s@' % note.get_gramps_id(),  'NOTE ' + note.get())
+            self._writeln(0, '@%s@' % note.get_gid(),  'NOTE ' + note.get())
 
     def _repos(self):
         """
@@ -1049,7 +1049,7 @@ class GedcomWriter(UpdateCallback):
         if repo is None:
             return
 
-        repo_id = repo.get_gramps_id()
+        repo_id = repo.get_gid()
 
         self._writeln(level, 'REPO', '@%s@' % repo_id )
 
@@ -1187,7 +1187,7 @@ class GedcomWriter(UpdateCallback):
             family_handle = lds_ord.get_family_handle()
             family = self.dbase.get_family_from_handle(family_handle)
             if family:
-                self._writeln(index+1, 'FAMC', '@%s@' % family.get_gramps_id())
+                self._writeln(index+1, 'FAMC', '@%s@' % family.get_gid())
         if lds_ord.get_temple():
             self._writeln(index+1, 'TEMP', lds_ord.get_temple())
         if lds_ord.get_place_handle():
@@ -1317,7 +1317,7 @@ class GedcomWriter(UpdateCallback):
             return
 
         # Reference to the source
-        self._writeln(level, "SOUR", "@%s@" % src.get_gramps_id())
+        self._writeln(level, "SOUR", "@%s@" % src.get_gid())
         if citation.get_page() != "":
         # PAGE <WHERE_WITHIN_SOURCE> can not have CONC lines.
         # WHERE_WITHIN_SOURCE:= {Size=1:248}

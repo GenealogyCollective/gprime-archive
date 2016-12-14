@@ -169,7 +169,7 @@ def create_explanation_note(dbase):
                                     'were missing in a file imported on %s.') %
                                     time.strftime('%x %X', time.localtime()))
     note.set_handle(create_id())
-    note.set_gramps_id(dbase.find_next_note_gramps_id())
+    note.set_gid(dbase.find_next_note_gid())
     # Use defaults for privacy, format and type.
     return note
 

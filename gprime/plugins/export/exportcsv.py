@@ -292,7 +292,7 @@ class CSVWriter:
             for key in self.place_list:
                 place = self.db.get_place_from_handle(key)
                 if place:
-                    place_id = place.gramps_id
+                    place_id = place.gid
                     place_title = place.title
                     place_name = place.name.value
                     place_type = str(place.place_type)
@@ -307,7 +307,7 @@ class CSVWriter:
                                 placeref_date = placeref.date
                             placeref_id = ""
                             if placeref_obj:
-                                placeref_id = "[%s]" % placeref_obj.gramps_id
+                                placeref_id = "[%s]" % placeref_obj.gid
                             self.write_csv("[%s]" % place_id, place_title, place_name, place_type,
                                            place_latitude, place_longitude, place_code, placeref_id,
                                            placeref_date)
@@ -378,7 +378,7 @@ class CSVWriter:
                     prefix = surname_obj.get_prefix()
                     suffix = primary_name.get_suffix()
                     title = primary_name.get_title()
-                    grampsid = person.get_gramps_id()
+                    grampsid = person.get_gid()
                     grampsid_ref = ""
                     if grampsid != "":
                         grampsid_ref = "[" + grampsid + "]"
@@ -460,7 +460,7 @@ class CSVWriter:
         for key in self.flist:
             family = self.db.get_family_from_handle(key)
             if family:
-                marriage_id = family.get_gramps_id()
+                marriage_id = family.get_gid()
                 sortorder.append(
                     (sortable_string_representation(marriage_id), key)
                     )
@@ -477,7 +477,7 @@ class CSVWriter:
             for key in flist:
                 family = self.db.get_family_from_handle(key)
                 if family:
-                    marriage_id = family.get_gramps_id()
+                    marriage_id = family.get_gid()
                     if marriage_id != "":
                         marriage_id = "[" + marriage_id + "]"
                     mother_id = ''
@@ -485,13 +485,13 @@ class CSVWriter:
                     father_handle = family.get_father_handle()
                     if father_handle:
                         father = self.db.get_person_from_handle(father_handle)
-                        father_id = father.get_gramps_id()
+                        father_id = father.get_gid()
                         if father_id != "":
                             father_id = "[" + father_id + "]"
                     mother_handle = family.get_mother_handle()
                     if mother_handle:
                         mother = self.db.get_person_from_handle(mother_handle)
-                        mother_id = mother.get_gramps_id()
+                        mother_id = mother.get_gid()
                         if mother_id != "":
                             mother_id = "[" + mother_id + "]"
                     # get mdate, mplace
@@ -518,13 +518,13 @@ class CSVWriter:
             for key in flist:
                 family = self.db.get_family_from_handle(key)
                 if family:
-                    family_id = family.get_gramps_id()
+                    family_id = family.get_gid()
                     if family_id != "":
                         family_id = "[" + family_id + "]"
                     for child_ref in family.get_child_ref_list():
                         child_handle = child_ref.ref
                         child = self.db.get_person_from_handle(child_handle)
-                        grampsid = child.get_gramps_id()
+                        grampsid = child.get_gid()
                         grampsid_ref = ""
                         if grampsid != "":
                             grampsid_ref = "[" + grampsid + "]"

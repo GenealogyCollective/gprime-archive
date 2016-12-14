@@ -118,7 +118,7 @@ class NoteLinkReport(Report):
 
                     self.doc.start_cell('NoteLink-TableCell')
                     self.doc.start_paragraph('NoteLink-Normal')
-                    self.doc.write_text(note.gramps_id)
+                    self.doc.write_text(note.gid)
                     self.doc.end_paragraph()
                     self.doc.end_cell()
 

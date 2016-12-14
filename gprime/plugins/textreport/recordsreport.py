@@ -265,7 +265,7 @@ class RecordsReportOptions(MenuReportOptions):
         Update the filter list based on the selected person
         """
         gid = self.__pid.get_value()
-        person = self.__db.get_person_from_gramps_id(gid)
+        person = self.__db.get_person_from_gid(gid)
         nfv = self._nf.get_value()
         filter_list = utils.get_person_filters(person,
                                                      include_single=False,

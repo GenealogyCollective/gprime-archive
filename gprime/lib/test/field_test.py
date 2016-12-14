@@ -44,23 +44,23 @@ class FieldBaseTest(unittest.TestCase):
             person1.primary_name = Name()
             person1.primary_name.surname_list.append(Surname())
             person1.primary_name.surname_list[0].surname = "Smith"
-            person1.gramps_id = "I0001"
+            person1.gid = "I0001"
             db.add_person(person1, trans) # person gets a handle
 
             # Add some families:
             family1 = Family()
             family1.father_handle = person1.handle
-            family1.gramps_id = "F0001"
+            family1.gid = "F0001"
             db.add_family(family1, trans)
         self.db = db
 
     def test_field_access01(self):
-        person = self.db.get_person_from_gramps_id("I0001")
+        person = self.db.get_person_from_gid("I0001")
         self.assertEqual(person.get_field("primary_name.surname_list.0.surname"),
                          "Smith")
 
     def test_field_join01(self):
-        family = self.db.get_family_from_gramps_id("F0001")
+        family = self.db.get_family_from_gid("F0001")
         self.assertEqual(family.get_field("father_handle.primary_name.surname_list.0.surname", self.db),
                          "Smith")
 

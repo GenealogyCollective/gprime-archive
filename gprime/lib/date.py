@@ -711,7 +711,7 @@ class Date:
         retval = (struct.get("calendar", default.calendar),
                   struct.get("modifier", default.modifier),
                   struct.get("quality", default.quality),
-                  struct.get("dateval", default.dateval),
+                  tuple(struct.get("dateval", default.dateval)),
                   struct.get("text", default.text),
                   struct.get("sortval", default.sortval),
                   struct.get("newyear", default.newyear))

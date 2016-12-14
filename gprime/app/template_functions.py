@@ -393,7 +393,7 @@ def note_table(form, user, action):
         count = 1
         for note in notes:
             #table.append_row("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count) if user else "",
-            table.append_row(note.gramps_id,
+            table.append_row(note.gid,
                       str(note.type.string),
                       note.text.string[:50])
             #links.append(('URL', note.get_url()))
@@ -502,7 +502,11 @@ def attribute_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
+<<<<<<< HEAD
 def address_table(form, user, action):
+=======
+def address_table(form, user, action, link=None, **kwargs): #TODO: Make table customizable (For instance, if user desires to display counties or lat/long)
+>>>>>>> Added more functionality to repositories and tables
     retval = ""
     has_data = False
     cssid = "tab-addresses"
@@ -576,7 +580,11 @@ def internet_table(form, user, action):
     cssid = "tab-internet"
     table = Table(form)
     table.set_columns(
+<<<<<<< HEAD
         ("", 11),
+=======
+        ("", 5),
+>>>>>>> Added more functionality to repositories and tables
         (form._("Type"), 10),
         (form._("Path"), 10),
         (form._("Description"), 10),
@@ -800,6 +808,37 @@ def reference_table(form, user, action):
         (form._("Type"), 10),
         (form._("Reference"), 69),
         (form._("ID"), 10),
+<<<<<<< HEAD
+=======
+    )
+    if (user or form.instance.public) and action != "add":
+        repoHandle = Struct.wrap(form.instance, form.database).handle
+        print (repoHandle)
+        """for reference in s.:
+            #ref_from_class = reference.object_type.model_class()
+            #item = ref_from_class.objects.get(id=reference.object_id)
+            table.append_row(
+                item.__class__.__name__,
+                item,
+                item.gid)
+            has_data = True
+            count = count + 1"""
+    retval += table.get_html()
+    retval += nbsp("") # to keep tabs same height
+    if has_data:
+        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
+    return retval
+
+def citation_reference_table(form, user, action, link=None, **kwargs):
+    retval = ""
+    has_data = False
+    cssid = "tab-references"
+    table = Table(form, "tab_table")
+    table.set_columns(
+        (form._("Type"), 10),
+        (form._("Reference"), 10),
+        #        form._("ID")
+>>>>>>> Added more functionality to repositories and tables
         )
     for ref_pair in form.database.find_backlink_handles(form.instance.handle):
         obj_type, handle = ref_pair

@@ -140,4 +140,4 @@ def write_line(fp, obj):
     """
     Write a single object to the file.
     """
-    fp.write(json.dumps(obj.to_struct()) + "\n", sort_keys=True)
+    fp.write(json.dumps(obj.to_struct(), sort_keys=True) + "\n")

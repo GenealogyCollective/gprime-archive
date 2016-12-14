@@ -97,18 +97,18 @@
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
     <li class="ui-corner-top ui-state-default"><a class="tab-addresses" href="#tab-addresses">{{_("Addresses")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-internet">{{_("Internet")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-notes">{{_("Note")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-internet" href="#tab-internet">{{_("Internet")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("Sources")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;">
-    {{ address_table(form, user, action, "/place/$act/repository/%(handle)s", handle=form.instance.handle) }}
+    {{ address_table(form, user, action, link="/place/$act/repository/%(handle)s", handle=form.instance.handle) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">
-    {{ internet_table(form, user, action, "/repository/%(handle)s/$act/internet", handle=form.instance.handle) }}
+    {{ internet_table(form, user, action, link="/repository/%(handle)s/$act/internet", handle=form.instance.handle) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;">
-    {{ note_table(form, user, action, "/note/$act/repository/%(handle)s", handle=form.instance.handle) }}
+    {{ note_table(form, user, action, link="/note/$act/repository/%(handle)s", handle=form.instance.handle) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ repository_reference_table(form, user, action) }}

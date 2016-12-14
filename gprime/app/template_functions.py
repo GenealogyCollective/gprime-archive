@@ -114,8 +114,9 @@ class Table(object):
             cell += self.form._(name)
             rowhtml += cell
         table += rowhtml
+
         row_count = 1
-        for row in self.rows:
+        for row in self.rows: #TODO: Properly implement the remove/up/down buttons
             rowhtml = Html("tr")
             cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[0][1]), colspan="1")
             div = Html("div", style="background-color: lightgray; padding: 2px 0px 0px 2px")
@@ -155,6 +156,8 @@ class Table(object):
         html += table
         return str(html) #.replace("&amp;nbsp;", "&nbsp;")
 
+#TODO: Ensure user and privacy levels are accounted for in tables
+#TODO: Rows in tables should link to objects (or objects should be otherwise editable from tables)
 def event_table(form, user, action):
     retval = ""
     has_data = False
@@ -384,23 +387,19 @@ def note_table(form, user, action):
         (form._("Type"), 20),
         (form._("Note"), 59),
     )
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     note_refs = db.dji.NoteRef.filter(object_type=obj_type,
-    #                                    object_id=obj.id).order_by("order")
-    #     links = []
-    #     count = 1
-    #     for note_ref in note_refs:
-    #         note = note_ref.ref_object
-    #         table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #                   note.gid,
-    #                   str(note.note_type),
-    #                   note.text[:50]
-    #                   )
-    #         links.append(('URL', note_ref.get_url()))
-    #         has_data = True
-    #         count += 1
-    #     table.links(links)
+    if user or form.instance.public:
+        notes = Struct.wrap(form.instance, form.database).note_list;
+        links = []
+        count = 1
+        for note in notes:
+            #table.append_row("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count) if user else "",
+            table.append_row(note.gramps_id,
+                      str(note.type.string),
+                      note.text.string[:50])
+            #links.append(('URL', note.get_url()))
+            has_data = True
+            count += 1
+        #table.links(links)
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add New Note"), "FIXME", icon="+")
@@ -582,12 +581,20 @@ def internet_table(form, user, action):
         (form._("Path"), 10),
         (form._("Description"), 10),
     )
-    # if user or form.instance.public:
+    s = Struct.wrap(form.instance, form.database)
+    count = 0
+    for url1 in s.urls:
+        table.append_row(url1.type.string,
+                         url1.path, #TODO: Path should be link to page (with redirect and/or warning about leaving gprime if desired?)
+                         url1.desc)
+        has_data = True
+        count += 1
+    #if user or form.instance.public:
     #     urls = db.dji.Url.filter(person=obj)
     #     for url_obj in urls:
-    #         table.append_row(str(url_obj.url_type),
+    #         table.appenurld_row(str(url_obj.url_type),
     #                   url_obj.path,
-    #                   url_obj.desc)
+    #                   _obj.desc)
     #         has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
@@ -785,6 +792,7 @@ def reference_table(form, user, action):
     sa = SimpleAccess(form.database)
     retval = ""
     has_data = False
+    count = 0;
     cssid = "tab-references"
     table = Table(form)
     table.set_columns(

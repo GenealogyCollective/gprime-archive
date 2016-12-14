@@ -516,16 +516,16 @@ def address_table(form, user, action):
         (form._("State"), 15),
         (form._("Country"), 15),
     )
-    # if user or form.instance.public:
-    #     for address in obj.address_set.all().order_by("order"):
-    #         locations = address.location_set.all().order_by("order")
-    #         for location in locations:
-    #             table.append_row(display_date(address),
-    #                       location.street,
-    #                       location.city,
-    #                       location.state,
-    #                       location.country)
-    #             has_data = True
+    s = Struct.wrap(form.instance, form.database)
+    count = 0
+    for address in s.address_list:
+        table.append_row(address.date.from_struct(),
+                         address.location.street,
+                         address.location.city,
+                         address.location.state,
+                         address.location.country)
+        has_data = True
+        count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add Address"), "FIXME", icon="+")

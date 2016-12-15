@@ -2,3 +2,4 @@ tornado
 simplejson
 passlib
 meta
+pillow

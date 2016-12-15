@@ -47,6 +47,8 @@ addons:
     - python3-pyicu
     - python3-coverage
     - python3-passlib
+    - python3-tornado
+    - python3-simplejson
 
 before_install:
 

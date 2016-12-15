@@ -1,5 +1,7 @@
 # gPrime
 
+[![Build Status](https://travis-ci.org/GenealogyCollective/gprime.svg?branch=master)](https://travis-ci.org/GenealogyCollective/gprime) [![codecov](https://codecov.io/gh/GenealogyCollective/gprime/branch/master/graph/badge.svg)](https://codecov.io/gh/GenealogyCollective/gprime)
+
 gPrime is a web-based application for genealogy. It uses the Gramps API for data, reports, import/export, etc.
 
 * Designed for collaboration and large databases

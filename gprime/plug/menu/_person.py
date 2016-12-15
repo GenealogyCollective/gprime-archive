@@ -45,7 +45,7 @@ class PersonOption(StringOption):
         :param label: A friendly label to be applied to this option.
             Example: "Center Person"
         :type label: string
-        :param value: A Gramps ID of a person for this option.
+        :param value: A GID of a person for this option.
             Example: "p11"
         :type value: string
         :return: nothing

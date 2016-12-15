@@ -106,7 +106,7 @@ class DetAncestorReport(Report):
         verbose       - Whether to use complete sentences
         childref      - Whether to add descendant references in child list.
         addimages     - Whether to include images.
-        pid           - The Gramps ID of the center person for the report.
+        pid           - The GID of the center person for the report.
         name_format   - Preferred format to display names
         other_events  - Whether to include other events.
         incl_private  - Whether to include private data

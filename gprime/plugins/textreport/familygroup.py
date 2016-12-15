@@ -736,8 +736,8 @@ class FamilyGroupOptions(MenuReportOptions):
         add_option = partial(menu.add_option, _("Include"))
         ##########################
 
-        gids = BooleanOption(_('Gramps ID'), False)
-        gids.set_help(_("Whether to include Gramps ID next to names."))
+        gids = BooleanOption(_('GID'), False)
+        gids.set_help(_("Whether to include GID next to names."))
         add_option("gids", gids)
 
         generations = BooleanOption(_("Generation numbers "

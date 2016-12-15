@@ -40,11 +40,11 @@ from . import Rule
 #
 #-------------------------------------------------------------------------
 class HasGrampsId(Rule):
-    """Rule that checks for an object with a specific GRAMPS ID."""
+    """Rule that checks for an object with a specific GID."""
 
     labels      = [ _('ID:') ]
     name        = 'Object with <Id>'
-    description = "Matches objects with a specified Gramps ID"
+    description = "Matches objects with a specified GID"
     category    = _('General filters')
 
     def apply(self, db, obj):

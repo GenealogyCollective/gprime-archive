@@ -546,7 +546,7 @@ class ProgenParser:
         """
         Finds or creates a person based on the Pro-Gen ID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new person, assign the handle and GRAMPS ID.
+        we create a new person, assign the handle and GID.
         """
         person = Person()
         intid = self.gid2id.get(progen_id)
@@ -565,7 +565,7 @@ class ProgenParser:
         """
         Finds or creates a family based on the Pro-Gen ID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new family, assign the handle and GRAMPS ID.
+        we create a new family, assign the handle and GID.
         """
         family = Family()
         intid = self.fid2id.get(progen_id)

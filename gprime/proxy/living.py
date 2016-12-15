@@ -214,7 +214,7 @@ class LivingProxyDb(ProxyDbBase):
 
     def get_person_from_handle(self, handle):
         """
-        Finds a Person in the database from the passed Gramps ID.
+        Finds a Person in the database from the passed GID.
         If no such Person exists, None is returned.
         """
         person = self.db.get_person_from_handle(handle)
@@ -263,7 +263,7 @@ class LivingProxyDb(ProxyDbBase):
 
     def get_person_from_gid(self, val):
         """
-        Finds a Person in the database from the passed Gramps ID.
+        Finds a Person in the database from the passed GID.
         If no such Person exists, None is returned.
         """
         person = self.db.get_person_from_gid(val)
@@ -277,7 +277,7 @@ class LivingProxyDb(ProxyDbBase):
 
     def get_family_from_gid(self, val):
         """
-        Finds a Family in the database from the passed Gramps ID.
+        Finds a Family in the database from the passed GID.
         If no such Family exists, None is returned.
         """
         family = self.db.get_family_from_gid(val)

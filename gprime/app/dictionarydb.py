@@ -47,7 +47,7 @@ class DictionaryDb(DbGeneric):
         self._repository_dict = {}
         self._note_dict = {}
         self._tag_dict = {}
-        # Gramps id dicts:
+        # GID dicts:
         self._person_id_dict = {}
         self._family_id_dict = {}
         self._source_id_dict = {}
@@ -1050,7 +1050,7 @@ class DictionaryDb(DbGeneric):
         self._repository_dict = {}
         self._note_dict = {}
         self._tag_dict = {}
-        # Gramps id dicts:
+        # GID dicts:
         self._person_id_dict = {}
         self._family_id_dict = {}
         self._source_id_dict = {}

@@ -40,10 +40,10 @@ from .._regexpidbase import RegExpIdBase
 #-------------------------------------------------------------------------
 class RegExpIdOf(RegExpIdBase):
     """
-    Rule that checks for a media object whose GRAMPS ID
+    Rule that checks for a media object whose GID
     matches regular expression.
     """
 
     name        = _('Media objects with Id containing <text>')
-    description = _("Matches media objects whose Gramps ID matches "
+    description = _("Matches media objects whose GID matches "
                     "the regular expression")

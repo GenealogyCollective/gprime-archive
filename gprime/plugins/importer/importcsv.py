@@ -202,8 +202,7 @@ class CSVParser:
                             _("death source")),
             "deathcause": ("deathcause", "death_cause", "death cause",
                            _("death cause")),
-            "grampsid": (_("Gramps ID"), "grampsid", "id", "gid",
-                         "gramps id"),
+            "grampsid": (_("GID"), "grampsid", "id", "gid"),
             "person": ("person", _("person"), _("Person")),
             # ----------------------------------
             "child": ("child", _("child"), _("Child")),

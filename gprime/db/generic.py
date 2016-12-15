@@ -928,7 +928,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
     @staticmethod
     def __id2user_format(id_pattern):
         """
-        Return a method that accepts a Gramps ID and adjusts it to the users
+        Return a method that accepts a GID and adjusts it to the users
         format.
         """
         pattern_match = re.match(r"(.*)%[0 ](\d+)[diu]$", id_pattern)
@@ -1735,7 +1735,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
     def get_from_name_and_gid(self, table_name, gid):
         """
         Returns a gen.lib object (or None) given table_name and
-        Gramps ID.
+        GID.
 
         Examples:
 

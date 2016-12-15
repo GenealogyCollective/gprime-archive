@@ -40,10 +40,10 @@ from .._regexpidbase import RegExpIdBase
 #-------------------------------------------------------------------------
 class RegExpIdOf(RegExpIdBase):
     """
-    Rule that checks for a family whose GRAMPS ID
+    Rule that checks for a family whose GID
     matches regular expression.
     """
 
     name        = _('Families with Id containing <text>')
-    description = _("Matches families whose Gramps ID matches "
+    description = _("Matches families whose GID matches "
                     "the regular expression")

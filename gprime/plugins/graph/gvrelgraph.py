@@ -717,11 +717,11 @@ class RelGraphOptions(MenuReportOptions):
                        "Web Site' report."))
         add_option("url", url)
 
-        include_id = EnumeratedListOption(_('Include Gramps ID'), 0)
+        include_id = EnumeratedListOption(_('Include GID'), 0)
         include_id.add_item(0, _('Do not include'))
         include_id.add_item(1, _('Share an existing line'))
         include_id.add_item(2, _('On a line of its own'))
-        include_id.set_help(_("Whether (and where) to include Gramps IDs"))
+        include_id.set_help(_("Whether (and where) to include GIDs"))
         add_option("incid", include_id)
 
         self.__show_relships = BooleanOption(

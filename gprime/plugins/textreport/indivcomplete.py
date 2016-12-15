@@ -109,7 +109,7 @@ class IndivCompleteReport(Report):
                     returning the list of filters.
         cites     - Whether or not to include source information.
         sort      - Whether or not to sort events into chronological order.
-        grampsid  - Whether or not to include any Gramps IDs
+        grampsid  - Whether or not to include any GIDs
         images    - Whether or not to include images.
         sections  - Which event groups should be given separate sections.
         name_format   - Preferred format to display names
@@ -1052,8 +1052,8 @@ class IndivCompleteOptions(MenuReportOptions):
         census.set_help(_("Whether to include Census Events."))
         menu.add_option(category_name, "incl_census", census)
 
-        grampsid = BooleanOption(_("Include Gramps ID"), False)
-        grampsid.set_help(_("Whether to include Gramps ID next to names."))
+        grampsid = BooleanOption(_("Include GID"), False)
+        grampsid.set_help(_("Whether to include GID next to names."))
         menu.add_option(category_name, "grampsid", grampsid)
 
         incl_notes = BooleanOption(_("Include Notes"), True)

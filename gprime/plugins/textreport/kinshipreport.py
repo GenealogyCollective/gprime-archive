@@ -77,7 +77,7 @@ class KinshipReport(Report):
         incspouses    - Whether to include spouses.
         inccousins    - Whether to include cousins.
         incaunts      - Whether to include aunts/uncles/nephews/nieces.
-        pid           - The Gramps ID of the center person for the report.
+        pid           - The GID of the center person for the report.
         name_format   - Preferred format to display names
         incl_private  - Whether to include private data
         living_people - How to handle living people

@@ -45,7 +45,7 @@ class NoteOption(StringOption):
         :param label: A friendly label to be applied to this option.
             Example: "Title Note"
         :type label: string
-        :param value: A Gramps ID of a note for this option.
+        :param value: A GID of a note for this option.
             Example: "n11"
         :type value: string
         :return: nothing

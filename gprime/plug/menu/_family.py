@@ -45,7 +45,7 @@ class FamilyOption(StringOption):
         :param label: A friendly label to be applied to this option.
             Example: "Center Family"
         :type label: string
-        :param value: A Gramps ID of a family for this option.
+        :param value: A GID of a family for this option.
             Example: "f11"
         :type value: string
         :return: nothing

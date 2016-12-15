@@ -165,56 +165,56 @@ class DbReadBase:
 
     def find_next_event_gid(self):
         """
-        Return the next available Gramps ID for a Event object based off the
+        Return the next available GID for a Event object based off the
         event ID prefix.
         """
         raise NotImplementedError
 
     def find_next_family_gid(self):
         """
-        Return the next available Gramps ID for a Family object based off the
+        Return the next available GID for a Family object based off the
         family ID prefix.
         """
         raise NotImplementedError
 
     def find_next_note_gid(self):
         """
-        Return the next available Gramps ID for a Note object based off the
+        Return the next available GID for a Note object based off the
         note ID prefix.
         """
         raise NotImplementedError
 
     def find_next_media_gid(self):
         """
-        Return the next available Gramps ID for a Media object based
+        Return the next available GID for a Media object based
         off the media object ID prefix.
         """
         raise NotImplementedError
 
     def find_next_person_gid(self):
         """
-        Return the next available Gramps ID for a Person object based off the
+        Return the next available GID for a Person object based off the
         person ID prefix.
         """
         raise NotImplementedError
 
     def find_next_place_gid(self):
         """
-        Return the next available Gramps ID for a Place object based off the
+        Return the next available GID for a Place object based off the
         place ID prefix.
         """
         raise NotImplementedError
 
     def find_next_repository_gid(self):
         """
-        Return the next available Gramps ID for a Repository object based
+        Return the next available GID for a Repository object based
         off the repository ID prefix.
         """
         raise NotImplementedError
 
     def find_next_source_gid(self):
         """
-        Return the next available Gramps ID for a Source object based off the
+        Return the next available GID for a Source object based off the
         source ID prefix.
         """
         raise NotImplementedError
@@ -258,7 +258,7 @@ class DbReadBase:
 
     def get_event_from_gid(self, val):
         """
-        Find an Event in the database from the passed Gramps ID.
+        Find an Event in the database from the passed GID.
 
         If no such Event exists, None is returned.
         Needs to be overridden by the derived class.
@@ -267,7 +267,7 @@ class DbReadBase:
 
     def get_event_from_handle(self, handle):
         """
-        Find a Event in the database from the passed Gramps ID.
+        Find a Event in the database from the passed GID.
 
         If no such Event exists, a HandleError is raised.
         """
@@ -327,7 +327,7 @@ class DbReadBase:
 
     def get_family_from_gid(self, val):
         """
-        Find a Family in the database from the passed Gramps ID.
+        Find a Family in the database from the passed GID.
 
         If no such Family exists, None is returned.
         Need to be overridden by the derived class.
@@ -336,7 +336,7 @@ class DbReadBase:
 
     def get_family_from_handle(self, handle):
         """
-        Find a Family in the database from the passed Gramps ID.
+        Find a Family in the database from the passed GID.
 
         If no such Family exists, a HandleError is raised.
         """
@@ -438,7 +438,7 @@ class DbReadBase:
 
     def get_note_from_gid(self, val):
         """
-        Find a Note in the database from the passed Gramps ID.
+        Find a Note in the database from the passed GID.
 
         If no such Note exists, None is returned.
         Needs to be overridden by the derived classderri.
@@ -447,7 +447,7 @@ class DbReadBase:
 
     def get_note_from_handle(self, handle):
         """
-        Find a Note in the database from the passed Gramps ID.
+        Find a Note in the database from the passed GID.
 
         If no such Note exists, a HandleError is raised.
         """
@@ -523,7 +523,7 @@ class DbReadBase:
 
     def get_media_from_gid(self, val):
         """
-        Find a Media in the database from the passed Gramps ID.
+        Find a Media in the database from the passed GID.
 
         If no such Media exists, None is returned.
         Needs to be overridden by the derived class.
@@ -532,7 +532,7 @@ class DbReadBase:
 
     def get_media_from_handle(self, handle):
         """
-        Find an Object in the database from the passed Gramps ID.
+        Find an Object in the database from the passed GID.
 
         If no such Object exists, a HandleError is raised.
         """
@@ -559,7 +559,7 @@ class DbReadBase:
 
     def get_person_from_gid(self, val):
         """
-        Find a Person in the database from the passed Gramps ID.
+        Find a Person in the database from the passed GID.
 
         If no such Person exists, None is returned.
         Needs to be overridden by the derived class.
@@ -568,7 +568,7 @@ class DbReadBase:
 
     def get_person_from_handle(self, handle):
         """
-        Find a Person in the database from the passed Gramps ID.
+        Find a Person in the database from the passed GID.
 
         If no such Person exists, a HandleError is raised.
         """
@@ -604,7 +604,7 @@ class DbReadBase:
 
     def get_place_from_gid(self, val):
         """
-        Find a Place in the database from the passed Gramps ID.
+        Find a Place in the database from the passed GID.
 
         If no such Place exists, None is returned.
         Needs to be overridden by the derived class.
@@ -613,7 +613,7 @@ class DbReadBase:
 
     def get_place_from_handle(self, handle):
         """
-        Find a Place in the database from the passed Gramps ID.
+        Find a Place in the database from the passed GID.
 
         If no such Place exists, a HandleError is raised.
         """
@@ -702,7 +702,7 @@ class DbReadBase:
 
     def get_repository_from_gid(self, val):
         """
-        Find a Repository in the database from the passed Gramps ID.
+        Find a Repository in the database from the passed GID.
 
         If no such Repository exists, None is returned.
         Needs to be overridden by the derived class.
@@ -711,7 +711,7 @@ class DbReadBase:
 
     def get_repository_from_handle(self, handle):
         """
-        Find a Repository in the database from the passed Gramps ID.
+        Find a Repository in the database from the passed GID.
 
         If no such Repository exists, a HandleError is raised.
         """
@@ -758,7 +758,7 @@ class DbReadBase:
 
     def get_source_from_gid(self, val):
         """
-        Find a Source in the database from the passed Gramps ID.
+        Find a Source in the database from the passed GID.
 
         If no such Source exists, None is returned.
         Needs to be overridden by the derived class.
@@ -767,7 +767,7 @@ class DbReadBase:
 
     def get_source_from_handle(self, handle):
         """
-        Find a Source in the database from the passed Gramps ID.
+        Find a Source in the database from the passed GID.
 
         If no such Source exists, a HandleError is raised.
         """
@@ -803,7 +803,7 @@ class DbReadBase:
 
     def get_citation_from_gid(self, val):
         """
-        Find a Citation in the database from the passed Gramps ID.
+        Find a Citation in the database from the passed GID.
 
         If no such Citation exists, None is returned.
         Needs to be overridden by the derived class.
@@ -812,7 +812,7 @@ class DbReadBase:
 
     def get_citation_from_handle(self, handle):
         """
-        Find a Citation in the database from the passed Gramps ID.
+        Find a Citation in the database from the passed GID.
 
         If no such Citation exists, a HandleError is raised.
         """
@@ -1160,7 +1160,7 @@ class DbReadBase:
     def set_prefixes(self, person, media, family, source, citation,
                      place, event, repository, note):
         """
-        Set the prefixes for the gramps ids for all gramps objects
+        Set the prefixes for the gids for all gramps objects
         """
         raise NotImplementedError
 

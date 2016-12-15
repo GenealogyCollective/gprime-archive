@@ -693,7 +693,7 @@ class ProxyDbBase(DbReadBase):
 
     def get_person_from_gid(self, val):
         """
-        Finds a Person in the database from the passed GRAMPS ID.
+        Finds a Person in the database from the passed GID.
         If no such Person exists, None is returned.
         """
         return self.gfilter(self.include_person,
@@ -701,7 +701,7 @@ class ProxyDbBase(DbReadBase):
 
     def get_family_from_gid(self, val):
         """
-        Finds a Family in the database from the passed GRAMPS ID.
+        Finds a Family in the database from the passed GID.
         If no such Family exists, None is returned.
         """
         return self.gfilter(self.include_family,
@@ -709,7 +709,7 @@ class ProxyDbBase(DbReadBase):
 
     def get_event_from_gid(self, val):
         """
-        Finds an Event in the database from the passed GRAMPS ID.
+        Finds an Event in the database from the passed GID.
         If no such Event exists, None is returned.
         """
         return self.gfilter(self.include_event,

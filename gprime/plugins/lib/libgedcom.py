@@ -1642,7 +1642,7 @@ class IdMapper:
 
     def __getitem__(self, gid):
         if gid == "":
-            # We need to find the next gramps ID provided it is not already
+            # We need to find the next GID provided it is not already
             # the target of a swap
             new_val = self.find_next()
             while new_val in list(self.swap.values()):
@@ -1705,7 +1705,7 @@ class GedcomParser(UpdateCallback):
     @staticmethod
     def __find_from_handle(gid, table):
         """
-        Find a handle corresponding to the specified GRAMPS ID.
+        Find a handle corresponding to the specified GID.
 
         The passed table contains the mapping. If the value is found, we return
         it, otherwise we create a new handle, store it, and return it.
@@ -2667,33 +2667,33 @@ class GedcomParser(UpdateCallback):
 
     def __find_person_handle(self, gid):
         """
-        Return the database handle associated with the person's GRAMPS ID
+        Return the database handle associated with the person's GID
         """
         return self.__find_from_handle(gid, self.gid2id)
 
     def __find_family_handle(self, gid):
         """
-        Return the database handle associated with the family's GRAMPS ID
+        Return the database handle associated with the family's GID
         """
         return self.__find_from_handle(gid, self.fid2id)
 
     def __find_media_handle(self, gid):
         """
-        Return the database handle associated with the media object's GRAMPS ID
+        Return the database handle associated with the media object's GID
         """
         return self.__find_from_handle(gid, self.oid2id)
 
     def __find_note_handle(self, gid):
         """
-        Return the database handle associated with the media object's GRAMPS ID
+        Return the database handle associated with the media object's GID
         """
         return self.__find_from_handle(gid, self.nid2id)
 
     def __find_or_create_person(self, gid):
         """
-        Finds or creates a person based on the GRAMPS ID. If the ID is
+        Finds or creates a person based on the GID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new person, assign the handle and GRAMPS ID.
+        we create a new person, assign the handle and GID.
         """
         person = Person()
         intid = self.gid2id.get(gid)
@@ -2707,9 +2707,9 @@ class GedcomParser(UpdateCallback):
 
     def __find_or_create_family(self, gid):
         """
-        Finds or creates a family based on the GRAMPS ID. If the ID is
+        Finds or creates a family based on the GID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new family, assign the handle and GRAMPS ID.
+        we create a new family, assign the handle and GID.
         """
         family = Family()
         # Add a counter for reordering the children later:
@@ -2725,9 +2725,9 @@ class GedcomParser(UpdateCallback):
 
     def __find_or_create_media(self, gid):
         """
-        Finds or creates a media object based on the GRAMPS ID. If the ID is
+        Finds or creates a media object based on the GID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new media object, assign the handle and GRAMPS ID.
+        we create a new media object, assign the handle and GID.
         """
         obj = Media()
         intid = self.oid2id.get(gid)
@@ -2741,10 +2741,10 @@ class GedcomParser(UpdateCallback):
 
     def __find_or_create_source(self, gid):
         """
-        Find or create a source based on the GRAMPS ID.
+        Find or create a source based on the GID.
 
         If the ID is already used (is in the db), we return the item in the
-        db. Otherwise, we create a new source, assign the handle and GRAMPS ID.
+        db. Otherwise, we create a new source, assign the handle and GID.
 
         """
         obj = Source()
@@ -2759,9 +2759,9 @@ class GedcomParser(UpdateCallback):
 
     def __find_or_create_repository(self, gid):
         """
-        Finds or creates a repository based on the GRAMPS ID. If the ID is
+        Finds or creates a repository based on the GID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new repository, assign the handle and GRAMPS ID.
+        we create a new repository, assign the handle and GID.
 
         Some GEDCOM "flavors" destroy the specification, and declare the
         repository inline instead of in a object.
@@ -2778,9 +2778,9 @@ class GedcomParser(UpdateCallback):
 
     def __find_or_create_note(self, gid):
         """
-        Finds or creates a repository based on the GRAMPS ID. If the ID is
+        Finds or creates a repository based on the GID. If the ID is
         already used (is in the db), we return the item in the db. Otherwise,
-        we create a new repository, assign the handle and GRAMPS ID.
+        we create a new repository, assign the handle and GID.
 
         Some GEDCOM "flavors" destroy the specification, and declare the
         repository inline instead of in a object.
@@ -3522,7 +3522,7 @@ class GedcomParser(UpdateCallback):
         # Set up primary photo if present
         self.__do_photo(state)
 
-        self.__check_msgs(_("INDI (individual) Gramps ID %s") %
+        self.__check_msgs(_("INDI (individual) GID %s") %
                           person.get_gid(), state, person)
         # commit the person to the database
         self.dbase.commit_person(person, self.trans, state.person.change)
@@ -4806,7 +4806,7 @@ class GedcomParser(UpdateCallback):
         # Add a default tag if provided
         self.__add_default_tag(family)
 
-        self.__check_msgs(_("FAM (family) Gramps ID %s") % family.get_gid(),
+        self.__check_msgs(_("FAM (family) GID %s") % family.get_gid(),
                           state, family)
         # commit family to database
         self.dbase.commit_family(family, self.trans, family.change)
@@ -6269,7 +6269,7 @@ class GedcomParser(UpdateCallback):
         state.level = level
 
         self.__parse_level(state, self.source_func, self.__undefined)
-        self.__check_msgs(_("SOUR (source) Gramps ID %s") %
+        self.__check_msgs(_("SOUR (source) GID %s") %
                           state.source.get_gid(),
                           state, state.source)
         self.dbase.commit_source(state.source, self.trans, state.source.change)
@@ -6519,7 +6519,7 @@ class GedcomParser(UpdateCallback):
         # Add a default tag if provided
         self.__add_default_tag(media)
 
-        self.__check_msgs(_("OBJE (multi-media object) Gramps ID %s") %
+        self.__check_msgs(_("OBJE (multi-media object) GID %s") %
                           media.get_gid(), state, media)
         # commit the person to the database
         self.dbase.commit_media(media, self.trans, media.change)
@@ -6749,7 +6749,7 @@ class GedcomParser(UpdateCallback):
         state.level = 1
         self.__parse_level(state, self.repo_parse_tbl, self.__ignore)
 
-        self.__check_msgs(_("REPO (repository) Gramps ID %s") %
+        self.__check_msgs(_("REPO (repository) GID %s") %
                           repo.get_gid(), state, repo)
         self.dbase.commit_repository(repo, self.trans, repo.change)
 
@@ -7438,7 +7438,7 @@ class GedcomParser(UpdateCallback):
             state.msg += sub_state.msg
 
             self.dbase.commit_note(new_note, self.trans, new_note.change)
-            self.__check_msgs(_("NOTE Gramps ID %s") % new_note.get_gid(),
+            self.__check_msgs(_("NOTE GID %s") % new_note.get_gid(),
                               state, None)
 
     def __note_chan(self, line, state):

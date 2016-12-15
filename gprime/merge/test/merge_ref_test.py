@@ -1244,7 +1244,7 @@ class PersonPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 1')
                     attr = person.newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0001')
                     person = ctxt.xpathEval("//g:person[@handle='_i0001']")[0]
                     person.unlinkNode()
@@ -1272,7 +1272,7 @@ class PersonPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 1')
                     attr = person.newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0001')
                     attr.addNextSibling(personref) # restore order of elements
                     personref = person.newChild(None, 'personref', None)
@@ -1298,7 +1298,7 @@ class PersonPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 1')
                     attr = person.newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0001')
                     personref = person.newChild(None, 'personref', None)
                     personref.newProp('hlink', '_i0000')
@@ -1360,7 +1360,7 @@ class ParentFamilyPersonCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 1')
                 attr = persons[0].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0001')
                 childof = ctxt.xpathEval("//g:person[@handle='_i0000']/g:childof")[0]
                 attr.addNextSibling(childof) # restore order of elements
@@ -1432,7 +1432,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 2')
                 attr = persons[0].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0002')
                 parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                 attr.addNextSibling(parentref) # restore order of elements
@@ -1458,7 +1458,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1527,7 +1527,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1564,7 +1564,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1598,7 +1598,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 3')
                     attr = persons[1].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0003')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1643,7 +1643,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1688,7 +1688,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1728,7 +1728,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1771,7 +1771,7 @@ class FamilyPersonCheck(BaseMergeCheck):
     #                ldsord = ctxt.xpathEval("//g:lds_ord")[0]
     #                altname.addNextSibling(ldsord) # restore order of elements
     #                attr = persons[0].newChild(None, 'attribute', None)
-    #                attr.newProp('type', 'Merged Gramps ID')
+    #                attr.newProp('type', 'Merged GID')
     #                attr.newProp('value', 'I0002')
     #                parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
     #                attr.addNextSibling(parentref) # restore order of elements
@@ -1812,7 +1812,7 @@ class FamilyPersonCheck(BaseMergeCheck):
                     ldsord = ctxt.xpathEval("//g:lds_ord")[0]
                     altname.addNextSibling(ldsord) # restore order of elements
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -1951,7 +1951,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 2')
                 attr = persons[0].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0002')
                 parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                 attr.addNextSibling(parentref) # restore order of elements
@@ -1962,7 +1962,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 3')
                 attr = persons[1].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0003')
                 parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                 attr.addNextSibling(parentref) # restore order of elements
@@ -1983,7 +1983,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 0')
                 attr = persons[2].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0000')
                 parentref = ctxt.xpathEval("//g:person[@handle='_i0002']/g:parentin")[0]
                 parentref.setProp('hlink', '_f0000')
@@ -1995,7 +1995,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                 altname.newProp('type', 'Birth Name')
                 altname.newChild(None, 'surname', 'Person 3')
                 attr = persons[1].newChild(None, 'attribute', None)
-                attr.newProp('type', 'Merged Gramps ID')
+                attr.newProp('type', 'Merged GID')
                 attr.newProp('value', 'I0003')
                 parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                 attr.addNextSibling(parentref) # restore order of elements
@@ -2027,7 +2027,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 3')
                     attr = persons[1].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0003')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2057,7 +2057,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2100,7 +2100,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2111,7 +2111,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 3')
                     attr = persons[1].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0003')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2157,7 +2157,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 2')
                     attr = persons[0].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0002')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2168,7 +2168,7 @@ class FamilyMergeCheck(BaseMergeCheck):
                     altname.newProp('type', 'Birth Name')
                     altname.newChild(None, 'surname', 'Person 3')
                     attr = persons[1].newChild(None, 'attribute', None)
-                    attr.newProp('type', 'Merged Gramps ID')
+                    attr.newProp('type', 'Merged GID')
                     attr.newProp('value', 'I0003')
                     parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
                     attr.addNextSibling(parentref) # restore order of elements
@@ -2205,7 +2205,7 @@ class FamilyMergeCheck(BaseMergeCheck):
     #                ldsord = ctxt.xpathEval("//g:lds_ord")[0]
     #                altname.addNextSibling(ldsord) # restore order of elements
     #                attr = persons[0].newChild(None, 'attribute', None)
-    #                attr.newProp('type', 'Merged Gramps ID')
+    #                attr.newProp('type', 'Merged GID')
     #                attr.newProp('value', 'I0002')
     #                parentref = ctxt.xpathEval("//g:person[@handle='_i0000']/g:parentin")[0]
     #                attr.addNextSibling(parentref) # restore order of elements
@@ -2216,7 +2216,7 @@ class FamilyMergeCheck(BaseMergeCheck):
     #                altname.newProp('type', 'Birth Name')
     #                altname.newChild(None, 'surname', 'Person 3')
     #                attr = persons[1].newChild(None, 'attribute', None)
-    #                attr.newProp('type', 'Merged Gramps ID')
+    #                attr.newProp('type', 'Merged GID')
     #                attr.newProp('value', 'I0003')
     #                parentref = ctxt.xpathEval("//g:person[@handle='_i0001']/g:parentin")[0]
     #                attr.addNextSibling(parentref) # restore order of elements

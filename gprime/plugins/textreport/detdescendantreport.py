@@ -121,7 +121,7 @@ class DetDescendantReport(Report):
         incssign      - Whether to include a sign ('+') before the
                             descendant number in the child-list
                             to indicate a child has succession.
-        pid           - The Gramps ID of the center person for the report.
+        pid           - The GID of the center person for the report.
         name_format   - Preferred format to display names
         incmateref    - Whether to print mate information or reference
         incl_private  - Whether to include private data

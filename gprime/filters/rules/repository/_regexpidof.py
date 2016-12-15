@@ -40,10 +40,10 @@ from .._regexpidbase import RegExpIdBase
 #-------------------------------------------------------------------------
 class RegExpIdOf(RegExpIdBase):
     """
-    Rule that checks for a repo whose GRAMPS ID
+    Rule that checks for a repo whose GID
     matches regular expression.
     """
 
     name        = _('Repositories with Id containing <text>')
-    description = _("Matches repositories whose Gramps ID matches "
+    description = _("Matches repositories whose GID matches "
                     "the regular expression")

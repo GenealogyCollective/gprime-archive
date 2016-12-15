@@ -41,12 +41,12 @@ from .._regexpidbase import RegExpIdBase
 #-------------------------------------------------------------------------
 class RegExpSourceIdOf(RegExpIdBase):
     """
-    Rule that checks for a citation  whose GRAMPS ID
+    Rule that checks for a citation  whose GID
     matches regular expression.
     """
 
     name        = _('Citations with Source Id containing <text>')
-    description = _("Matches citations whose source has a Gramps ID that "
+    description = _("Matches citations whose source has a GID that "
                     "matches the regular expression")
     category    = _('Source filters')
 

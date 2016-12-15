@@ -174,7 +174,7 @@ class PlaceReport(Report):
         """
         place = self._db.get_place_from_handle(handle)
 
-        place_details = [self._("Gramps ID: %s ") % place.get_gid()]
+        place_details = [self._("GID: %s ") % place.get_gid()]
         for level in get_location_list(self._db, place):
             # translators: needed for French, ignore otherwise
             place_details.append(self._("%(str1)s: %(str2)s"

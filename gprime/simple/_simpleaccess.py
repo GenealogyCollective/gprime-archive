@@ -169,11 +169,11 @@ class SimpleAccess:
 
     def gid(self, obj):
         """
-        Return the Gramps ID of the person or family
+        Return the GID of the person or family
 
         :param obj: Person or Family object
         :type obj: :py:class:`.Person` or :py:class:`.Family`
-        :return: Returns the Gramps ID value of the person or family
+        :return: Returns the GID value of the person or family
         :rtype: unicode
         """
         if obj:

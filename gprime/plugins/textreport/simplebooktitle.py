@@ -67,7 +67,7 @@ class SimpleBookTitle(Report):
 
         title     - Title string.
         subtitle  - Subtitle string.
-        imgid     - Gramps ID of the media object to use as an image.
+        imgid     - GID of the media object to use as an image.
         imgsize   - Size for the image.
         footer    - Footer string.
         """
@@ -151,7 +151,7 @@ class SimpleBookTitleOptions(MenuReportOptions):
 
         imgid = MediaOption(_('Image'))
         imgid.set_help(
-            _("Gramps ID of the media object to use as an image."))
+            _("GID of the media object to use as an image."))
         menu.add_option(category_name, "imgid", imgid)
 
         imgsize = NumberOption(_('Image Size'), 0, 0, 20, 0.1)

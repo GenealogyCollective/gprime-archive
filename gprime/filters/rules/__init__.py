@@ -38,7 +38,7 @@ _HasSourceBase               Source with a particular value (HasSource)
 Match on sub-objects
 _ChangedSinceBase            Object changed since date
 _HasAttributeBase            Object has particular attribute value
-_HasGrampsId                 Object has a specific Gramps Id
+_HasGrampsId                 Object has a specific GID
 _HasNoteRegexBase            Object has notes matching regular expression
 _HasNoteSubstrBase           Object has note containing substring
 _HasTagBase                  Object has a particular tag
@@ -47,7 +47,7 @@ _HasTextMatchingSubstringOf  Object has text containing substring
 _IsPrivate                   Object is marked as private
 _IsPublic                    Object is not marked as private
 _MatchesFilterBase           Object matches another filter
-_RegExpldBase                Object has Gramps Id matching regular expression
+_RegExpldBase                Object has GID matching regular expression
 
 Match on related objects
 _MatchesFilterEventBase      Object has an event that matches another filter

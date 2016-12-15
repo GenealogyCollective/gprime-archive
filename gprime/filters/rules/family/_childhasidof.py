@@ -40,12 +40,12 @@ from ._memberbase import child_base
 #
 #-------------------------------------------------------------------------
 class ChildHasIdOf(RegExpIdBase):
-    """Rule that checks for a person with a specific GRAMPS ID"""
+    """Rule that checks for a person with a specific GID"""
 
     labels      = [ _('Person ID:') ]
     name        = _('Families having child with Id containing <text>')
     description = _("Matches families where child has a specified "
-                    "Gramps ID")
+                    "GID")
     category    = _('Child filters')
     base_class = RegExpIdBase
     apply = child_base

@@ -200,7 +200,7 @@ class HourGlassReport(Report):
 
     def add_person(self, person):
         """
-        Add a person to the Graph. The node id will be the person's gramps id.
+        Add a person to the Graph. The node id will be the person's gid.
         """
         p_id = person.get_gid()
         name = self._name_display.display(person)
@@ -231,7 +231,7 @@ class HourGlassReport(Report):
 
     def add_family(self, family):
         """
-        Add a family to the Graph. The node id will be the family's gramps id.
+        Add a family to the Graph. The node id will be the family's gid.
         """
         family_id = family.get_gid()
         label = ""
@@ -325,11 +325,11 @@ class HourGlassOptions(MenuReportOptions):
                            "include in the graph"))
         menu.add_option(category_name, "maxascend", max_gen)
 
-        include_id = EnumeratedListOption(_('Include Gramps ID'), 0)
+        include_id = EnumeratedListOption(_('Include GID'), 0)
         include_id.add_item(0, _('Do not include'))
         include_id.add_item(1, _('Share an existing line'))
         include_id.add_item(2, _('On a line of its own'))
-        include_id.set_help(_("Whether (and where) to include Gramps IDs"))
+        include_id.set_help(_("Whether (and where) to include GIDs"))
         menu.add_option(category_name, "incid", include_id)
 
         stdoptions.add_localization_option(menu, category_name)

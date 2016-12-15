@@ -39,11 +39,11 @@ from .. import Rule
 #
 #-------------------------------------------------------------------------
 class MatchIdOf(Rule):
-    """Rule that checks for a person with a specific GRAMPS ID"""
+    """Rule that checks for a person with a specific GID"""
 
     labels      = [ _('ID:') ]
     name        = _('Person with <Id>')
-    description = _("Matches person with a specified Gramps ID")
+    description = _("Matches person with a specified GID")
     category    = _('General filters')
 
     def apply(self,db,person):

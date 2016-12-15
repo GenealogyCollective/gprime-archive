@@ -174,7 +174,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_person_from_handle(self, handle):
         """
-        Finds a Person in the database from the passed Gramps ID.
+        Finds a Person in the database from the passed GID.
         If no such Person exists, None is returned.
         """
         person = self.db.get_person_from_handle(handle)
@@ -184,7 +184,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_source_from_handle(self, handle):
         """
-        Finds a Source in the database from the passed Gramps ID.
+        Finds a Source in the database from the passed GID.
         If no such Source exists, None is returned.
         """
         source = self.db.get_source_from_handle(handle)
@@ -194,7 +194,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_citation_from_handle(self, handle):
         """
-        Finds a Citation in the database from the passed Gramps ID.
+        Finds a Citation in the database from the passed GID.
         If no such Citation exists, None is returned.
         """
         citation = self.db.get_citation_from_handle(handle)
@@ -204,7 +204,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_media_from_handle(self, handle):
         """
-        Finds an Object in the database from the passed Gramps ID.
+        Finds an Object in the database from the passed GID.
         If no such Object exists, None is returned.
         """
         media = self.db.get_media_from_handle(handle)
@@ -214,7 +214,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_place_from_handle(self, handle):
         """
-        Finds a Place in the database from the passed Gramps ID.
+        Finds a Place in the database from the passed GID.
         If no such Place exists, None is returned.
         """
         place = self.db.get_place_from_handle(handle)
@@ -224,7 +224,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_event_from_handle(self, handle):
         """
-        Finds a Event in the database from the passed Gramps ID.
+        Finds a Event in the database from the passed GID.
         If no such Event exists, None is returned.
         """
         event = self.db.get_event_from_handle(handle)
@@ -234,7 +234,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_family_from_handle(self, handle):
         """
-        Finds a Family in the database from the passed Gramps ID.
+        Finds a Family in the database from the passed GID.
         If no such Family exists, None is returned.
         """
         family = self.db.get_family_from_handle(handle)
@@ -244,7 +244,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_repository_from_handle(self, handle):
         """
-        Finds a Repository in the database from the passed Gramps ID.
+        Finds a Repository in the database from the passed GID.
         If no such Repository exists, None is returned.
         """
         repository = self.db.get_repository_from_handle(handle)
@@ -254,7 +254,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_note_from_handle(self, handle):
         """
-        Finds a Note in the database from the passed Gramps ID.
+        Finds a Note in the database from the passed GID.
         If no such Note exists, None is returned.
         """
         note = self.db.get_note_from_handle(handle)
@@ -264,7 +264,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_person_from_gid(self, val):
         """
-        Finds a Person in the database from the passed GRAMPS ID.
+        Finds a Person in the database from the passed GID.
         If no such Person exists, None is returned.
         """
         person = self.db.get_person_from_gid(val)
@@ -274,7 +274,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_family_from_gid(self, val):
         """
-        Finds a Family in the database from the passed GRAMPS ID.
+        Finds a Family in the database from the passed GID.
         If no such Family exists, None is returned.
         """
         family = self.db.get_family_from_gid(val)
@@ -284,7 +284,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_event_from_gid(self, val):
         """
-        Finds an Event in the database from the passed GRAMPS ID.
+        Finds an Event in the database from the passed GID.
         If no such Event exists, None is returned.
         """
         event = self.db.get_event_from_gid(val)
@@ -294,7 +294,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_place_from_gid(self, val):
         """
-        Finds a Place in the database from the passed Gramps ID.
+        Finds a Place in the database from the passed GID.
         If no such Place exists, None is returned.
         """
         place = self.db.get_place_from_gid(val)
@@ -304,7 +304,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_source_from_gid(self, val):
         """
-        Finds a Source in the database from the passed Gramps ID.
+        Finds a Source in the database from the passed GID.
         If no such Source exists, None is returned.
         """
         source = self.db.get_source_from_gid(val)
@@ -314,7 +314,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_citation_from_gid(self, val):
         """
-        Finds a Citation in the database from the passed Gramps ID.
+        Finds a Citation in the database from the passed GID.
         If no such Citation exists, None is returned.
         """
         citation = self.db.get_citation_from_gid(val)
@@ -324,7 +324,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_media_from_gid(self, val):
         """
-        Finds a Media in the database from the passed Gramps ID.
+        Finds a Media in the database from the passed GID.
         If no such Media exists, None is returned.
         """
         obj = self.db.get_media_from_gid(val)
@@ -334,7 +334,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_repository_from_gid(self, val):
         """
-        Finds a Repository in the database from the passed Gramps ID.
+        Finds a Repository in the database from the passed GID.
         If no such Repository exists, None is returned.
         """
         repository = self.db.get_repository_from_gid(val)
@@ -344,7 +344,7 @@ class PrivateProxyDb(ProxyDbBase):
 
     def get_note_from_gid(self, val):
         """
-        Finds a Note in the database from the passed Gramps ID.
+        Finds a Note in the database from the passed GID.
         If no such Note exists, None is returned.
         """
         note = self.db.get_note_from_gid(val)

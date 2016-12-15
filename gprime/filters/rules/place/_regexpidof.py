@@ -40,10 +40,10 @@ from .._regexpidbase import RegExpIdBase
 #-------------------------------------------------------------------------
 class RegExpIdOf(RegExpIdBase):
     """
-    Rule that checks for a place  whose GRAMPS ID
+    Rule that checks for a place  whose GID
     matches regular expression.
     """
 
     name        = _('Places with Id containing <text>')
-    description = _("Matches places whose Gramps ID matches "
+    description = _("Matches places whose GID matches "
                     "the regular expression")

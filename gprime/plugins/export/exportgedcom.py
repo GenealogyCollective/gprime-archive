@@ -130,7 +130,7 @@ QUALITY_MAP = {
 #-------------------------------------------------------------------------
 def sort_handles_by_id(handle_list, handle_to_object):
     """
-    Sort a list of handles by the Gramps ID.
+    Sort a list of handles by the GID.
 
     The function that returns the object from the handle needs to be supplied
     so that we get the right object.
@@ -469,7 +469,7 @@ class GedcomWriter(UpdateCallback):
         """
         Write out the list of note handles to the current level.
 
-        We use the Gramps ID as the XREF for the GEDCOM file.
+        We use the GID as the XREF for the GEDCOM file.
 
         """
         for note_handle in notelist:
@@ -699,7 +699,7 @@ class GedcomWriter(UpdateCallback):
 
     def _child_families(self, person):
         """
-        Write the Gramps ID as the XREF for each family in which the person
+        Write the GID as the XREF for each family in which the person
         is listed as a child.
         """
 
@@ -713,7 +713,7 @@ class GedcomWriter(UpdateCallback):
 
     def _parent_families(self, person):
         """
-        Write the Gramps ID as the XREF for each family in which the person
+        Write the GID as the XREF for each family in which the person
         is listed as a parent.
         """
 
@@ -766,7 +766,7 @@ class GedcomWriter(UpdateCallback):
 
     def _families(self):
         """
-        Write out the list of families, sorting by Gramps ID.
+        Write out the list of families, sorting by GID.
         """
         self.reset(_("Writing families"))
         self.progress_cnt += 1
@@ -829,7 +829,7 @@ class GedcomWriter(UpdateCallback):
         """
         Write the family reference to the file.
 
-        This is either 'WIFE' or 'HUSB'. As usual, we use the Gramps ID as the
+        This is either 'WIFE' or 'HUSB'. As usual, we use the GID as the
         XREF value.
 
         """
@@ -932,7 +932,7 @@ class GedcomWriter(UpdateCallback):
 
     def _sources(self):
         """
-        Write out the list of sources, sorting by Gramps ID.
+        Write out the list of sources, sorting by GID.
         """
         self.reset(_("Writing sources"))
         self.progress_cnt += 1
@@ -967,7 +967,7 @@ class GedcomWriter(UpdateCallback):
 
     def _notes(self):
         """
-        Write out the list of notes, sorting by Gramps ID.
+        Write out the list of notes, sorting by GID.
         """
         self.reset(_("Writing notes"))
         self.progress_cnt += 1
@@ -995,7 +995,7 @@ class GedcomWriter(UpdateCallback):
 
     def _repos(self):
         """
-        Write out the list of repositories, sorting by Gramps ID.
+        Write out the list of repositories, sorting by GID.
 
         REPOSITORY_RECORD:=
         n @<XREF:REPO>@ REPO {1:1}

@@ -288,6 +288,5 @@ TEMP_DIR = os.path.join(USER_HOME, "temp")
 THUMB_DIR = os.path.join(USER_HOME, "thumb")
 THUMB_NORMAL = os.path.join(THUMB_DIR, "normal")
 THUMB_LARGE = os.path.join(THUMB_DIR, "large")
-USER_PLUGINS = os.path.join(VERSION_DIR, "plugins")
 USER_CSS = os.path.join(USER_HOME, "css")
 """

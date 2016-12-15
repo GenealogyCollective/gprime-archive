@@ -52,7 +52,6 @@ from gprime.const import PROGRAM_NAME
 from gprime.version import VERSION
 from gprime.lib import Date, Person
 from gprime.lib.urltype import UrlType
-from gprime.gui.plug.export import WriterOptionBox
 from gprime.lib.eventtype import EventType
 from gprime.display.name import displayer as _nd
 from gprime.plug.utils import OpenFileOrStdout

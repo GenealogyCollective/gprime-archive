@@ -193,7 +193,6 @@ class DbState(Callback):
             # This might happen if using gramps from outside, and
             # we haven't loaded plugins yet
             pmgr.reg_plugins(PLUGINS_DIR, self, None)
-            #pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
             pdata = pmgr.get_plugin(plugin_id)
 
         if pdata:
@@ -244,7 +243,7 @@ class DbState(Callback):
             name_file.write(name)
         db.load(dirpath)
         return db
-    
+
     def lookup_family_tree(self, dbname):
         """
         Find a Family Tree given its name, and return properties.
@@ -267,7 +266,7 @@ class DbState(Callback):
             with open(fname, 'r', encoding='utf8') as ifile:
                 backend = ifile.read().strip()
         else:
-            backend = "bsddb"
+            backend = "dbapi"
         try:
             fname = os.path.join(dirpath, "lock")
             with open(fname, 'r', encoding='utf8') as ifile:
@@ -294,7 +293,6 @@ class DbState(Callback):
             # This might happen if using gramps from outside, and
             # we haven't loaded plugins yet
             pmgr.reg_plugins(PLUGINS_DIR, self, None)
-            #pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
             import_list = pmgr.get_reg_importers()
         for pdata in import_list:
             if extension == pdata.extension:

@@ -172,7 +172,7 @@ class GPrimeApp(Application):
                 {
                     "database": self.database,
                     "opts" : self.options,
-                    "SITE_DIR": self.options.site_dir, 
+                    "SITE_DIR": self.options.site_dir,
                     "PORT": self.options.port,
                     "HOSTNAME": self.options.hostname,
                     "GET_IMAGE_FN": self.get_image_path_from_handle,

@@ -48,10 +48,8 @@ log = logging.getLogger(".ExportVCal")
 #-------------------------------------------------------------------------
 from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gui.plug.export import WriterOptionBox
 from gprime.utils.db import family_name
 from gprime.lib import Date, EventType
-from gprime.gui.glade import Glade
 from gprime.display.place import displayer as _pd
 
 class CalendarWriter:

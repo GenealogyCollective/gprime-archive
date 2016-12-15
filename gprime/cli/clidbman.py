@@ -153,7 +153,7 @@ class CLIDbManager:
         _("Version")
         _("Schema version")
         """
-        dbid = "bsddb"
+        dbid = "dbapi"
         dbid_path = os.path.join(dirpath, "database.txt")
         if os.path.isfile(dbid_path):
             with open(dbid_path) as file:
@@ -219,7 +219,7 @@ class CLIDbManager:
         Get the list of current names in the database dir
         """
         # make the default directory if it does not exist
-        dbdir = os.path.expanduser(config.get('database.path'))
+        dbdir = os.path.expanduser("./gprime-test") # config.get('database.path'))
         db_ok = make_dbdir(dbdir)
 
         self.current_names = []
@@ -231,7 +231,7 @@ class CLIDbManager:
                     with open(os.path.join(dirpath, "database.txt")) as file:
                         backend_type = file.read()
                 except:
-                    backend_type = "bsddb"
+                    backend_type = "dbapi"
                 try:
                     with open(os.path.join(dirpath, "bdbversion.txt")) as file:
                         version = file.read()
@@ -306,7 +306,7 @@ class CLIDbManager:
         if create_db:
             # write the version number into metadata
             if dbid is None:
-                dbid = "bsddb"
+                dbid = "dbapi"
             newdb = self.dbstate.make_database(dbid)
             newdb.write_version(new_path)
 
@@ -358,7 +358,7 @@ class CLIDbManager:
                     url_fp.close()
                     from  gramps.gen.db.dbconst import BDBVERSFN
                     versionpath = os.path.join(name, BDBVERSFN)
-                    _LOG.debug("Write bsddb version %s", str(dbase.version()))
+                    _LOG.debug("Write version %s", str(dbase.version()))
                     with open(versionpath, "w") as version_file:
                         version_file.write(str(dbase.version()))
                     temp_fp.close()
@@ -374,8 +374,7 @@ class CLIDbManager:
                 # Create a new database
                 self.__start_cursor(_("Importing data..."))
 
-                ## Use bsddb, for now, because we assumed that above.
-                dbid = "bsddb" ## config.get('database.backend')
+                dbid = "dbapi" ## config.get('database.backend')
                 dbase = self.dbstate.make_database(dbid)
                 dbase.load(new_path, user.callback)
 
@@ -410,7 +409,7 @@ class CLIDbManager:
         Deletes a database folder given a pattenr that matches
         its proper name.
         """
-        dbdir = os.path.expanduser(config.get('database.path'))
+        dbdir = os.path.expanduser("./gprime-test") # config.get('database.path'))
         match_list = []
         for dpath in os.listdir(dbdir):
             dirpath = os.path.join(dbdir, dpath)
@@ -511,7 +510,7 @@ def find_next_db_dir():
     """
     while True:
         base = "%x" % int(time.time())
-        dbdir = os.path.expanduser(config.get('database.path'))
+        dbdir = os.path.expanduser("./gprime-test") # config.get('database.path'))
         new_path = os.path.join(dbdir, base)
         if not os.path.isdir(new_path):
             break

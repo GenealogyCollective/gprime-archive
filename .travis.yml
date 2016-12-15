@@ -1,7 +1,7 @@
 #
-# Gprime - a GTK+/GNOME based genealogy program
+# gPrime - a web-based genealogy program
 #
-# Copyright (C) 2015-2015  Doug Blank
+# Copyright (C) 2015-2016  Doug Blank
 # Copyright (C) 2016       DaAwesomeP
 # Copyright (C) 2016       QuLogic
 # Copyright (C) 2016       Tim G L Lyons
@@ -29,7 +29,7 @@ language: python
 python:
  - 3.3 # This is irrelevant, because the virtualenv is not used at all
 
-# FIXME: The minimum requirement for Gprime is Python 3.2, so a test environment
+# FIXME: The minimum requirement for gPrime is Python 3.2, so a test environment
 # for Python 3.2 should be added to this environment which is Python 3.3. It
 # will not be possible to run coverage under Python 3.2, because coverage is
 # Python 3.3 (or above) only.
@@ -37,17 +37,10 @@ python:
 addons:
   apt:
     packages:
-    - gir1.2-pango-1.0
-    - gir1.2-gtk-3.0
     - xdg-utils
     - librsvg2-common
-    - libglib2.0-dev
     - intltool
     # - python3-gobject Provided by python3-gi
-    - python3-gi
-    - python3-cairo
-    - python3-gi-cairo
-    - python3-bsddb3
     - python3-dev
     - python3-nose
     - python3-mock
@@ -61,7 +54,7 @@ install:
 # by the automatic git checkout.
 
 # Download Sean Ross-Ross's Pure Python module containing a framework to
-# manipulate and analyze python ast�s and bytecode. This is loaded to 
+# manipulate and analyze python ast�s and bytecode. This is loaded to
 # /home/travis/build/genealogycollective/gprime/meta
 # FIXME: This should be loaded from the release directory at
 # https://pypi.python.org/pypi/meta
@@ -72,24 +65,22 @@ install:
  - python setup.py build
 
 before_script:
-# Create the Gprime database directory.
- - mkdir -p ~/.gprime/grampsdb/
 # set PYTHONPATH so the directly installed module (meta) is picked up from
 # /home/travis/build/genalogycollective/gprime/meta
- - export PYTHONPATH=meta
+ - export PYTHONPATH=meta:.
 # set module exclusions. --exclude=TestUser because of older version of mock
 # without configure_mock
- - export EXCLUDE="--exclude=TestcaseGenerator --exclude=vcard
-   --exclude=merge_ref_test --exclude=user_test"
-# set GPRIME_RESOURCES for locale, data,image and documentation
- - export GPRIME_RESOURCES=.
+# Create the gPrime site directory (database, users, media, etc):
+# - python -m gprime.app --create="Family Tree" --site-dir=~/Family_Tree/ --username=demo --server=False
+# Start the server with username=demo, password=demo:
+# - python -m gprime.app --site-dir=~/Family_Tree/ --username=demo --open-browser=False \
+#      --password-hash=$5$rounds=535000$cFxCHFY.x1Ks3owt$PJYZtnr.LMDyRQXjLw8JWenNnNjKSWjRUjYJaPW4bn2 &
 
 script:
 # Ignore the virtualenv entirely. Use nosetests3, python3 (3.4.0) and coverage
 # from /usr/bin. Use libraries from /usr/lib/python3.4,
 # /usr/local/lib/python3.4/dist-packages and /usr/lib/python3/dist-packages
- - nosetests3 --nologcapture --with-coverage --cover-package=gprime $EXCLUDE
-   gprime  test test/GrampsLogger
+ - nosetests3 --nologcapture --with-coverage --cover-package=gprime gprime
 # FIXME: This should have run from the current directory, rather than from
 # gprime, because there is some test code in that directory.
 

@@ -25,7 +25,7 @@ Package providing filtering framework for GRAMPS.
 #SystemFilters = None
 CustomFilters = None
 
-from ..const import CUSTOM_FILTERS
+#from ..const import CUSTOM_FILTERS
 from ._filterlist import FilterList
 from ._genericfilter import (GenericFilter, GenericFilterFactory,
                              DeferredFilter, DeferredFamilyFilter)
@@ -45,5 +45,5 @@ def reload_custom_filters():
 #if not SystemFilters:
     #reload_system_filters()
 
-if not CustomFilters:
-    reload_custom_filters()
+#if not CustomFilters:
+#    reload_custom_filters()

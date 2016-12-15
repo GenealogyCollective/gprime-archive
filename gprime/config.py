@@ -156,7 +156,7 @@ register('behavior.welcome', 100)
 register('behavior.web-search-url', 'http://google.com/#&q=%(text)s')
 register('behavior.addons-url', "https://raw.githubusercontent.com/gramps-project/addons/master/gramps50")
 
-register('database.backend', 'bsddb')
+register('database.backend', 'dbapi')
 register('database.compress-backup', True)
 register('database.autobackup', True) ## make backup when exiting, if there are changes
 

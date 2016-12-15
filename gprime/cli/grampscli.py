@@ -161,7 +161,7 @@ class CLIDbLoader:
             with open(dbid_path) as file:
                 dbid = file.read().strip()
         else:
-            dbid = "bsddb"
+            dbid = "dbapi"
 
         db = self.dbstate.make_database(dbid)
 
@@ -335,7 +335,6 @@ class CLIManager:
         Register the plugins at initialization time.
         """
         self._pmgr.reg_plugins(PLUGINS_DIR, dbstate, uistate)
-        #self._pmgr.reg_plugins(USER_PLUGINS, dbstate, uistate, load_on_reg=True)
 
 def startcli(errors, argparser):
     """

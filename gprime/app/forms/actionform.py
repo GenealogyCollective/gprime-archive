@@ -75,11 +75,11 @@ class Table(object):
 
     def initialize(self):
         self.get_items() # build cache
-    
+
     def get_function_dict(self):
         return {
-            "class_func": self.get_class(), 
-            "count_func": self.get_count, 
+            "class_func": self.get_class(),
+            "count_func": self.get_count,
             "commit_func": self.commit,
             "handle_func": self.get_item_by_handle,
             "handles_func": self.get_items,
@@ -101,11 +101,11 @@ class Table(object):
             self._cache_map = {}
             pmgr = BasePluginManager.get_instance()
             cl_list = []
-            for reg_action in ["get_reg_reports", 
-                               "get_reg_exporters", 
+            for reg_action in ["get_reg_reports",
+                               "get_reg_exporters",
                                "get_reg_importers"]:
                 cl_list += getattr(pmgr, reg_action)()
-            self._cache = sorted([(pdata.name, self.plugtype(pdata.ptype), pdata.id) 
+            self._cache = sorted([(pdata.name, self.plugtype(pdata.ptype), pdata.id)
                                   for pdata in cl_list])
             self.count = len(self._cache)
             for items in self._cache:
@@ -181,7 +181,7 @@ class ActionForm(Form):
 
     def get_column_labels(self):
         return Row([
-            Column("#", self.count_width), 
+            Column("#", self.count_width),
             Column("Name", 50),
             Column("Action", 50),
         ])
@@ -322,4 +322,3 @@ def export_file(db, filename, user):
             export_function(db, filename, user)
             return True
     return False
-

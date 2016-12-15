@@ -49,7 +49,6 @@ from gprime.lib import (AttributeType, ChildRefType, Citation, Date,
 from gprime.version import VERSION
 import gprime.plugins.lib.libgedcom as libgedcom
 from gprime.errors import DatabaseError
-from gprime.gui.plug.export import WriterOptionBox
 from gprime.updatecallback import UpdateCallback
 from gprime.utils.file import media_path_full
 from gprime.utils.place import conv_lat_lon

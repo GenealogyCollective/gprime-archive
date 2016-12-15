@@ -48,9 +48,7 @@ log = logging.getLogger(".WriteGeneWeb")
 from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from gprime.lib import Date, Event, EventType, FamilyRelType, Person
-from gprime.gui.plug.export import WriterOptionBox
 from gprime.utils.alive import probably_alive
-from gprime.gui.glade import Glade
 from gprime.config import config
 from gprime.display.place import displayer as _pd
 

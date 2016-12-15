@@ -178,7 +178,7 @@ class DBAPI(DbGeneric):
             LOG.info("Updating %s.gid... ", table)
             self.dbapi.execute("ALTER TABLE %s ADD COLUMN gid TEXT;" % table);
             self.dbapi.execute("UPDATE %s SET gid = gramps_id;" % table)
-        
+
     def update_schema(self):
         """
         Create and update schema.

@@ -65,11 +65,11 @@ class PersonForm(Form):
 
     # Search fields, list is OR
     search_terms = {
-        "surname": "surname", 
-        "given": "given", 
-        "id": "gid", 
-        "gender": "gender", 
-        "birth": "birth", 
+        "surname": "surname",
+        "given": "given",
+        "id": "gid",
+        "gender": "gender",
+        "birth": "birth",
         "death": "death",
     }
 

@@ -49,8 +49,8 @@ class FamilyForm(Form):
 
     # Search fields, list is OR:
     search_terms = {
-        "father": ["father_surname", "father_given"], 
-        "mother": ["mother_surname", "mother_given"], 
+        "father": ["father_surname", "father_given"],
+        "mother": ["mother_surname", "mother_given"],
         "id": "gid",
     }
 
@@ -73,4 +73,3 @@ class FamilyForm(Form):
             "mother_handle": self.get_person_from_handle,
             #"tag_list": self.get_tag_from_handle:name
         }
-

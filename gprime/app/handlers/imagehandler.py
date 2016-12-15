@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-## Based on: 
+## Based on:
 ## https://github.com/IIIF/image-api/blob/master/implementations/pi3f/pi3f_21.py
 
 import tornado
@@ -221,11 +221,11 @@ class ImageFile(object):
                 "profile": [cf.compliance,
                     {
                         "formats":["gif","tif","pdf"],
-                        "supports":["regionSquare", 
-                                    "canonicalLinkHeader", 
-                                    "profileLinkHeader", 
-                                    "mirroring", 
-                                    "rotationArbitrary", 
+                        "supports":["regionSquare",
+                                    "canonicalLinkHeader",
+                                    "profileLinkHeader",
+                                    "mirroring",
+                                    "rotationArbitrary",
                                     "sizeAboveFull"],
                         "qualities":qualities
                     }
@@ -717,7 +717,7 @@ class ImageHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         """
         Extra keywords:
-        
+
         HOMEDIR - home for imageserver cache, etc.
         PORT -
         """
@@ -920,11 +920,11 @@ class ImageHandler(BaseHandler):
                 "profile": [self.compliance,
                     {
                         "formats":["gif","tif","pdf"],
-                        "supports":["regionSquare", 
-                                    "canonicalLinkHeader", 
-                                    "profileLinkHeader", 
-                                    "mirroring", 
-                                    "rotationArbitrary", 
+                        "supports":["regionSquare",
+                                    "canonicalLinkHeader",
+                                    "profileLinkHeader",
+                                    "mirroring",
+                                    "rotationArbitrary",
                                     "sizeAboveFull"],
                         "qualities":qualities
                     }
@@ -980,7 +980,7 @@ class ImageHandler(BaseHandler):
 
         /identifier/region/scale/format.type
 
-        Example: 
+        Example:
 
           identifier - filename or handle
           region - full, or x1,y1,x2,y2
@@ -1070,8 +1070,8 @@ class ImageHandler(BaseHandler):
 
         if os.path.exists(self.CACHEDIR + fp):
             # Will only ever be canonical, otherwise would redirect
-            self.set_header('Link',  
-                            self.request.headers.get("Link", "") + 
+            self.set_header('Link',
+                            self.request.headers.get("Link", "") +
                             ', <{0}{1}>;rel="canonical"'.format(self.BASEPREF, fp))
             return self.send_file(fp, mimetype)
 
@@ -1167,7 +1167,7 @@ class ImageHandler(BaseHandler):
             try:
                 (x,y,w,h)=region.split(',')
             except:
-                return self.error_msg('region', 
+                return self.error_msg('region',
                     'unable to parse region: {0}'.format(region), status=400)
             if x.startswith('pct:'):
                 x = x[4:]
@@ -1305,8 +1305,8 @@ class ImageHandler(BaseHandler):
         paths = [infoId, c_region, c_size, c_rot, c_qual]
         fn = os.path.join(*paths)
         new_url = self.BASEPREF + fn
-        #self.set_header('Link',  
-        #                self.request.headers.get("Link", "") + 
+        #self.set_header('Link',
+        #                self.request.headers.get("Link", "") +
         #                ', <{0}>;rel="canonical"'.format(new_url))
         if fn != path:
             #self.set_header('Location', new_url)

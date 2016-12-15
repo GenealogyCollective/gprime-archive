@@ -57,7 +57,6 @@ from gi.repository import Gtk
 # Gprime modules
 #
 #-------------------------------------------------------------------------
-from gprime.gui.plug.export import WriterOptionBox
 from gprime.plugins.export.exportxml import XmlWriter
 from gprime.utils.file import media_path_full
 from gprime.constfunc import win

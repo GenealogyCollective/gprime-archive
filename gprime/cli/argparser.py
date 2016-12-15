@@ -43,11 +43,11 @@ import logging
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.const import LONGOPTS, SHORTOPTS, PLUGINS_DIR, USER_PLUGINS
-from gprime.gen.plug import BasePluginManager
-from gprime.gen.config import config
-from gprime.gen.utils.cast import get_type_converter
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LONGOPTS, SHORTOPTS, PLUGINS_DIR
+from gprime.plug import BasePluginManager
+from gprime.config import config
+from gprime.utils.cast import get_type_converter
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 _HELP = _("""
@@ -329,7 +329,6 @@ class ArgParser:
                 default = config.data["database"]["backend"]
                 pmgr = BasePluginManager.get_instance()
                 pmgr.reg_plugins(PLUGINS_DIR, self, None)
-                pmgr.reg_plugins(USER_PLUGINS, self, None, load_on_reg=True)
                 for plugin in pmgr.get_reg_databases():
                     pdata = pmgr.get_plugin(plugin.id)
                     mod = pmgr.load_plugin(pdata)

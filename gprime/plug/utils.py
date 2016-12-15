@@ -46,7 +46,6 @@ LOG = logging.getLogger(".gen.plug")
 #
 #-------------------------------------------------------------------------
 from ._pluginreg import make_environment
-#from ..const import USER_PLUGINS
 from gprime.version import VERSION_TUPLE
 from . import BasePluginManager
 from ..utils.configmanager import safe_eval
@@ -274,121 +273,6 @@ def available_updates():
     LOG.debug("Done checking!")
 
     return addon_update_list
-
-def load_addon_file(path, callback=None):
-    """
-    Load an addon from a particular path (from URL or file system).
-    """
-    from urllib.request import urlopen
-    import tarfile
-    if (path.startswith("http://") or
-        path.startswith("https://") or
-        path.startswith("ftp://")):
-        try:
-            fp = urlopen_maybe_no_check_cert(path)
-        except:
-            if callback:
-                callback(_("Unable to open '%s'") % path)
-            return False
-    else:
-        try:
-            fp = open(path)
-        except:
-            if callback:
-                callback(_("Unable to open '%s'") % path)
-            return False
-    try:
-        content = fp.read()
-        buffer = BytesIO(content)
-    except:
-        if callback:
-            callback(_("Error in reading '%s'") % path)
-        return False
-    fp.close()
-    # file_obj is either Zipfile or TarFile
-    if path.endswith(".zip") or path.endswith(".ZIP"):
-        file_obj = Zipfile(buffer)
-    elif path.endswith(".tar.gz") or path.endswith(".tgz"):
-        try:
-            file_obj = tarfile.open(None, fileobj=buffer)
-        except:
-            if callback:
-                callback(_("Error: cannot open '%s'") % path)
-            return False
-    else:
-        if callback:
-            callback(_("Error: unknown file type: '%s'") % path)
-        return False
-    # First, see what versions we have/are getting:
-    good_gpr = set()
-    for gpr_file in [name for name in file_obj.getnames() if name.endswith(".gpr.py")]:
-        if callback:
-            callback((_("Examining '%s'...") % gpr_file) + "\n")
-        contents = file_obj.extractfile(gpr_file).read()
-        # Put a fake register and _ function in environment:
-        env = make_environment(register=register,
-                               newplugin=newplugin,
-                               _=lambda text: text)
-        # clear out the result variable:
-        globals()["register_results"] = []
-        # evaluate the contents:
-        try:
-            exec(contents, env)
-        except Exception as exp:
-            if callback:
-                msg = _("Error in '%s' file: cannot load.") % gpr_file
-                callback("   " + msg + "\n" + str(exp))
-            continue
-        # There can be multiple addons per gpr file:
-        for results in globals()["register_results"]:
-            gprime_target_version = results.get("gprime_target_version", None)
-            id = results.get("id", None)
-            if gprime_target_version:
-                vtup = version_str_to_tup(gprime_target_version, 2)
-                # Is it for the right version of gramps?
-                if vtup == VERSION_TUPLE[0:2]:
-                    # If this version is not installed, or > installed, install it
-                    good_gpr.add(gpr_file)
-                    if callback:
-                        callback("   " + (_("'%s' is for this version of Gramps.") % id)  + "\n")
-                else:
-                    # If the plugin is for another version; inform and do nothing
-                    if callback:
-                        callback("   " + (_("'%s' is NOT for this version of Gramps.") % id)  + "\n")
-                        callback("   " + (_("It is for version %(v1)d.%(v2)d") % {
-                                             'v1': vtup[0],
-                                             'v2': vtup[1]}
-                                          + "\n"))
-                    continue
-            else:
-                # another register function doesn't have gprime_target_version
-                if gpr_file in good_gpr:
-                    s.remove(gpr_file)
-                if callback:
-                    callback("   " + (_("Error: missing gprime_target_version in '%s'...") % gpr_file)  + "\n")
-    registered_count = 0
-    if len(good_gpr) > 0:
-        # Now, install the ok ones
-        try:
-            file_obj.extractall(USER_PLUGINS)
-        except OSError:
-            if callback:
-                callback("OSError installing '%s', skipped!" % path)
-            file_obj.close()
-            return False
-        if callback:
-            callback((_("Installing '%s'...") % path) + "\n")
-        gpr_files = set([os.path.split(os.path.join(USER_PLUGINS, name))[0]
-                         for name in good_gpr])
-        for gpr_file in gpr_files:
-            if callback:
-                callback("   " + (_("Registered '%s'") % gpr_file) + "\n")
-            registered_count += 1
-    file_obj.close()
-    if registered_count:
-        return True
-    else:
-        return False
 
 #-------------------------------------------------------------------------
 #

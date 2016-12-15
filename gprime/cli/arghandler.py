@@ -43,16 +43,16 @@ import re
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.gen.recentfiles import recent_files
-from gprime.gen.utils.file import rm_tempdir, get_empty_tempdir
+from gprime.recentfiles import recent_files
+from gprime.utils.file import rm_tempdir, get_empty_tempdir
 from .clidbman import CLIDbManager, NAME_FILE, find_locker_name
 
-from gprime.gen.plug import BasePluginManager
-from gprime.gen.plug.report import CATEGORY_BOOK, CATEGORY_CODE, BookList
+from gprime.plug import BasePluginManager
+from gprime.plug.report import CATEGORY_BOOK, CATEGORY_CODE, BookList
 from .plug import cl_report, cl_book
-from gprime.gen.const import LOCALE as glocale
+from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
-from gprime.gen.config import config
+from gprime.config import config
 
 #-------------------------------------------------------------------------
 #

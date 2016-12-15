@@ -46,6 +46,7 @@ addons:
     - python3-mock
     - python3-pyicu
     - python3-coverage
+    - python3-passlib
 
 before_install:
 

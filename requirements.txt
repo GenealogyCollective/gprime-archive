@@ -1,3 +1,4 @@
 tornado
 simplejson
 passlib
+meta

@@ -22,30 +22,6 @@ MODULE_VERSION="1.0"
 
 #------------------------------------------------------------------------
 #
-# Narrated Web Site
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'navwebpage'
-plg.name  = _("Narrated Web Site")
-plg.description =  _("Produces web (HTML) pages for individuals, or a set of "
-                     "individuals")
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'narrativeweb.py'
-plg.ptype = REPORT
-plg.authors = ["Donald N. Allingham", "Rob G. Healey"]
-plg.authors_email = ["don@gramps-project.org", "robhealey1@gmail.com"]
-plg.category =  CATEGORY_WEB
-plg.reportclass = 'NavWebReport'
-plg.optionclass = 'NavWebOptions'
-plg.report_modes = [REPORT_MODE_GUI, REPORT_MODE_CLI]
-
-
-#------------------------------------------------------------------------
-#
 # Web Calendar
 #
 #------------------------------------------------------------------------

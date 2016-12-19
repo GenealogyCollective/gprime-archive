@@ -168,12 +168,12 @@ class ActionForm(Form):
     # Does the interator support a sort_handles flag?
     sort = True
 
-    def __init__(self, gramps_database, _, instance=None, table=None):
+    def __init__(self, gramps_database, _, instance=None):
         self.gramps_database = gramps_database
         database = DictionaryDb()
         database.load(None)
         database.add_table_funcs("Action", Table().get_function_dict())
-        super().__init__(database, _, instance=instance, table=table)
+        super().__init__(database, _, instance=instance)
 
     def set_post_process_functions(self):
         self.post_process_functions = {

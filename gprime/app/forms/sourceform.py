@@ -31,6 +31,7 @@ class SourceForm(Form):
     _class = Source
     view = "source"
     tview = "Source"
+    table = "Source"
 
     # Fields for editor:
     edit_fields = [

@@ -67,7 +67,7 @@ class PersonHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("person view"),
                                              page=page,
                                              search=search,
-                                             form=PersonForm(self.database, self._, table="Person"),
+                                             form=PersonForm(self.database, self._),
                                          )
                 )
 

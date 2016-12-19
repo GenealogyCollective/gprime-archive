@@ -65,7 +65,7 @@ class PlaceHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("place view"),
                                              page=page,
                                              search=search,
-                                             form=PlaceForm(self.database, self._, table="Place"),
+                                             form=PlaceForm(self.database, self._),
                                          )
                 )
 

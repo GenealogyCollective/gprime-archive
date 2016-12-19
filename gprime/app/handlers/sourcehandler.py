@@ -65,7 +65,7 @@ class SourceHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("source view"),
                                              page=page,
                                              search=search,
-                                             form=SourceForm(self.database, self._, table="Source"),
+                                             form=SourceForm(self.database, self._),
                                          )
                 )
 

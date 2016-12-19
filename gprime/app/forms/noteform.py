@@ -31,6 +31,7 @@ class NoteForm(Form):
     _class = Note
     view = "note"
     tview = "Note"
+    table = "Note"
 
     # Fields for editor:
     edit_fields = [

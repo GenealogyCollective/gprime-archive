@@ -65,7 +65,7 @@ class RepositoryHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("repository view"),
                                              page=page,
                                              search=search,
-                                             form=RepositoryForm(self.database, self._, table="Repository"),
+                                             form=RepositoryForm(self.database, self._),
                                          )
                 )
 

@@ -30,7 +30,8 @@ class EventForm(Form):
     """
     _class = Event
     view = "event"
-    tview = "Event"
+    tview = "Events"
+    table = "Event"
 
     # Fields for editor:
     edit_fields = [

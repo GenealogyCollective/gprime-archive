@@ -55,7 +55,7 @@ class ActionHandler(BaseHandler):
                         **self.get_template_dict(tview=self._("action view"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self.database, self._, table="Action"),
+                                                 form=ActionForm(self.database, self._),
                                              )
                     )
 

@@ -31,6 +31,7 @@ class RepositoryForm(Form):
     _class = Repository
     view = "repository"
     tview = "Repository"
+    table = "Repository"
 
     # Fields for editor:
     edit_fields = [

@@ -35,6 +35,7 @@ class PersonForm(Form):
     _class = Person
     view = "person"
     tview = "People"
+    table = "Person"
 
     # Fields for editor:
     edit_fields = [

@@ -65,7 +65,7 @@ class TagHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("tag view"),
                                              page=page,
                                              search=search,
-                                             form=TagForm(self.database, self._, table="Tag"),
+                                             form=TagForm(self.database, self._),
                                          )
                 )
 

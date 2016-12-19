@@ -31,6 +31,7 @@ class MediaForm(Form):
     _class = Media
     view = "media"
     tview = "Media"
+    table = "Media"
 
     # Fields for editor:
     edit_fields = [

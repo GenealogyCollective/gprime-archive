@@ -64,7 +64,7 @@ class FamilyHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("family view"),
                                              page=page,
                                              search=search,
-                                             form=FamilyForm(self.database, self._, table="Family"),
+                                             form=FamilyForm(self.database, self._),
                                          )
                 )
 

@@ -65,7 +65,7 @@ class MediaHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("media view"),
                                              page=page,
                                              search=search,
-                                             form=MediaForm(self.database, self._, table="Media"),
+                                             form=MediaForm(self.database, self._),
                                          )
                 )
 

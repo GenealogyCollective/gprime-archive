@@ -62,14 +62,13 @@ class Form(object):
     where = None
     page_size = 25
     count_width = 5
+    table = None
 
-    def __init__(self, database, _, instance=None, table=None):
+    def __init__(self, database, _, instance=None):
         # scheme is a map from FIELD to Python Type, list[Gramps objects], or Handle
-        if table:
-            self._class = database.get_table_func(table,"class_func")
+        self._class = database.get_table_func(self.table, "class_func")
         if self._class:
             self.schema = self._class.get_schema()
-        self.table = table
         self.where = None
         self.database = database
         self.instance = instance

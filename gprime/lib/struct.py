@@ -34,8 +34,9 @@ class Struct:
     >>> s.primary_name.surname_list[0]surname
     Smith
     """
-    def __init__(self, struct, db=None):
+    def __init__(self, struct, db=None, instance=None):
         self.struct = struct
+        self.instance = instance
         self.db = db
         if self.db:
             self.transaction = db.get_transaction_class()
@@ -44,7 +45,7 @@ class Struct:
 
     @classmethod
     def wrap(cls, instance, db=None):
-        return Struct(instance.to_struct(), db)
+        return Struct(instance.to_struct(), db, instance)
 
     def __setitem__(self, item, value):
         self.struct[item] = value
@@ -218,7 +219,7 @@ class Struct:
         if isinstance(item, HandleClass) and self.db:
             obj = self.db.get_from_name_and_handle(item.classname, str(item))
             if obj:
-                return Struct(obj.to_struct(), self.db)
+                return Struct(obj.to_struct(), self.db, obj)
             else:
                 return Struct({}, self.db) # dummy, a db error
         elif isinstance(item, (list, tuple)):

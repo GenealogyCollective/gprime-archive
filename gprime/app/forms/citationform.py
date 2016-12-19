@@ -30,7 +30,8 @@ class CitationForm(Form):
     """
     _class = Citation
     view = "citation"
-    tview = "Citation"
+    tview = "Citations"
+    table = "Citation"
 
     # Fields for editor:
     edit_fields = [

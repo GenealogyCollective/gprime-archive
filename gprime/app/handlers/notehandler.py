@@ -65,7 +65,7 @@ class NoteHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("note view"),
                                              page=page,
                                              search=search,
-                                             form=NoteForm(self.database, self._, table="Note"),
+                                             form=NoteForm(self.database, self._),
                                          )
                 )
 

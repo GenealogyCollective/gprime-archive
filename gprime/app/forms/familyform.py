@@ -28,6 +28,7 @@ class FamilyForm(Form):
     _class = Family
     view = "family"
     tview = "Family"
+    table = "Family"
 
     # Fields for editor:
     edit_fields = [

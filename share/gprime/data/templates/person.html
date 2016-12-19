@@ -143,35 +143,35 @@
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-events" style="background-color: #f4f0ec;"> 
     <!-- Events -->
-    {{ event_table(form, user, action, link="/event/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ event_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-names" style="background-color: #f4f0ec;"> 
-    {{ name_table(form, user, action, link="/person/%s/name", handle=form.instance.handle) }}
+    {{ name_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;"> 
-    {{ citation_table(form, user, action, "/citation/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ citation_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, "/attribute/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ attribute_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;"> 
-    {{ address_table(form, user, action, "/place/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ address_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom
 	      ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
-    {{ note_table(form, user, action, "/note/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ note_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;"> 
-    {{ media_table(form, user, action, "/media/$act/person/%(handle)s", handle=form.instance.handle) }}
+    {{ media_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;"> 
-    {{ internet_table(form, user, action, "/person/%(handle)s/$act/internet", handle=form.instance.handle) }}
+    {{ internet_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-association" style="background-color: #f4f0ec;"> 
-    {{ association_table(form, user, action, "/person/%(handle)s/$act/association", handle=form.instance.handle) }}
+    {{ association_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-lds" style="background-color: #f4f0ec;"> 
-    {{ lds_table(form, user, action, "/person/%(handle)s/$act/lds", handle=form.instance.handle) }}
+    {{ lds_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
     {{ person_reference_table(form, user, action) }}

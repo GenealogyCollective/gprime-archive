@@ -65,7 +65,7 @@ class EventHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("event view"),
                                              page=page,
                                              search=search,
-                                             form=EventForm(self.database, self._, table="Event"),
+                                             form=EventForm(self.database, self._),
                                          )
                 )
 

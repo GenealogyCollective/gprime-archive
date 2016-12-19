@@ -31,6 +31,7 @@ class TagForm(Form):
     _class = Tag
     view = "tag"
     tview = "Tag"
+    table = "Tag"
 
     # Fields for editor:
     edit_fields = [

@@ -65,7 +65,7 @@ class CitationHandler(BaseHandler):
                     **self.get_template_dict(tview=self._("citation view"),
                                              page=page,
                                              search=search,
-                                             form=CitationForm(self.database, self._, table="Citation"),
+                                             form=CitationForm(self.database, self._),
                                          )
                 )
 

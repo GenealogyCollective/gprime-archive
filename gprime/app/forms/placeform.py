@@ -31,6 +31,7 @@ class PlaceForm(Form):
     _class = Place
     view = "place"
     tview = "Place"
+    table = "Place"
 
     # Fields for editor:
     edit_fields = [

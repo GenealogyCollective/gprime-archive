@@ -170,258 +170,80 @@ class DBAPI(DbGeneric):
         # Make sure scheme is up to date:
         self.update_schema()
 
+    def _sql_column_def(self, column):
+        options = ""
+        options += " PRIMARY KEY" if column.primary else ""
+        options += " NOT NULL" if not column.null else ""
+        return "%s %s %s" % (column.name, column.ctype, options)
+
     def update_table(self, table):
-        ## FIXME: need an upgrade schema methodology
-        ## This assumes that you had gramps_id, and creates new column
-        ## Should create new table and copy old into it (eg, migrate)
-        if not self.dbapi.table_column_exists(table, "gid"):
-            LOG.info("Updating %s.gid... ", table)
-            self.dbapi.execute("ALTER TABLE %s ADD COLUMN gid TEXT;" % table);
-            self.dbapi.execute("UPDATE %s SET gid = gramps_id;" % table)
+        ## FIXME: need an upgrade schema methodology in general
+        for column in table.columns:
+            if not self.dbapi.table_column_exists(table.name, column.name):
+                LOG.info("Adding %s %s... ", table.name, column.name)
+                self.dbapi.execute("ALTER TABLE %s ADD COLUMN %s %s;" %
+                                   (table.name, column.name, column.ctype))
+                # Special case for renamed fields:
+                if column.name == "gid":
+                    self.dbapi.execute("UPDATE %s SET gid = gramps_id;" % table.name)
+
+    def create_table(self, table):
+        columns = ", ".join([self._sql_column_def(column)
+                             for column in table.columns])
+        self.dbapi.execute("""CREATE TABLE %s (%s);""" % (table.name, columns))
 
     def update_schema(self):
         """
         Create and update schema.
         """
+        from gprime.lib.struct import Table, Column
         # make sure schema is up to date:
-        if not self.dbapi.table_exists("person"):
-            self.dbapi.execute("""CREATE TABLE person (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    given_name     TEXT        ,
-                                    surname        TEXT        ,
-                                    gender_type    INTEGER     ,
-                                    order_by  TEXT             ,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("person")
-        if not self.dbapi.table_exists("family"):
-            self.dbapi.execute("""CREATE TABLE family (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    father_handle VARCHAR(50),
-                                    mother_handle VARCHAR(50),
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("family")
-        if not self.dbapi.table_exists("source"):
-            self.dbapi.execute("""CREATE TABLE source (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("source")
-        if not self.dbapi.table_exists("citation"):
-            self.dbapi.execute("""CREATE TABLE citation (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("citation")
-        if not self.dbapi.table_exists("event"):
-            self.dbapi.execute("""CREATE TABLE event (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("event")
-        if not self.dbapi.table_exists("media"):
-            self.dbapi.execute("""CREATE TABLE media (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("media")
-        if not self.dbapi.table_exists("place"):
-            self.dbapi.execute("""CREATE TABLE place (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("place")
-        if not self.dbapi.table_exists("repository"):
-            self.dbapi.execute("""CREATE TABLE repository (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("repository")
-        if not self.dbapi.table_exists("note"):
-            self.dbapi.execute("""CREATE TABLE note (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    gid TEXT             ,
-                                    blob_data      BLOB
-            );""")
-        else:
-            self.update_table("note")
-        if not self.dbapi.table_exists("tag"):
-            self.dbapi.execute("""CREATE TABLE tag (
-                                    handle    VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    order_by  TEXT             ,
-                                    blob_data      BLOB
-            );""")
+        for primary_obj in [Person, Family, Event, Citation, Repository,
+                            Tag, Note, Place, Media, Source]:
+            table = primary_obj.get_table()
+            if not self.dbapi.table_exists(table.name):
+                self.create_table(table)
+            else:
+                self.update_table(table)
+            for column in table.columns:
+                if column.index:
+                    index_name = "%s_%s" % (table.name, column.name)
+                    if not self.dbapi.index_exists(index_name):
+                        self.dbapi.execute("""CREATE INDEX %s ON %s(%s);"""
+                                           % (index_name, table.name, column.name))
+
         # Secondary:
-        if not self.dbapi.table_exists("reference"):
-            self.dbapi.execute("""CREATE TABLE reference (
-                                    obj_handle    VARCHAR(50),
-                                    obj_class     TEXT,
-                                    ref_handle    VARCHAR(50),
-                                    ref_class     TEXT
-            );""")
-        if not self.dbapi.table_exists("name_group"):
-            self.dbapi.execute("""CREATE TABLE name_group (
-                                    name     VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    grouping TEXT
-            );""")
-        if not self.dbapi.table_exists("metadata"):
-            self.dbapi.execute("""CREATE TABLE metadata (
-                                    setting  VARCHAR(50) PRIMARY KEY NOT NULL,
-                                    value    BLOB
-            );""")
-        if not self.dbapi.table_exists("gender_stats"):
-            self.dbapi.execute("""CREATE TABLE gender_stats (
-                                    given_name TEXT,
-                                    female     INTEGER,
-                                    male       INTEGER,
-                                    unknown    INTEGER
-            );""")
-        ## Indices:
-        if not self.dbapi.index_exists("person_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  person_order_by ON person(order_by);
-        """)
-        if not self.dbapi.index_exists("person_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  person_gid ON person(gid);
-        """)
-        if not self.dbapi.index_exists("person_surname"):
-            self.dbapi.execute("""CREATE INDEX
-                                  person_surname ON person(surname);
-        """)
-        if not self.dbapi.index_exists("person_given_name"):
-            self.dbapi.execute("""CREATE INDEX
-                                  person_given_name ON person(given_name);
-        """)
-        if not self.dbapi.index_exists("source_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  source_order_by ON source(order_by);
-        """)
-        if not self.dbapi.index_exists("source_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  source_gid ON source(gid);
-        """)
-        if not self.dbapi.index_exists("citation_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  citation_order_by ON citation(order_by);
-        """)
-        if not self.dbapi.index_exists("citation_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  citation_gid ON citation(gid);
-        """)
-        if not self.dbapi.index_exists("media_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  media_order_by ON media(order_by);
-        """)
-        if not self.dbapi.index_exists("media_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  media_gid ON media(gid);
-        """)
-        if not self.dbapi.index_exists("place_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  place_order_by ON place(order_by);
-        """)
-        if not self.dbapi.index_exists("place_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  place_gid ON place(gid);
-        """)
-        if not self.dbapi.index_exists("tag_order_by"):
-            self.dbapi.execute("""CREATE INDEX
-                                  tag_order_by ON tag(order_by);
-        """)
-        if not self.dbapi.index_exists("reference_ref_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  reference_ref_handle ON reference(ref_handle);
-        """)
-        if not self.dbapi.index_exists("name_group_name"):
-            self.dbapi.execute("""CREATE INDEX
-                                  name_group_name ON name_group(name);
-        """)
+        ReferenceTable = Table("reference",
+                               [Column("obj_handle", "VARCHAR(50)", index=True),
+                                Column("obj_class", "TEXT"),
+                                Column("ref_handle", "VARCHAR(50)", index=True),
+                                Column("ref_class", "TEXT")])
+        NamegroupTable = Table("name_group",
+                              [Column("name", "VARCHAR(50)", primary=True,
+                                      null=False, index=True),
+                              Column("grouping", "TEXT")])
+        MetadataTable = Table("metadata",
+                              [Column("setting", "VARCHAR(50)", primary=True,
+                                      null=False),
+                              Column("value", "BLOB")])
 
-        # Fixes:
-        if not self.dbapi.index_exists("place_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  place_handle ON place(handle);
-        """)
-        if not self.dbapi.index_exists("citation_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  citation_handle ON citation(handle);
-        """)
-        if not self.dbapi.index_exists("media_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  media_handle ON media(handle);
-        """)
-        if not self.dbapi.index_exists("person_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  person_handle ON person(handle);
-        """)
-        if not self.dbapi.index_exists("family_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  family_handle ON family(handle);
-        """)
-        if not self.dbapi.index_exists("event_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  event_handle ON event(handle);
-        """)
-        if not self.dbapi.index_exists("repository_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  repository_handle ON repository(handle);
-        """)
-        if not self.dbapi.index_exists("tag_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  tag_handle ON tag(handle);
-        """)
-        if not self.dbapi.index_exists("note_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  note_handle ON note(handle);
-        """)
-        if not self.dbapi.index_exists("source_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  source_handle ON source(handle);
-        """)
+        GenderstatsTable = Table("gender_stats",
+                                 [Column("given_name", "TEXT"),
+                                  Column("female", "INTEGER"),
+                                  Column("male", "INTEGER"),
+                                  Column("unknown", "INTEGER")])
 
-        if not self.dbapi.index_exists("family_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  family_gid ON family(gid);
-        """)
-        if not self.dbapi.index_exists("event_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  event_gid ON event(gid);
-        """)
-        if not self.dbapi.index_exists("repository_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  repository_gid ON repository(gid);
-        """)
-        if not self.dbapi.index_exists("note_gid"):
-            self.dbapi.execute("""CREATE INDEX
-                                  note_gid ON note(gid);
-        """)
+        for table in [ReferenceTable, NamegroupTable, MetadataTable,
+                      GenderstatsTable]:
+            if not self.dbapi.table_exists(table.name):
+                self.create_table(table)
+            for column in table.columns:
+                if column.index:
+                    index_name = "%s_%s" % (table.name, column.name)
+                    if not self.dbapi.index_exists(index_name):
+                        self.dbapi.execute("""CREATE INDEX %s ON %s(%s);"""
+                                           % (index_name, table.name, column.name))
 
-        if not self.dbapi.index_exists("reference_obj_handle"):
-            self.dbapi.execute("""CREATE INDEX
-                                  reference_obj_handle ON reference(obj_handle);
-        """)
         self.rebuild_secondary_fields()
 
     def close_backend(self):
@@ -525,8 +347,11 @@ class DBAPI(DbGeneric):
             "SELECT value FROM metadata WHERE setting = ?;", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
-        elif default == []:
+            try:
+                return pickle.loads(row[0])
+            except:
+                pass # might fail in attempting to import (eg, gramps)
+        if default == []:
             return []
         else:
             return default

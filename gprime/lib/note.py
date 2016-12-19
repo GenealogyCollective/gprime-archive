@@ -142,6 +142,18 @@ class Note(BasicPrimaryObject):
         }
 
     @classmethod
+    def get_table(cls):
+        """
+        Return abstract Table for database defintions.
+        """
+        from .struct import Table, Column
+        return Table(cls,
+            [Column("handle", "VARCHAR(50)",
+              primary=True, null=False, index=True),
+             Column("gid", "TEXT", index=True),
+             Column("blob_data", "BLOB")])
+
+    @classmethod
     def get_labels(cls, _):
         return {
             "handle": _("Handle"),

@@ -357,3 +357,27 @@ class Struct:
             return "<%s struct instance>" % self._class
         else:
             return repr(self.struct)
+
+class Table:
+    """
+    Table defintion for primary and support objects.
+    """
+    def __init__(self, cls, columns):
+        if isinstance(cls, str):
+            self._class = None
+            self.name = cls
+        else:
+            self._class = cls
+            self.name = cls.__name__.lower()
+        self.columns = columns
+
+class Column:
+    """
+    Column defintion for abstract Table.
+    """
+    def __init__(self, name, ctype, primary=False, null=True, index=False):
+        self.name = name
+        self.ctype = ctype
+        self.primary = primary
+        self.null = null
+        self.index = index

@@ -342,6 +342,22 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
             "person_ref_list": [PersonRef]
         }
 
+    @classmethod
+    def get_table(cls):
+        """
+        Return abstract Table for database defintions.
+        """
+        from .struct import Table, Column
+        return Table(cls,
+            [Column("handle", "VARCHAR(50)",
+              primary=True, null=False, index=True),
+             Column("given_name", "TEXT", index=True),
+             Column("surname", "TEXT", index=True),
+             Column("gender_type", "INTEGER"),
+             Column("order_by", "TEXT", index=True),
+             Column("gid", "TEXT", index=True),
+             Column("blob_data", "BLOB")])
+
     def unserialize(self, data):
         """
         Convert the data held in a tuple created by the serialize method

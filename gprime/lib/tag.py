@@ -115,6 +115,18 @@ class Tag(TableObject):
         }
 
     @classmethod
+    def get_table(cls):
+        """
+        Return abstract Table for database defintions.
+        """
+        from .struct import Table, Column
+        return Table(cls,
+            [Column("handle", "VARCHAR(50)",
+              primary=True, null=False, index=True),
+             Column("order_by", "TEXT", index=True),
+             Column("blob_data", "BLOB")])
+
+    @classmethod
     def get_labels(cls, _):
         """
         Return the label for fields

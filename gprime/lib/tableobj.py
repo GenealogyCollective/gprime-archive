@@ -280,7 +280,7 @@ class TableObject(BaseObject):
             elif part in schema.keys():
                 path = schema[part]
             else:
-                raise Exception("No such field. Valid fields are: %s" % list(schema.keys()))
+                raise Exception("No such field %s. Valid fields are: %s" % (part, list(schema.keys())))
             if isinstance(path, (list, tuple)):
                 path = path[0]
         return path

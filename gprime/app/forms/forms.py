@@ -317,7 +317,11 @@ class Form(object):
     def save(self, handler):
         # go thorough fields and save values
         for field in self.edit_fields:
-            part = self.instance.get_field(field)
+            try:
+                part = self.instance.get_field(field)
+            except:
+                self.log.warning("field '%s' not found in form" % field)
+                continue
             if isinstance(part, (list, tuple)):
                 try:
                     value = handler.get_arguments(field)

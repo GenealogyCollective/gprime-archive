@@ -25,6 +25,9 @@ from gprime.lib import *
 from gprime.lib.struct import Struct
 from gprime.display.name import NameDisplay
 
+# Python imports:
+import tornado.log
+
 # Globals and functions:
 TAB_HEIGHT = 200
 nd = NameDisplay().display
@@ -72,7 +75,7 @@ class Table(object):
     >>> table.set_columns(("Col1", 10), ("Col2", 90))
     >>> table.append_row("1", "2", "3", link="/person/37463746")
     >>> table.append_row("4", "5", "6", link="/event/3763746")
-    >>> table.get_html()
+    >>> table.get_html("edit")
     """
     def __init__(self, form, ttype=None, ttype_obj=None, style=None):
         self.id = "tab_table" ## css id
@@ -94,7 +97,7 @@ class Table(object):
         self.rows.append(list(map(nbsp, args)))
         self.links.append(link)
 
-    def get_html(self, style=None, tab_height=200):
+    def get_html(self, action, style=None, tab_height=200):
         style = style if style else self.style
         ## Hack of levels of nbsp
         html = Html('div',
@@ -117,22 +120,23 @@ class Table(object):
             div += Html("img", height="22", width="22",
                         alt="Delete row", title="Delete row",
                         src="/images/gtk-remove.png",
-                        onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
-                        onclick="document.location.href='/%s/%s/remove/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count),
+                        onmouseover="buttonOver(this)" if action == "edit" else None,
+                        onmouseout="buttonOut(this)" if action == "edit" else None,
+                        onclick="document.location.href='/%s/%s/remove/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row up", title="Move row up",
                         src="/images/up.png",
-                        onmouseover="buttonOver(this)" if row_count > 1 else None,
-                        onmouseout="buttonOut(this)" if row_count > 1 else None,
-                        onclick="document.location.href='/%s/%s/up/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if row_count > 1 else None,
+                        onmouseover="buttonOver(this)" if action == "edit" and row_count > 1 else None,
+                        onmouseout="buttonOut(this)" if action == "edit" and row_count > 1 else None,
+                        onclick="document.location.href='/%s/%s/up/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" and row_count > 1 else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row down", title="Move row down",
                         src="/images/down.png",
-                        onmouseover="buttonOver(this)" if row_count < len(self.rows) else None,
-                        onmouseout="buttonOut(this)" if row_count < len(self.rows) else None,
-                        onclick="document.location.href='/%s/%s/down/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if row_count < len(self.rows) else None,
+                        onmouseover="buttonOver(this)" if action == "edit" and row_count < len(self.rows) else None,
+                        onmouseout="buttonOut(this)" if action == "edit" and row_count < len(self.rows) else None,
+                        onclick="document.location.href='/%s/%s/down/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" and row_count < len(self.rows) else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             cell += div
             rowhtml += cell
@@ -182,7 +186,7 @@ def event_table(form, user, action):
     else:
         retval += """&nbsp;""" # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     #if act == "view":
         #count = 1
         #retval = retval.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
@@ -211,9 +215,6 @@ def name_table(form, user, action):
         (form._("Note Preview"), 15),
     )
     if user or form.instance.public:
-        #         links.append(('URL',
-        #                       # url is "/person/%s/name"
-        #                       (url % name.person.handle) + ("/%s" % name.order)))
         count = 0
         for name in [form.instance.primary_name] + form.instance.alternate_names:
             citations = []
@@ -229,10 +230,11 @@ def name_table(form, user, action):
                     note_text = note.text.string[:50]
                     break
             table.append_row(render_name(name),
-                             str(name.type) + ["", " (preferred)"][int(count == 0)],
+                             str(name.type) + ["", " " + form._("(preferred)")][int(count == 0)],
                              name.group_as,
-                             ["No", "Yes"][citationq],
-                             note_text, link="/person/%s/name/%s" % (form.instance.handle, count + 1))
+                             [form._("No"), form._("Yes")][citationq],
+                             note_text,
+                             link="/person/%s/name/%s" % (form.instance.handle, count + 1))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
@@ -241,7 +243,7 @@ def name_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -272,7 +274,7 @@ def surname_table(form, user, action):
     #         for surname in name.surname_set.all().order_by("order"):
     #             table.append_row(str(surname.order), surname)
     #             has_data = True
-    #         retval += table.get_html()
+    #         retval += table.get_html(action)
     #     else:
     #         retval += "<p id='error'>No such name order = %s</p>" % order
     if has_data:
@@ -292,25 +294,17 @@ def citation_table(form, user, action):
         (form._("Confidence"), 49),
         (form._("Page"), 30),
     )
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     citation_refs = db.dji.CitationRef.filter(object_type=obj_type,
-    #                                            object_id=obj.id).order_by("order")
-    #     links = []
-    #     count = 1
-    #     for citation_ref in citation_refs:
-    #         if citation_ref.citation:
-    #             citation = table.db.get_citation_from_handle(
-    #                 citation_ref.citation.handle)
-    #             table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user and link and action == "view" else "",
-    #                       citation.gid,
-    #                       str(citation.confidence),
-    #                       str(citation.page),
-    #                       )
-    #             links.append(('URL', citation_ref.get_url()))
-    #             has_data = True
-    #             count += 1
-    #     table.links(links)
+    if user or form.instance.public:
+        count = 1
+        for citation_ref in form.instance.citation_list:
+            if citation_ref:
+                citation = form.database.get_citation_from_handle(citation_ref)
+                table.append_row(citation.gid,
+                                 citation.confidence,
+                                 citation.page,
+                                 link="/citation/%s" % citation.handle)
+                has_data = True
+                count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add New Citation"), "FIXME", icon="+")
@@ -318,17 +312,7 @@ def citation_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
-    # if user and link and action == "view":
-    #     retval = retval.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-    #     retval = retval.replace("}}", """</div>""")
-    #     count = 1
-    #     for citation_ref in citation_refs:
-    #         item = obj.__class__.__name__.lower()
-    #         retval = retval.replace("[[x%d]]" % count, make_icon_button("x", "/%s/%s/remove/citationref/%d" % (item, obj.handle, count), icon="x"))
-    #         retval = retval.replace("[[^%d]]" % count, make_icon_button("^", "/%s/%s/up/citationref/%d" % (item, obj.handle, count)), icon="^")
-    #         retval = retval.replace("[[v%d]]" % count, make_icon_button("v", "/%s/%s/down/citationref/%d" % (item, obj.handle, count), icon="v"))
-    #         count += 1
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -367,7 +351,7 @@ def repository_table(form, user, action):
     #             )
     #         has_data = True
     #         count += 1
-    #     text = table.get_html()
+    #     text = table.get_html(action)
     #     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
     #     text = text.replace("}}", """</div>""")
     #     count = 1
@@ -417,7 +401,7 @@ def note_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    text = table.get_html()
+    text = table.get_html(action)
     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
     text = text.replace("}}", """</div>""")
     # if user or form.instance.public:
@@ -469,7 +453,7 @@ def data_table(form, user, action):
     #             )
     #         has_data = True
     #         count += 1
-        # text = table.get_html()
+        # text = table.get_html(action)
         # text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
         # text = text.replace("}}", """</div>""")
         # count = 1
@@ -506,7 +490,7 @@ def attribute_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -539,7 +523,7 @@ def address_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -572,7 +556,7 @@ def media_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -600,7 +584,7 @@ def internet_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -622,7 +606,6 @@ def association_table(form, user, action):
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
     if user or form.instance.public:
-    #         links = []
     #         count = 1
     #         associations = person.get_person_ref_list()
     #         for association in associations: # PersonRef
@@ -635,9 +618,9 @@ def association_table(form, user, action):
     #             has_data = True
     #             count += 1
     #         table.links(links)
-        text = table.get_html()
-        text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-        text = text.replace("}}", """</div>""")
+        text = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
+        text += """</div>"""
+        text += table.get_html(action)
     #         count = 1
     #         for association in associations: # PersonRef
     #             text = text.replace("[[x%d]]" % count, make_icon_button("x", "/person/%s/remove/association/%d" % (obj.handle, count)))
@@ -680,7 +663,7 @@ def location_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -713,7 +696,7 @@ def lds_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    retval += table.get_html()
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -752,225 +735,56 @@ def person_reference_table(form, user, action):
             has_data = True
             count += 1
         text1 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
-        text1 += make_icon_button(form._("Add as Spouse to New Family"),
-                                  "/family/add/spouse/%s" % form.instance.handle,
-                                  icon="+")
-        text1 += make_icon_button(form._("Add as Spouse to Existing Family"),
-                                  "/family/share/spouse/%s" % form.instance.handle,
-                                  icon="p")
-        text1 += table1.get_html(tab_height="100%")
+        if user and action == "view":
+            text1 += make_icon_button(form._("Add as Spouse to New Family"),
+                                      "/family/add/spouse/%s" % form.instance.handle,
+                                      icon="+")
+            text1 += make_icon_button(form._("Add as Spouse to Existing Family"),
+                                      "/family/share/spouse/%s" % form.instance.handle,
+                                      icon="p")
+        else:
+            text1 += nbsp("") # to keep tabs same height
         text1 += """</div>"""
+        text1 += table1.get_html(action, tab_height="100%")
         text2 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
-        text2 += make_icon_button(form._("Add as Child to New Family"),
-                                  "/family/add/child/%s" % form.instance.handle,
-                                  icon="+")
-        text2 += make_icon_button(form._("Add as Child to Existing Family"),
-                                  "/family/share/child/%s" % form.instance.handle,
-                                  icon="p")
-        text2 += table2.get_html(tab_height="100%")
+        if user and action == "view":
+            text2 += make_icon_button(form._("Add as Child to New Family"),
+                                      "/family/add/child/%s" % form.instance.handle,
+                                      icon="+")
+            text2 += make_icon_button(form._("Add as Child to Existing Family"),
+                                      "/family/share/child/%s" % form.instance.handle,
+                                      icon="p")
+        else:
+            text2 += nbsp("") # to keep tabs same height
         text2 += """</div>"""
+        text2 += table2.get_html(action, tab_height="100%")
 
     retval += """<div style="overflow: auto; height:%spx;">""" % TAB_HEIGHT
-    retval += text1 + text2 + "</div>"
+    retval += text1 + text2
+    retval += "</div>"
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def note_reference_table(form, user, action):
+def reference_table(form, user, action):
+    from gprime.simple import SimpleAccess
+    sa = SimpleAccess(form.database)
     retval = ""
     has_data = False
     cssid = "tab-references"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Type"), 10),
-        (form._("Reference"), 10),
+        (form._("Reference"), 69),
         (form._("ID"), 10),
-    )
-    # if (user  or form.instance.public) and action != "add":
-    #     for reference in models.NoteRef.objects.filter(ref_object=obj):
-    #         ref_from_class = reference.object_type.model_class()
-    #         item = ref_from_class.objects.get(id=reference.object_id)
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item,
-    #             item.gid)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def event_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        (form._("ID"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     for reference in models.EventRef.objects.filter(ref_object=obj):
-    #         ref_from_class = reference.object_type.model_class()
-    #         try:
-    #             item = ref_from_class.objects.get(id=reference.object_id)
-    #         except:
-    #             print("Warning: Corrupt reference: %s" % reference)
-    #             continue
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item,
-    #             item.gid)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def repository_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        (form._("ID"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     for reference in models.RepositoryRef.objects.filter(ref_object=obj):
-    #         ref_from_class = reference.object_type.model_class()
-    #         item = ref_from_class.objects.get(id=reference.object_id)
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item,
-    #             item.gid)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def citation_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        #        form._("ID")
         )
-    # if (user or form.instance.public) and action != "add":
-    #     for reference in models.CitationRef.objects.filter(citation=obj):
-    #         ref_from_class = reference.object_type.model_class()
-    #         item = ref_from_class.objects.get(id=reference.object_id)
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def source_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        (form._("ID"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     for item in obj.citation_set.all():
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item,
-    #             item.gid)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def media_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        (form._("ID"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     for reference in models.MediaRef.objects.filter(ref_object=obj):
-    #         ref_from_class = reference.object_type.model_class()
-    #         item = ref_from_class.objects.get(id=reference.object_id)
-    #         table.append_row(
-    #             item.__class__.__name__,
-    #             item,
-    #             item.gid)
-    #         has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def place_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     # location, url, event, lds
-    #     querysets = [obj.location_set, obj.url_set, obj.event_set, obj.lds_set]
-    #     for queryset in querysets:
-    #         for item in queryset.all():
-    #             table.append_row(
-    #                 item.__class__.__name__,
-    #                 item)
-    #             has_data = True
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def tag_reference_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form)
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        (form._("ID"), 10),
-    )
-    # if (user or form.instance.public) and action != "add":
-    #     querysets = [obj.person_set, obj.family_set, obj.note_set, obj.media_set]
-    #     for queryset in querysets:
-    #         for item in queryset.all():
-    #             table.append_row(
-    #                 item.__class__.__name__,
-    #                 item,
-    #                 item.gid)
-    #             has_data = True
-    retval += table.get_html()
+    for ref_pair in form.database.find_backlink_handles(form.instance.handle):
+        obj_type, handle = ref_pair
+        obj = form.database.get_table_func(obj_type, "handle_func")(handle)
+        table.append_row(obj_type, sa.describe(obj), obj.gid, link="/%s/%s" % (obj_type.lower(), handle))
+        has_data = True
+    retval += table.get_html(action)
     retval += nbsp("") # to keep tabs same height
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
@@ -1033,7 +847,7 @@ def children_table(form, user, action):
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     retval += "&nbsp;"
     retval += "</div>"
-    text = table.get_html()
+    text = table.get_html(action)
 
     # if user.is_superuser and url and act == "view":
     #     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")

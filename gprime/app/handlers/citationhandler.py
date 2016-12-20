@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from gprime.lib import Note
+from gprime.lib import Citation
 from gprime.utils.id import create_id
 
 import tornado.web

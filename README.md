@@ -58,14 +58,14 @@ You can run gprime directly from either the downloaded directory, or from the in
 Installed version:
 
 ```
-python3 -m gprime.app --config="familytree.conf"
+python3 -m gprime.app --config-file="familytree.conf"
 ```
 
 Downloaded versions:
 
 ```
 export PYTHONPATH=/path/to/gprime
-python3 -m gprime.app --config="familytree.cfg"
+python3 -m gprime.app --config-file="familytree.cfg"
 ```
 
 Where `familytree.cfg` contains options and values, such as:
@@ -90,6 +90,7 @@ Options:
 ------------
 
 * --site-dir=PATH - The directory of the gPrime site directory (required)
+* --config-file=FILE - The config file of these options
 * --username=USERNAME - Username (required)
 * --sitename="Site Name" - Name to use for the site (gPrime is default)
 * --password-hash=HASH - Password hash for username
@@ -102,6 +103,7 @@ Options:
 * --open-browser=True|False - open a web browser on startup?
 * --debug=True|False - Use to see additional debugging information
 * --xsrf=True/False - Use cross-site request forgery protection
+* --help - List additional options
 
 Common variations
 -----------------

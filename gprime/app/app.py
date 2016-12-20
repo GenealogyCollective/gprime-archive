@@ -326,7 +326,7 @@ def main():
            help="Set debugging True/False", type=bool)
     define("xsrf", default=True,
            help="Use xsrf cookie, True/False", type=bool)
-    define("config", default=None,
+    define("config-file", default=None,
            help="Config file of gPrime options", type=str)
     define("username", default=None,
            help="Login username (required)", type=str)
@@ -344,10 +344,13 @@ def main():
            help="Language code (eg, 'fr') to use", type=str)
 
     # Let's go!
+    # Really, just need the config-file:
     tornado.options.parse_command_line()
-    # Handle standard options:
-    if options.config:
-        tornado.options.parse_config_file(options.config)
+    # Read config-file options:
+    if options.config_file:
+        tornado.options.parse_config_file(options.config_file)
+    # Parse args again, so that command-line options override config-file:
+    tornado.options.parse_command_line()
     if options.username is None:
         raise Exception("--username=NAME was not provided")
     if options.site_dir is None:
@@ -413,7 +416,7 @@ def main():
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
     for key in ["port", "site_dir", "hostname", "sitename",
-                "debug", "xsrf", "config", "username",
+                "debug", "xsrf", "config_file", "username",
                 "password_hash"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
     tornado.log.logging.info("Control+C twice to stop server. Running...")

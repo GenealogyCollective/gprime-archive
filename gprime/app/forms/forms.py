@@ -279,22 +279,22 @@ class Form(object):
         return self.instance.get_label(field, self._)
 
     def render(self, field, user, action, js=None, link=None, **kwargs):
+        from gprime.lib.handle import HandleClass
+        from gprime.lib.struct import Struct
         data = self.instance.get_field(field, self.database)
         if isinstance(data, (list, tuple)):
-            if action == "view":
-                retval = ""
-                for item in data:
-                    if retval:
-                        retval += ", "
-                    retval += item
-            else:
-                ## a list of handles
-                retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%">""" % (field, field)
-                count = 1
-                for item in data:
-                    retval += """<option value="%d" selected="selected">%s</option>""" % (count, item)
-                    count += 1
-                retval += "</select>"
+            s = Struct.wrap(self.instance, self.database)
+            data = s.getitem_from_path(field.split("."))
+            ## a list of handles
+            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%">""" % (field, field)
+            for item in data:
+                ## Tags:
+                name = item.name
+                value = item.instance.handle
+                retval += """<option value="%s" selected="selected">%s</option>""" % (value, name)
+                # FIXME: show tags not used, when editing so one can select them (eg, add)
+                retval += """<option value="%s">%s</option>""" % (value, name)
+            retval += "</select>"
         else:
             retval = data
             if action in ["edit", "add"]:
@@ -313,12 +313,21 @@ class Form(object):
     def save(self, handler):
         # go thorough fields and save values
         for field in self.edit_fields:
-            try:
-                value = handler.get_argument(field)
-            except:
-                self.log.warning("field '%s' not found in form" % field)
-                continue
-            self.instance.set_field(field, value)
+            part = self.instance.get_field(field)
+            if isinstance(part, (list, tuple)):
+                try:
+                    value = handler.get_arguments(field)
+                except:
+                    self.log.warning("field '%s' not found in form" % field)
+                    continue
+                part[:] = value
+            else:
+                try:
+                    value = handler.get_argument(field)
+                except:
+                    self.log.warning("field '%s' not found in form" % field)
+                    continue
+                self.instance.set_field(field, value)
         transaction = self.database.get_transaction_class()
         commit = self.database.get_table_func(self._class.__name__,"commit_func")
         with transaction("Gramps Connect", self.database) as trans:

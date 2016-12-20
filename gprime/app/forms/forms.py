@@ -287,13 +287,17 @@ class Form(object):
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
             retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%">""" % (field, field)
+            tags = set()
             for item in data:
                 ## Tags:
                 name = item.name
-                value = item.instance.handle
-                retval += """<option value="%s" selected="selected">%s</option>""" % (value, name)
-                # FIXME: show tags not used, when editing so one can select them (eg, add)
-                retval += """<option value="%s">%s</option>""" % (value, name)
+                handle = item.instance.handle
+                retval += """<option value="%s" selected="selected">%s</option>""" % (handle, name)
+                tags.add(handle)
+            if action == "edit":
+                for tag in self.database.Tag.select():
+                    if tag.handle not in tags:
+                        retval += """<option value="%s">%s</option>""" % (tag.handle, tag.name)
             retval += "</select>"
         else:
             retval = data

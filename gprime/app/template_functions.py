@@ -1,7 +1,8 @@
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# gPrime - a web-based genealogy program
 #
 # Copyright (c) 2015 Gramps Development Team
+# Copyright (c) 2016 gPrime Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +19,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-# Gramps imports:
+# gPrime imports:
 from gprime.plugins.lib.libhtml import Html
 from gprime.lib import *
 from gprime.lib.struct import Struct
@@ -122,14 +123,16 @@ class Table(object):
             div += Html("img", height="22", width="22",
                         alt="Move row up", title="Move row up",
                         src="/images/up.png",
-                        onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
-                        onclick="document.location.href='/%s/%s/up/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count),
+                        onmouseover="buttonOver(this)" if row_count > 1 else None,
+                        onmouseout="buttonOut(this)" if row_count > 1 else None,
+                        onclick="document.location.href='/%s/%s/up/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if row_count > 1 else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row down", title="Move row down",
                         src="/images/down.png",
-                        onmouseover="buttonOver(this)", onmouseout="buttonOut(this)",
-                        onclick="document.location.href='/%s/%s/down/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count),
+                        onmouseover="buttonOver(this)" if row_count < len(self.rows) else None,
+                        onmouseout="buttonOut(this)" if row_count < len(self.rows) else None,
+                        onclick="document.location.href='/%s/%s/down/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if row_count < len(self.rows) else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             cell += div
             rowhtml += cell

@@ -26,6 +26,7 @@ from ..template_functions import make_button
 
 from gprime.display.name import NameDisplay
 from gprime.datehandler import displayer, parser
+from gprime.simple import SimpleAccess
 
 nd = NameDisplay().display
 dd = displayer.display
@@ -75,6 +76,7 @@ class Form(object):
         self._ = _
         self.log = logging.getLogger(".Form")
         self.set_post_process_functions()
+        self.sa = SimpleAccess(self.database)
 
     def set_post_process_functions(self):
         pass
@@ -392,24 +394,16 @@ class Form(object):
         return text[:100]
 
     def birth_date(self, person):
-        from gprime.simple import SimpleAccess
-        sa = SimpleAccess(self.database)
-        return sa.birth_date(person)
+        return self.sa.birth_date(person)
 
     def death_date(self, person):
-        from gprime.simple import SimpleAccess
-        sa = SimpleAccess(self.database)
-        return sa.death_date(person)
+        return self.sa.death_date(person)
 
     def family_father(self, family):
-        from gprime.simple import SimpleAccess
-        sa = SimpleAccess(self.database)
-        return sa.father(family)
+        return self.sa.father(family)
 
     def family_mother(self, family):
-        from gprime.simple import SimpleAccess
-        sa = SimpleAccess(self.database)
-        return sa.mother(family)
+        return self.sa.mother(family)
 
     def render_date(self, date, env):
         return dd(date)

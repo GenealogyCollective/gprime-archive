@@ -292,7 +292,7 @@ def citation_table(form, user, action):
     # page? This causes problems with form names, tab names, etc.
     retval = ""
     has_data = False
-    cssid = "tab-sources"
+    cssid = "tab-citations"
     table = Table(form)
     table.set_columns(
         ("", 11),

@@ -24,13 +24,15 @@ from gprime.plugins.lib.libhtml import Html
 from gprime.lib import *
 from gprime.lib.struct import Struct
 from gprime.display.name import NameDisplay
+from gprime.datehandler import displayer
 
 # Python imports:
 import tornado.log
 
 # Globals and functions:
 TAB_HEIGHT = 200
-nd = NameDisplay().display
+name_display = NameDisplay().display
+date_display = displayer.display
 
 def make_button(text, link):
     return """<input type="button" value="%s" onclick="location.href='%s';" />""" % (text, link)
@@ -143,7 +145,10 @@ class Table(object):
             for count in range(1, len(self.columns)):
                 cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[count][1]), colspan="1")
                 url = self.links[row_count - 1]
-                cell += """<a href="%s" style="display: block;">%s</a>""" % (url, row[count - 1])
+                try:
+                    cell += """<a href="%s" style="display: block;">%s</a>""" % (url, row[count - 1])
+                except:
+                    tornado.log.logging.info("improper rows: %s", row)
                 rowhtml += cell
             table += rowhtml
             row_count += 1
@@ -256,6 +261,7 @@ def surname_table(form, user, action):
     cssid = "tab-surnames"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Order"),  10),
         (form._("Surname"), 10),
     )
@@ -323,8 +329,9 @@ def repository_table(form, user, action):
     cssid = "tab-repositories"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("ID"), 11),
-        (form._("Title"), 49),
+        (form._("Title"), 38),
         (form._("Call number"), 20),
         (form._("Type"), 20),
     )
@@ -473,8 +480,9 @@ def attribute_table(form, user, action):
     cssid = "tab-attributes"
     table = Table(form)
     table.set_columns(
-        (form._("Type"), 10),
-        (form._("Value"), 10),
+        ("", 11),
+        (form._("Type"), 40),
+        (form._("Value"), 49),
     )
     # if user or form.instance.public:
     #     obj_type = ContentType.objects.get_for_model(obj)
@@ -501,11 +509,12 @@ def address_table(form, user, action):
     cssid = "tab-addresses"
     table = Table(form)
     table.set_columns(
-        (form._("Date"), 10),
-        (form._("Address"), 10),
-        (form._("City"), 10),
-        (form._("State"), 10),
-        (form._("Country"), 10),
+        ("", 11),
+        (form._("Date"), 15),
+        (form._("Address"), 29),
+        (form._("City"), 15),
+        (form._("State"), 15),
+        (form._("Country"), 15),
     )
     # if user or form.instance.public:
     #     for address in obj.address_set.all().order_by("order"):
@@ -534,9 +543,10 @@ def media_table(form, user, action):
     cssid = "tab-media"
     table = Table(form)
     table.set_columns(
-        (form._("Description"), 10),
+        ("", 11),
+        (form._("Description"), 49),
         (form._("Type"), 10),
-        (form._("Path/Filename"), 10),
+        (form._("Path/Filename"), 30),
     )
     # if user or form.instance.public:
     #     obj_type = ContentType.objects.get_for_model(obj)
@@ -567,6 +577,7 @@ def internet_table(form, user, action):
     cssid = "tab-internet"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Type"), 10),
         (form._("Path"), 10),
         (form._("Description"), 10),
@@ -595,6 +606,7 @@ def association_table(form, user, action):
     cssid = "tab-associations"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Name"), 10),
         (form._("ID"), 10),
         (form._("Association"), 10),
@@ -638,6 +650,7 @@ def location_table(form, user, action):
     cssid = "tab-alternatelocations"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Street"), 10),
         (form._("Locality"), 10),
         (form._("City"), 10),
@@ -674,6 +687,7 @@ def lds_table(form, user, action):
     cssid = "tab-lds"
     table = Table(form)
     table.set_columns(
+        ("", 11),
         (form._("Type"), 10),
         (form._("Date"), 10),
         (form._("Status"), 10),
@@ -790,6 +804,25 @@ def reference_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
+def source_citation_table(form, user, action):
+    retval = ""
+    has_data = False
+    cssid = "tab-citations"
+    table = Table(form)
+    table.set_columns(
+        ("", 11),
+        (form._("Title"), 29),
+        (form._("Author"), 20),
+        (form._("Page"), 20),
+        (form._("ID"), 20),
+    )
+    ## Loop
+    retval += table.get_html(action)
+    retval += nbsp("") # to keep tabs same height
+    if has_data:
+        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
+    return retval
+
 def children_table(form, user, action):
     retval = ""
     has_data = False
@@ -805,64 +838,23 @@ def children_table(form, user, action):
         (form._("Maternal"), 10),
         (form._("Birth Date"), 19),
     )
-
-    # family = obj
-    # obj_type = ContentType.objects.get_for_model(family)
-    # childrefs = db.dji.ChildRef.filter(object_id=family.id,
-    #                                 object_type=obj_type).order_by("order")
-    # links = []
-    # count = 1
-    # for childref in childrefs:
-    #     child = childref.ref_object
-    #     if user.is_authenticated() or obj.public:
-    #         table.row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user.is_superuser and url and act == "view" else "",
-    #                   str(count),
-    #                   "[%s]" % child.gid,
-    #                   render_name(child, user),
-    #                   child.gender_type,
-    #                   childref.father_rel_type,
-    #                   childref.mother_rel_type,
-    #                   date_as_text(child.birth, user) if child.birth else "",
-    #                   )
-    #         has_data = True
-    #         links.append(('URL', childref.get_url()))
-    #         count += 1
-    #     else:
-    #         table.row("",
-    #                   str(count),
-    #                   "[%s]" % child.gid,
-    #                   render_name(child, user) if not child.private else "[Private]",
-    #                   child.gender_type if not child.private else "[Private]",
-    #                   "[Private]",
-    #                   "[Private]",
-    #                   "[Private]",
-    #                   )
-    #         if not child.private and not childref.private:
-    #             links.append(('URL', childref.get_url()))
-    #         else:
-    #             links.append((None, None))
-    #         has_data = True
-    #         count += 1
-    # table.links(links)
+    count = 1
+    for childref in form.instance.child_ref_list:
+        handle = childref.ref
+        child = form.database.get_person_from_handle(handle)
+        table.append_row(str(count),
+                         "[%s]" % child.gid,
+                         name_display(child),
+                         render_gender(child.gender),
+                         childref.frel.string,
+                         childref.mrel.string,
+                         form.birth_date(child))
+        has_data = True
+        count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     retval += "&nbsp;"
     retval += "</div>"
-    text = table.get_html(action)
-
-    # if user.is_superuser and url and act == "view":
-    #     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-    #     text = text.replace("}}", """</div>""")
-    #     count = 1
-    #     for childref in childrefs:
-    #         text = text.replace("[[x%d]]" % count, make_button("x", "/family/%s/remove/child/%d" % (family.handle, count)))
-    #         text = text.replace("[[^%d]]" % count, make_button("^", "/family/%s/up/child/%d" % (family.handle, count)))
-    #         text = text.replace("[[v%d]]" % count, make_button("v", "/family/%s/down/child/%d" % (family.handle, count)))
-    #         count += 1
-    #     retval += make_button(_("Add New Person as Child"), (url.replace("$act", "add") % args))
-    #     retval += make_button(_("Add Existing Person as Child"), (url.replace("$act", "share") % args))
-    # else:
-    #     retval += nbsp("") # to keep tabs same height
-    retval += text
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -873,20 +865,14 @@ def render_name(name):
     function uses authentication, privacy and probably_alive settings.
     """
     if name is None:
-        return "[None]"
-    elif isinstance(name, Person): # name is a Person
-        try:
-            name = person.get_primary_name()
-        except:
-            name = None
-    elif isinstance(name, Name): # name is a Person
-        pass # it is a name
-    else: # no name object
-        return "[No preferred name]"
-    if name is None:
-        return "[No preferred name]"
+        return "[no name]"
     if len(name.surname_list) > 0:
         surname = name.surname_list[0].surname
     else:
         surname = "[No primary surname]"
     return "%s, %s" % (surname, name.first_name)
+
+def render_gender(gender):
+    return {2: "unknown",
+            1: "male",
+            0: "female"}[gender]

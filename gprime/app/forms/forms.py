@@ -391,6 +391,26 @@ class Form(object):
     def preview(self, text, env):
         return text[:100]
 
+    def birth_date(self, person):
+        from gprime.simple import SimpleAccess
+        sa = SimpleAccess(self.database)
+        return sa.birth_date(person)
+
+    def death_date(self, person):
+        from gprime.simple import SimpleAccess
+        sa = SimpleAccess(self.database)
+        return sa.death_date(person)
+
+    def family_father(self, family):
+        from gprime.simple import SimpleAccess
+        sa = SimpleAccess(self.database)
+        return sa.father(family)
+
+    def family_mother(self, family):
+        from gprime.simple import SimpleAccess
+        sa = SimpleAccess(self.database)
+        return sa.mother(family)
+
     def render_date(self, date, env):
         return dd(date)
 

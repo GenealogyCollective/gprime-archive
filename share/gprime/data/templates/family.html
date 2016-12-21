@@ -96,23 +96,23 @@
 {% if user  %}
 <tr>
  <td class="ColumnAttribute">Birth:</td>
- <td class="ColumnValue" id="data">{# familyform.father.birth|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.birth_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Birth:</td>
- <td class="ColumnValue" id="data">{# familyform.mother.birth|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.birth_date(form.family_mother(form.instance)) }}</td>
 </tr>
 {% else %}
 <tr>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{# familyform.father.death|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.death_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{# familyform.mother.death|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.death_date(form.family_mother(form.instance)) }}</td>
 </tr>
 {% end %}
 <tr>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{# familyform.father.death|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.death_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{# familyform.mother.death|date_as_text:user #}</td>
+ <td class="ColumnValue" id="data">{{ form.death_date(form.family_mother(form.instance)) }}</td>
 </tr>
 </tbody>
 </table>
@@ -122,16 +122,16 @@
   <th colspan="4">Relationship information</th>
 </tr>
 <tr>
- <td class="ColumnAttribute">{# familyform.gid.label #}:</td>
- <td class="ColumnValue" id="data">{# render familyform.gid user action #}</td>
- <td class="ColumnAttribute">{# familyform.family_rel_type.label #}:</td>
- <td class="ColumnValue" id="data">{# render familyform.family_rel_type user action #}</td>
+ <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
+ <td class="ColumnAttribute">{# form.get_label("frel") #}:</td>
+ <td class="ColumnValue" id="data">{# form.render("frel.type", user, action) #}</td>
 </tr>
 <tr>
- <td class="ColumnAttribute">{# familyform.tags.label #}:</td>
- <td class="ColumnValue" id="data">{# render familyform.tags user action #}</td>
- <td class="ColumnAttribute">{# familyform.private.label #}:</td>
- <td class="ColumnValue" id="data">{# render familyform.private user action #}</td>
+ <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
 </tr>
 </tbody>
 </table>

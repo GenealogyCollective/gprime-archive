@@ -2002,6 +2002,11 @@ class DbWriteBase(DbReadBase):
                 user.uistate.set_busy_cursor(False)
                 user.uistate.progress.hide()
 
+    def from_struct(self, struct):
+        """
+        """
+        return self.struct.from_struct(struct)
+
 class QuerySet:
     """
     A container for selection criteria before being actually

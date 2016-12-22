@@ -64,6 +64,7 @@ from gprime.lib.researcher import Researcher
 from gprime.lib import (Tag, Media, Person, Family, Source, Citation, Event,
                             Place, Repository, Note, NameOriginType)
 from gprime.lib.genderstats import GenderStats
+from gprime.lib.struct import Struct
 from gprime.config import config
 
 LOG = logging.getLogger(DBLOGNAME)
@@ -461,6 +462,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         DbReadBase.__init__(self)
         DbWriteBase.__init__(self)
         Callback.__init__(self)
+        self.struct = Struct(None, self)
         self.__tables =  {
             'Person':
             {

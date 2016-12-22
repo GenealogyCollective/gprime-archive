@@ -20,9 +20,6 @@
 
 from gprime.lib.handle import HandleClass
 
-def from_struct(struct):
-    return Struct.instance_from_struct(struct)
-
 class Struct:
     """
     Class for getting and setting parts of a struct by dotted path.
@@ -292,7 +289,7 @@ class Struct:
         if self.db:
             if trans is None:
                 with self.transaction("Struct Update", self.db, batch=True) as trans:
-                    new_obj = Struct.instance_from_struct(struct)
+                    new_obj = self.from_struct(struct)
                     name, handle = struct["_class"], struct["handle"]
                     old_obj = self.db.get_from_name_and_handle(name, handle)
                     if old_obj:
@@ -302,7 +299,7 @@ class Struct:
                         add_func = self.db.get_table_func(name,"add_func")
                         add_func(new_obj, trans)
             else:
-                new_obj = Struct.instance_from_struct(struct)
+                new_obj = self.from_struct(struct)
                 name, handle = struct["_class"], struct["handle"]
                 old_obj = self.db.get_from_name_and_handle(name, handle)
                 if old_obj:
@@ -312,11 +309,7 @@ class Struct:
                     add_func = self.db.get_table_func(name,"add_func")
                     add_func(new_obj, trans)
 
-    def from_struct(self):
-        return Struct.instance_from_struct(self.struct)
-
-    @classmethod
-    def instance_from_struct(cls, struct):
+    def from_struct(self, struct):
         """
         Given a struct with metadata, create a Gramps object.
 
@@ -327,25 +320,25 @@ class Struct:
         if isinstance(struct, dict):
             if "_class" in struct.keys():
                 if struct["_class"] == "Person":
-                    return Person.create(Person.from_struct(struct))
+                    return self.db.Person(Person.from_struct(struct))
                 elif struct["_class"] == "Family":
-                    return Family.create(Family.from_struct(struct))
+                    return self.db.Family(Family.from_struct(struct))
                 elif struct["_class"] == "Event":
-                    return Event.create(Event.from_struct(struct))
+                    return self.db.Event(Event.from_struct(struct))
                 elif struct["_class"] == "Source":
-                    return Source.create(Source.from_struct(struct))
+                    return self.db.Source(Source.from_struct(struct))
                 elif struct["_class"] == "Place":
-                    return Place.create(Place.from_struct(struct))
+                    return self.db.Place(Place.from_struct(struct))
                 elif struct["_class"] == "Citation":
-                    return Citation.create(Citation.from_struct(struct))
+                    return self.db.Citation(Citation.from_struct(struct))
                 elif struct["_class"] == "Repository":
-                    return Repository.create(Repository.from_struct(struct))
+                    return self.db.Repository(Repository.from_struct(struct))
                 elif struct["_class"] == "Media":
-                    return Media.create(Media.from_struct(struct))
+                    return self.db.Media(Media.from_struct(struct))
                 elif struct["_class"] == "Note":
-                    return Note.create(Note.from_struct(struct))
+                    return self.db.Note(Note.from_struct(struct))
                 elif struct["_class"] == "Tag":
-                    return Tag.create(Tag.from_struct(struct))
+                    return self.db.Tag(Tag.from_struct(struct))
                 elif struct["_class"] == "Date":
                     return Date().unserialize(Date.from_struct(struct, full=True))
         raise AttributeError("invalid struct: %s" % struct)

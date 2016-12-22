@@ -1128,7 +1128,7 @@ class DBAPI(DbGeneric):
         if self.readonly or not handle:
             return
         if handle in self.person_map:
-            person = Person.create(self.person_map[handle])
+            person = Person.create(self.person_map[handle]) # no need for db
             self.dbapi.execute("DELETE FROM person WHERE handle = ?;", [handle])
             if not transaction.batch:
                 transaction.add(PERSON_KEY, TXNDEL, person.handle,
@@ -1213,7 +1213,7 @@ class DBAPI(DbGeneric):
         rows = self.dbapi.fetchall()
         for row in rows:
             obj = self.get_table_func(class_.__name__,
-                                      "class_func").create(pickle.loads(row[0]))
+                                      "class_func").create(pickle.loads(row[0])) # no need for db
             # just use values and handle to keep small:
             sorted_items.append((eval_order_by(order_by, obj, self),
                                  obj.handle))
@@ -1255,7 +1255,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute(query)
         rows = self.dbapi.fetchall()
         for row in rows:
-            yield class_.create(pickle.loads(row[0]))
+            yield class_.create(pickle.loads(row[0]), self)
 
     def iter_person_handles(self):
         """
@@ -1372,7 +1372,7 @@ class DBAPI(DbGeneric):
             logging.info("Rebuilding %s reference map", class_func.__name__)
             with cursor_func() as cursor:
                 for found_handle, val in cursor:
-                    obj = class_func.create(val)
+                    obj = class_func.create(val) # no need for db
                     references = set(obj.get_referenced_handles_recursively())
                     # handle addition of new references
                     for (ref_class_name, ref_handle) in references:
@@ -1400,7 +1400,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from place;""")
         row = self.dbapi.fetchone()
         while row:
-            place = Place.create(pickle.loads(row[0]))
+            place = Place.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_place_key(place)
             cur2 = self.dbapi.execute(
                 """UPDATE place SET order_by = ? WHERE handle = ?;""",
@@ -1410,7 +1410,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from person;""")
         row = self.dbapi.fetchone()
         while row:
-            person = Person.create(pickle.loads(row[0]))
+            person = Person.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_person_key(person)
             cur2 = self.dbapi.execute(
                 """UPDATE person SET order_by = ? WHERE handle = ?;""",
@@ -1420,7 +1420,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from citation;""")
         row = self.dbapi.fetchone()
         while row:
-            citation = Citation.create(pickle.loads(row[0]))
+            citation = Citation.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_citation_key(citation)
             cur2 = self.dbapi.execute(
                 """UPDATE citation SET order_by = ? WHERE handle = ?;""",
@@ -1430,7 +1430,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from source;""")
         row = self.dbapi.fetchone()
         while row:
-            source = Source.create(pickle.loads(row[0]))
+            source = Source.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_source_key(source)
             cur2 = self.dbapi.execute(
                 """UPDATE source SET order_by = ? WHERE handle = ?;""",
@@ -1440,7 +1440,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from tag;""")
         row = self.dbapi.fetchone()
         while row:
-            tag = Tag.create(pickle.loads(row[0]))
+            tag = Tag.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_tag_key(tag.name)
             cur2 = self.dbapi.execute(
                 """UPDATE tag SET order_by = ? WHERE handle = ?;""",
@@ -1450,7 +1450,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""select blob_data from media;""")
         row = self.dbapi.fetchone()
         while row:
-            media = Media.create(pickle.loads(row[0]))
+            media = Media.create(pickle.loads(row[0])) # no need for db
             order_by = self._order_by_media_key(media)
             cur2 = self.dbapi.execute(
                 """UPDATE media SET order_by = ? WHERE handle = ?;""",
@@ -2150,7 +2150,7 @@ class DBAPI(DbGeneric):
                     else:
                         if obj is None:  # we need it! create it and cache it:
                             obj = self.get_table_func(table,
-                                                      "class_func").create(
+                                                      "class_func").create( # no need for db
                                                           pickle.loads(row[0]))
                         # get the field, even if we need to do a join:
                         # FIXME: possible optimize:
@@ -2162,7 +2162,7 @@ class DBAPI(DbGeneric):
             else:
                 obj = self.get_table_func(table,
                                           "class_func").create(
-                                              pickle.loads(row[0]))
+                                              pickle.loads(row[0]), self)
                 yield obj
 
     def get_summary(self):

@@ -283,8 +283,9 @@ class Form(object):
     def render(self, field, user, action, js=None, link=None, **kwargs):
         from gprime.lib.handle import HandleClass
         from gprime.lib.struct import Struct
+        from gprime.lib.grampstype import GrampsType
         data = self.instance.get_field(field, self.database)
-        if isinstance(data, (list, tuple)):
+        if isinstance(data, (list, tuple)): ## Tags
             s = Struct.wrap(self.instance, self.database)
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
@@ -294,14 +295,38 @@ class Form(object):
                 ## Tags:
                 name = item.name
                 handle = item.instance.handle
-                retval += """<option value="%s" selected="selected">%s</option>""" % (handle, name)
+                retval += """<option value="%s" selected>%s</option>""" % (handle, name)
                 tags.add(handle)
             if action == "edit":
                 for tag in self.database.Tag.select():
                     if tag.handle not in tags:
                         retval += """<option value="%s">%s</option>""" % (tag.handle, tag.name)
             retval += "</select>"
-        else:
+        elif isinstance(data, bool): # Booleans (private, probably alive)
+            env = {
+                "field": field,
+                "checked": "checked" if data else "",
+                "disabled": "" if action == "edit" else "disabled",
+            }
+            return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field)s"></input>""" % env
+        elif isinstance(data, GrampsType):
+            env = {
+                "field": field,
+                "disabled": "" if action == "edit" else "disabled",
+            }
+            retval = """<select name="%(field)s" %(disabled)s id="id_%(field)s" style="width: 100%%">""" % env
+            if action == "edit":
+                for option in data._DATAMAP:
+                    env["selected"] = "selected" if option[2] == data.string else ""
+                    env["value"] = option[0] # number
+                    env["string"] = option[1] # translated
+                    retval += """<option value="%(value)s" %(selected)s>%(string)s</option>""" % env
+            else:
+                env["value"] = data.value
+                env["string"] = data.string
+                retval += """<option value="%(value)s" selected>%(string)s</option>""" % env
+            retval += "</select>"
+        else: # text field
             retval = data
             if action in ["edit", "add"]:
                 id = js if js else "id_" + field
@@ -317,25 +342,37 @@ class Form(object):
         return self.instance.get_field(field, self.database)
 
     def save(self, handler):
+        from gprime.lib.grampstype import GrampsType
         # go thorough fields and save values
         for field in self.edit_fields:
             try:
                 part = self.instance.get_field(field)
             except:
-                self.log.warning("field '%s' not found in form" % field)
+                self.log.warning("field '%s' not found in object; valid fields: %s", field, self.instance.to_struct().keys())
                 continue
-            if isinstance(part, (list, tuple)):
+            if isinstance(part, (list, tuple)): # Tag
                 try:
                     value = handler.get_arguments(field)
                 except:
-                    self.log.warning("field '%s' not found in form" % field)
-                    continue
+                    self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
+                    value = None
                 part[:] = value
+            elif isinstance(part, bool): # Bool
+                try:
+                    value = handler.get_argument(field)
+                except:
+                    value = "off"
+                self.instance.set_field(field, True if value == "on" else False)
+            elif isinstance(part, GrampsType): # type
+                # FIXME: lookup type number, set item to Type()
+                self.log.debug("save grampstype: %s", field)
+                pass
             else:
                 try:
                     value = handler.get_argument(field)
                 except:
-                    self.log.warning("field '%s' not found in form" % field)
+                    self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
+                    value = None
                     continue
                 self.instance.set_field(field, value)
         transaction = self.database.get_transaction_class()

@@ -36,7 +36,6 @@ class EventForm(Form):
     # Fields for editor:
     edit_fields = [
         "type",
-        "text.string",
         "gid",
         "tag_list",
         "private",

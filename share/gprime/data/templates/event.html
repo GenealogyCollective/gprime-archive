@@ -51,11 +51,25 @@ Event:
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
  <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
+
+{#
+
+
+
+#}
+
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
 </tr>
+
+
+
 </tbody>
 </table>
 </div>

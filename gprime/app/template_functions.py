@@ -178,7 +178,7 @@ def event_table(form, user, action):
         table.append_row(event.description,
                          event.type.string,
                          event.gid,
-                         event.date.from_struct(),
+                         event.date.text,
                          event.place.name.value,
                          event_ref.role.string,
                          link="/event/%s" % event.instance.handle)

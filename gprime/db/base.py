@@ -2016,6 +2016,13 @@ class QuerySet:
         self.limit_by = -1
         self.start = 0
         self.needs_to_run = False
+        self._class = self.database.get_table_func(self.table, "class_func")
+
+    def __call__(self, data=None):
+        """
+        Return a primary object of the specific class.
+        """
+        return self._class(data, self.database)
 
     def limit(self, start=None, count=None):
         """
@@ -2219,4 +2226,3 @@ class QuerySet:
                 else:
                     continue
                 commit_func(item, trans)
-

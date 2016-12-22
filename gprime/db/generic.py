@@ -306,7 +306,7 @@ class Map:
         value: serialized object
         key: bytes key (ignored in this function)
         """
-        obj = self.table.funcs["class_func"].create(value)
+        obj = self.table.funcs["class_func"].create(value, self.table.db)
         self.table.funcs["commit_func"](obj, self.txn)
 
     def __len__(self):
@@ -1171,7 +1171,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_event_data(handle)
         if data:
-            return Event.create(data)
+            return Event.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1184,7 +1184,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_family_data(handle)
         if data:
-            return Family.create(data)
+            return Family.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1197,7 +1197,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_repository_data(handle)
         if data:
-            return Repository.create(data)
+            return Repository.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1210,7 +1210,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_person_data(handle)
         if data:
-            return Person.create(data)
+            return Person.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1223,7 +1223,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_place_data(handle)
         if data:
-            return Place.create(data)
+            return Place.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1236,7 +1236,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_citation_data(handle)
         if data:
-            return Citation.create(data)
+            return Citation.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1249,7 +1249,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_source_data(handle)
         if data:
-            return Source.create(data)
+            return Source.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1262,7 +1262,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_note_data(handle)
         if data:
-            return Note.create(data)
+            return Note.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1275,7 +1275,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_media_data(handle)
         if data:
-            return Media.create(data)
+            return Media.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1288,7 +1288,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             raise HandleError('Handle is empty')
         data = self._get_raw_tag_data(handle)
         if data:
-            return Tag.create(data)
+            return Tag.create(data, self)
         else:
             raise HandleError('Handle %s not found' % handle)
 
@@ -1307,12 +1307,12 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         cursor = self.get_table_func(class_.__name__,"cursor_func")
         if order_by is None:
             for data in cursor():
-                yield class_.create(data[1])
+                yield class_.create(data[1], self)
         else:
             # first build sort order:
             sorted_items = []
             for data in cursor():
-                obj = class_.create(data[1])
+                obj = class_.create(data[1], self)
                 # just use values and handle to keep small:
                 sorted_items.append((eval_order_by(order_by, obj, self), obj.handle))
             # next we sort by fields and direction
@@ -1342,31 +1342,31 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         return self.iter_items(order_by, Family)
 
     def get_person_from_gid(self, gid):
-        return Person.create(self.person_id_map[gid])
+        return Person.create(self.person_id_map[gid], self)
 
     def get_family_from_gid(self, gid):
-        return Family.create(self.family_id_map[gid])
+        return Family.create(self.family_id_map[gid], self)
 
     def get_citation_from_gid(self, gid):
-        return Citation.create(self.citation_id_map[gid])
+        return Citation.create(self.citation_id_map[gid], self)
 
     def get_source_from_gid(self, gid):
-        return Source.create(self.source_id_map[gid])
+        return Source.create(self.source_id_map[gid], self)
 
     def get_event_from_gid(self, gid):
-        return Event.create(self.event_id_map[gid])
+        return Event.create(self.event_id_map[gid], self)
 
     def get_media_from_gid(self, gid):
-        return Media.create(self.media_id_map[gid])
+        return Media.create(self.media_id_map[gid], self)
 
     def get_place_from_gid(self, gid):
-        return Place.create(self.place_id_map[gid])
+        return Place.create(self.place_id_map[gid], self)
 
     def get_repository_from_gid(self, gid):
-        return Repository.create(self.repository_id_map[gid])
+        return Repository.create(self.repository_id_map[gid], self)
 
     def get_note_from_gid(self, gid):
-        return Note.create(self.note_id_map[gid])
+        return Note.create(self.note_id_map[gid], self)
 
     def get_place_cursor(self):
         return Cursor(self.place_map)
@@ -1710,7 +1710,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
                 map = getattr(self, "%s_map" % key.lower())
                 if isinstance(handle, bytes):
                     handle = str(handle, "utf-8")
-                map[handle] = class_.create(data)
+                map[handle] = class_.create(data, db)
 
     def get_transaction_class(self):
         """

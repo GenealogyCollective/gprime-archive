@@ -42,7 +42,7 @@ class Tag(TableObject):
     attached to a primary object.
     """
 
-    def __init__(self, source=None):
+    def __init__(self, source=None, db=None):
         """
         Create a new Tag instance, copying from the source if present.
 
@@ -51,7 +51,7 @@ class Tag(TableObject):
         """
 
         TableObject.__init__(self, source)
-
+        self.db = db
         if source:
             self.__name = source.name
             self.__color = source.color

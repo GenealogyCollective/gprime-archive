@@ -224,9 +224,11 @@ class BaseObject(metaclass=ABCMeta):
         pass
 
     @classmethod
-    def create(cls, data):
+    def create(cls, data, db=None):
         """
         Create a new instance from serialized data.
         """
         if data:
-            return cls().unserialize(data)
+            obj = cls().unserialize(data)
+            obj.db = db
+            return obj

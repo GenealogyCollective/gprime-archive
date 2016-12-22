@@ -61,7 +61,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
     description and privacy.
     """
 
-    def __init__(self, source=None):
+    def __init__(self, source=None, db=None):
         """
         Initialize a Media.
 
@@ -76,7 +76,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         NoteBase.__init__(self, source)
         DateBase.__init__(self, source)
         AttributeBase.__init__(self, source)
-
+        self.db = db
         if source:
             self.path = source.path
             self.mime = source.mime

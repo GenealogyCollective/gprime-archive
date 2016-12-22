@@ -78,7 +78,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
     MALE = 1
     FEMALE = 0
 
-    def __init__(self, data=None):
+    def __init__(self, data=None, db=None):
         """
         Create a new Person instance.
 
@@ -102,6 +102,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         self.__gender = Person.UNKNOWN
         self.death_ref_index = -1
         self.birth_ref_index = -1
+        self.db = db
         if data:
             self.unserialize(data)
 
@@ -1216,3 +1217,21 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
                     break
             else:
                 self.person_ref_list.append(addendum)
+
+    def get_birth_event(self):
+        event = None
+        ref = self.get_birth_ref()
+        if ref:
+            event_handle = ref.get_reference_handle()
+            if event_handle:
+                event = self.db.get_event_from_handle(event_handle)
+        return event
+
+    def get_death_event(self):
+        event = None
+        ref = self.get_death_ref()
+        if ref:
+            event_handle = ref.get_reference_handle()
+            if event_handle:
+                event = self.db.get_event_from_handle(event_handle)
+        return event

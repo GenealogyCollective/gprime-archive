@@ -54,7 +54,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
     a collection of images and URLs, a note and a source.
     """
 
-    def __init__(self, source=None):
+    def __init__(self, source=None, db=None):
         """
         Create a new Place object, copying from the source if present.
 
@@ -66,6 +66,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         NoteBase.__init__(self, source)
         MediaBase.__init__(self, source)
         UrlBase.__init__(self, source)
+        self.db = db
         if source:
             self.long = source.long
             self.lat = source.lat

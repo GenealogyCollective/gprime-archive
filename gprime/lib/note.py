@@ -77,12 +77,17 @@ class Note(BasicPrimaryObject):
      POS_TAGS,
      POS_PRIVATE,) = list(range(8))
 
-    def __init__(self, text=""):
+    def __init__(self, data="", db=None):
         """Create a new Note object, initializing from the passed string."""
         BasicPrimaryObject.__init__(self)
-        self.text = StyledText(text)
         self.format = Note.FLOWED
         self.type = NoteType()
+        self.db = db
+        if isinstance(data, str):
+            self.text = StyledText(data)
+        else:
+            self.text = StyledText("")
+            self.unserialize(data)
 
     def serialize(self):
         """Convert the object to a serialized tuple of data.

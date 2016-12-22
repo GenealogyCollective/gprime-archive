@@ -77,7 +77,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
     or the changes will be lost.
     """
 
-    def __init__(self):
+    def __init__(self, data=None, db=None):
         """
         Create a new Family instance.
 
@@ -96,6 +96,9 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         self.type = FamilyRelType()
         self.event_ref_list = []
         self.complete = 0
+        self.db = db
+        if data:
+            self.unserialize(data)
 
     def serialize(self):
         """

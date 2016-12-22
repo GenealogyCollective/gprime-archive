@@ -49,7 +49,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
              PrimaryObject):
     """A record of a source of information."""
 
-    def __init__(self):
+    def __init__(self, data=None, db=None):
         """Create a new Source instance."""
         PrimaryObject.__init__(self)
         MediaBase.__init__(self)
@@ -60,6 +60,9 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         self.pubinfo = ""
         self.abbrev = ""
         self.reporef_list = []
+        self.db = db
+        if data:
+            self.unserialize(data)
 
     def serialize(self):
         """

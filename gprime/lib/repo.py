@@ -47,7 +47,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
                  PrimaryObject):
     """A location where collections of Sources are found."""
 
-    def __init__(self):
+    def __init__(self, data=None, db=None):
         """
         Create a new Repository instance.
         """
@@ -57,6 +57,9 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         UrlBase.__init__(self)
         self.type = RepositoryType()
         self.name = ""
+        self.db = db
+        if data:
+            self.unserialize(data)
 
     def serialize(self):
         """

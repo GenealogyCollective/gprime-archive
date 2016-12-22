@@ -68,7 +68,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
     CONF_LOW = 1
     CONF_VERY_LOW = 0
 
-    def __init__(self):
+    def __init__(self, data=None, db=None):
         """Create a new Citation instance."""
         PrimaryObject.__init__(self)
         MediaBase.__init__(self)                       #  7
@@ -78,6 +78,9 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         self.page = ""                                 #  3
         self.confidence = Citation.CONF_NORMAL         #  4
         SrcAttributeBase.__init__(self)                #  8
+        self.db = db
+        if data:
+            self.unserialize(data)
 
     @classmethod
     def get_schema(cls):

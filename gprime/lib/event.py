@@ -68,7 +68,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
     Compare this with attribute: :class:`~.attribute.Attribute`
     """
 
-    def __init__(self, source=None):
+    def __init__(self, source=None, db=None):
         """
         Create a new Event instance, copying from the source if present.
 
@@ -83,6 +83,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         AttributeBase.__init__(self)
         DateBase.__init__(self, source)
         PlaceBase.__init__(self, source)
+        self.db = db
 
         if source:
             self.__description = source.description

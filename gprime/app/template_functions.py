@@ -392,14 +392,12 @@ def note_table(form, user, action):
         links = []
         count = 1
         for note in notes:
-            #table.append_row("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count) if user else "",
             table.append_row(note.gid,
-                      str(note.type.string),
-                      note.text.string[:50])
-            #links.append(('URL', note.get_url()))
+                             str(note.type.string),
+                             note.text.string[:50],
+                             link="/note/%s" % note.instance.handle)
             has_data = True
             count += 1
-        #table.links(links)
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add New Note"), "FIXME", icon="+")
@@ -410,14 +408,6 @@ def note_table(form, user, action):
     text = table.get_html(action)
     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
     text = text.replace("}}", """</div>""")
-    # if user or form.instance.public:
-    #     count = 1
-    #     for note_ref in note_refs:
-    #         item = obj.__class__.__name__.lower()
-    #         text = text.replace("[[x%d]]" % count, make_icon_button("x", "/%s/%s/remove/noteref/%d" % (item, obj.handle, count)))
-    #         text = text.replace("[[^%d]]" % count, make_icon_button("^", "/%s/%s/up/noteref/%d" % (item, obj.handle, count)))
-    #         text = text.replace("[[v%d]]" % count, make_icon_button("v", "/%s/%s/down/noteref/%d" % (item, obj.handle, count)))
-    #         count += 1
     retval += text
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
@@ -547,17 +537,14 @@ def media_table(form, user, action):
         (form._("Type"), 10),
         (form._("Path/Filename"), 30),
     )
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     media_refs = db.dji.MediaRef.filter(object_type=obj_type,
-    #                                     object_id=obj.id)
-    #     for media_ref in media_refs:
-    #         media = table.db.get_media_from_handle(
-    #             media_ref.ref_object.handle)
-    #         table.append_row(table.db.get_media_from_handle(media.handle),
-    #                   str(media_ref.ref_object.desc),
-    #                   media_ref.ref_object.path)
-    #         has_data = True
+    if user or form.instance.public:
+        for media_ref in form.instance.media_list:
+            media = form.database.get_media_from_handle(media_ref.ref)
+            table.append_row(media.desc,
+                             media.mime,
+                             media.path,
+                             link="/media/%s" % media.handle)
+            has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add New Media"), "FIXME", icon="+")

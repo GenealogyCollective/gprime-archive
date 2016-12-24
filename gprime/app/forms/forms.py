@@ -388,29 +388,37 @@ class Form(object):
         return ""
 
     def get_media(self, width, height=None):
-        if self.instance.media_list:
-            media_ref = self.instance.media_list[0]
-            media_handle = media_ref.ref
-            if media_ref.rect:
-                x1, y1, x2, y2 = media_ref.rect
-                w = x2 - x1
-                h = y2 - y1
-                return (
-                    """<a href="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg"/>""" +
-                    """<img src="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg"/>""" +
-                    """</a>"""
-                ) % {
-                    "handle": media_handle,
-                    "width": width,
-                    "x": x1, "y": y1, "w": w, "h": h,
-                }
-            else:
-                return (
-                    """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
-                    """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
+        if hasattr(self.instance, "media_list"):
+            if self.instance.media_list:
+                media_ref = self.instance.media_list[0]
+                media_handle = media_ref.ref
+                if media_ref.rect:
+                    x1, y1, x2, y2 = media_ref.rect
+                    w = x2 - x1
+                    h = y2 - y1
+                    return (
+                        """<a href="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg"/>""" +
+                        """<img src="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg"/>""" +
+                        """</a>"""
+                    ) % {
                         "handle": media_handle,
                         "width": width,
+                        "x": x1, "y": y1, "w": w, "h": h,
                     }
+                else:
+                    return (
+                        """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
+                        """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
+                            "handle": media_handle,
+                            "width": width,
+                        }
+        else:
+                    return (
+                        """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
+                        """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
+                            "handle": self.instance.handle,
+                            "width": width,
+                        }
         return ""
 
     def set_post_process_functions(self):

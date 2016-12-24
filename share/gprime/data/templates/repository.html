@@ -103,16 +103,16 @@
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("Sources")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;">
-    {{ address_table(form, user, action, link="/place/$act/repository/%(handle)s", handle=form.instance.handle) }}
+    {{ address_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">
-    {{ internet_table(form, user, action, link="/repository/%(handle)s/$act/internet", handle=form.instance.handle) }}
+    {{ internet_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;">
-    {{ note_table(form, user, action, link="/note/$act/repository/%(handle)s", handle=form.instance.handle) }}
+    {{ note_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
-    {{ repository_reference_table(form, user, action) }}
+    {{ reference_table(form, user, action) }}
   </div>
 </div>
 

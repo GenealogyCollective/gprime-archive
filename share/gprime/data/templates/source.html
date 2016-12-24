@@ -4,7 +4,7 @@
 {% block title %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 {% block heading %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 
-{% block content %} 
+{% block content %}
    <script type="text/javascript">
    $(function(){
      $('#tabs').tabs({
@@ -20,7 +20,7 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
+<table class="infolist" style="width:100%;">
 <tbody>
   {% if messages %}
     <hr>
@@ -116,7 +116,19 @@
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-repositories">{{_("Repositories")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;">
+    {{ note_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-gallery" style="background-color: #f4f0ec;">
+    {{ media_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;">
+    {{ attribute_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-repositories" style="background-color: #f4f0ec;">
+    {{ repository_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ reference_table(form, user, action) }}
   </div>
 </div>

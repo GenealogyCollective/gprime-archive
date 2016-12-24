@@ -502,11 +502,7 @@ def attribute_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-<<<<<<< HEAD
-def address_table(form, user, action):
-=======
-def address_table(form, user, action, link=None, **kwargs): #TODO: Make table customizable (For instance, if user desires to display counties or lat/long)
->>>>>>> Added more functionality to repositories and tables
+def address_table(form, user, action): #TODO: Make table customizable (For instance, if user desires to display counties or lat/long)
     retval = ""
     has_data = False
     cssid = "tab-addresses"
@@ -522,7 +518,7 @@ def address_table(form, user, action, link=None, **kwargs): #TODO: Make table cu
     s = Struct.wrap(form.instance, form.database)
     count = 0
     for address in s.address_list:
-        table.append_row(address.date.from_struct(),
+        table.append_row(address.date.text,
                          address.location.street,
                          address.location.city,
                          address.location.state,
@@ -580,14 +576,10 @@ def internet_table(form, user, action):
     cssid = "tab-internet"
     table = Table(form)
     table.set_columns(
-<<<<<<< HEAD
         ("", 11),
-=======
-        ("", 5),
->>>>>>> Added more functionality to repositories and tables
-        (form._("Type"), 10),
-        (form._("Path"), 10),
-        (form._("Description"), 10),
+        (form._("Type"), 19),
+        (form._("Path"), 35),
+        (form._("Description"), 35),
     )
     s = Struct.wrap(form.instance, form.database)
     count = 0
@@ -808,37 +800,6 @@ def reference_table(form, user, action):
         (form._("Type"), 10),
         (form._("Reference"), 69),
         (form._("ID"), 10),
-<<<<<<< HEAD
-=======
-    )
-    if (user or form.instance.public) and action != "add":
-        repoHandle = Struct.wrap(form.instance, form.database).handle
-        print (repoHandle)
-        """for reference in s.:
-            #ref_from_class = reference.object_type.model_class()
-            #item = ref_from_class.objects.get(id=reference.object_id)
-            table.append_row(
-                item.__class__.__name__,
-                item,
-                item.gid)
-            has_data = True
-            count = count + 1"""
-    retval += table.get_html()
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def citation_reference_table(form, user, action, link=None, **kwargs):
-    retval = ""
-    has_data = False
-    cssid = "tab-references"
-    table = Table(form, "tab_table")
-    table.set_columns(
-        (form._("Type"), 10),
-        (form._("Reference"), 10),
-        #        form._("ID")
->>>>>>> Added more functionality to repositories and tables
         )
     for ref_pair in form.database.find_backlink_handles(form.instance.handle):
         obj_type, handle = ref_pair

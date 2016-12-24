@@ -54,69 +54,28 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
     a collection of images and URLs, a note and a source.
     """
 
-    def __init__(self, source=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Place object, copying from the source if present.
 
         :param source: A Place object used to initialize the new Place
         :type source: Place
         """
-        PrimaryObject.__init__(self, source)
-        CitationBase.__init__(self, source)
-        NoteBase.__init__(self, source)
-        MediaBase.__init__(self, source)
-        UrlBase.__init__(self, source)
+        PrimaryObject.__init__(self)
+        CitationBase.__init__(self)
+        NoteBase.__init__(self)
+        MediaBase.__init__(self)
+        UrlBase.__init__(self)
         self.db = db
-        if source:
-            self.long = source.long
-            self.lat = source.lat
-            self.title = source.title
-            self.name = source.name
-            self.alt_names = source.alt_names
-            self.placeref_list = list(map(PlaceRef, source.placeref_list))
-            self.place_type = source.place_type
-            self.code = source.code
-            self.alt_loc = list(map(Location, source.alt_loc))
-        else:
-            self.long = ""
-            self.lat = ""
-            self.title = ""
-            self.name = PlaceName()
-            self.alt_names = []
-            self.placeref_list = []
-            self.place_type = PlaceType()
-            self.code = ""
-            self.alt_loc = []
-
-    def serialize(self):
-        """
-        Convert the data held in the Place to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (self.handle, self.gid, self.title, self.long, self.lat,
-                [pr.serialize() for pr in self.placeref_list],
-                self.name.serialize(),
-                [an.serialize() for an in self.alt_names],
-                self.place_type.serialize(), self.code,
-                [al.serialize() for al in self.alt_loc],
-                UrlBase.serialize(self),
-                MediaBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                self.change, TagBase.serialize(self), self.private)
+        self.long = ""
+        self.lat = ""
+        self.title = ""
+        self.name = PlaceName()
+        self.alt_names = []
+        self.placeref_list = []
+        self.place_type = PlaceType()
+        self.code = ""
+        self.alt_loc = []
 
     @classmethod
     def get_labels(cls, _):
@@ -152,7 +111,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
               primary=True, null=False, index=True),
              Column("order_by", "TEXT", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_schema(cls):
@@ -228,8 +187,8 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
 
         :returns: Returns a serialized object
         """
-        default = Place()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Place()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 struct.get("title", default.title),
                 struct.get("long", default.long),
@@ -243,41 +202,16 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
                 struct.get("code", default.code),
                 [Location.from_struct(al)
                  for al in struct.get("alt_loc", default.alt_loc)],
-                UrlBase.from_struct(struct.get("urls", default.urls)),
-                MediaBase.from_struct(struct.get("media_list",
-                                                 default.media_list)),
-                CitationBase.from_struct(struct.get("citation_list",
-                                                    default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Place object.
-
-        :param data: tuple containing the persistent data associated with the
-                     Place object
-        :type data: tuple
-        """
         (self.handle, self.gid, self.title, self.long, self.lat,
-         placeref_list, name, alt_names, the_type, self.code,
-         alt_loc, urls, media_list, citation_list, note_list,
-         self.change, tag_list, self.private) = data
-
-        self.place_type = PlaceType()
-        self.place_type.unserialize(the_type)
-        self.alt_loc = [Location().unserialize(al) for al in alt_loc]
-        self.placeref_list = [PlaceRef().unserialize(pr) for pr in placeref_list]
-        self.name = PlaceName().unserialize(name)
-        self.alt_names = [PlaceName().unserialize(an) for an in alt_names]
-        UrlBase.unserialize(self, urls)
-        MediaBase.unserialize(self, media_list)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        TagBase.unserialize(self, tag_list)
+         self.placeref_list, self.name, self.alt_names, self.place_type, self.code,
+         self.alt_loc, self.change, self.private) = data
+        UrlBase.set_from_struct(self, struct)
+        MediaBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

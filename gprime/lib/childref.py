@@ -64,17 +64,6 @@ class ChildRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
             self.frel = ChildRefType()
             self.mrel = ChildRefType()
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                RefBase.serialize(self),
-                self.frel.serialize(),
-                self.mrel.serialize())
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -110,27 +99,13 @@ class ChildRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
 
         :returns: Returns a serialized object
         """
-        default = ChildRef()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                CitationBase.from_struct(struct.get("citation_list", default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                RefBase.from_struct(struct.get("ref", default.ref)),
-                ChildRefType.from_struct(struct.get("frel", {})),
-                ChildRefType.from_struct(struct.get("mrel", {})))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, ref, frel, mrel) = data
-        PrivacyBase.unserialize(self, privacy)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        RefBase.unserialize(self, ref)
-        self.frel = ChildRefType()
-        self.frel.unserialize(frel)
-        self.mrel = ChildRefType()
-        self.mrel.unserialize(mrel)
+        self = ChildRef()
+        PrivacyBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        RefBase.set_from_struct(self, struct)
+        self.frel = ChildRefType.from_struct(struct.get("frel", {}))
+        self.mrel = ChildRefType.from_struct(struct.get("mrel", {}))
         return self
 
     def get_text_data_list(self):

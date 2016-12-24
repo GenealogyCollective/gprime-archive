@@ -51,17 +51,7 @@ class DateBase:
         else:
             self.date = Date()
 
-    def serialize(self, no_text_date=False):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        if self.date is None or (self.date.is_empty() and not self.date.text):
-            date = None
-        else:
-            date = self.date.serialize(no_text_date)
-        return date
-
-    def to_struct(self, no_text_date=False):
+    def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
         struct) that represents all the data elements.
@@ -87,22 +77,15 @@ class DateBase:
             date = self.date.to_struct()
         return date
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return Date.from_struct(struct)
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.date = Date()
-        if data is not None:
-            self.date.unserialize(data)
+        date = struct.get("date", None)
+        if date:
+            self.date = Date.from_struct(date)
+        else:
+            self.date = None
 
     def get_date_object(self):
         """

@@ -63,15 +63,6 @@ class StyledTextTag:
             # Current use of StyledTextTag is such that a shallow copy suffices.
             self.ranges = ranges
 
-    def serialize(self):
-        """Convert the object to a serialized tuple of data.
-
-        :return: Serialized format of the instance.
-        :rtype: tuple
-
-        """
-        return (self.name.serialize(), self.value, self.ranges)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -104,20 +95,9 @@ class StyledTextTag:
 
         :return: Returns a serialized object
         """
-        default = StyledTextTag()
-        return (StyledTextTagType.from_struct(struct.get("name", {})),
+        self = default = StyledTextTag()
+        data = (StyledTextTagType.from_struct(struct.get("name", {})),
                 struct.get("value", default.value),
                 struct.get("ranges", default.ranges))
-
-    def unserialize(self, data):
-        """Convert a serialized tuple of data to an object.
-
-        :param data: Serialized format of instance variables.
-        :type data: tuple
-
-        """
-        (the_name, self.value, self.ranges) = data
-
-        self.name = StyledTextTagType()
-        self.name.unserialize(the_name)
+        (self.name, self.value, self.ranges) = data
         return self

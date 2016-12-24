@@ -61,16 +61,16 @@ class DbMixin:
                  if the object is new
         @rtype: tuple
         """
-        obj = class_type()
         handle = str(handle)
         new = True
         raw = get_raw_obj_data(handle)
         if raw is not None:
-            obj.unserialize(raw)
+            obj = class_type.from_struct(raw)
             #references create object with id None before object is really made
             if obj.gid is not None:
                 new = False
         else:
+            obj = class_type()
             obj.set_handle(handle)
             add_func(obj, transaction)
         return obj, new
@@ -87,13 +87,13 @@ class DbMixin:
                  if the object is new
         @rtype: tuple
         """
-        obj = class_type()
         handle = str(handle)
         raw = get_raw_obj_data(handle)
         if raw is not None:
-            obj.unserialize(raw)
+            obj = class_type.from_struct(raw)
             return obj, False
         else:
+            obj = class_type()
             obj.set_handle(handle)
             add_func(obj, transaction)
             return obj, True

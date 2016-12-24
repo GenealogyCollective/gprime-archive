@@ -659,18 +659,6 @@ class Date:
             self.sortval = 0
             self.newyear = Date.NEWYEAR_JAN1
 
-    def serialize(self, no_text_date=False):
-        """
-        Convert to a series of tuples for data storage.
-        """
-        if no_text_date:
-            text = ''
-        else:
-            text = self.text
-
-        return (self.calendar, self.modifier, self.quality,
-                self.dateval, text, self.sortval, self.newyear)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -695,7 +683,7 @@ class Date:
                 "calendar": self.calendar,
                 "modifier": self.modifier,
                 "quality": self.quality,
-                "dateval": self.dateval,
+                "dateval": list(self.dateval),
                 "text": self.text,
                 "sortval": self.sortval,
                 "newyear": self.newyear}
@@ -707,38 +695,16 @@ class Date:
 
         :returns: Returns a serialized object
         """
-        default = Date()
-        retval = (struct.get("calendar", default.calendar),
+        self = default = Date()
+        data = (struct.get("calendar", default.calendar),
                   struct.get("modifier", default.modifier),
                   struct.get("quality", default.quality),
                   tuple(struct.get("dateval", default.dateval)),
                   struct.get("text", default.text),
                   struct.get("sortval", default.sortval),
                   struct.get("newyear", default.newyear))
-        if not full and retval == (0, 0, 0, (0, 0, 0, False), '', 0, 0):
-            return None
-        else:
-            return retval
-
-    def unserialize(self, data):
-        """
-        Load from the format created by serialize.
-        """
-        #FIXME: work around 3.1.0 error:
-        #2792: Dates in sourcereferences in person_ref_list not upgraded
-        #Added 2009/03/09
-        if len(data) == 7:
-            # This is correct:
-            (self.calendar, self.modifier, self.quality,
-             self.dateval, self.text, self.sortval, self.newyear) = data
-        elif len(data) == 6:
-            # This is necessary to fix 3.1.0 bug:
-            (self.calendar, self.modifier, self.quality,
-             self.dateval, self.text, self.sortval) = data
-            self.newyear = 0
-            # Remove all except if-part after 3.1.1
-        else:
-            raise DateError("Invalid date to unserialize")
+        (self.calendar, self.modifier, self.quality,
+         self.dateval, self.text, self.sortval, self.newyear) = data
         return self
 
     def copy(self, source):

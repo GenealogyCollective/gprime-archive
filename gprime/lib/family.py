@@ -77,7 +77,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
     or the changes will be lost.
     """
 
-    def __init__(self, data=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Family instance.
 
@@ -97,38 +97,6 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         self.event_ref_list = []
         self.complete = 0
         self.db = db
-        if data:
-            self.unserialize(data)
-
-    def serialize(self):
-        """
-        Convert the data held in the event to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (self.handle, self.gid, self.father_handle,
-                self.mother_handle,
-                [cr.serialize() for cr in self.child_ref_list],
-                self.type.serialize(),
-                [er.serialize() for er in self.event_ref_list],
-                MediaBase.serialize(self),
-                AttributeBase.serialize(self),
-                LdsOrdBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                self.change, TagBase.serialize(self), self.private)
 
     def to_struct(self):
         """
@@ -174,8 +142,8 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
 
         :returns: Returns a serialized object
         """
-        default = Family()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Family()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 Handle.from_struct(struct.get("father_handle",
                                               default.father_handle)),
@@ -188,19 +156,18 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
                 [EventRef.from_struct(er)
                  for er in struct.get("event_ref_list",
                                       default.event_ref_list)],
-                MediaBase.from_struct(struct.get("media_list",
-                                                 default.media_list)),
-                AttributeBase.from_struct(struct.get("attribute_list",
-                                                     default.attribute_list)),
-                LdsOrdBase.from_struct(struct.get("lds_ord_list",
-                                                  default.lds_ord_list)),
-                CitationBase.from_struct(struct.get("citation_list",
-                                                    default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list",
-                                                default.note_list)),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
+        (self.handle, self.gid, self.father_handle, self.mother_handle,
+         self.child_ref_list, self.type, self.event_ref_list,
+         self.change, self.private) = data
+        MediaBase.set_from_struct(self, struct)
+        AttributeBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        LdsOrdBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
+        return self
 
     @classmethod
     def get_schema(cls):
@@ -238,7 +205,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
              Column("father_handle", "VARCHAR(50)", index=True),
              Column("mother_handle", "VARCHAR(50)", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_labels(cls, _):
@@ -295,30 +262,6 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
             "mother_handle.primary_name.surname_list.0.surname",
             "mother_handle.primary_name.first_name",
         ]
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Family structure.
-        """
-        (self.handle, self.gid, self.father_handle, self.mother_handle,
-         child_ref_list, the_type, event_ref_list, media_list,
-         attribute_list, lds_seal_list, citation_list, note_list,
-         self.change, tag_list, self.private) = data
-
-        self.type = FamilyRelType()
-        self.type.unserialize(the_type)
-        self.event_ref_list = [EventRef().unserialize(er)
-                               for er in event_ref_list]
-        self.child_ref_list = [ChildRef().unserialize(cr)
-                               for cr in child_ref_list]
-        MediaBase.unserialize(self, media_list)
-        AttributeBase.unserialize(self, attribute_list)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        LdsOrdBase.unserialize(self, lds_seal_list)
-        TagBase.unserialize(self, tag_list)
-        return self
 
     def _has_handle_reference(self, classname, handle):
         """

@@ -28,7 +28,7 @@ database.
 # Standard python modules
 #
 #-------------------------------------------------------------------------
-import pickle
+import json
 import logging
 from collections import defaultdict
 import time
@@ -120,7 +120,7 @@ class DbTxn(defaultdict):
         data = Python list where:
             list element = (handle, data) where:
                 handle = handle (database key) of the object in the transaction
-                data   = pickled representation of the object
+                data   = json representation of the object
         """
 
         # Conditional on __debug__ because all that frame stuff may be slow
@@ -178,7 +178,7 @@ class DbTxn(defaultdict):
         data is the tuple returned by the object's serialize method.
         """
         self.last = self.commitdb.append(
-            pickle.dumps((obj_type, trans_type, handle, old_data, new_data), 1))
+            json.dumps((obj_type, trans_type, handle, old_data, new_data), 1))
         if self.last is None:
             self.last = len(self.commitdb) -1
         if self.first is None:
@@ -208,7 +208,7 @@ class DbTxn(defaultdict):
         for the PrimaryObject, and a tuple representing the data created by
         the object's serialize method.
         """
-        return pickle.loads(self.commitdb[recno])
+        return json.loads(self.commitdb[recno])
 
     def __len__(self):
         """

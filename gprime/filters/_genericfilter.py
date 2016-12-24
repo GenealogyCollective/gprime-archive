@@ -123,9 +123,6 @@ class GenericFilter:
     def get_cursor(self, db):
         return db.get_person_cursor()
 
-    def make_obj(self):
-        return Person()
-
     def find_from_handle(self, db, handle):
         return db.get_person_from_handle(handle)
 
@@ -135,8 +132,7 @@ class GenericFilter:
         if id_list is None:
             with self.get_cursor(db) as cursor:
                 for handle, data in cursor:
-                    person = self.make_obj()
-                    person.unserialize(data)
+                    person = Person.from_struct(data)
                     if cb_progress:
                         cb_progress()
                     if task(db, person) != self.invert:
@@ -161,8 +157,7 @@ class GenericFilter:
         if id_list is None:
             with self.get_cursor(db) as cursor:
                 for handle, data in cursor:
-                    person = self.make_obj()
-                    person.unserialize(data)
+                    person = Person.from_struct(data)
                     if cb_progress:
                         cb_progress()
                     val = all(rule.apply(db, person) for rule in flist)
@@ -256,9 +251,6 @@ class GenericFamilyFilter(GenericFilter):
 
     def get_cursor(self, db):
         return db.get_family_cursor()
-
-    def make_obj(self):
-        return Family()
 
     def find_from_handle(self, db, handle):
         return db.get_family_from_handle(handle)

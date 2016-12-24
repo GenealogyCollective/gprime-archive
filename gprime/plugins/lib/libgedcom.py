@@ -1697,7 +1697,7 @@ class GedcomParser(UpdateCallback):
 
     __TRUNC_MSG = _("Your GEDCOM file is corrupted. "
                     "It appears to have been truncated.")
-    _EMPTY_LOC = Location().serialize()
+    _EMPTY_LOC = Location().to_struct()
 
     SyntaxError = "Syntax Error"
     BadFile = "Not a GEDCOM file"
@@ -2695,11 +2695,11 @@ class GedcomParser(UpdateCallback):
         already used (is in the db), we return the item in the db. Otherwise,
         we create a new person, assign the handle and GID.
         """
-        person = Person()
         intid = self.gid2id.get(gid)
         if self.dbase.has_person_handle(intid):
-            person.unserialize(self.dbase.get_raw_person_data(intid))
+            person = Person.from_struct(self.dbase.get_raw_person_data(intid))
         else:
+            person = Person()
             intid = self.__find_from_handle(gid, self.gid2id)
             person.set_handle(intid)
             person.set_gid(gid)
@@ -2711,16 +2711,16 @@ class GedcomParser(UpdateCallback):
         already used (is in the db), we return the item in the db. Otherwise,
         we create a new family, assign the handle and GID.
         """
-        family = Family()
-        # Add a counter for reordering the children later:
-        family.child_ref_count = 0
         intid = self.fid2id.get(gid)
         if self.dbase.has_family_handle(intid):
-            family.unserialize(self.dbase.get_raw_family_data(intid))
+            family = Family.from_struct(self.dbase.get_raw_family_data(intid))
         else:
+            family = Family()
             intid = self.__find_from_handle(gid, self.fid2id)
             family.set_handle(intid)
             family.set_gid(gid)
+        # Add a counter for reordering the children later:
+        family.child_ref_count = 0
         return family
 
     def __find_or_create_media(self, gid):
@@ -2729,11 +2729,11 @@ class GedcomParser(UpdateCallback):
         already used (is in the db), we return the item in the db. Otherwise,
         we create a new media object, assign the handle and GID.
         """
-        obj = Media()
         intid = self.oid2id.get(gid)
         if self.dbase.has_media_handle(intid):
-            obj.unserialize(self.dbase.get_raw_media_data(intid))
+            obj = Media.from_struct(self.dbase.get_raw_media_data(intid))
         else:
+            obj = Media()
             intid = self.__find_from_handle(gid, self.oid2id)
             obj.set_handle(intid)
             obj.set_gid(gid)
@@ -2747,11 +2747,11 @@ class GedcomParser(UpdateCallback):
         db. Otherwise, we create a new source, assign the handle and GID.
 
         """
-        obj = Source()
         intid = self.sid2id.get(gid)
         if self.dbase.has_source_handle(intid):
-            obj.unserialize(self.dbase.get_raw_source_data(intid))
+            obj = Source.from_struct(self.dbase.get_raw_source_data(intid))
         else:
+            obj = Source()
             intid = self.__find_from_handle(gid, self.sid2id)
             obj.set_handle(intid)
             obj.set_gid(gid)
@@ -2766,11 +2766,11 @@ class GedcomParser(UpdateCallback):
         Some GEDCOM "flavors" destroy the specification, and declare the
         repository inline instead of in a object.
         """
-        repository = Repository()
         intid = self.rid2id.get(gid)
         if self.dbase.has_repository_handle(intid):
-            repository.unserialize(self.dbase.get_raw_repository_data(intid))
+            repository = Repository.from_struct(self.dbase.get_raw_repository_data(intid))
         else:
+            repository = Repository()
             intid = self.__find_from_handle(gid, self.rid2id)
             repository.set_handle(intid)
             repository.set_gid(gid)
@@ -2785,7 +2785,6 @@ class GedcomParser(UpdateCallback):
         Some GEDCOM "flavors" destroy the specification, and declare the
         repository inline instead of in a object.
         """
-        note = Note()
         if not gid:
             need_commit = True
             gid = self.dbase.find_next_note_gid()
@@ -2794,8 +2793,9 @@ class GedcomParser(UpdateCallback):
 
         intid = self.nid2id.get(gid)
         if self.dbase.has_note_handle(intid):
-            note.unserialize(self.dbase.get_raw_note_data(intid))
+            note = Note.from_struct(self.dbase.get_raw_note_data(intid))
         else:
+            note = Note()
             intid = self.__find_from_handle(gid, self.nid2id)
             note.set_handle(intid)
             note.set_gid(gid)
@@ -2813,7 +2813,7 @@ class GedcomParser(UpdateCallback):
         """
         if location is None:
             return True
-        elif location.serialize() == self._EMPTY_LOC:
+        elif location.to_struct() == self._EMPTY_LOC:
             return True
         elif location.is_empty():
             return True

@@ -64,9 +64,6 @@ class Url(SecondaryObject, PrivacyBase):
             self.desc = ""
             self.type = UrlType()
 
-    def serialize(self):
-        return (self.private, self.path, self.desc, self.type.serialize())
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -100,15 +97,12 @@ class Url(SecondaryObject, PrivacyBase):
 
         :returns: Returns a serialized object
         """
-        default = Url()
-        return (struct.get("private", default.private),
+        self = default = Url()
+        data =  (struct.get("private", default.private),
                 struct.get("path", default.path),
                 struct.get("desc", default.desc),
                 UrlType.from_struct(struct.get("type", {})))
-
-    def unserialize(self, data):
-        (self.private, self.path, self.desc, type_value) = data
-        self.type.unserialize(type_value)
+        (self.private, self.path, self.desc, self.type) = data
         return self
 
     def get_text_data_list(self):

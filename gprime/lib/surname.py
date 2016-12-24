@@ -44,32 +44,24 @@ class Surname(SecondaryObject):
     A person may have more that one surname in his name
     """
 
-    def __init__(self, source=None, data=None):
+    def __init__(self):
         """
         Create a new Surname instance, copying from the source if provided.
         By default a surname is created as primary, use set_primary to change
         """
-        if source:
-            self.surname = source.surname
-            self.prefix = source.prefix
-            self.primary = source.primary
-            self.origintype = NameOriginType(source.origintype)
-            self.connector = source.connector
-        else:
-            self.surname = ""
-            self.prefix = ""
-            self.primary = True
-            self.origintype = NameOriginType()
-            self.connector = ""
-        if data:
-            self.unserialize(data)
+        self.surname = ""
+        self.prefix = ""
+        self.primary = True
+        self.origintype = NameOriginType()
+        self.connector = ""
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (self.surname, self.prefix, self.primary,
-                self.origintype.serialize(), self.connector)
+    def copy_from(self, source):
+        self.surname = source.surname
+        self.prefix = source.prefix
+        self.primary = source.primary
+        self.origintype = NameOriginType(source.origintype)
+        self.connector = source.connector
+        return self
 
     def to_struct(self):
         """
@@ -126,12 +118,15 @@ class Surname(SecondaryObject):
 
         :returns: Returns a serialized object
         """
-        default = Surname()
-        return (struct.get("surname", default.surname),
+        self = default = Surname()
+        data = (struct.get("surname", default.surname),
                 struct.get("prefix", default.prefix),
                 struct.get("primary", default.primary),
                 NameOriginType.from_struct(struct.get("origintype", {})),
                 struct.get("connector", default.connector))
+        (self.surname, self.prefix, self.primary, self.origin_type,
+         self.connector) = data
+        return self
 
     def is_empty(self):
         """
@@ -139,15 +134,6 @@ class Surname(SecondaryObject):
         """
         return (self.surname == "" and self.prefix == "" and
                 self.connector == "")
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (self.surname, self.prefix, self.primary, origin_type,
-         self.connector) = data
-        self.origintype = NameOriginType(origin_type)
-        return self
 
     def get_text_data_list(self):
         """

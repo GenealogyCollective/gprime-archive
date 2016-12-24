@@ -42,7 +42,7 @@ class Tag(TableObject):
     attached to a primary object.
     """
 
-    def __init__(self, source=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Tag instance, copying from the source if present.
 
@@ -50,56 +50,11 @@ class Tag(TableObject):
         :type source: Tag
         """
 
-        TableObject.__init__(self, source)
+        TableObject.__init__(self)
         self.db = db
-        if source:
-            self.__name = source.name
-            self.__color = source.color
-            self.__priority = source.priority
-        else:
-            self.__name = ""
-            self.__color = "#000000000000" # Black
-            self.__priority = 0
-
-    def serialize(self):
-        """
-        Convert the data held in the event to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (self.handle,
-                self.__name,
-                self.__color,
-                self.__priority,
-                self.change)
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Tag structure.
-
-        :param data: tuple containing the persistent data associated with the
-                     object
-        :type data: tuple
-        """
-        (self.handle,
-         self.__name,
-         self.__color,
-         self.__priority,
-         self.change) = data
-        return self
+        self.__name = ""
+        self.__color = "#000000000000" # Black
+        self.__priority = 0
 
     @classmethod
     def get_schema(cls):
@@ -124,7 +79,7 @@ class Tag(TableObject):
             [Column("handle", "VARCHAR(50)",
               primary=True, null=False, index=True),
              Column("order_by", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_labels(cls, _):
@@ -271,12 +226,18 @@ class Tag(TableObject):
 
         :returns: Returns a serialized object
         """
-        default = Tag()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Tag()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("name", default.name),
                 struct.get("color", default.color),
                 struct.get("priority", default.priority),
                 struct.get("change", default.change))
+        (self.handle,
+         self.__name,
+         self.__color,
+         self.__priority,
+         self.change) = data
+        return self
 
     priority = property(get_priority, set_priority, None,
                         'Returns or sets priority of the tag')

@@ -47,12 +47,6 @@ class NoteBase:
         """
         self.note_list = list(source.note_list) if source else []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return self.note_list
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -75,20 +69,12 @@ class NoteBase:
         """
         return [Handle("Note", n) for n in self.note_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [Handle.from_struct(n) for n in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.note_list = list(data)
+        note_list = struct.get("note_list", [])
+        self.note_list = list(note_list)
 
     def add_note(self, handle):
         """

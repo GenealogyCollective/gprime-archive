@@ -81,18 +81,6 @@ class TableObject(BaseObject):
             self.change = 0
 
     @abstractmethod
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-
-    @abstractmethod
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-
-    @abstractmethod
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,

@@ -912,7 +912,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_event_data(self, handle):
         """
-        Return raw (serialized and pickled) Event object from handle
+        Return raw (serialized) Event object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -921,7 +921,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_family_data(self, handle):
         """
-        Return raw (serialized and pickled) Family object from handle
+        Return raw (serialized) Family object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -930,7 +930,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_note_data(self, handle):
         """
-        Return raw (serialized and pickled) Note object from handle
+        Return raw (serialized) Note object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -939,7 +939,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_media_data(self, handle):
         """
-        Return raw (serialized and pickled) Family object from handle
+        Return raw (serialized) Family object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -948,7 +948,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_person_data(self, handle):
         """
-        Return raw (serialized and pickled) Person object from handle
+        Return raw (serialized) Person object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -957,7 +957,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_place_data(self, handle):
         """
-        Return raw (serialized and pickled) Place object from handle
+        Return raw (serialized) Place object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -966,7 +966,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_repository_data(self, handle):
         """
-        Return raw (serialized and pickled) Repository object from handle
+        Return raw (serialized) Repository object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -975,7 +975,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_source_data(self, handle):
         """
-        Return raw (serialized and pickled) Source object from handle
+        Return raw (serialized) Source object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -984,7 +984,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_citation_data(self, handle):
         """
-        Return raw (serialized and pickled) Citation object from handle
+        Return raw (serialized) Citation object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")
@@ -993,7 +993,7 @@ class DummyDb(M_A_M_B("NewBaseClass", (DbReadBase, Callback, object,), {})):
 
     def get_raw_tag_data(self, handle):
         """
-        Return raw (serialized and pickled) Tag object from handle
+        Return raw (serialized) Tag object from handle
         """
         if not self.db_is_open:
             LOG.warning("database is closed")

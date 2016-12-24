@@ -27,7 +27,7 @@ import os
 import shutil
 import time
 import sys
-import pickle
+import json
 from operator import itemgetter
 import logging
 
@@ -121,11 +121,6 @@ class DBAPI(DbGeneric):
         with open(versionpath, "w") as version_file:
             version_file.write(str(sys.version_info[0]))
 
-        versionpath = os.path.join(directory, "pickleupgrade.txt")
-        _LOG.debug("Write pickle version file to %s", "Yes")
-        with open(versionpath, "w") as version_file:
-            version_file.write("YES")
-
         _LOG.debug("Write schema version file to %s", str(self.VERSION[0]))
         versionpath = os.path.join(directory, "schemaversion.txt")
         with open(versionpath, "w") as version_file:
@@ -183,9 +178,6 @@ class DBAPI(DbGeneric):
                 LOG.info("Adding %s %s... ", table.name, column.name)
                 self.dbapi.execute("ALTER TABLE %s ADD COLUMN %s %s;" %
                                    (table.name, column.name, column.ctype))
-                # Special case for renamed fields:
-                if column.name == "gid":
-                    self.dbapi.execute("UPDATE %s SET gid = gramps_id;" % table.name)
 
     def create_table(self, table):
         columns = ", ".join([self._sql_column_def(column)
@@ -225,7 +217,7 @@ class DBAPI(DbGeneric):
         MetadataTable = Table("metadata",
                               [Column("setting", "VARCHAR(50)", primary=True,
                                       null=False),
-                              Column("value", "BLOB")])
+                              Column("value", "TEXT")])
 
         GenderstatsTable = Table("gender_stats",
                                  [Column("given_name", "TEXT"),
@@ -348,7 +340,7 @@ class DBAPI(DbGeneric):
         row = self.dbapi.fetchone()
         if row:
             try:
-                return pickle.loads(row[0])
+                return json.loads(row[0])
             except:
                 pass # might fail in attempting to import (eg, gramps)
         if default == []:
@@ -366,11 +358,11 @@ class DBAPI(DbGeneric):
         if row:
             self.dbapi.execute(
                 "UPDATE metadata SET value = ? WHERE setting = ?;",
-                [pickle.dumps(value), key])
+                [json.dumps(value), key])
         else:
             self.dbapi.execute(
                 "INSERT INTO metadata (setting, value) VALUES (?, ?);",
-                [key, pickle.dumps(value)])
+                [key, json.dumps(value)])
 
     def get_name_group_keys(self):
         """
@@ -672,14 +664,14 @@ class DBAPI(DbGeneric):
             # update the person:
             self.dbapi.execute("""UPDATE person SET gid = ?,
                                                     order_by = ?,
-                                                    blob_data = ?,
+                                                    json_data = ?,
                                                     given_name = ?,
                                                     surname = ?,
                                                     gender_type = ?
                                                 WHERE handle = ?;""",
                                [person.gid,
                                 self._order_by_person_key(person),
-                                pickle.dumps(person.serialize()),
+                                json.dumps(person.to_struct()),
                                 given_name,
                                 surname,
                                 gender_type,
@@ -690,25 +682,25 @@ class DBAPI(DbGeneric):
             given_name, surname, gender_type = self.get_person_data(person)
             # Insert the person:
             self.dbapi.execute(
-                """INSERT INTO person (handle, order_by, gid, blob_data,
+                """INSERT INTO person (handle, order_by, gid, json_data,
                                        given_name, surname, gender_type)
                                       VALUES(?, ?, ?, ?, ?, ?, ?);""",
                 [person.handle,
                  self._order_by_person_key(person),
                  person.gid,
-                 pickle.dumps(person.serialize()),
+                 json.dumps(person.to_struct()),
                  given_name, surname, gender_type])
         self.update_secondary_values(person)
         if not trans.batch:
             self.update_backlinks(person)
             if old_person:
                 trans.add(PERSON_KEY, TXNUPD, person.handle,
-                          old_person.serialize(),
-                          person.serialize())
+                          old_person.to_struct(),
+                          person.to_struct())
             else:
                 trans.add(PERSON_KEY, TXNADD, person.handle,
                           None,
-                          person.serialize())
+                          person.to_struct())
         # Other misc update tasks:
         self.individual_attributes.update(
             [str(attr.type) for attr in person.attribute_list
@@ -745,34 +737,34 @@ class DBAPI(DbGeneric):
         old_family = None
         family.change = int(change_time or time.time())
         if family.handle in self.family_map:
-            old_family = self.get_family_from_handle(family.handle).serialize()
+            old_family = self.get_family_from_handle(family.handle).to_struct()
             self.dbapi.execute("""UPDATE family SET gid = ?,
                                                     father_handle = ?,
                                                     mother_handle = ?,
-                                                    blob_data = ?
+                                                    json_data = ?
                                                 WHERE handle = ?;""",
                                [family.gid,
                                 family.father_handle,
                                 family.mother_handle,
-                                pickle.dumps(family.serialize()),
+                                json.dumps(family.to_struct()),
                                 family.handle])
         else:
             self.dbapi.execute(
                 """INSERT INTO family (handle, gid,
-                                       father_handle, mother_handle, blob_data)
+                                       father_handle, mother_handle, json_data)
                                       VALUES(?, ?, ?, ?, ?);""",
                 [family.handle,
                  family.gid,
                  family.father_handle,
                  family.mother_handle,
-                 pickle.dumps(family.serialize())])
+                 json.dumps(family.to_struct())])
         self.update_secondary_values(family)
         if not trans.batch:
             self.update_backlinks(family)
             db_op = TXNUPD if old_family else TXNADD
             trans.add(FAMILY_KEY, db_op, family.handle,
                       old_family,
-                      family.serialize())
+                      family.to_struct())
 
         # Misc updates:
         self.family_attributes.update(
@@ -809,30 +801,30 @@ class DBAPI(DbGeneric):
         citation.change = int(change_time or time.time())
         if citation.handle in self.citation_map:
             old_citation = self.get_citation_from_handle(
-                citation.handle).serialize()
+                citation.handle).to_struct()
             self.dbapi.execute("""UPDATE citation SET gid = ?,
                                                       order_by = ?,
-                                                      blob_data = ?
+                                                      json_data = ?
                                                 WHERE handle = ?;""",
                                [citation.gid,
                                 self._order_by_citation_key(citation),
-                                pickle.dumps(citation.serialize()),
+                                json.dumps(citation.to_struct()),
                                 citation.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO citation (handle, order_by, gid, blob_data)
+                """INSERT INTO citation (handle, order_by, gid, json_data)
                                         VALUES(?, ?, ?, ?);""",
                 [citation.handle,
                  self._order_by_citation_key(citation),
                  citation.gid,
-                 pickle.dumps(citation.serialize())])
+                 json.dumps(citation.to_struct())])
         self.update_secondary_values(citation)
         if not trans.batch:
             self.update_backlinks(citation)
             db_op = TXNUPD if old_citation else TXNADD
             trans.add(CITATION_KEY, db_op, citation.handle,
                       old_citation,
-                      citation.serialize())
+                      citation.to_struct())
         # Misc updates:
         attr_list = []
         for mref in citation.media_list:
@@ -852,30 +844,30 @@ class DBAPI(DbGeneric):
         old_source = None
         source.change = int(change_time or time.time())
         if source.handle in self.source_map:
-            old_source = self.get_source_from_handle(source.handle).serialize()
+            old_source = self.get_source_from_handle(source.handle).to_struct()
             self.dbapi.execute("""UPDATE source SET gid = ?,
                                                     order_by = ?,
-                                                    blob_data = ?
+                                                    json_data = ?
                                                 WHERE handle = ?;""",
                                [source.gid,
                                 self._order_by_source_key(source),
-                                pickle.dumps(source.serialize()),
+                                json.dumps(source.to_struct()),
                                 source.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO source (handle, order_by, gid, blob_data)
+                """INSERT INTO source (handle, order_by, gid, json_data)
                                       VALUES(?, ?, ?, ?);""",
                 [source.handle,
                  self._order_by_source_key(source),
                  source.gid,
-                 pickle.dumps(source.serialize())])
+                 json.dumps(source.to_struct())])
         self.update_secondary_values(source)
         if not trans.batch:
             self.update_backlinks(source)
             db_op = TXNUPD if old_source else TXNADD
             trans.add(SOURCE_KEY, db_op, source.handle,
                       old_source,
-                      source.serialize())
+                      source.to_struct())
         # Misc updates:
         self.source_media_types.update(
             [str(ref.media_type) for ref in source.reporef_list
@@ -899,26 +891,26 @@ class DBAPI(DbGeneric):
         repository.change = int(change_time or time.time())
         if repository.handle in self.repository_map:
             old_repository = self.get_repository_from_handle(
-                repository.handle).serialize()
+                repository.handle).to_struct()
             self.dbapi.execute("""UPDATE repository SET gid = ?,
-                                                    blob_data = ?
+                                                    json_data = ?
                                                 WHERE handle = ?;""",
                                [repository.gid,
-                                pickle.dumps(repository.serialize()),
+                                json.dumps(repository.to_struct()),
                                 repository.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO repository (handle, gid, blob_data)
+                """INSERT INTO repository (handle, gid, json_data)
                                           VALUES(?, ?, ?);""",
                 [repository.handle, repository.gid,
-                 pickle.dumps(repository.serialize())])
+                 json.dumps(repository.to_struct())])
         self.update_secondary_values(repository)
         if not trans.batch:
             self.update_backlinks(repository)
             db_op = TXNUPD if old_repository else TXNADD
             trans.add(REPOSITORY_KEY, db_op, repository.handle,
                       old_repository,
-                      repository.serialize())
+                      repository.to_struct())
         # Misc updates:
         if repository.type.is_custom():
             self.repository_types.add(str(repository.type))
@@ -934,25 +926,25 @@ class DBAPI(DbGeneric):
         old_note = None
         note.change = int(change_time or time.time())
         if note.handle in self.note_map:
-            old_note = self.get_note_from_handle(note.handle).serialize()
+            old_note = self.get_note_from_handle(note.handle).to_struct()
             self.dbapi.execute("""UPDATE note SET gid = ?,
-                                                    blob_data = ?
+                                                    json_data = ?
                                                 WHERE handle = ?;""",
                                [note.gid,
-                                pickle.dumps(note.serialize()),
+                                json.dumps(note.to_struct()),
                                 note.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO note (handle, gid, blob_data)
+                """INSERT INTO note (handle, gid, json_data)
                                     VALUES(?, ?, ?);""",
-                [note.handle, note.gid, pickle.dumps(note.serialize())])
+                [note.handle, note.gid, json.dumps(note.to_struct())])
         self.update_secondary_values(note)
         if not trans.batch:
             self.update_backlinks(note)
             db_op = TXNUPD if old_note else TXNADD
             trans.add(NOTE_KEY, db_op, note.handle,
                       old_note,
-                      note.serialize())
+                      note.to_struct())
         # Misc updates:
         if note.type.is_custom():
             self.note_types.add(str(note.type))
@@ -965,30 +957,30 @@ class DBAPI(DbGeneric):
         old_place = None
         place.change = int(change_time or time.time())
         if place.handle in self.place_map:
-            old_place = self.get_place_from_handle(place.handle).serialize()
+            old_place = self.get_place_from_handle(place.handle).to_struct()
             self.dbapi.execute("""UPDATE place SET gid = ?,
                                                    order_by = ?,
-                                                   blob_data = ?
+                                                   json_data = ?
                                                 WHERE handle = ?;""",
                                [place.gid,
                                 self._order_by_place_key(place),
-                                pickle.dumps(place.serialize()),
+                                json.dumps(place.to_struct()),
                                 place.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO place (handle, order_by, gid, blob_data)
+                """INSERT INTO place (handle, order_by, gid, json_data)
                                      VALUES(?, ?, ?, ?);""",
                 [place.handle,
                  self._order_by_place_key(place),
                  place.gid,
-                 pickle.dumps(place.serialize())])
+                 json.dumps(place.to_struct())])
         self.update_secondary_values(place)
         if not trans.batch:
             self.update_backlinks(place)
             db_op = TXNUPD if old_place else TXNADD
             trans.add(PLACE_KEY, db_op, place.handle,
                       old_place,
-                      place.serialize())
+                      place.to_struct())
         # Misc updates:
         if place.get_type().is_custom():
             self.place_types.add(str(place.get_type()))
@@ -1010,27 +1002,27 @@ class DBAPI(DbGeneric):
         old_event = None
         event.change = int(change_time or time.time())
         if event.handle in self.event_map:
-            old_event = self.get_event_from_handle(event.handle).serialize()
+            old_event = self.get_event_from_handle(event.handle).to_struct()
             self.dbapi.execute("""UPDATE event SET gid = ?,
-                                                    blob_data = ?
+                                                    json_data = ?
                                                 WHERE handle = ?;""",
                                [event.gid,
-                                pickle.dumps(event.serialize()),
+                                json.dumps(event.to_struct()),
                                 event.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO event (handle, gid, blob_data)
+                """INSERT INTO event (handle, gid, json_data)
                                      VALUES(?, ?, ?);""",
                 [event.handle,
                  event.gid,
-                 pickle.dumps(event.serialize())])
+                 json.dumps(event.to_struct())])
         self.update_secondary_values(event)
         if not trans.batch:
             self.update_backlinks(event)
             db_op = TXNUPD if old_event else TXNADD
             trans.add(EVENT_KEY, db_op, event.handle,
                       old_event,
-                      event.serialize())
+                      event.to_struct())
         # Misc updates:
         self.event_attributes.update(
             [str(attr.type) for attr in event.attribute_list
@@ -1050,18 +1042,18 @@ class DBAPI(DbGeneric):
         """
         tag.change = int(change_time or time.time())
         if tag.handle in self.tag_map:
-            self.dbapi.execute("""UPDATE tag SET blob_data = ?,
+            self.dbapi.execute("""UPDATE tag SET json_data = ?,
                                                  order_by = ?
                                          WHERE handle = ?;""",
-                               [pickle.dumps(tag.serialize()),
+                               [json.dumps(tag.to_struct()),
                                 self._order_by_tag_key(tag.name),
                                 tag.handle])
         else:
-            self.dbapi.execute("""INSERT INTO tag (handle, order_by, blob_data)
+            self.dbapi.execute("""INSERT INTO tag (handle, order_by, json_data)
                                                   VALUES(?, ?, ?);""",
                                [tag.handle,
                                 self._order_by_tag_key(tag.name),
-                                pickle.dumps(tag.serialize())])
+                                json.dumps(tag.to_struct())])
         if not trans.batch:
             self.update_backlinks(tag)
 
@@ -1073,30 +1065,30 @@ class DBAPI(DbGeneric):
         old_media = None
         media.change = int(change_time or time.time())
         if media.handle in self.media_map:
-            old_media = self.get_media_from_handle(media.handle).serialize()
+            old_media = self.get_media_from_handle(media.handle).to_struct()
             self.dbapi.execute("""UPDATE media SET gid = ?,
                                                    order_by = ?,
-                                                   blob_data = ?
+                                                   json_data = ?
                                                 WHERE handle = ?;""",
                                [media.gid,
                                 self._order_by_media_key(media),
-                                pickle.dumps(media.serialize()),
+                                json.dumps(media.to_struct()),
                                 media.handle])
         else:
             self.dbapi.execute(
-                """INSERT INTO media (handle, order_by, gid, blob_data)
+                """INSERT INTO media (handle, order_by, gid, json_data)
                                      VALUES(?, ?, ?, ?);""",
                 [media.handle,
                  self._order_by_media_key(media),
                  media.gid,
-                 pickle.dumps(media.serialize())])
+                 json.dumps(media.to_struct())])
         self.update_secondary_values(media)
         if not trans.batch:
             self.update_backlinks(media)
             db_op = TXNUPD if old_media else TXNADD
             trans.add(MEDIA_KEY, db_op, media.handle,
                       old_media,
-                      media.serialize())
+                      media.to_struct())
         # Misc updates:
         self.media_attributes.update(
             [str(attr.type) for attr in media.attribute_list
@@ -1132,7 +1124,7 @@ class DBAPI(DbGeneric):
             self.dbapi.execute("DELETE FROM person WHERE handle = ?;", [handle])
             if not transaction.batch:
                 transaction.add(PERSON_KEY, TXNDEL, person.handle,
-                                person.serialize(), None)
+                                person.to_struct(), None)
 
     def _do_remove(self, handle, transaction, data_map, data_id_map, key):
         if isinstance(handle, bytes):
@@ -1208,12 +1200,12 @@ class DBAPI(DbGeneric):
         """
         # first build sort order:
         sorted_items = []
-        query = "SELECT blob_data FROM %s;" % class_.__name__.lower()
+        query = "SELECT json_data FROM %s;" % class_.__name__.lower()
         self.dbapi.execute(query)
         rows = self.dbapi.fetchall()
         for row in rows:
             obj = self.get_table_func(class_.__name__,
-                                      "class_func").create(pickle.loads(row[0])) # no need for db
+                                      "class_func").create(json.loads(row[0])) # no need for db
             # just use values and handle to keep small:
             sorted_items.append((eval_order_by(order_by, obj, self),
                                  obj.handle))
@@ -1243,19 +1235,19 @@ class DBAPI(DbGeneric):
                 return
         ## Continue with dbapi select
         if order_by is None:
-            query = "SELECT blob_data FROM %s;" % class_.__name__.lower()
+            query = "SELECT json_data FROM %s;" % class_.__name__.lower()
         else:
             order_phrases = [
                 "%s %s" % (self._hash_name(class_.__name__,
                                            class_.get_field_alias(field)),
                            direction)
                 for (field, direction) in order_by]
-            query = "SELECT blob_data FROM %s ORDER BY %s;" % (
+            query = "SELECT json_data FROM %s ORDER BY %s;" % (
                 class_.__name__.lower(), ", ".join(order_phrases))
         self.dbapi.execute(query)
         rows = self.dbapi.fetchall()
         for row in rows:
-            yield class_.create(pickle.loads(row[0]), self)
+            yield class_.create(json.loads(row[0]), self)
 
     def iter_person_handles(self):
         """
@@ -1390,67 +1382,67 @@ class DBAPI(DbGeneric):
         """
         Rebuild secondary indices
         """
-        # First, expand blob to individual fields:
+        # First, expand json to individual fields:
         self.rebuild_secondary_fields()
         # Next, rebuild stats:
         gstats = self.get_gender_stats()
         self.genderStats = GenderStats(gstats)
         # Rebuild all order_by fields:
         ## Rebuild place order_by:
-        self.dbapi.execute("""select blob_data from place;""")
+        self.dbapi.execute("""select json_data from place;""")
         row = self.dbapi.fetchone()
         while row:
-            place = Place.create(pickle.loads(row[0])) # no need for db
+            place = Place.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_place_key(place)
             cur2 = self.dbapi.execute(
                 """UPDATE place SET order_by = ? WHERE handle = ?;""",
                 [order_by, place.handle])
             row = self.dbapi.fetchone()
         ## Rebuild person order_by:
-        self.dbapi.execute("""select blob_data from person;""")
+        self.dbapi.execute("""select json_data from person;""")
         row = self.dbapi.fetchone()
         while row:
-            person = Person.create(pickle.loads(row[0])) # no need for db
+            person = Person.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_person_key(person)
             cur2 = self.dbapi.execute(
                 """UPDATE person SET order_by = ? WHERE handle = ?;""",
                 [order_by, person.handle])
             row = self.dbapi.fetchone()
         ## Rebuild citation order_by:
-        self.dbapi.execute("""select blob_data from citation;""")
+        self.dbapi.execute("""select json_data from citation;""")
         row = self.dbapi.fetchone()
         while row:
-            citation = Citation.create(pickle.loads(row[0])) # no need for db
+            citation = Citation.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_citation_key(citation)
             cur2 = self.dbapi.execute(
                 """UPDATE citation SET order_by = ? WHERE handle = ?;""",
                 [order_by, citation.handle])
             row = self.dbapi.fetchone()
         ## Rebuild source order_by:
-        self.dbapi.execute("""select blob_data from source;""")
+        self.dbapi.execute("""select json_data from source;""")
         row = self.dbapi.fetchone()
         while row:
-            source = Source.create(pickle.loads(row[0])) # no need for db
+            source = Source.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_source_key(source)
             cur2 = self.dbapi.execute(
                 """UPDATE source SET order_by = ? WHERE handle = ?;""",
                 [order_by, source.handle])
             row = self.dbapi.fetchone()
         ## Rebuild tag order_by:
-        self.dbapi.execute("""select blob_data from tag;""")
+        self.dbapi.execute("""select json_data from tag;""")
         row = self.dbapi.fetchone()
         while row:
-            tag = Tag.create(pickle.loads(row[0])) # no need for db
+            tag = Tag.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_tag_key(tag.name)
             cur2 = self.dbapi.execute(
                 """UPDATE tag SET order_by = ? WHERE handle = ?;""",
                 [order_by, tag.handle])
             row = self.dbapi.fetchone()
         ## Rebuild media order_by:
-        self.dbapi.execute("""select blob_data from media;""")
+        self.dbapi.execute("""select json_data from media;""")
         row = self.dbapi.fetchone()
         while row:
-            media = Media.create(pickle.loads(row[0])) # no need for db
+            media = Media.create(json.loads(row[0])) # no need for db
             order_by = self._order_by_media_key(media)
             cur2 = self.dbapi.execute(
                 """UPDATE media SET order_by = ? WHERE handle = ?;""",
@@ -1603,155 +1595,155 @@ class DBAPI(DbGeneric):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM person WHERE handle = ?", [key])
+            "SELECT json_data FROM person WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_person_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM person WHERE gid = ?", [key])
+            "SELECT json_data FROM person WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_family_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM family WHERE handle = ?", [key])
+            "SELECT json_data FROM family WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_family_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM family WHERE gid = ?", [key])
+            "SELECT json_data FROM family WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_source_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM source WHERE handle = ?", [key])
+            "SELECT json_data FROM source WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_source_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM source WHERE gid = ?", [key])
+            "SELECT json_data FROM source WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_citation_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM citation WHERE handle = ?", [key])
+            "SELECT json_data FROM citation WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_citation_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM citation WHERE gid = ?", [key])
+            "SELECT json_data FROM citation WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_event_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM event WHERE handle = ?", [key])
+            "SELECT json_data FROM event WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_event_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM event WHERE gid = ?", [key])
+            "SELECT json_data FROM event WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_media_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM media WHERE handle = ?", [key])
+            "SELECT json_data FROM media WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_media_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM media WHERE gid = ?", [key])
+            "SELECT json_data FROM media WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_place_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM place WHERE handle = ?", [key])
+            "SELECT json_data FROM place WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_place_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM place WHERE gid = ?", [key])
+            "SELECT json_data FROM place WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_repository_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM repository WHERE handle = ?", [key])
+            "SELECT json_data FROM repository WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_repository_from_id_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM repository WHERE handle = ?", [key])
+            "SELECT json_data FROM repository WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_note_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         self.dbapi.execute(
-            "SELECT blob_data FROM note WHERE handle = ?", [key])
+            "SELECT json_data FROM note WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_note_from_id_data(self, key):
         self.dbapi.execute(
-            "SELECT blob_data FROM note WHERE gid = ?", [key])
+            "SELECT json_data FROM note WHERE gid = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def _get_raw_tag_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
-        self.dbapi.execute("SELECT blob_data FROM tag WHERE handle = ?", [key])
+        self.dbapi.execute("SELECT json_data FROM tag WHERE handle = ?", [key])
         row = self.dbapi.fetchone()
         if row:
-            return pickle.loads(row[0])
+            return json.loads(row[0])
 
     def get_gender_stats(self):
         """
@@ -1836,7 +1828,7 @@ class DBAPI(DbGeneric):
         elif python_type in [float]:
             return "REAL"
         else:
-            return "BLOB"
+            raise Exception("cannot convert python type to SQL: %s" % python_type)
 
     def rebuild_secondary_fields(self):
         """
@@ -2027,8 +2019,8 @@ class DBAPI(DbGeneric):
         if all_available: # we can get them without expanding
             return select_fields
         else:
-            # nope, we'll have to expand blob to get all fields
-            return ["blob_data"]
+            # nope, we'll have to expand json to get all fields
+            return ["json_data"]
 
     def _check_order_by_fields(self, table, order_by, secondary_fields):
         """
@@ -2105,7 +2097,7 @@ class DBAPI(DbGeneric):
             return
         # Otherwise, we are SQL
         if fields is None:
-            fields = ["blob_data"]
+            fields = ["json_data"]
         get_count_only = False
         if fields[0] == "count(1)":
             hashed_fields = ["count(1)"]
@@ -2140,7 +2132,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute(query)
         rows = self.dbapi.fetchall()
         for row in rows:
-            if fields[0] != "blob_data":
+            if fields[0] != "json_data":
                 obj = None # don't build it if you don't need it
                 data = {}
                 for field in fields:
@@ -2151,7 +2143,7 @@ class DBAPI(DbGeneric):
                         if obj is None:  # we need it! create it and cache it:
                             obj = self.get_table_func(table,
                                                       "class_func").create( # no need for db
-                                                          pickle.loads(row[0]))
+                                                          json.loads(row[0]))
                         # get the field, even if we need to do a join:
                         # FIXME: possible optimize:
                         #     do a join in select for this if needed:
@@ -2162,7 +2154,7 @@ class DBAPI(DbGeneric):
             else:
                 obj = self.get_table_func(table,
                                           "class_func").create(
-                                              pickle.loads(row[0]), self)
+                                              json.loads(row[0]), self)
                 yield obj
 
     def get_summary(self):

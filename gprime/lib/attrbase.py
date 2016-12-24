@@ -59,12 +59,6 @@ class AttributeRootBase:
         else:
             self.attribute_list = []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return [attr.serialize() for attr in self.attribute_list]
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -87,20 +81,12 @@ class AttributeRootBase:
         """
         return [attr.to_struct() for attr in self.attribute_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [cls._CLASS.from_struct(attr) for attr in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.attribute_list = [self._CLASS().unserialize(item) for item in data]
+        alist = struct.get("attribute_list", [])
+        self.attribute_list = [self._CLASS.from_struct(attr) for attr in alist]
 
     def add_attribute(self, attribute):
         """

@@ -68,7 +68,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
     Compare this with attribute: :class:`~.attribute.Attribute`
     """
 
-    def __init__(self, source=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Event instance, copying from the source if present.
 
@@ -76,48 +76,16 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         :type source: Event
         """
 
-        PrimaryObject.__init__(self, source)
-        CitationBase.__init__(self, source)
-        NoteBase.__init__(self, source)
-        MediaBase.__init__(self, source)
+        PrimaryObject.__init__(self)
+        CitationBase.__init__(self)
+        NoteBase.__init__(self)
+        MediaBase.__init__(self)
         AttributeBase.__init__(self)
-        DateBase.__init__(self, source)
-        PlaceBase.__init__(self, source)
+        DateBase.__init__(self)
+        PlaceBase.__init__(self)
         self.db = db
-
-        if source:
-            self.__description = source.description
-            self.__type = EventType(source.type)
-        else:
-            self.__description = ""
-            self.__type = EventType()
-
-    def serialize(self, no_text_date=False):
-        """
-        Convert the data held in the event to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (self.handle, self.gid, self.__type.serialize(),
-                DateBase.serialize(self, no_text_date),
-                self.__description, self.place,
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                MediaBase.serialize(self),
-                AttributeBase.serialize(self),
-                self.change, TagBase.serialize(self), self.private)
+        self.__description = ""
+        self.__type = EventType()
 
     def to_struct(self):
         """
@@ -191,7 +159,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
             [Column("handle", "VARCHAR(50)",
               primary=True, null=False, index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_labels(cls, _):
@@ -219,43 +187,24 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
 
         :returns: Returns a serialized object
         """
-        default = Event()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        from .date import Date
+        self = default = Event()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 EventType.from_struct(struct.get("type", {})),
-                DateBase.from_struct(struct.get("date", {})),
+                Date.from_struct(struct.get("date", {})),
                 struct.get("description", default.description),
                 Handle.from_struct(struct.get("place", default.place)),
-                CitationBase.from_struct(struct.get("citation_list", default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                MediaBase.from_struct(struct.get("media_list", default.media_list)),
-                AttributeBase.from_struct(struct.get("attribute_list", default.attribute_list)),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in an Event structure.
-
-        :param data: tuple containing the persistent data associated with the
-                     Event object
-        :type data: tuple
-        """
-        (self.handle, self.gid, the_type, date,
+        (self.handle, self.gid, self.type, self.date,
          self.__description, self.place,
-         citation_list, note_list, media_list, attribute_list,
-         self.change, tag_list, self.private) = data
-
-        self.__type = EventType()
-        self.__type.unserialize(the_type)
-        DateBase.unserialize(self, date)
-        MediaBase.unserialize(self, media_list)
-        AttributeBase.unserialize(self, attribute_list)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        TagBase.unserialize(self, tag_list)
+         self.change, self.private) = data
+        MediaBase.set_from_struct(self, struct)
+        AttributeBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
         return self
 
     def _has_handle_reference(self, classname, handle):

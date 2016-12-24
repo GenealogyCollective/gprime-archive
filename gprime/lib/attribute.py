@@ -70,13 +70,6 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
     def __str__(self):
         return str(self.value)
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                self.type.serialize(), self.value)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -98,7 +91,7 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
         :rtype: dict
         """
         return {"_class": self.__class__.__name__,
-                "private": PrivacyBase.serialize(self),
+                "private": PrivacyBase.to_struct(self),
                 "type": self.type.to_struct(),
                 "value": self.value}
 
@@ -109,18 +102,11 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
 
         :returns: Returns a serialized object
         """
-        default = Attribute()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                AttributeType.from_struct(struct.get("type", {})),
+        self = default = Attribute()
+        data = (AttributeType.from_struct(struct.get("type", {})),
                 struct.get("value", default.value))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, the_type, self.value) = data
-        PrivacyBase.unserialize(self, privacy)
-        self.type.unserialize(the_type)
+        (self.type, self.value) = data
+        PrivacyBase.set_from_struct(struct.get("private", default.private))
         return self
 
     def get_text_data_list(self):
@@ -237,14 +223,6 @@ class Attribute(AttributeRoot, CitationBase, NoteBase):
         else:
             self.type = AttributeType()
             self.value = ""
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                self.type.serialize(), self.value)
 
     def to_struct(self):
         """
@@ -267,7 +245,7 @@ class Attribute(AttributeRoot, CitationBase, NoteBase):
         :rtype: dict
         """
         return {"_class": "Attribute",
-                "private": PrivacyBase.serialize(self),
+                "private": PrivacyBase.to_struct(self),
                 "citation_list": CitationBase.to_struct(self),
                 "note_list": NoteBase.to_struct(self),
                 "type": self.type.to_struct(),
@@ -280,21 +258,12 @@ class Attribute(AttributeRoot, CitationBase, NoteBase):
 
         :returns: Returns a serialized object
         """
-        return (PrivacyBase.from_struct(struct["private"]),
-                CitationBase.from_struct(struct["citation_list"]),
-                NoteBase.from_struct(struct["note_list"]),
-                AttributeType.from_struct(struct["type"]),
-                struct["value"])
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, the_type, self.value) = data
-        PrivacyBase.unserialize(self, privacy)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        self.type.unserialize(the_type)
+        self = Attribute()
+        PrivacyBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        self.type = AttributeType.from_struct(struct.get("type", {}))
+        self.value = struct.get("value", self.value)
         return self
 
     def get_referenced_handles(self):

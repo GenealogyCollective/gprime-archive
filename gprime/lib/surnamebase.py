@@ -54,48 +54,12 @@ class SurnameBase:
         """
         self.surname_list = list(map(Surname, source.surname_list)) if source else []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return [surname.serialize() for surname in self.surname_list]
-
     def to_struct(self):
-        """
-        Convert the data held in this object to a structure (eg,
-        struct) that represents all the data elements.
-
-        This method is used to recursively convert the object into a
-        self-documenting form that can easily be used for various
-        purposes, including diffs and queries.
-
-        These structures may be primitive Python types (string,
-        integer, boolean, etc.) or complex Python types (lists,
-        tuples, or dicts). If the return type is a dict, then the keys
-        of the dict match the fieldname of the object. If the return
-        struct (or value of a dict key) is a list, then it is a list
-        of structs. Otherwise, the struct is just the value of the
-        attribute.
-
-        :returns: Returns a struct containing the data of the object.
-        :rtype: list
-        """
         return [surname.to_struct() for surname in self.surname_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [Surname.from_struct(surname) for surname in struct]
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        self.surname_list = [Surname().unserialize(item) for item in data]
+    def set_from_struct(self, struct):
+        surname_list = struct.get("surname_list", [])
+        self.surname_list = [Surname.from_struct(item) for item in surname_list]
 
     def add_surname(self, surname):
         """

@@ -58,17 +58,6 @@ class RepoRef(SecondaryObject, PrivacyBase, NoteBase, RefBase):
             self.call_number = ""
             self.media_type = SourceMediaType()
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (
-            NoteBase.serialize(self),
-            RefBase.serialize(self),
-            self.call_number, self.media_type.serialize(),
-            PrivacyBase.serialize(self),
-            )
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -95,7 +84,7 @@ class RepoRef(SecondaryObject, PrivacyBase, NoteBase, RefBase):
             "ref": Handle("Repository", self.ref),
             "call_number": self.call_number,
             "media_type": self.media_type.to_struct(),
-            "private": PrivacyBase.serialize(self),
+            "private": PrivacyBase.to_struct(self),
             }
 
     @classmethod
@@ -105,25 +94,15 @@ class RepoRef(SecondaryObject, PrivacyBase, NoteBase, RefBase):
 
         :returns: Returns a serialized object
         """
-        default = RepoRef()
-        return (
-            NoteBase.from_struct(struct.get("note_list", default.note_list)),
-            RefBase.from_struct(struct.get("ref", default.ref)),
+        self = default = RepoRef()
+        data = (
             struct.get("call_number", default.call_number),
             SourceMediaType.from_struct(struct.get("media_type", {})),
-            struct.get("private", default.private),
             )
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (note_list, ref, self.call_number, media_type, privacy) = data
-        self.media_type = SourceMediaType()
-        self.media_type.unserialize(media_type)
-        PrivacyBase.unserialize(self, privacy)
-        NoteBase.unserialize(self, note_list)
-        RefBase.unserialize(self, ref)
+        (self.call_number, self.media_type) = data
+        PrivacyBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        RefBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

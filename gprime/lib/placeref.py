@@ -54,15 +54,6 @@ class PlaceRef(RefBase, DateBase, SecondaryObject):
         RefBase.__init__(self, source)
         DateBase.__init__(self, source)
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (
-            RefBase.serialize(self),
-            DateBase.serialize(self)
-            )
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -96,19 +87,9 @@ class PlaceRef(RefBase, DateBase, SecondaryObject):
 
         :returns: Returns a serialized object
         """
-        default = PlaceRef()
-        return (
-            RefBase.from_struct(struct.get("ref", default.ref)),
-            DateBase.from_struct(struct.get("date", {}))
-            )
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (ref, date) = data
-        RefBase.unserialize(self, ref)
-        DateBase.unserialize(self, date)
+        self = PlaceRef()
+        RefBase.set_from_struct(self, struct)
+        DateBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

@@ -134,16 +134,6 @@ class LdsOrd(SecondaryObject, CitationBase, NoteBase,
             self.temple = ""
             self.status = LdsOrd.DEFAULT_STATUS
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                DateBase.serialize(self),
-                self.type, self.place,
-                self.famc, self.temple, self.status, self.private)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -168,11 +158,11 @@ class LdsOrd(SecondaryObject, CitationBase, NoteBase,
                 "citation_list": CitationBase.to_struct(self),
                 "note_list": NoteBase.to_struct(self),
                 "date": DateBase.to_struct(self),
-                "type": self.type,
-                "place": self.place,
-                "famc": self.famc,
-                "temple": self.temple,
-                "status": self.status,
+                "type": self.type, # int
+                "place": self.place, # handle
+                "famc": self.famc, # handle
+                "temple": self.temple, # str
+                "status": self.status, # int
                 "private": self.private}
 
     @classmethod
@@ -182,28 +172,18 @@ class LdsOrd(SecondaryObject, CitationBase, NoteBase,
 
         :returns: Returns a serialized object
         """
-        default = LdsOrd()
-        return (CitationBase.from_struct(struct.get("citation_list",
-                                                    default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list",
-                                                default.note_list)),
-                DateBase.from_struct(struct.get("date", {})),
-                struct.get("type", {}),
+        self = default = LdsOrd()
+        data = (struct.get("type", default.type),
                 struct.get("place", default.place),
                 struct.get("famc", default.famc),
                 struct.get("temple", default.temple),
                 struct.get("status", default.status),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (citation_list, note_list, date, self.type, self.place,
-         self.famc, self.temple, self.status, self.private) = data
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        DateBase.unserialize(self, date)
+        (self.type, self.place, self.famc, self.temple, self.status,
+         self.private) = data
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        DateBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

@@ -49,12 +49,6 @@ class PrivacyBase:
         else:
             self.private = False
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return self.private
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -77,21 +71,11 @@ class PrivacyBase:
         """
         return self.private
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return struct
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.private = data
-        return self
+        self.private = struct.get("private", False)
 
     def set_privacy(self, val):
         """

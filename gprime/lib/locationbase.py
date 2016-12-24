@@ -57,13 +57,6 @@ class LocationBase:
             self.postal = ""
             self.phone = ""
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (self.street, self.locality, self.city, self.county, self.state,
-                self.country, self.postal, self.phone)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -96,15 +89,12 @@ class LocationBase:
             "phone": self.phone
         }
 
-    @classmethod
-    def from_struct(cls, struct):
+    def set_from_struct(self, struct):
         """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
+        Convert a serialized tuple of data to an object.
         """
         default = LocationBase()
-        return (struct.get("street", default.street),
+        data = (struct.get("street", default.street),
                 struct.get("locality", default.locality),
                 struct.get("city", default.city),
                 struct.get("county", default.county),
@@ -112,14 +102,8 @@ class LocationBase:
                 struct.get("country", default.country),
                 struct.get("postal", default.postal),
                 struct.get("phone", default.phone))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
         (self.street, self.locality, self.city, self.county, self.state,
          self.country, self.postal, self.phone) = data
-        return self
 
     def get_text_data_list(self):
         """

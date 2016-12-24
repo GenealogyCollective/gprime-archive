@@ -59,17 +59,6 @@ class MediaRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase,
         else:
             self.rect = None
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                AttributeBase.serialize(self),
-                RefBase.serialize(self),
-                self.rect)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -91,7 +80,7 @@ class MediaRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase,
         :rtype: dict
         """
         return {"_class": "MediaRef",
-                "private": PrivacyBase.serialize(self),
+                "private": PrivacyBase.to_struct(self),
                 "citation_list": CitationBase.to_struct(self),
                 "note_list": NoteBase.to_struct(self),
                 "attribute_list": AttributeBase.to_struct(self),
@@ -125,28 +114,13 @@ class MediaRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase,
 
         :returns: Returns a serialized object
         """
-        default = MediaRef()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                CitationBase.from_struct(struct.get("citation_list",
-                                                    default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list",
-                                                default.note_list)),
-                AttributeBase.from_struct(struct.get("attribute_list",
-                                                     default.attribute_list)),
-                RefBase.from_struct(struct.get("ref", default.ref)),
-                struct.get("rect", default.rect))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, attribute_list, ref,
-         self.rect) = data
-        PrivacyBase.unserialize(self, privacy)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        AttributeBase.unserialize(self, attribute_list)
-        RefBase.unserialize(self, ref)
+        self = default = MediaRef()
+        self.rect = struct.get("rect", default.rect)
+        PrivacyBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        AttributeBase.set_from_struct(self, struct)
+        RefBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_child_list(self):

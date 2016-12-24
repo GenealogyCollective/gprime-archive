@@ -24,7 +24,7 @@
 #
 #------------------------------------------------------------------------
 import random
-import pickle
+import json
 import base64
 import time
 import re
@@ -166,7 +166,7 @@ class DbGenericUndo(DbUndo):
             self.db.transaction_backend_begin()
             for record_id in subitems:
                 (key, trans_type, handle, old_data, new_data) = \
-                    pickle.loads(self.undodb[record_id])
+                    json.loads(self.undodb[record_id])
 
                 if key == REFERENCE_KEY:
                     self.undo_reference(new_data, handle, self.mapbase[key])
@@ -209,7 +209,7 @@ class DbGenericUndo(DbUndo):
         # Process all records in the transaction
         for record_id in subitems:
             (key, trans_type, handle, old_data, new_data) = \
-                    pickle.loads(self.undodb[record_id])
+                    json.loads(self.undodb[record_id])
 
             if key == REFERENCE_KEY:
                 self.undo_reference(old_data, handle, self.mapbase[key])
@@ -794,7 +794,12 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
 
         # Load metadata
         self.name_formats = self.get_metadata('name_formats')
-        self.owner = self.get_metadata('researcher', default=Researcher())
+        owner_struct = self.get_metadata('researcher', default=None)
+        if owner_struct:
+            researcher = Researcher.from_struct(owner_struct)
+        else:
+            researcher = Researcher()
+        self.owner = researcher
 
         # Load bookmarks
         self.bookmarks.set(self.get_metadata('bookmarks'))
@@ -808,23 +813,23 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         self.note_bookmarks.set(self.get_metadata('note_bookmarks'))
 
         # Custom type values
-        self.event_names = self.get_metadata('event_names', set())
-        self.family_attributes = self.get_metadata('fattr_names', set())
-        self.individual_attributes = self.get_metadata('pattr_names', set())
-        self.source_attributes = self.get_metadata('sattr_names', set())
-        self.marker_names = self.get_metadata('marker_names', set())
-        self.child_ref_types = self.get_metadata('child_refs', set())
-        self.family_rel_types = self.get_metadata('family_rels', set())
-        self.event_role_names = self.get_metadata('event_roles', set())
-        self.name_types = self.get_metadata('name_types', set())
-        self.origin_types = self.get_metadata('origin_types', set())
-        self.repository_types = self.get_metadata('repo_types', set())
-        self.note_types = self.get_metadata('note_types', set())
-        self.source_media_types = self.get_metadata('sm_types', set())
-        self.url_types = self.get_metadata('url_types', set())
-        self.media_attributes = self.get_metadata('mattr_names', set())
-        self.event_attributes = self.get_metadata('eattr_names', set())
-        self.place_types = self.get_metadata('place_types', set())
+        self.event_names = set(self.get_metadata('event_names', list()))
+        self.family_attributes = set(self.get_metadata('fattr_names', list()))
+        self.individual_attributes = set(self.get_metadata('pattr_names', list()))
+        self.source_attributes = set(self.get_metadata('sattr_names', list()))
+        self.marker_names = set(self.get_metadata('marker_names', list()))
+        self.child_ref_types = set(self.get_metadata('child_refs', list()))
+        self.family_rel_types = set(self.get_metadata('family_rels', list()))
+        self.event_role_names = set(self.get_metadata('event_roles', list()))
+        self.name_types = set(self.get_metadata('name_types', list()))
+        self.origin_types = set(self.get_metadata('origin_types', list()))
+        self.repository_types = set(self.get_metadata('repo_types', list()))
+        self.note_types = set(self.get_metadata('note_types', list()))
+        self.source_media_types = set(self.get_metadata('sm_types', list()))
+        self.url_types = set(self.get_metadata('url_types', list()))
+        self.media_attributes = set(self.get_metadata('mattr_names', list()))
+        self.event_attributes = set(self.get_metadata('eattr_names', list()))
+        self.place_types = set(self.get_metadata('place_types', list()))
 
         # surname list
         self.surname_list = self.get_surname_list()
@@ -1846,7 +1851,7 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
                 # Save metadata
                 self.transaction_backend_begin()
                 self.set_metadata('name_formats', self.name_formats)
-                self.set_metadata('researcher', self.owner)
+                self.set_metadata('researcher', self.owner.to_struct())
 
                 # Bookmarks
                 self.set_metadata('bookmarks', self.bookmarks.get())
@@ -1860,23 +1865,23 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
                 self.set_metadata('note_bookmarks', self.note_bookmarks.get())
 
                 # Custom type values, sets
-                self.set_metadata('event_names', self.event_names)
-                self.set_metadata('fattr_names', self.family_attributes)
-                self.set_metadata('pattr_names', self.individual_attributes)
-                self.set_metadata('sattr_names', self.source_attributes)
-                self.set_metadata('marker_names', self.marker_names)
-                self.set_metadata('child_refs', self.child_ref_types)
-                self.set_metadata('family_rels', self.family_rel_types)
-                self.set_metadata('event_roles', self.event_role_names)
-                self.set_metadata('name_types', self.name_types)
-                self.set_metadata('origin_types', self.origin_types)
-                self.set_metadata('repo_types', self.repository_types)
-                self.set_metadata('note_types', self.note_types)
-                self.set_metadata('sm_types', self.source_media_types)
-                self.set_metadata('url_types', self.url_types)
-                self.set_metadata('mattr_names', self.media_attributes)
-                self.set_metadata('eattr_names', self.event_attributes)
-                self.set_metadata('place_types', self.place_types)
+                self.set_metadata('event_names', list(self.event_names))
+                self.set_metadata('fattr_names', list(self.family_attributes))
+                self.set_metadata('pattr_names', list(self.individual_attributes))
+                self.set_metadata('sattr_names', list(self.source_attributes))
+                self.set_metadata('marker_names', list(self.marker_names))
+                self.set_metadata('child_refs', list(self.child_ref_types))
+                self.set_metadata('family_rels', list(self.family_rel_types))
+                self.set_metadata('event_roles', list(self.event_role_names))
+                self.set_metadata('name_types', list(self.name_types))
+                self.set_metadata('origin_types', list(self.origin_types))
+                self.set_metadata('repo_types', list(self.repository_types))
+                self.set_metadata('note_types', list(self.note_types))
+                self.set_metadata('sm_types', list(self.source_media_types))
+                self.set_metadata('url_types', list(self.url_types))
+                self.set_metadata('mattr_names', list(self.media_attributes))
+                self.set_metadata('eattr_names', list(self.event_attributes))
+                self.set_metadata('place_types', list(self.place_types))
 
                 # Save misc items:
                 if self.has_changed:

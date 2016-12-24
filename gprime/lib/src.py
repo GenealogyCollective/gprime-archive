@@ -49,7 +49,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
              PrimaryObject):
     """A record of a source of information."""
 
-    def __init__(self, data=None, db=None):
+    def __init__(self, db=None):
         """Create a new Source instance."""
         PrimaryObject.__init__(self)
         MediaBase.__init__(self)
@@ -61,26 +61,6 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         self.abbrev = ""
         self.reporef_list = []
         self.db = db
-        if data:
-            self.unserialize(data)
-
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (self.handle,                                       # 0
-                self.gid,                                    # 1
-                str(self.title),                                  # 2
-                str(self.author),                                 # 3
-                str(self.pubinfo),                                # 4
-                NoteBase.serialize(self),                          # 5
-                MediaBase.serialize(self),                         # 6
-                str(self.abbrev),                                 # 7
-                self.change,                                       # 8
-                SrcAttributeBase.serialize(self),                  # 9
-                [rr.serialize() for rr in self.reporef_list],      # 10
-                TagBase.serialize(self),                           # 11
-                self.private)                                      # 12
 
     @classmethod
     def get_labels(cls, _):
@@ -111,7 +91,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
               primary=True, null=False, index=True),
              Column("order_by", "TEXT", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_schema(cls):
@@ -180,49 +160,31 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :returns: Returns a serialized object
         """
         from .srcattribute import SrcAttribute
-        default = Source()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Source()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 struct.get("title", default.title),
                 struct.get("author", default.author),
                 struct.get("pubinfo", default.pubinfo),
-                NoteBase.from_struct(struct.get("note_list",
-                                                default.note_list)),
-                MediaBase.from_struct(struct.get("media_list",
-                                                 default.media_list)),
                 struct.get("abbrev", default.abbrev),
                 struct.get("change", default.change),
-                SrcAttributeBase.from_struct(struct.get("srcattr_list", {})),
                 [RepoRef.from_struct(rr)
                  for rr in struct.get("reporef_list", default.reporef_list)],
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Source structure.
-        """
         (self.handle,       #  0
          self.gid,    #  1
          self.title,        #  2
          self.author,       #  3
          self.pubinfo,      #  4
-         note_list,         #  5
-         media_list,        #  6
          self.abbrev,       #  7
          self.change,       #  8
-         srcattr_list,      #  9
-         reporef_list,      #  10
-         tag_list,          #  11
-         self.private       #  12
+         self.reporef_list,
+         self.private,       #  12
         ) = data
-
-        NoteBase.unserialize(self, note_list)
-        MediaBase.unserialize(self, media_list)
-        TagBase.unserialize(self, tag_list)
-        SrcAttributeBase.unserialize(self, srcattr_list)
-        self.reporef_list = [RepoRef().unserialize(item) for item in reporef_list]
+        NoteBase.set_from_struct(self, struct)
+        MediaBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
+        SrcAttributeBase.set_from_struct(self, struct)
         return self
 
     def _has_handle_reference(self, classname, handle):

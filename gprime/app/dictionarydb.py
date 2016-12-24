@@ -283,12 +283,12 @@ class DictionaryDb(DbGeneric):
             self.update_backlinks(person)
             if old_person:
                 trans.add(PERSON_KEY, TXNUPD, person.handle,
-                          old_person.serialize(),
-                          person.serialize())
+                          old_person.to_struct(),
+                          person.to_struct())
             else:
                 trans.add(PERSON_KEY, TXNADD, person.handle,
                           None,
-                          person.serialize())
+                          person.to_struct())
         # Other misc update tasks:
         self.individual_attributes.update(
             [str(attr.type) for attr in person.attribute_list
@@ -326,7 +326,7 @@ class DictionaryDb(DbGeneric):
         old_family = None
         if family.handle in self.family_map:
             emit = "family-update"
-            old_family = self.get_family_from_handle(family.handle).serialize()
+            old_family = self.get_family_from_handle(family.handle).to_struct()
             self._family_dict[family.handle] = family
             self._family_id_dict[family.gid] = family
         else:
@@ -338,7 +338,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_family else TXNADD
             trans.add(FAMILY_KEY, op, family.handle,
                       old_family,
-                      family.serialize())
+                      family.to_struct())
 
         # Misc updates:
         self.family_attributes.update(
@@ -375,7 +375,7 @@ class DictionaryDb(DbGeneric):
         old_citation = None
         if citation.handle in self.citation_map:
             emit = "citation-update"
-            old_citation = self.get_citation_from_handle(citation.handle).serialize()
+            old_citation = self.get_citation_from_handle(citation.handle).to_struct()
             self._citation_dict[citation.handle] = citation
             self._citation_id_dict[citation.gid] = citation
         else:
@@ -387,7 +387,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_citation else TXNADD
             trans.add(CITATION_KEY, op, citation.handle,
                       old_citation,
-                      citation.serialize())
+                      citation.to_struct())
         # Misc updates:
         attr_list = []
         for mref in citation.media_list:
@@ -409,7 +409,7 @@ class DictionaryDb(DbGeneric):
         old_source = None
         if source.handle in self.source_map:
             emit = "source-update"
-            old_source = self.get_source_from_handle(source.handle).serialize()
+            old_source = self.get_source_from_handle(source.handle).to_struct()
             self._source_dict[source.handle] = source
             self._source_id_dict[source.gid] = source
         else:
@@ -421,7 +421,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_source else TXNADD
             trans.add(SOURCE_KEY, op, source.handle,
                       old_source,
-                      source.serialize())
+                      source.to_struct())
         # Misc updates:
         self.source_media_types.update(
             [str(ref.media_type) for ref in source.reporef_list
@@ -445,7 +445,7 @@ class DictionaryDb(DbGeneric):
         old_repository = None
         if repository.handle in self.repository_map:
             emit = "repository-update"
-            old_repository = self.get_repository_from_handle(repository.handle).serialize()
+            old_repository = self.get_repository_from_handle(repository.handle).to_struct()
             self._repository_dict[repository.handle] = repository
             self._repository_id_dict[repository.gid] = repository
         else:
@@ -457,7 +457,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_repository else TXNADD
             trans.add(REPOSITORY_KEY, op, repository.handle,
                       old_repository,
-                      repository.serialize())
+                      repository.to_struct())
         # Misc updates:
         if repository.type.is_custom():
             self.repository_types.add(str(repository.type))
@@ -474,7 +474,7 @@ class DictionaryDb(DbGeneric):
         old_note = None
         if note.handle in self.note_map:
             emit = "note-update"
-            old_note = self.get_note_from_handle(note.handle).serialize()
+            old_note = self.get_note_from_handle(note.handle).to_struct()
             self._note_dict[note.handle] = note
             self._note_id_dict[note.gid] = note
         else:
@@ -486,7 +486,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_note else TXNADD
             trans.add(NOTE_KEY, op, note.handle,
                       old_note,
-                      note.serialize())
+                      note.to_struct())
         # Misc updates:
         if note.type.is_custom():
             self.note_types.add(str(note.type))
@@ -500,7 +500,7 @@ class DictionaryDb(DbGeneric):
         old_place = None
         if place.handle in self.place_map:
             emit = "place-update"
-            old_place = self.get_place_from_handle(place.handle).serialize()
+            old_place = self.get_place_from_handle(place.handle).to_struct()
             self._place_dict[place.handle] = place
             self._place_id_dict[place.gid] = place
         else:
@@ -512,7 +512,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_place else TXNADD
             trans.add(PLACE_KEY, op, place.handle,
                       old_place,
-                      place.serialize())
+                      place.to_struct())
         # Misc updates:
         if place.get_type().is_custom():
             self.place_types.add(str(place.get_type()))
@@ -535,7 +535,7 @@ class DictionaryDb(DbGeneric):
         old_event = None
         if event.handle in self.event_map:
             emit = "event-update"
-            old_event = self.get_event_from_handle(event.handle).serialize()
+            old_event = self.get_event_from_handle(event.handle).to_struct()
             self._event_dict[event.handle] = event
             self._event_id_dict[event.gid] = event
         else:
@@ -547,7 +547,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_event else TXNADD
             trans.add(EVENT_KEY, op, event.handle,
                       old_event,
-                      event.serialize())
+                      event.to_struct())
         # Misc updates:
         self.event_attributes.update(
             [str(attr.type) for attr in event.attribute_list
@@ -588,7 +588,7 @@ class DictionaryDb(DbGeneric):
         old_media = None
         if media.handle in self.media_map:
             emit = "media-update"
-            old_media = self.get_media_from_handle(media.handle).serialize()
+            old_media = self.get_media_from_handle(media.handle).to_struct()
             self._media_dict[media.handle] = media
             self._media_id_dict[media.gid] = media
         else:
@@ -600,7 +600,7 @@ class DictionaryDb(DbGeneric):
             op = TXNUPD if old_media else TXNADD
             trans.add(MEDIA_KEY, op, media.handle,
                       old_media,
-                      media.serialize())
+                      media.to_struct())
         # Misc updates:
         self.media_attributes.update(
             [str(attr.type) for attr in media.attribute_list
@@ -642,7 +642,7 @@ class DictionaryDb(DbGeneric):
             self.emit("person-delete", ([handle],))
             if not transaction.batch:
                 transaction.add(PERSON_KEY, TXNDEL, person.handle,
-                                person.serialize(), None)
+                                person.to_struct(), None)
 
     def _do_remove(self, handle, transaction, data_map, data_id_map, key):
         key2table = {
@@ -883,97 +883,97 @@ class DictionaryDb(DbGeneric):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._person_dict:
-            return self._person_dict[key].serialize()
+            return self._person_dict[key].to_struct()
 
     def _get_raw_person_from_id_data(self, key):
         if key in self._person_id_dict:
-            return self._person_id_dict[key].serialize()
+            return self._person_id_dict[key].to_struct()
 
     def _get_raw_family_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._family_dict:
-            return self._family_dict[key].serialize()
+            return self._family_dict[key].to_struct()
 
     def _get_raw_family_from_id_data(self, key):
         if key in self._family_id_dict:
-            return self._family_id_dict[key].serialize()
+            return self._family_id_dict[key].to_struct()
 
     def _get_raw_source_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._source_dict:
-            return self._source_dict[key].serialize()
+            return self._source_dict[key].to_struct()
 
     def _get_raw_source_from_id_data(self, key):
         if key in self._source_id_dict:
-            return self._source_id_dict[key].serialize()
+            return self._source_id_dict[key].to_struct()
 
     def _get_raw_citation_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._citation_dict:
-            return self._citation_dict[key].serialize()
+            return self._citation_dict[key].to_struct()
 
     def _get_raw_citation_from_id_data(self, key):
         if key in self._citation_id_dict:
-            return self._citation_id_dict[key].serialize()
+            return self._citation_id_dict[key].to_struct()
 
     def _get_raw_event_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._event_dict:
-            return self._event_dict[key].serialize()
+            return self._event_dict[key].to_struct()
 
     def _get_raw_event_from_id_data(self, key):
         if key in self._event_id_dict:
-            return self._event_id_dict[key].serialize()
+            return self._event_id_dict[key].to_struct()
 
     def _get_raw_media_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._media_dict:
-            return self._media_dict[key].serialize()
+            return self._media_dict[key].to_struct()
 
     def _get_raw_media_from_id_data(self, key):
         if key in self._media_id_dict:
-            return self._media_id_dict[key].serialize()
+            return self._media_id_dict[key].to_struct()
 
     def _get_raw_place_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._place_dict:
-            return self._place_dict[key].serialize()
+            return self._place_dict[key].to_struct()
 
     def _get_raw_place_from_id_data(self, key):
         if key in self._place_id_dict:
-            return self._place_id_dict[key].serialize()
+            return self._place_id_dict[key].to_struct()
 
     def _get_raw_repository_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._repository_dict:
-            return self._repository_dict[key].serialize()
+            return self._repository_dict[key].to_struct()
 
     def _get_raw_repository_from_id_data(self, key):
         if key in self._repository_id_dict:
-            return self._repository_id_dict[key].serialize()
+            return self._repository_id_dict[key].to_struct()
 
     def _get_raw_note_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._note_dict:
-            return self._note_dict[key].serialize()
+            return self._note_dict[key].to_struct()
 
     def _get_raw_note_from_id_data(self, key):
         if key in self._note_id_dict:
-            return self._note_id_dict[key].serialize()
+            return self._note_id_dict[key].to_struct()
 
     def _get_raw_tag_data(self, key):
         if isinstance(key, bytes):
             key = str(key, "utf-8")
         if key in self._tag_dict:
-            return self._tag_dict[key].serialize()
+            return self._tag_dict[key].to_struct()
 
     def rebuild_gender_stats(self):
         """

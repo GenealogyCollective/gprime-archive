@@ -58,12 +58,6 @@ class LdsOrdBase:
         else:
             self.lds_ord_list = []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return [lds_ord.serialize() for lds_ord in self.lds_ord_list]
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -86,20 +80,12 @@ class LdsOrdBase:
         """
         return [lds_ord.to_struct() for lds_ord in self.lds_ord_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [LdsOrd.from_struct(lds_ord) for lds_ord in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object
         """
-        self.lds_ord_list = [LdsOrd().unserialize(item) for item in data]
+        lds_ord_list = struct.get("lds_ord_list", [])
+        self.lds_ord_list = [LdsOrd.from_struct(item) for item in lds_ord_list]
 
     def add_lds_ord(self, lds_ord):
         """

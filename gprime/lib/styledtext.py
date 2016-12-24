@@ -274,20 +274,6 @@ class StyledText:
 
     # other public methods
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-
-        :return: Serialized format of the instance.
-        :rtype: tuple
-        """
-        if self._tags:
-            the_tags = [tag.serialize() for tag in self._tags]
-        else:
-            the_tags = []
-
-        return (self._string, the_tags)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -324,10 +310,12 @@ class StyledText:
 
         :return: Returns a serialized object
         """
-        default = StyledText()
-        return (struct.get("string", default.string),
+        self = default = StyledText()
+        data = (struct.get("string", default.string),
                 [StyledTextTag.from_struct(t)
                  for t in struct.get("tags", default.tags)])
+        (self._string, self._tags) = data
+        return self
 
     @classmethod
     def get_schema(cls):
@@ -345,23 +333,6 @@ class StyledText:
             "string": _("Text"),
             "tags": _("Styled Text Tags"),
         }
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-
-        :param data: Serialized format of instance variables.
-        :type data: tuple
-        """
-        (self._string, the_tags) = data
-
-        # I really wonder why this doesn't work... it does for all other types
-        #self._tags = [StyledTextTag().unserialize(tag) for tag in the_tags]
-        for tag in the_tags:
-            stt = StyledTextTag()
-            stt.unserialize(tag)
-            self._tags.append(stt)
-        return self
 
     def get_tags(self):
         """

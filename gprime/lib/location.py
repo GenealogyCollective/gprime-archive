@@ -57,12 +57,6 @@ class Location(SecondaryObject, LocationBase):
         else:
             self.parish = ""
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (LocationBase.serialize(self), self.parish)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -101,23 +95,9 @@ class Location(SecondaryObject, LocationBase):
 
         :returns: Returns a serialized object
         """
-        default = Location()
-        return ((struct.get("street", default.street),
-                 struct.get("locality", default.locality),
-                 struct.get("city", default.city),
-                 struct.get("country", default.country),
-                 struct.get("state", default.state),
-                 struct.get("country", default.country),
-                 struct.get("postal", default.postal),
-                 struct.get("phone", default.phone)),
-                struct.get("parish", default.parish))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (lbase, self.parish) = data
-        LocationBase.unserialize(self, lbase)
+        self = default = Location()
+        self.parish = struct.get("parish", default.parish)
+        LocationBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

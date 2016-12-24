@@ -53,12 +53,6 @@ class AddressBase:
         """
         self.address_list = list(map(Address, source.address_list)) if source else []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return [addr.serialize() for addr in self.address_list]
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -81,20 +75,12 @@ class AddressBase:
         """
         return [addr.to_struct() for addr in self.address_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [Address.from_struct(addr) for addr in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.address_list = [Address().unserialize(item) for item in data]
+        alist = struct.get("address_list", [])
+        self.address_list = [Address.from_struct(item) for item in alist]
 
     def add_address(self, address):
         """

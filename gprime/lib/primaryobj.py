@@ -79,18 +79,6 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
             self.gid = None
 
     @abstractmethod
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-
-    @abstractmethod
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-
-    @abstractmethod
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -265,18 +253,6 @@ class PrimaryObject(BasicPrimaryObject):
         :type source: PrimaryObject
         """
         BasicPrimaryObject.__init__(self, source)
-
-    @abstractmethod
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-
-    @abstractmethod
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
 
     @abstractmethod
     def to_struct(self):

@@ -62,16 +62,6 @@ class PersonRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
         else:
             self.rel = ''
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                RefBase.serialize(self),
-                self.rel)
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -106,22 +96,12 @@ class PersonRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
 
         :returns: Returns a serialized object
         """
-        default = PersonRef()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                CitationBase.from_struct(struct.get("citation_list", default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                RefBase.from_struct(struct.get("ref", default.ref)),
-                struct.get("rel", default.rel))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, ref, self.rel) = data
-        PrivacyBase.unserialize(self, privacy)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        RefBase.unserialize(self, ref)
+        self = default = PersonRef()
+        self.rel = struct.get("rel", default.rel)
+        PrivacyBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        RefBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

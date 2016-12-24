@@ -57,16 +57,6 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
         DateBase.__init__(self, source)
         LocationBase.__init__(self, source)
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                DateBase.serialize(self),
-                LocationBase.serialize(self))
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -88,7 +78,7 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
         :rtype: dict
         """
         return {"_class": "Address",
-                "private": PrivacyBase.serialize(self),
+                "private": PrivacyBase.to_struct(self),
                 "citation_list": CitationBase.to_struct(self),
                 "note_list": NoteBase.to_struct(self),
                 "date": DateBase.to_struct(self),
@@ -102,25 +92,12 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
 
         :returns: Returns a serialized object
         """
-        default = Address()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                CitationBase.from_struct(struct.get("citation_list", default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                DateBase.from_struct(struct.get("date", {})),
-                LocationBase.from_struct(struct.get("location", {}))
-               )
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, date, location) = data
-
-        PrivacyBase.unserialize(self, privacy)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        DateBase.unserialize(self, date)
-        LocationBase.unserialize(self, location)
+        self = Address()
+        PrivacyBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        DateBase.set_from_struct(self, struct)
+        LocationBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

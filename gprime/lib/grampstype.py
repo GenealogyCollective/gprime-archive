@@ -203,10 +203,6 @@ class GrampsType(object, metaclass=GrampsTypeMeta):
         else:
             return _UNKNOWN
 
-    def serialize(self):
-        """Convert the object to a serialized tuple of data. """
-        return (self.__value, self.__string)
-
     @classmethod
     def get_labels(cls, _):
         return {
@@ -246,15 +242,12 @@ class GrampsType(object, metaclass=GrampsTypeMeta):
 
         :returns: Returns a serialized object
         """
-        default = cls()
+        self = default = cls()
         if struct.get("value", cls._CUSTOM) == cls._CUSTOM:
-            return (struct.get("value", default.value),
+            data = (struct.get("value", default.value),
                     struct.get("string", ""))
         else:
-            return (struct.get("value", default.value), '')
-
-    def unserialize(self, data):
-        """Convert a serialized tuple of data to an object."""
+            data = (struct.get("value", default.value), '')
         self.__value, self.__string = data
         if self.__value != self._CUSTOM:
             self.__string = ''

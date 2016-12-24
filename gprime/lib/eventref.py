@@ -67,18 +67,6 @@ class EventRef(PrivacyBase, NoteBase, AttributeBase, RefBase,
         else:
             self.__role = EventRoleType()
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (
-            PrivacyBase.serialize(self),
-            NoteBase.serialize(self),
-            AttributeBase.serialize(self),
-            RefBase.serialize(self),
-            self.__role.serialize()
-            )
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -149,26 +137,13 @@ class EventRef(PrivacyBase, NoteBase, AttributeBase, RefBase,
 
         :returns: Returns a serialized object
         """
-        default = EventRef()
-        return (
-            PrivacyBase.from_struct(struct.get("private", default.private)),
-            NoteBase.from_struct(struct.get("note_list", default.note_list)),
-            AttributeBase.from_struct(struct.get("attribute_list", default.attribute_list)),
-            RefBase.from_struct(struct.get("ref", default.ref)),
-            EventRoleType.from_struct(struct.get("role", {}))
-        )
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, note_list, attribute_list, ref, role) = data
-        PrivacyBase.unserialize(self, privacy)
-        NoteBase.unserialize(self, note_list)
-        AttributeBase.unserialize(self, attribute_list)
-        RefBase.unserialize(self, ref)
-        self.__role = EventRoleType()
-        self.__role.unserialize(role)
+        self = default = EventRef()
+        PrivacyBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        AttributeBase.set_from_struct(self, struct)
+        RefBase.set_from_struct(self, struct)
+        role = struct.get("role", {})
+        self.__role = EventRoleType.from_struct(role)
         return self
 
     def get_text_data_list(self):

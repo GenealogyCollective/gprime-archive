@@ -50,12 +50,6 @@ class MediaBase:
         """
         self.media_list = list(map(MediaRef, source.media_list)) if source else []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return [mref.serialize() for mref in self.media_list]
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -78,21 +72,12 @@ class MediaBase:
         """
         return [mref.to_struct() for mref in self.media_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [MediaRef.from_struct(mref) for mref in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.media_list = [MediaRef().unserialize(item) for item in data]
-        return self
+        media_list = struct.get("media_list", [])
+        self.media_list = [MediaRef.from_struct(item) for item in media_list]
 
     def add_media_reference(self, media_ref):
         """

@@ -68,7 +68,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
     CONF_LOW = 1
     CONF_VERY_LOW = 0
 
-    def __init__(self, data=None, db=None):
+    def __init__(self, db=None):
         """Create a new Citation instance."""
         PrimaryObject.__init__(self)
         MediaBase.__init__(self)                       #  7
@@ -79,8 +79,6 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         self.confidence = Citation.CONF_NORMAL         #  4
         SrcAttributeBase.__init__(self)                #  8
         self.db = db
-        if data:
-            self.unserialize(data)
 
     @classmethod
     def get_schema(cls):
@@ -115,7 +113,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
               primary=True, null=False, index=True),
              Column("order_by", "TEXT", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_labels(cls, _):
@@ -134,23 +132,6 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "tag_list": _("Tags"),
             "private": _("Private"),
         }
-
-    def serialize(self, no_text_date=False):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (self.handle,                           #  0
-                self.gid,                        #  1
-                DateBase.serialize(self, no_text_date),#  2
-                str(self.page),                       #  3
-                self.confidence,                       #  4
-                self.source_handle,                    #  5
-                NoteBase.serialize(self),              #  6
-                MediaBase.serialize(self),             #  7
-                SrcAttributeBase.serialize(self),      #  8
-                self.change,                           #  9
-                TagBase.serialize(self),               # 10
-                self.private)                          # 11
 
     def to_struct(self):
         """
@@ -193,44 +174,29 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
 
         :returns: Returns a serialized object
         """
-        default = Citation()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        from .date import Date
+        self = default = Citation()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
-                DateBase.from_struct(struct.get("date", {})),
+                Date.from_struct(struct.get("date", {})),
                 struct.get("page", default.page),
                 struct.get("confidence", default.confidence),
                 Handle.from_struct(struct.get("source_handle", default.source_handle)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                MediaBase.from_struct(struct.get("media_list", default.media_list)),
-                SrcAttributeBase.from_struct(struct.get("srcattr_list", [])),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Citation structure.
-        """
         (self.handle,                                  #  0
          self.gid,                               #  1
-         date,                                         #  2
+         self.date,                                         #  2
          self.page,                                    #  3
          self.confidence,                              #  4
          self.source_handle,                           #  5
-         note_list,                                    #  6
-         media_list,                                   #  7
-         srcattr_list,                                 #  8
          self.change,                                  #  9
-         tag_list,                                     # 10
          self.private                                  # 11
         ) = data
-
-        DateBase.unserialize(self, date)
-        NoteBase.unserialize(self, note_list)
-        MediaBase.unserialize(self, media_list)
-        TagBase.unserialize(self, tag_list)
-        SrcAttributeBase.unserialize(self, srcattr_list)
+        NoteBase.set_from_struct(self, struct)
+        MediaBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
+        SrcAttributeBase.set_from_struct(self, struct)
         return self
 
     def _has_handle_reference(self, classname, handle):

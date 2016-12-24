@@ -48,18 +48,6 @@ class SecondaryObject(BaseObject):
     """
 
     @abstractmethod
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-
-    @abstractmethod
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-
-    @abstractmethod
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -97,7 +85,7 @@ class SecondaryObject(BaseObject):
         """
 
     def is_equal(self, source):
-        return self.serialize() == source.serialize()
+        return self.to_struct() == source.to_struct()
 
     def is_equivalent(self, other):
         """

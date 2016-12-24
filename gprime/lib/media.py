@@ -61,7 +61,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
     description and privacy.
     """
 
-    def __init__(self, source=None, db=None):
+    def __init__(self, db=None):
         """
         Initialize a Media.
 
@@ -71,52 +71,17 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         :param source: Object used to initialize the new object
         :type source: Media
         """
-        PrimaryObject.__init__(self, source)
-        CitationBase.__init__(self, source)
-        NoteBase.__init__(self, source)
-        DateBase.__init__(self, source)
-        AttributeBase.__init__(self, source)
+        PrimaryObject.__init__(self)
+        CitationBase.__init__(self)
+        NoteBase.__init__(self)
+        DateBase.__init__(self)
+        AttributeBase.__init__(self)
         self.db = db
-        if source:
-            self.path = source.path
-            self.mime = source.mime
-            self.desc = source.desc
-            self.checksum = source.checksum
-            self.thumb = source.thumb
-        else:
-            self.path = ""
-            self.mime = ""
-            self.desc = ""
-            self.checksum = ""
-            self.thumb = None
-
-    def serialize(self, no_text_date=False):
-        """
-        Convert the data held in the event to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (self.handle, self.gid, self.path, self.mime, self.desc,
-                self.checksum,
-                AttributeBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                self.change,
-                DateBase.serialize(self, no_text_date),
-                TagBase.serialize(self),
-                self.private)
+        self.path = ""
+        self.mime = ""
+        self.desc = ""
+        self.checksum = ""
+        self.thumb = None
 
     def to_struct(self):
         """
@@ -164,7 +129,7 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
               primary=True, null=False, index=True),
              Column("order_by", "TEXT", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_schema(cls):
@@ -225,38 +190,25 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
 
         :returns: Returns a serialized object
         """
-        default = Media()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        from .date import Date
+        self = default = Media()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 struct.get("path", default.path),
                 struct.get("mime", default.mime),
                 struct.get("desc", default.desc),
                 struct.get("checksum", default.checksum),
-                AttributeBase.from_struct(struct.get("attribute_list", default.attribute_list)),
-                CitationBase.from_struct(struct.get("citation_list", default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
                 struct.get("change", default.change),
-                DateBase.from_struct(struct.get("date", {})),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
+                Date.from_struct(struct.get("date", {})),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Media structure.
-
-        :param data: tuple containing the persistent data associated the object
-        :type data: tuple
-        """
         (self.handle, self.gid, self.path, self.mime, self.desc,
-         self.checksum, attribute_list, citation_list, note_list, self.change,
-         date, tag_list, self.private) = data
-
-        AttributeBase.unserialize(self, attribute_list)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        DateBase.unserialize(self, date)
-        TagBase.unserialize(self, tag_list)
+         self.checksum, self.change,
+         self.date, self.private) = data
+        AttributeBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        DateBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

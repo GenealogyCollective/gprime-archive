@@ -369,6 +369,7 @@ def main():
     media_dir = os.path.join(options.site_dir, "media")
     media_cache_dir = os.path.join(options.site_dir, "media", "cache")
     if options.create:
+        options.server = False
         # Make the site_dir:
         os.makedirs(options.site_dir)
         # Make the database:
@@ -386,6 +387,7 @@ def main():
     #options.database = database.get_dbname()
     ## Options after opening:
     if options.import_file:
+        options.server = False
         user = User()
         import_file(database, options.import_file, user)
     # Start server up, or exit:

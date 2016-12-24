@@ -57,34 +57,34 @@ def importData(db, filename, user):
                 while line:
                     data = json.loads(line)
                     if data["_class"] == "Person":
-                        obj = Person.create(Person.from_struct(data))
+                        obj = Person.from_struct(data)
                         db.add_person(obj, trans)
                     elif data["_class"] == "Family":
-                        obj = Family.create(Family.from_struct(data))
+                        obj = Family.from_struct(data)
                         db.add_family(obj, trans)
                     elif data["_class"] == "Event":
-                        obj = Event.create(Event.from_struct(data))
+                        obj = Event.from_struct(data)
                         db.add_event(obj, trans)
                     elif data["_class"] == "Media":
-                        obj = Media.create(Media.from_struct(data))
+                        obj = Media.from_struct(data)
                         db.add_media(obj, trans)
                     elif data["_class"] == "Repository":
-                        obj = Repository.create(Repository.from_struct(data))
+                        obj = Repository.from_struct(data)
                         db.add_repository(obj, trans)
                     elif data["_class"] == "Tag":
-                        obj = Tag.create(Tag.from_struct(data))
+                        obj = Tag.from_struct(data)
                         db.add_tag(obj, trans)
                     elif data["_class"] == "Source":
-                        obj = Source.create(Source.from_struct(data))
+                        obj = Source.from_struct(data)
                         db.add_source(obj, trans)
                     elif data["_class"] == "Citation":
-                        obj = Citation.create(Citation.from_struct(data))
+                        obj = Citation.from_struct(data)
                         db.add_citation(obj, trans)
                     elif data["_class"] == "Note":
-                        obj = Note.create(Note.from_struct(data))
+                        obj = Note.from_struct(data)
                         db.add_note(obj, trans)
                     elif data["_class"] == "Place":
-                        obj = Place.create(Place.from_struct(data))
+                        obj = Place.from_struct(data)
                         db.add_place(obj, trans)
                     else:
                         LOG.warn("ignored: " + data)

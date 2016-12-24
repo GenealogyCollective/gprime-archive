@@ -61,16 +61,6 @@ class PlaceName(SecondaryObject, DateBase):
             else:
                 raise AttributeError("PlaceName does not have property '%s'" % key)
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (
-            self.value,
-            DateBase.serialize(self),
-            self.lang
-            )
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -105,19 +95,14 @@ class PlaceName(SecondaryObject, DateBase):
 
         :returns: Returns a serialized object
         """
-        default = PlaceName()
-        return (
+        from .date import Date
+        self = default = PlaceName()
+        data = (
             struct.get("value", default.value),
-            DateBase.from_struct(struct.get("date", {})),
+            Date.from_struct(struct.get("date", {})),
             struct.get("lang", default.lang)
             )
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (self.value, date, self.lang) = data
-        DateBase.unserialize(self, date)
+        (self.value, self.date, self.lang) = data
         return self
 
     def get_text_data_list(self):

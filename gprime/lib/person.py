@@ -78,7 +78,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
     MALE = 1
     FEMALE = 0
 
-    def __init__(self, data=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Person instance.
 
@@ -103,60 +103,12 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         self.death_ref_index = -1
         self.birth_ref_index = -1
         self.db = db
-        if data:
-            self.unserialize(data)
-
-        # We hold a reference to the GrampsDB so that we can maintain
-        # its genderStats.  It doesn't get set here, but from
-        # GenderStats.count_person.
 
     def __eq__(self, other):
         return isinstance(other, Person) and self.handle == other.handle
 
     def __ne__(self, other):
         return not self == other
-
-    def serialize(self):
-        """
-        Convert the data held in the Person to a Python tuple that
-        represents all the data elements.
-
-        This method is used to convert the object into a form that can easily
-        be saved to a database.
-
-        These elements may be primitive Python types (string, integers),
-        complex Python types (lists or tuples, or Python objects. If the
-        target database cannot handle complex types (such as objects or
-        lists), the database is responsible for converting the data into
-        a form that it can use.
-
-        :returns: Returns a python tuple containing the data that should
-                  be considered persistent.
-        :rtype: tuple
-        """
-        return (
-            self.handle,                                         #  0
-            self.gid,                                      #  1
-            self.__gender,                                       #  2
-            self.primary_name.serialize(),                       #  3
-            [name.serialize() for name in self.alternate_names], #  4
-            self.death_ref_index,                                #  5
-            self.birth_ref_index,                                #  6
-            [er.serialize() for er in self.event_ref_list],      #  7
-            self.family_list,                                    #  8
-            self.parent_family_list,                             #  9
-            MediaBase.serialize(self),                           # 10
-            AddressBase.serialize(self),                         # 11
-            AttributeBase.serialize(self),                       # 12
-            UrlBase.serialize(self),                             # 13
-            LdsOrdBase.serialize(self),                          # 14
-            CitationBase.serialize(self),                        # 15
-            NoteBase.serialize(self),                            # 16
-            self.change,                                         # 17
-            TagBase.serialize(self),                             # 18
-            self.private,                                        # 19
-            [pr.serialize() for pr in self.person_ref_list]      # 20
-            )
 
     def to_struct(self):
         """
@@ -274,8 +226,8 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
 
         :returns: Returns a serialized object
         """
-        default = Person()
-        return (
+        self = default = Person()
+        data = (
             Handle.from_struct(struct.get("handle", default.handle)),
             struct.get("gid", default.gid),
             struct.get("gender", default.gender),
@@ -292,23 +244,34 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
             [Handle.from_struct(handle)
              for handle in struct.get("parent_family_list",
                                       default.parent_family_list)],
-            MediaBase.from_struct(struct.get("media_list", default.media_list)),
-            AddressBase.from_struct(struct.get("address_list",
-                                               default.address_list)),
-            AttributeBase.from_struct(struct.get("attribute_list",
-                                                 default.attribute_list)),
-            UrlBase.from_struct(struct.get("urls", default.urls)),
-            LdsOrdBase.from_struct(struct.get("lds_ord_list",
-                                              default.lds_ord_list)),
-            CitationBase.from_struct(struct.get("citation_list",
-                                                default.citation_list)),
-            NoteBase.from_struct(struct.get("note_list", default.note_list)),
             struct.get("change", default.change),
-            TagBase.from_struct(struct.get("tag_list", default.tag_list)),
             struct.get("private", default.private),
             [PersonRef.from_struct(p)
              for p in struct.get("person_ref_list", default.person_ref_list)]
         )
+        (self.handle,             #  0
+         self.gid,          #  1
+         self.__gender,           #  2
+         self.primary_name,            #  3
+         self.alternate_names,         #  4
+         self.death_ref_index,    #  5
+         self.birth_ref_index,    #  6
+         self.event_ref_list,          #  7
+         self.family_list,        #  8
+         self.parent_family_list, #  9
+         self.change,             # 17
+         self.private,            # 19
+         self.person_ref_list,         # 20
+        ) = data
+        MediaBase.set_from_struct(self, struct)
+        LdsOrdBase.set_from_struct(self, struct)
+        AddressBase.set_from_struct(self, struct)
+        AttributeBase.set_from_struct(self, struct)
+        UrlBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
+        return self
 
     @classmethod
     def get_schema(cls):
@@ -357,57 +320,7 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
              Column("gender_type", "INTEGER"),
              Column("order_by", "TEXT", index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Person object.
-
-        :param data: tuple containing the persistent data associated the
-                     Person object
-        :type data: tuple
-        """
-        (self.handle,             #  0
-         self.gid,          #  1
-         self.__gender,           #  2
-         primary_name,            #  3
-         alternate_names,         #  4
-         self.death_ref_index,    #  5
-         self.birth_ref_index,    #  6
-         event_ref_list,          #  7
-         self.family_list,        #  8
-         self.parent_family_list, #  9
-         media_list,              # 10
-         address_list,            # 11
-         attribute_list,          # 12
-         urls,                    # 13
-         lds_ord_list,            # 14
-         citation_list,           # 15
-         note_list,               # 16
-         self.change,             # 17
-         tag_list,                # 18
-         self.private,            # 19
-         person_ref_list,         # 20
-        ) = data
-
-        self.primary_name = Name()
-        self.primary_name.unserialize(primary_name)
-        self.alternate_names = [Name().unserialize(name)
-                                for name in alternate_names]
-        self.event_ref_list = [EventRef().unserialize(er)
-                               for er in event_ref_list]
-        self.person_ref_list = [PersonRef().unserialize(pr)
-                                for pr in person_ref_list]
-        MediaBase.unserialize(self, media_list)
-        LdsOrdBase.unserialize(self, lds_ord_list)
-        AddressBase.unserialize(self, address_list)
-        AttributeBase.unserialize(self, attribute_list)
-        UrlBase.unserialize(self, urls)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        TagBase.unserialize(self, tag_list)
-        return self
+             Column("json_data", "TEXT")])
 
     def _has_handle_reference(self, classname, handle):
         """

@@ -5,7 +5,6 @@
 #-------------------------------------------------------------------------
 from abc import ABCMeta, abstractmethod
 import time
-import pickle
 from collections import deque
 
 class DbUndo(metaclass=ABCMeta):

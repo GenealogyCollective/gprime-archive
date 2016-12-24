@@ -22,26 +22,6 @@ MODULE_VERSION="1.0"
 
 #------------------------------------------------------------------------
 #
-# Comma _Separated Values Spreadsheet (CSV)
-#
-#------------------------------------------------------------------------
-
-_mime_type = "text/x-comma-separated-values" # CSV Document
-_mime_type_rfc_4180 = "text/csv" # CSV Document   See rfc4180 for mime type
-plg = newplugin()
-plg.id    = 'im_csv'
-plg.name  = _("Comma Separated Values Spreadsheet (CSV)")
-plg.description =  _("Import data from CSV files")
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'importcsv.py'
-plg.ptype = IMPORT
-plg.import_function = 'importData'
-plg.extension = "csv"
-
-#------------------------------------------------------------------------
-#
 # GEDCOM
 #
 #------------------------------------------------------------------------
@@ -58,24 +38,6 @@ plg.fname = 'importgedcom.py'
 plg.ptype = IMPORT
 plg.import_function = 'importData'
 plg.extension = "ged"
-
-#------------------------------------------------------------------------
-#
-# Geneweb
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'im_geneweb'
-plg.name  = _('GeneWeb')
-plg.description =  _('Import data from GeneWeb files')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'importgeneweb.py'
-plg.ptype = IMPORT
-plg.import_function = 'importData'
-plg.extension = "gw"
 
 #------------------------------------------------------------------------
 #
@@ -116,60 +78,6 @@ plg.fname = 'importxml.py'
 plg.ptype = IMPORT
 plg.import_function = 'importData'
 plg.extension = "gramps"
-
-#------------------------------------------------------------------------
-#
-# GRDB database
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'im_grdb'
-plg.name  = _('Gramps 2.x database')
-plg.description =  _('Import data from Gramps 2.x database files')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'importgrdb.py'
-plg.ptype = IMPORT
-plg.import_function = 'importData'
-plg.extension = "grdb"
-
-#------------------------------------------------------------------------
-#
-# Pro-Gen Files
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'im_progen'
-plg.name  = _('Pro-Gen')
-plg.description =  _('Import data from Pro-Gen files')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'importprogen.py'
-plg.ptype = IMPORT
-plg.import_function = '_importData'
-plg.extension = "def"
-
-#------------------------------------------------------------------------
-#
-# vCard
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'im_vcard'
-plg.name  = _('vCard')
-plg.description =  _('Import data from vCard files')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'importvcard.py'
-plg.ptype = IMPORT
-plg.import_function = 'importData'
-plg.extension = "vcf"
 
 #------------------------------------------------------------------------
 #

@@ -67,7 +67,7 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
     #deprecated :
     PTFN = 3  # patronymic first name
 
-    def __init__(self, source=None, data=None):
+    def __init__(self, source=None):
         """Create a new Name instance, copying from the source if provided.
         We should connect here to 'person-groupname-rebuild' and do something
         correct when first parameter is the name, and second parameter is
@@ -80,18 +80,7 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
         CitationBase.__init__(self, source)
         NoteBase.__init__(self, source)
         DateBase.__init__(self, source)
-        if data:
-            (privacy, citation_list, note, date,
-             self.first_name, surname_list, self.suffix, self.title, name_type,
-             self.group_as, self.sort_as, self.display_as, self.call,
-             self.nick, self.famnick) = data
-            self.type = NameType(name_type)
-            SurnameBase.unserialize(self, surname_list)
-            PrivacyBase.unserialize(self, privacy)
-            CitationBase.unserialize(self, citation_list)
-            NoteBase.unserialize(self, note)
-            DateBase.unserialize(self, date)
-        elif source:
+        if source:
             self.first_name = source.first_name
             self.suffix = source.suffix
             self.title = source.title
@@ -113,21 +102,6 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
             self.call = ""
             self.nick = ""
             self.famnick = ""
-
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (PrivacyBase.serialize(self),
-                CitationBase.serialize(self),
-                NoteBase.serialize(self),
-                DateBase.serialize(self),
-                self.first_name,
-                SurnameBase.serialize(self),
-                self.suffix, self.title,
-                self.type.serialize(),
-                self.group_as, self.sort_as, self.display_as, self.call,
-                self.nick, self.famnick)
 
     def to_struct(self):
         """
@@ -173,16 +147,9 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
 
         :returns: Returns a serialized object
         """
-        default = Name()
-        return (PrivacyBase.from_struct(struct.get("private", default.private)),
-                CitationBase.from_struct(struct.get("citation_list",
-                                                    default.citation_list)),
-                NoteBase.from_struct(struct.get("note_list",
-                                                default.note_list)),
-                DateBase.from_struct(struct.get("date", {})),
+        self = default = Name()
+        data = (Date.from_struct(struct.get("date", {})),
                 struct.get("first_name", default.first_name),
-                SurnameBase.from_struct(struct.get("surname_list",
-                                                   default.surname_list)),
                 struct.get("suffix", default.suffix),
                 struct.get("title", default.title),
                 NameType.from_struct(struct.get("type", {})),
@@ -192,6 +159,16 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
                 struct.get("call", default.call),
                 struct.get("nick", default.nick),
                 struct.get("famnick", default.famnick))
+        (self.date,
+         self.first_name, self.suffix, self.title, self.type,
+         self.group_as, self.sort_as, self.display_as, self.call,
+         self.nick, self.famnick) = data
+        PrivacyBase.set_from_struct(self, struct)
+        SurnameBase.set_from_struct(self, struct)
+        CitationBase.set_from_struct(self, struct)
+        NoteBase.set_from_struct(self, struct)
+        DateBase.set_from_struct(self, struct)
+        return self
 
     @classmethod
     def get_labels(cls, _):
@@ -247,22 +224,6 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
         surnamefieldsempty = False not in [surn.is_empty()
                                            for surn in self.surname_list]
         return namefieldsempty and surnamefieldsempty
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (privacy, citation_list, note_list, date,
-         self.first_name, surname_list, self.suffix, self.title, name_type,
-         self.group_as, self.sort_as, self.display_as, self.call,
-         self.nick, self.famnick) = data
-        self.type = NameType(name_type)
-        PrivacyBase.unserialize(self, privacy)
-        SurnameBase.unserialize(self, surname_list)
-        CitationBase.unserialize(self, citation_list)
-        NoteBase.unserialize(self, note_list)
-        DateBase.unserialize(self, date)
-        return self
 
     def get_text_data_list(self):
         """
@@ -327,7 +288,7 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
         # TODO what to do with sort and display?
         if self.get_text_data_list() != other.get_text_data_list() or \
             self.get_date_object() != other.get_date_object() or \
-            SurnameBase.serialize(self) != SurnameBase.serialize(other):
+            SurnameBase.to_struct(self) != SurnameBase.to_struct(other):
             return DIFFERENT
         else:
             if self.is_equal(other):

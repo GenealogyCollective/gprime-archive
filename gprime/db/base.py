@@ -630,61 +630,61 @@ class DbReadBase:
 
     def get_raw_event_data(self, handle):
         """
-        Return raw (serialized and pickled) Event object from handle
+        Return raw (serialized) Event object from handle
         """
         raise NotImplementedError
 
     def get_raw_family_data(self, handle):
         """
-        Return raw (serialized and pickled) Family object from handle
+        Return raw (serialized) Family object from handle
         """
         raise NotImplementedError
 
     def get_raw_note_data(self, handle):
         """
-        Return raw (serialized and pickled) Note object from handle
+        Return raw (serialized) Note object from handle
         """
         raise NotImplementedError
 
     def get_raw_media_data(self, handle):
         """
-        Return raw (serialized and pickled) Family object from handle
+        Return raw (serialized) Family object from handle
         """
         raise NotImplementedError
 
     def get_raw_person_data(self, handle):
         """
-        Return raw (serialized and pickled) Person object from handle
+        Return raw (serialized) Person object from handle
         """
         raise NotImplementedError
 
     def get_raw_place_data(self, handle):
         """
-        Return raw (serialized and pickled) Place object from handle
+        Return raw (serialized) Place object from handle
         """
         raise NotImplementedError
 
     def get_raw_repository_data(self, handle):
         """
-        Return raw (serialized and pickled) Repository object from handle
+        Return raw (serialized) Repository object from handle
         """
         raise NotImplementedError
 
     def get_raw_source_data(self, handle):
         """
-        Return raw (serialized and pickled) Source object from handle
+        Return raw (serialized) Source object from handle
         """
         raise NotImplementedError
 
     def get_raw_citation_data(self, handle):
         """
-        Return raw (serialized and pickled) Citation object from handle
+        Return raw (serialized) Citation object from handle
         """
         raise NotImplementedError
 
     def get_raw_tag_data(self, handle):
         """
-        Return raw (serialized and pickled) Tag object from handle
+        Return raw (serialized) Tag object from handle
         """
         raise NotImplementedError
 
@@ -2023,11 +2023,14 @@ class QuerySet:
         self.needs_to_run = False
         self._class = self.database.get_table_func(self.table, "class_func")
 
-    def __call__(self, data=None):
+    def __call__(self, struct=None):
         """
         Return a primary object of the specific class.
         """
-        return self._class(data, self.database)
+        if struct:
+            return self._class.from_struct(struct)
+        else:
+            return self._class(self.database)
 
     def limit(self, start=None, count=None):
         """

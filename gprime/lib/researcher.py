@@ -38,27 +38,14 @@ from .locationbase import LocationBase
 class Researcher(LocationBase):
     """Contains the information about the owner of the database."""
 
-    def __init__(self, source=None):
+    def __init__(self):
         """
         Initialize the Researcher object, copying from the source if provided.
         """
-
-        LocationBase.__init__(self, source)
-        if source:
-            self.name = source.name
-            self.addr = source.addr
-            self.email = source.email
-        else:
-            self.name = ""
-            self.addr = ""
-            self.email = ""
-
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (LocationBase.serialize(self),
-                self.name, self.addr, self.email)
+        LocationBase.__init__(self)
+        self.name = ""
+        self.addr = ""
+        self.email = ""
 
     def to_struct(self):
         """
@@ -100,26 +87,11 @@ class Researcher(LocationBase):
 
         :returns: Returns a serialized object
         """
-        default = Researcher()
-        return (struct.get("street", default.street),
-                struct.get("locality", default.locality),
-                struct.get("city", default.city),
-                struct.get("country", default.country),
-                struct.get("state", default.state),
-                struct.get("country", default.country),
-                struct.get("postal", default.postal),
-                struct.get("phone", default.phone),
-                struct.get("name", default.name),
-                struct.get("address", default.addr),
-                struct.get("email", default.email))
-
-    def unserialize(self, data):
-        """
-        Convert a serialized tuple of data to an object.
-        """
-        (location, self.name, self.addr, self.email) = data
-        LocationBase.unserialize(self, location)
-
+        self = default = Researcher()
+        self.name = struct.get("name", default.name)
+        self.address = struct.get("address", default.addr)
+        self.email = struct.get("email", default.email)
+        LocationBase.set_from_struct(self, struct)
         return self
 
     def set_name(self, data):

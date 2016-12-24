@@ -47,27 +47,11 @@ class RefBase(metaclass=ABCMeta):
         else:
             self.ref = None
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return self.ref
-
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return str(struct)
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.ref = data
-        return self
+        self.ref = struct.get("ref", None)
 
     @abstractmethod
     def get_referenced_handles(self):

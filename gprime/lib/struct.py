@@ -320,27 +320,27 @@ class Struct:
         if isinstance(struct, dict):
             if "_class" in struct.keys():
                 if struct["_class"] == "Person":
-                    return self.db.Person(Person.from_struct(struct))
+                    return Person.from_struct(struct)
                 elif struct["_class"] == "Family":
-                    return self.db.Family(Family.from_struct(struct))
+                    return Family.from_struct(struct)
                 elif struct["_class"] == "Event":
-                    return self.db.Event(Event.from_struct(struct))
+                    return Event.from_struct(struct)
                 elif struct["_class"] == "Source":
-                    return self.db.Source(Source.from_struct(struct))
+                    return Source.from_struct(struct)
                 elif struct["_class"] == "Place":
-                    return self.db.Place(Place.from_struct(struct))
+                    return Place.from_struct(struct)
                 elif struct["_class"] == "Citation":
-                    return self.db.Citation(Citation.from_struct(struct))
+                    return Citation.from_struct(struct)
                 elif struct["_class"] == "Repository":
-                    return self.db.Repository(Repository.from_struct(struct))
+                    return Repository.from_struct(struct)
                 elif struct["_class"] == "Media":
-                    return self.db.Media(Media.from_struct(struct))
+                    return Media.from_struct(struct)
                 elif struct["_class"] == "Note":
-                    return self.db.Note(Note.from_struct(struct))
+                    return Note.from_struct(struct)
                 elif struct["_class"] == "Tag":
-                    return self.db.Tag(Tag.from_struct(struct))
+                    return Tag.from_struct(struct)
                 elif struct["_class"] == "Date":
-                    return Date().unserialize(Date.from_struct(struct, full=True))
+                    return Date.from_struct(struct, full=True)
         raise AttributeError("invalid struct: %s" % struct)
 
     def __str__(self):

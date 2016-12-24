@@ -83,22 +83,7 @@ class Note(BasicPrimaryObject):
         self.format = Note.FLOWED
         self.type = NoteType()
         self.db = db
-        if isinstance(data, str):
-            self.text = StyledText(data)
-        else:
-            self.text = StyledText("")
-            self.unserialize(data)
-
-    def serialize(self):
-        """Convert the object to a serialized tuple of data.
-
-        :returns: The serialized format of the instance.
-        :rtype: tuple
-
-        """
-        return (self.handle, self.gid, self.text.serialize(), self.format,
-                self.type.serialize(), self.change, TagBase.serialize(self),
-                self.private)
+        self.text = StyledText(data)
 
     def to_struct(self):
         """
@@ -156,7 +141,7 @@ class Note(BasicPrimaryObject):
             [Column("handle", "VARCHAR(50)",
               primary=True, null=False, index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_labels(cls, _):
@@ -178,30 +163,17 @@ class Note(BasicPrimaryObject):
 
         :returns: Returns a serialized object
         """
-        default = Note()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Note()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 StyledText.from_struct(struct.get("text", {})),
                 struct.get("format", default.format),
                 NoteType.from_struct(struct.get("type", {})),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """Convert a serialized tuple of data to an object.
-
-        :param data: The serialized format of a Note.
-        :type: data: tuple
-        """
-        (self.handle, self.gid, the_text, self.format,
-         the_type, self.change, tag_list, self.private) = data
-
-        self.text = StyledText()
-        self.text.unserialize(the_text)
-        self.type = NoteType()
-        self.type.unserialize(the_type)
-        TagBase.unserialize(self, tag_list)
+        (self.handle, self.gid, self.text, self.format,
+         self.type, self.change, self.private) = data
+        TagBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

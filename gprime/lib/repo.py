@@ -47,7 +47,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
                  PrimaryObject):
     """A location where collections of Sources are found."""
 
-    def __init__(self, data=None, db=None):
+    def __init__(self, db=None):
         """
         Create a new Repository instance.
         """
@@ -58,19 +58,6 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         self.type = RepositoryType()
         self.name = ""
         self.db = db
-        if data:
-            self.unserialize(data)
-
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return (self.handle, self.gid, self.type.serialize(),
-                str(self.name),
-                NoteBase.serialize(self),
-                AddressBase.serialize(self),
-                UrlBase.serialize(self),
-                self.change, TagBase.serialize(self), self.private)
 
     @classmethod
     def get_labels(cls, _):
@@ -97,7 +84,7 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
             [Column("handle", "VARCHAR(50)",
               primary=True, null=False, index=True),
              Column("gid", "TEXT", index=True),
-             Column("blob_data", "BLOB")])
+             Column("json_data", "TEXT")])
 
     @classmethod
     def get_schema(cls):
@@ -158,32 +145,19 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
 
         :returns: Returns a serialized object
         """
-        default = Repository()
-        return (Handle.from_struct(struct.get("handle", default.handle)),
+        self = default = Repository()
+        data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 RepositoryType.from_struct(struct.get("type", {})),
                 struct.get("name", default.name),
-                NoteBase.from_struct(struct.get("note_list", default.note_list)),
-                AddressBase.from_struct(struct.get("address_list", default.address_list)),
-                UrlBase.from_struct(struct.get("urls", default.urls)),
                 struct.get("change", default.change),
-                TagBase.from_struct(struct.get("tag_list", default.tag_list)),
                 struct.get("private", default.private))
-
-    def unserialize(self, data):
-        """
-        Convert the data held in a tuple created by the serialize method
-        back into the data in a Repository structure.
-        """
-        (self.handle, self.gid, the_type, self.name, note_list,
-         address_list, urls, self.change, tag_list, self.private) = data
-
-        self.type = RepositoryType()
-        self.type.unserialize(the_type)
-        NoteBase.unserialize(self, note_list)
-        AddressBase.unserialize(self, address_list)
-        UrlBase.unserialize(self, urls)
-        TagBase.unserialize(self, tag_list)
+        (self.handle, self.gid, self.type, self.name,
+         self.change, self.private) = data
+        NoteBase.set_from_struct(self, struct)
+        AddressBase.set_from_struct(self, struct)
+        UrlBase.set_from_struct(self, struct)
+        TagBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

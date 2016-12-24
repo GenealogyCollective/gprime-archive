@@ -69,12 +69,6 @@ class CitationBase:
         """
         self.citation_list = list(source.citation_list) if source else []
 
-    def serialize(self):
-        """
-        Convert the object to a serialized tuple of data.
-        """
-        return self.citation_list
-
     def to_struct(self):
         """
         Convert the data held in this object to a structure (eg,
@@ -97,20 +91,12 @@ class CitationBase:
         """
         return [Handle("Citation", c) for c in self.citation_list]
 
-    @classmethod
-    def from_struct(cls, struct):
-        """
-        Given a struct data representation, return a serialized object.
-
-        :returns: Returns a serialized object
-        """
-        return [Handle.from_struct(handle) for handle in struct]
-
-    def unserialize(self, data):
+    def set_from_struct(self, struct):
         """
         Convert a serialized tuple of data to an object.
         """
-        self.citation_list = list(data)
+        citation_list = struct.get("citation_list", [])
+        self.citation_list = list(citation_list)
 
     def add_citation(self, handle):
         """

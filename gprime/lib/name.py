@@ -81,16 +81,7 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
         NoteBase.__init__(self, source)
         DateBase.__init__(self, source)
         if source:
-            self.first_name = source.first_name
-            self.suffix = source.suffix
-            self.title = source.title
-            self.type = NameType(source.type)
-            self.group_as = source.group_as
-            self.sort_as = source.sort_as
-            self.display_as = source.display_as
-            self.call = source.call
-            self.nick = source.nick
-            self.famnick = source.famnick
+            self.copy_from(source)
         else:
             self.first_name = ""
             self.suffix = ""
@@ -102,6 +93,18 @@ class Name(SecondaryObject, PrivacyBase, SurnameBase, CitationBase, NoteBase,
             self.call = ""
             self.nick = ""
             self.famnick = ""
+
+    def copy_from(self, source):
+        self.first_name = source.first_name
+        self.suffix = source.suffix
+        self.title = source.title
+        self.type = NameType(source.type)
+        self.group_as = source.group_as
+        self.sort_as = source.sort_as
+        self.display_as = source.display_as
+        self.call = source.call
+        self.nick = source.nick
+        self.famnick = source.famnick
 
     def to_struct(self):
         """

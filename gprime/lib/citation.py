@@ -168,14 +168,16 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
                 "private": self.private}                         # 11
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
         from .date import Date
-        self = default = Citation()
+        default = Citation()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 Date.from_struct(struct.get("date", {})),

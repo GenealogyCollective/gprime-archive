@@ -123,6 +123,9 @@ class GenericFilter:
     def get_cursor(self, db):
         return db.get_person_cursor()
 
+    def make_obj(self, data):
+        return Person.from_struct(data)
+
     def find_from_handle(self, db, handle):
         return db.get_person_from_handle(handle)
 
@@ -132,10 +135,10 @@ class GenericFilter:
         if id_list is None:
             with self.get_cursor(db) as cursor:
                 for handle, data in cursor:
-                    person = Person.from_struct(data)
+                    obj = self.make_obj(data)
                     if cb_progress:
                         cb_progress()
-                    if task(db, person) != self.invert:
+                    if task(db, obj) != self.invert:
                         final_list.append(handle)
         else:
             for data in id_list:
@@ -143,10 +146,10 @@ class GenericFilter:
                     handle = data
                 else:
                     handle = data[tupleind]
-                person = self.find_from_handle(db, handle)
+                obj = self.find_from_handle(db, handle)
                 if cb_progress:
                     cb_progress()
-                if task(db, person) != self.invert:
+                if task(db, obj) != self.invert:
                     final_list.append(data)
         return final_list
 
@@ -157,10 +160,10 @@ class GenericFilter:
         if id_list is None:
             with self.get_cursor(db) as cursor:
                 for handle, data in cursor:
-                    person = Person.from_struct(data)
+                    obj = self.make_obj(data)
                     if cb_progress:
                         cb_progress()
-                    val = all(rule.apply(db, person) for rule in flist)
+                    val = all(rule.apply(db, obj) for rule in flist)
                     if val != self.invert:
                         final_list.append(handle)
         else:
@@ -169,10 +172,10 @@ class GenericFilter:
                     handle = data
                 else:
                     handle = data[tupleind]
-                person = self.find_from_handle(db, handle)
+                obj = self.find_from_handle(db, handle)
                 if cb_progress:
                     cb_progress()
-                val = all(rule.apply(db, person) for rule in flist if person)
+                val = all(rule.apply(db, obj) for rule in flist if obj)
                 if val != self.invert:
                     final_list.append(data)
         return final_list
@@ -189,23 +192,23 @@ class GenericFilter:
         return self.check_func(db, id_list, self.xor_test, cb_progress,
                                 tupleind)
 
-    def xor_test(self, db, person):
+    def xor_test(self, db, obj):
         test = False
         for rule in self.flist:
-            test = test ^ rule.apply(db, person)
+            test = test ^ rule.apply(db, obj)
         return test
 
-    def one_test(self, db, person):
+    def one_test(self, db, obj):
         found_one = False
         for rule in self.flist:
-            if rule.apply(db, person):
+            if rule.apply(db, obj):
                 if found_one:
                     return False    # There can be only one!
                 found_one = True
         return found_one
 
-    def or_test(self, db, person):
-        return any(rule.apply(db, person) for rule in self.flist)
+    def or_test(self, db, obj):
+        return any(rule.apply(db, obj) for rule in self.flist)
 
     def get_check_func(self):
         try:
@@ -252,6 +255,9 @@ class GenericFamilyFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_family_cursor()
 
+    def make_obj(self, data):
+        return Family.from_struct(data)
+
     def find_from_handle(self, db, handle):
         return db.get_family_from_handle(handle)
 
@@ -263,8 +269,8 @@ class GenericEventFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_event_cursor()
 
-    def make_obj(self):
-        return Event()
+    def make_obj(self, data):
+        return Event.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_event_from_handle(handle)
@@ -277,8 +283,8 @@ class GenericSourceFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_source_cursor()
 
-    def make_obj(self):
-        return Source()
+    def make_obj(self, data):
+        return Source.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_source_from_handle(handle)
@@ -291,8 +297,8 @@ class GenericCitationFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_citation_cursor()
 
-    def make_obj(self):
-        return Citation()
+    def make_obj(self, data):
+        return Citation.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_citation_from_handle(handle)
@@ -305,8 +311,8 @@ class GenericPlaceFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_place_cursor()
 
-    def make_obj(self):
-        return Place()
+    def make_obj(self, data):
+        return Place.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_place_from_handle(handle)
@@ -319,8 +325,8 @@ class GenericMediaFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_media_cursor()
 
-    def make_obj(self):
-        return Media()
+    def make_obj(self, data):
+        return Media.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_media_from_handle(handle)
@@ -333,8 +339,8 @@ class GenericRepoFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_repository_cursor()
 
-    def make_obj(self):
-        return Repository()
+    def make_obj(self, data):
+        return Repository.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_repository_from_handle(handle)
@@ -347,8 +353,8 @@ class GenericNoteFilter(GenericFilter):
     def get_cursor(self, db):
         return db.get_note_cursor()
 
-    def make_obj(self):
-        return Note()
+    def make_obj(self, data):
+        return Note.from_struct(data)
 
     def find_from_handle(self, db, handle):
         return db.get_note_from_handle(handle)

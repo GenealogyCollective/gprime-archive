@@ -136,13 +136,15 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
                 "private": self.private}
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
-        self = default = Family()
+        default = Family()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 Handle.from_struct(struct.get("father_handle",

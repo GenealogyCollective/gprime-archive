@@ -220,13 +220,15 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
         }
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
-        self = default = Person()
+        default = Person()
+        if not self:
+            self = default
         data = (
             Handle.from_struct(struct.get("handle", default.handle)),
             struct.get("gid", default.gid),

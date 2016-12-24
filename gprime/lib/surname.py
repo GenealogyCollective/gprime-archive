@@ -44,16 +44,19 @@ class Surname(SecondaryObject):
     A person may have more that one surname in his name
     """
 
-    def __init__(self):
+    def __init__(self, source=None):
         """
         Create a new Surname instance, copying from the source if provided.
         By default a surname is created as primary, use set_primary to change
         """
-        self.surname = ""
-        self.prefix = ""
-        self.primary = True
-        self.origintype = NameOriginType()
-        self.connector = ""
+        if source:
+            self.copy_from(source)
+        else:
+            self.surname = ""
+            self.prefix = ""
+            self.primary = True
+            self.origintype = NameOriginType()
+            self.connector = ""
 
     def copy_from(self, source):
         self.surname = source.surname

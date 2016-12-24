@@ -184,14 +184,16 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
         }
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
         from .date import Date
-        self = default = Media()
+        default = Media()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 struct.get("path", default.path),

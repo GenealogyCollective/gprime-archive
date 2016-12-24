@@ -220,13 +220,15 @@ class Tag(TableObject):
                 "change": self.change}
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
-        self = default = Tag()
+        default = Tag()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("name", default.name),
                 struct.get("color", default.color),

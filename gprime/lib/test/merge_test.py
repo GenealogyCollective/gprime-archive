@@ -44,11 +44,11 @@ from ..const import IDENTICAL, EQUAL, DIFFERENT
 
 class PrivacyBaseTest:
     def test_privacy_merge(self):
-        self.assertEqual(self.phoenix.serialize(), self.titanic.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.titanic.to_struct())
         self.titanic.set_privacy(True)
         self.ref_obj.set_privacy(True)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class NoteBaseTest:
     def test_note_merge(self):
@@ -56,7 +56,7 @@ class NoteBaseTest:
         self.titanic.add_note(note_handle)
         self.ref_obj.add_note(note_handle)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class CitationBaseTest:
     def test_citation_merge(self):
@@ -66,7 +66,7 @@ class CitationBaseTest:
         self.titanic.add_citation(citation.handle)
         self.ref_obj.add_citation(citation.handle)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class MediaBaseTest:
     def test_media_merge(self):
@@ -75,7 +75,7 @@ class MediaBaseTest:
         self.titanic.add_media_reference(mediaref)
         self.ref_obj.add_media_reference(mediaref)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class AttrBaseTest:
     def test_attribute_merge(self):
@@ -85,7 +85,7 @@ class AttrBaseTest:
         self.titanic.add_attribute(attr)
         self.ref_obj.add_attribute(attr)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class UrlBaseTest:
     def test_url_merge(self):
@@ -94,7 +94,7 @@ class UrlBaseTest:
         self.titanic.add_url(url)
         self.ref_obj.add_url(url)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 #===========================================================
 
 class PrivacyCheck(unittest.TestCase):
@@ -156,7 +156,7 @@ class UrlBaseCheck(unittest.TestCase):
         url.set_path('example.com')
         self.titanic.add_url(url)
         self.phoenix._merge_url_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), ref_url_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_url_list.to_struct())
 
     def test_equal(self):
         ref_url_list = UrlBase(self.phoenix)
@@ -167,7 +167,7 @@ class UrlBaseCheck(unittest.TestCase):
         url.set_privacy(True)
         self.titanic.add_url(url)
         self.phoenix._merge_url_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), ref_url_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_url_list.to_struct())
 
     def test_different(self):
         ref_url_list = UrlBase(self.phoenix)
@@ -176,7 +176,7 @@ class UrlBaseCheck(unittest.TestCase):
         ref_url_list.add_url(url)
         self.titanic.add_url(url)
         self.phoenix._merge_url_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), ref_url_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_url_list.to_struct())
 
 class AddressCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         CitationBaseTest):
@@ -221,7 +221,7 @@ class AddressBaseCheck(unittest.TestCase):
         self.ref_list.add_address(address)
         self.titanic.add_address(address)
         self.phoenix._merge_address_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_equal(self):
         note_handle = '123456'
@@ -231,7 +231,7 @@ class AddressBaseCheck(unittest.TestCase):
         self.titanic.add_address(address)
         self.ref_list.add_address(address)
         self.phoenix._merge_address_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_different(self):
         address = Address()
@@ -240,7 +240,7 @@ class AddressBaseCheck(unittest.TestCase):
         self.ref_list = AddressBase(self.phoenix)
         self.ref_list.add_address(address)
         self.phoenix._merge_address_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 class AttributeCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         CitationBaseTest):
@@ -286,7 +286,7 @@ class AttributeBaseCheck(unittest.TestCase):
         self.ref_list.add_attribute(attr)
         self.titanic.add_attribute(attr)
         self.phoenix._merge_attribute_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_equal(self):
         note_handle = '123456'
@@ -297,7 +297,7 @@ class AttributeBaseCheck(unittest.TestCase):
         self.titanic.add_attribute(attr)
         self.ref_list.add_attribute(attr)
         self.phoenix._merge_attribute_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_different(self):
         attr = Attribute()
@@ -307,7 +307,7 @@ class AttributeBaseCheck(unittest.TestCase):
         self.ref_list = AttributeBase(self.phoenix)
         self.ref_list.add_attribute(attr)
         self.phoenix._merge_attribute_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 class ChildRefCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         CitationBaseTest):
@@ -351,8 +351,8 @@ class EventCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
     def setUp(self):
         self.phoenix = Event()
         self.phoenix.set_description("hello world")
-        self.titanic = Event(self.phoenix)
-        self.ref_obj = Event(self.phoenix)
+        self.titanic = Event.from_struct(self.phoenix.to_struct())
+        self.ref_obj = Event.from_struct(self.phoenix.to_struct())
 
 class EventRefCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         AttrBaseTest):
@@ -424,7 +424,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.set_relationship(FamilyRelType.UNMARRIED)
         self.ref_obj.set_relationship(FamilyRelType.UNMARRIED)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventref_merge(self):
         evtref = EventRef()
@@ -432,7 +432,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_event_ref(evtref)
         self.ref_obj.add_event_ref(evtref)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_ldsord_merge(self):
         ldsord = LdsOrd()
@@ -440,7 +440,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_lds_ord(ldsord)
         self.ref_obj.add_lds_ord(ldsord)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_childref_merge(self):
         childref = ChildRef()
@@ -448,7 +448,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_child_ref(childref)
         self.ref_obj.add_child_ref(childref)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergechildref_identical(self):
         childref1 = ChildRef()
@@ -461,7 +461,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_child_ref(childref2)
         self.ref_obj.add_child_ref(childref3)
         self.phoenix._merge_child_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergechildref_equal(self):
         childref1 = ChildRef()
@@ -476,7 +476,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_child_ref(childref2)
         self.ref_obj.add_child_ref(childref3)
         self.phoenix._merge_child_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergechildref_different(self):
         childref1 = ChildRef()
@@ -492,7 +492,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_child_ref(childref3)
         self.ref_obj.add_child_ref(childref4)
         self.phoenix._merge_child_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_childref_absent(self):
         childref1 = ChildRef()
@@ -508,7 +508,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_child_ref(childref3)
         self.ref_obj.add_child_ref(childref4)
         self.phoenix.replace_handle_reference('Person', '234567', '765432')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_childref_identical(self):
         childref1 = ChildRef()
@@ -521,7 +521,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_child_ref(childref2)
         self.ref_obj.add_child_ref(childref3)
         self.phoenix.replace_handle_reference('Person', '234567', '765432')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_childref_equal(self):
         childref1 = ChildRef()
@@ -536,7 +536,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_child_ref(childref2)
         self.ref_obj.add_child_ref(childref3)
         self.phoenix.replace_handle_reference('Person', '234567', '765432')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_childref_different(self):
         # impossible, is_equivalent is only DIFFERENT if handles differ.
@@ -551,7 +551,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_child_ref(childref2)
         self.ref_obj.add_child_ref(childref3)
         self.phoenix.replace_handle_reference('Person', '234567', '765432')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergeeventref_identical(self):
         eventref1 = EventRef()
@@ -564,7 +564,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_event_ref(eventref2)
         self.ref_obj.add_event_ref(eventref3)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergeeventref_equal(self):
         eventref1 = EventRef()
@@ -579,7 +579,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_event_ref(eventref2)
         self.ref_obj.add_event_ref(eventref3)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_mergeeventref_different(self):
         eventref1 = EventRef()
@@ -595,7 +595,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_event_ref(eventref3)
         self.ref_obj.add_event_ref(eventref4)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_absent(self):
         eventref1 = EventRef()
@@ -611,7 +611,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_event_ref(eventref3)
         self.ref_obj.add_event_ref(eventref4)
         self.phoenix.replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_identical(self):
         eventref1 = EventRef()
@@ -624,7 +624,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_event_ref(eventref2)
         self.ref_obj.add_event_ref(eventref3)
         self.phoenix.replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_equal(self):
         eventref1 = EventRef()
@@ -639,7 +639,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_event_ref(eventref2)
         self.ref_obj.add_event_ref(eventref3)
         self.phoenix.replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_different(self):
         eventref1 = EventRef()
@@ -657,7 +657,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_event_ref(eventref3)
         self.ref_obj.add_event_ref(eventref4)
         self.phoenix.replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_order_first(self):
         eventref1 = EventRef()
@@ -676,7 +676,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_event_ref(eventref4)
         self.ref_obj.add_event_ref(eventref5)
         self.phoenix.replace_handle_reference('Event', '654321', '123456')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_event_order_last(self):
         eventref1 = EventRef()
@@ -695,7 +695,7 @@ class FamilyCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_event_ref(eventref4)
         self.ref_obj.add_event_ref(eventref5)
         self.phoenix.replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 
 class LdsordCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
@@ -748,7 +748,7 @@ class LdsordBaseCheck(unittest.TestCase):
         self.titanic.add_lds_ord(ldsord)
         self.ref_list.add_lds_ord(ldsord)
         self.phoenix._merge_lds_ord_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_equal(self):
         ldsord = LdsOrd()
@@ -757,7 +757,7 @@ class LdsordBaseCheck(unittest.TestCase):
         self.titanic.add_lds_ord(ldsord)
         self.ref_list.add_lds_ord(ldsord)
         self.phoenix._merge_lds_ord_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_different(self):
         ldsord = LdsOrd()
@@ -766,7 +766,7 @@ class LdsordBaseCheck(unittest.TestCase):
         self.ref_list = LdsOrdBase(self.phoenix)
         self.ref_list.add_lds_ord(ldsord)
         self.phoenix._merge_lds_ord_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 class MediaBaseCheck(unittest.TestCase):
     def setUp(self):
@@ -785,7 +785,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.titanic.add_media_reference(mediaref)
         self.ref_list.add_media_reference(mediaref)
         self.phoenix._merge_media_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_merge_equal(self):
         mediaref = MediaRef()
@@ -795,7 +795,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.titanic.add_media_reference(mediaref)
         self.ref_list.add_media_reference(mediaref)
         self.phoenix._merge_media_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_merge_different(self):
         mediaref1 = MediaRef()
@@ -808,7 +808,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.ref_list.add_media_reference(mediaref1)
         self.ref_list.add_media_reference(mediaref2)
         self.phoenix._merge_media_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_absent(self):
         mediaref1 = MediaRef()
@@ -816,7 +816,7 @@ class MediaBaseCheck(unittest.TestCase):
         mediaref1.set_rectangle('10 10 90 90')
         self.ref_list.add_media_reference(mediaref1)
         self.phoenix.replace_media_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_identical(self):
         mediaref1 = MediaRef()
@@ -828,7 +828,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.phoenix.add_media_reference(mediaref1)
         self.ref_list.add_media_reference(mediaref2)
         self.phoenix.replace_media_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_equal(self):
         mediaref1 = MediaRef()
@@ -842,7 +842,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.phoenix.add_media_reference(mediaref1)
         self.ref_list.add_media_reference(mediaref2)
         self.phoenix.replace_media_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_different(self):
         mediaref1 = MediaRef()
@@ -858,7 +858,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.ref_list.add_media_reference(mediaref2)
         self.ref_list.add_media_reference(mediaref3)
         self.phoenix.replace_media_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_order_first(self):
         mediaref1 = MediaRef()
@@ -878,7 +878,7 @@ class MediaBaseCheck(unittest.TestCase):
         self.ref_list.add_media_reference(mediaref3)
         self.ref_list.add_media_reference(mediaref4)
         self.phoenix.replace_media_references('654321','123456')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_replace_order_last(self):
         mediaref1 = MediaRef()
@@ -898,15 +898,15 @@ class MediaBaseCheck(unittest.TestCase):
         self.ref_list.add_media_reference(mediaref3)
         self.ref_list.add_media_reference(mediaref4)
         self.phoenix.replace_media_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 class MediaCheck(unittest.TestCase, PrivacyBaseTest, AttrBaseTest,
         NoteBaseTest, CitationBaseTest):
     def setUp(self):
         self.phoenix = Media()
         self.phoenix.set_path('example.png')
-        self.titanic = Media(self.phoenix)
-        self.ref_obj = Media(self.phoenix)
+        self.titanic = Media.from_struct(self.phoenix.to_struct())
+        self.ref_obj = Media.from_struct(self.phoenix.to_struct())
 
 class MediaRefCheck(unittest.TestCase, PrivacyBaseTest, AttrBaseTest,
         CitationBaseTest, NoteBaseTest):
@@ -979,7 +979,7 @@ class NoteBaseCheck(unittest.TestCase):
         ref_note_list = NoteBase(self.phoenix)
         self.titanic.add_note(self.phoenix.get_note_list()[0])
         self.phoenix._merge_note_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), ref_note_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_note_list.to_struct())
 
     def test_different(self):
         ref_note_list = NoteBase(self.phoenix)
@@ -987,7 +987,7 @@ class NoteBaseCheck(unittest.TestCase):
         self.titanic.add_note(note.get_handle())
         ref_note_list.add_note(note.get_handle())
         self.phoenix._merge_note_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), ref_note_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_note_list.to_struct())
 
     def test_replace_nonew(self):
         note = Note("note other")
@@ -995,7 +995,7 @@ class NoteBaseCheck(unittest.TestCase):
         ref_note_list = NoteBase()
         ref_note_list.add_note(note.get_handle())
         self.phoenix.replace_note_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), ref_note_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_note_list.to_struct())
 
     def test_replace_newpresent(self):
         note = Note("note other")
@@ -1008,7 +1008,7 @@ class NoteBaseCheck(unittest.TestCase):
         ref_note_list.add_note(note2.get_handle())
         ref_note_list.add_note(note.get_handle())
         self.phoenix.replace_note_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), ref_note_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_note_list.to_struct())
 
     def todo_test_replace_child(self):
         ref_note_list = NoteBase()
@@ -1016,7 +1016,7 @@ class NoteBaseCheck(unittest.TestCase):
         note.set_handle('123456')
         ref_note_list.add_note(note.get_handle())
         self.phoenix.replace_note_references('','')
-        self.assertEqual(self.phoenix.serialize(), ref_note_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), ref_note_list.to_struct())
 
 class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         AttrBaseTest, NoteBaseTest, CitationBaseTest):
@@ -1038,7 +1038,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.phoenix.add_event_ref(evtref)
         self.ref_obj.add_event_ref(evtref2)
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_eventhandle_identical(self):
         evtref = EventRef()
@@ -1053,7 +1053,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.add_event_ref(evtref3)
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_eventhandle_equal(self):
         evtref = EventRef()
@@ -1069,7 +1069,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.add_event_ref(evtref3)
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_eventhandle_different(self):
         evtref = EventRef()
@@ -1083,7 +1083,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref3)
         self.ref_obj.add_event_ref(evtref2)
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_birth_lower(self):
         evtref = EventRef()
@@ -1096,7 +1096,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.birth_ref_index = 1
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_birth_minusone(self):
         evtref = EventRef()
@@ -1109,7 +1109,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.birth_ref_index = -1
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_death_lower(self):
         evtref = EventRef()
@@ -1122,7 +1122,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.death_ref_index = 1
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_death_minusone(self):
         evtref = EventRef()
@@ -1135,7 +1135,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref2)
         self.ref_obj.death_ref_index = -1
         self.phoenix._replace_handle_reference('Event', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_personhandle_nonew(self):
         personref = PersonRef()
@@ -1145,7 +1145,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         personref2.set_reference_handle('654321')
         self.ref_obj.add_person_ref(personref2)
         self.phoenix._replace_handle_reference('Person', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_personhandle_identical(self):
         personref = PersonRef()
@@ -1160,7 +1160,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_person_ref(personref2)
         self.ref_obj.add_person_ref(personref3)
         self.phoenix._replace_handle_reference('Person', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_personhandle_equal(self):
         personref = PersonRef()
@@ -1179,7 +1179,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_person_ref(personref2)
         self.ref_obj.add_person_ref(personref4)
         self.phoenix._replace_handle_reference('Person', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_personhandle_different(self):
         personref = PersonRef()
@@ -1193,7 +1193,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_person_ref(personref3)
         self.ref_obj.add_person_ref(personref2)
         self.phoenix._replace_handle_reference('Person', '123456', '654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_primaryname(self):
         name = Name()
@@ -1201,7 +1201,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.set_primary_name(name)
         self.ref_obj.add_alternate_name(name)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_altname(self):
         name = Name()
@@ -1209,7 +1209,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_alternate_name(name)
         self.ref_obj.add_alternate_name(name)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_eventref(self):
         evtref = EventRef()
@@ -1217,7 +1217,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_event_ref(evtref)
         self.ref_obj.add_event_ref(evtref)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_ldsord(self):
         ldsord = LdsOrd()
@@ -1225,7 +1225,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_lds_ord(ldsord)
         self.ref_obj.add_lds_ord(ldsord)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_address(self):
         address = Address()
@@ -1233,7 +1233,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_address(address)
         self.ref_obj.add_address(address)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_person_personref(self):
         personref = PersonRef()
@@ -1241,7 +1241,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_person_ref(personref)
         self.ref_obj.add_person_ref(personref)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def todo_test_merge_person_aschild(self):
         pass
@@ -1258,7 +1258,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_alternate_name(name2)
         self.ref_obj.add_alternate_name(name)
         self.phoenix._merge_alternate_names(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_altname_equal(self):
         name = Name()
@@ -1270,7 +1270,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_alternate_name(name2)
         self.ref_obj.add_alternate_name(name2)
         self.phoenix._merge_alternate_names(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_altname_different(self):
         name = Name()
@@ -1282,7 +1282,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_alternate_name(name)
         self.ref_obj.add_alternate_name(name2)
         self.phoenix._merge_alternate_names(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventrefs_identical(self):
         evtref = EventRef()
@@ -1293,7 +1293,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_event_ref(evtref2)
         self.ref_obj.add_event_ref(evtref)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventrefs_equal(self):
         evtref = EventRef()
@@ -1305,7 +1305,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_event_ref(evtref2)
         self.ref_obj.add_event_ref(evtref2)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventrefs_different(self):
         evtref = EventRef()
@@ -1317,7 +1317,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref)
         self.ref_obj.add_event_ref(evtref2)
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventrefs_birthref(self):
         evtref = EventRef()
@@ -1333,7 +1333,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref3)
         self.ref_obj.birth_ref_index = 1
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_eventrefs_deathref(self):
         evtref = EventRef()
@@ -1349,7 +1349,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_event_ref(evtref3)
         self.ref_obj.death_ref_index = 1
         self.phoenix._merge_event_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_personrefs_identical(self):
         personref = PersonRef()
@@ -1358,7 +1358,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_person_ref(personref)
         self.ref_obj.add_person_ref(personref)
         self.phoenix._merge_person_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_personrefs_equal(self):
         personref = PersonRef()
@@ -1370,7 +1370,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.add_person_ref(personref2)
         self.ref_obj.add_person_ref(personref2)
         self.phoenix._merge_person_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_personrefs_different(self):
         personref = PersonRef()
@@ -1382,7 +1382,7 @@ class PersonCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_person_ref(personref)
         self.ref_obj.add_person_ref(personref2)
         self.phoenix._merge_person_ref_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         UrlBaseTest, NoteBaseTest, CitationBaseTest):
@@ -1415,7 +1415,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.set_name(self.amsterdam)
         self.ref_obj.set_type(PlaceType.CITY)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_primary_different(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1427,7 +1427,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.set_type(PlaceType.CITY)
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_both_different(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1446,7 +1446,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.ref_obj.add_alternative_name(self.leiden)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_alternative_identical(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1460,7 +1460,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.set_type(PlaceType.CITY)
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_alternative_different(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1475,7 +1475,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.ref_obj.add_alternative_name(self.utrecht)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_prialt_identical(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1488,7 +1488,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.set_type(PlaceType.CITY)
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_prialt2(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1502,7 +1502,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.set_type(PlaceType.CITY)
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_empty(self):
         self.phoenix.set_name(self.amsterdam)
@@ -1518,7 +1518,7 @@ class PlaceCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.ref_obj.add_alternative_name(self.rotterdam)
         self.ref_obj.add_alternative_name(self.utrecht)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class RepoCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest, UrlBaseTest):
     def setUp(self):
@@ -1538,7 +1538,7 @@ class RepoCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest, UrlBaseTest):
         self.titanic.add_address(address)
         self.ref_obj.add_address(address)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace(self):
         address = Address()
@@ -1554,7 +1554,7 @@ class RepoCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest, UrlBaseTest):
         address2.add_citation(citation2.handle)
         self.ref_obj.add_address(address2)
         self.phoenix.replace_citation_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class RepoRefCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest):
     def setUp(self):
@@ -1606,7 +1606,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.set_attribute_list([attr3, attr4])
         self.ref_obj.set_attribute_list([attr1, attr2, attr3, attr4])
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_reporef(self):
         reporef = RepoRef()
@@ -1614,7 +1614,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_repo_reference(reporef)
         self.ref_obj.add_repo_reference(reporef)
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_reporef_identical(self):
         reporef = RepoRef()
@@ -1623,7 +1623,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_repo_reference(reporef)
         self.ref_obj.add_repo_reference(reporef)
         self.phoenix._merge_reporef_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_reporef_equal(self):
         reporef = RepoRef()
@@ -1635,7 +1635,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.titanic.add_repo_reference(reporef2)
         self.ref_obj.add_repo_reference(reporef2)
         self.phoenix._merge_reporef_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 
     def test_merge_reporef_different(self):
@@ -1648,7 +1648,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_repo_reference(reporef)
         self.ref_obj.add_repo_reference(reporef2)
         self.phoenix._merge_reporef_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_reporef_nonew(self):
         reporef = RepoRef()
@@ -1658,7 +1658,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.phoenix.add_repo_reference(reporef)
         self.ref_obj.add_repo_reference(reporef2)
         self.phoenix.replace_repo_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_reporef_identical(self):
         reporef = RepoRef()
@@ -1673,7 +1673,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_repo_reference(reporef2)
         self.ref_obj.add_repo_reference(reporef3)
         self.phoenix.replace_repo_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_reporef_equal(self):
         reporef = RepoRef()
@@ -1689,7 +1689,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_repo_reference(reporef2)
         self.ref_obj.add_repo_reference(reporef3)
         self.phoenix.replace_repo_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_replace_reporef_different(self):
         reporef = RepoRef()
@@ -1708,7 +1708,7 @@ class SourceCheck(unittest.TestCase, PrivacyBaseTest, NoteBaseTest,
         self.ref_obj.add_repo_reference(reporef2)
         self.ref_obj.add_repo_reference(reporef3)
         self.phoenix.replace_repo_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class CitationBaseCheck(unittest.TestCase):
     def setUp(self):
@@ -1724,7 +1724,7 @@ class CitationBaseCheck(unittest.TestCase):
         citation.set_reference_handle('654321')
         self.obj_list.add_citation(citation.handle)
         self.phoenix.replace_citation_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.obj_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.obj_list.to_struct())
 
     def test_replace_newpresent(self):
         citation = Citation()
@@ -1737,7 +1737,7 @@ class CitationBaseCheck(unittest.TestCase):
         self.obj_list.add_citation(citation2.handle)
         self.obj_list.add_citation(citation.handle)
         self.phoenix.replace_citation_references('123456','654321')
-        self.assertEqual(self.phoenix.serialize(), self.obj_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.obj_list.to_struct())
 
     def todo_test_replace_child(self):
         pass
@@ -1748,7 +1748,7 @@ class CitationBaseCheck(unittest.TestCase):
         self.titanic.add_citation(citation.handle)
         self.obj_list.add_citation(citation.handle)
         self.phoenix._merge_citation_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.obj_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.obj_list.to_struct())
 
     def test_merge_different(self):
         citation = Citation()
@@ -1759,7 +1759,7 @@ class CitationBaseCheck(unittest.TestCase):
         self.obj_list.add_citation(citation2.handle)
         self.obj_list.add_citation(citation.handle)
         self.phoenix._merge_citation_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.obj_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.obj_list.to_struct())
 
 class CitationCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         NoteBaseTest):
@@ -1785,7 +1785,7 @@ class CitationCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
             self.titanic.set_confidence_level(val2)
             self.ref_obj.set_confidence_level(val_merge)
             self.phoenix.merge(self.titanic)
-            self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+            self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
     def test_merge_datamap(self):
         attr1 = SrcAttribute()
@@ -1804,7 +1804,7 @@ class CitationCheck(unittest.TestCase, PrivacyBaseTest, MediaBaseTest,
         self.titanic.set_attribute_list([attr3, attr4])
         self.ref_obj.set_attribute_list([attr1, attr2, attr3, attr4])
         self.phoenix.merge(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_obj.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_obj.to_struct())
 
 class SurnameCheck(unittest.TestCase):
     def setUp(self):
@@ -1840,7 +1840,7 @@ class SurnameBaseCheck(unittest.TestCase):
         self.ref_list.add_surname(surname)
         self.titanic.add_surname(surname)
         self.phoenix._merge_surname_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_different(self):
         surname = Surname()
@@ -1849,7 +1849,7 @@ class SurnameBaseCheck(unittest.TestCase):
         self.ref_list = SurnameBase(self.phoenix)
         self.ref_list.add_surname(surname)
         self.phoenix._merge_surname_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 class TagBaseCheck(unittest.TestCase):
     def setUp(self):
@@ -1862,7 +1862,7 @@ class TagBaseCheck(unittest.TestCase):
         self.ref_list = TagBase(self.phoenix)
         self.titanic.add_tag(self.phoenix.get_tag_list()[0])
         self.phoenix._merge_tag_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
     def test_different(self):
         self.titanic.set_tag_list([])
@@ -1871,7 +1871,7 @@ class TagBaseCheck(unittest.TestCase):
         self.ref_list = TagBase(self.phoenix)
         self.ref_list.add_tag(tag_handle)
         self.phoenix._merge_tag_list(self.titanic)
-        self.assertEqual(self.phoenix.serialize(), self.ref_list.serialize())
+        self.assertEqual(self.phoenix.to_struct(), self.ref_list.to_struct())
 
 
 if __name__ == "__main__":

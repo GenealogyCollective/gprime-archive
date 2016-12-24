@@ -747,7 +747,8 @@ class GrampsParser(UpdateCallback):
                                     "note": self.db.get_raw_note_data,
                                     "tag": self.db.get_raw_tag_data}[target]
                 raw = get_raw_obj_data(handle)
-                prim_obj.unserialize(raw)
+                cls = self.db.get_table_func(target.title(), "class_func")
+                cls.from_struct(raw, self=prim_obj)
                 self.import_handles[orig_handle][target][INSTANTIATED] = True
             return handle
         elif handle in self.import_handles:

@@ -38,11 +38,11 @@ class BaseCheck:
     def test_from_struct(self):
         struct = self.object.to_struct()
         serialized = self.cls.from_struct(struct)
-        self.assertEqual(self.object.serialize(), serialized)
+        self.assertEqual(self.object.to_struct(), struct)
 
     def test_from_empty_struct(self):
         serialized = self.cls.from_struct({})
-        self.assertEqual(self.object.serialize(), serialized)
+        self.assertEqual(self.object.to_struct(), serialized.to_struct())
 
 class PersonCheck(unittest.TestCase, BaseCheck):
     def setUp(self):
@@ -104,12 +104,12 @@ def generate_case(obj):
     struct = obj.to_struct()
     serialized = obj.__class__.from_struct(struct)
     def test(self):
-        self.assertEqual(obj.serialize(), serialized)
+        self.assertEqual(obj.to_struct(), struct)
     name = "test_serialize_%s_%s" % (obj.__class__.__name__, obj.handle)
     setattr(DatabaseCheck, name, test)
     ####
     #def test2(self):
-    #    self.assertEqual(obj.serialize(), from_struct(struct).serialize())
+    #    self.assertEqual(obj.to_struct(), from_struct(struct).to_struct())
     #name = "test_create_%s_%s" % (obj.__class__.__name__, obj.handle)
     #setattr(DatabaseCheck, name, test2)
 

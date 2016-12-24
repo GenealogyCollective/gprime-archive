@@ -157,13 +157,15 @@ class Note(BasicPrimaryObject):
         }
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
-        self = default = Note()
+        default = Note()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 StyledText.from_struct(struct.get("text", {})),

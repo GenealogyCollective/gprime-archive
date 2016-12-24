@@ -181,14 +181,16 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         }
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
         from .date import Date
-        self = default = Event()
+        default = Event()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 EventType.from_struct(struct.get("type", {})),

@@ -153,14 +153,16 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
                 "private": self.private}
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
         from .srcattribute import SrcAttribute
-        self = default = Source()
+        default = Source()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 struct.get("title", default.title),

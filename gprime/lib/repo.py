@@ -139,13 +139,15 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
                 "private": self.private}
 
     @classmethod
-    def from_struct(cls, struct):
+    def from_struct(cls, struct, self=None):
         """
         Given a struct data representation, return a serialized object.
 
         :returns: Returns a serialized object
         """
-        self = default = Repository()
+        default = Repository()
+        if not self:
+            self = default
         data = (Handle.from_struct(struct.get("handle", default.handle)),
                 struct.get("gid", default.gid),
                 RepositoryType.from_struct(struct.get("type", {})),

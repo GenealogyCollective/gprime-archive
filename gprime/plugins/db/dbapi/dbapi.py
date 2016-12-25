@@ -358,11 +358,11 @@ class DBAPI(DbGeneric):
         if row:
             self.dbapi.execute(
                 "UPDATE metadata SET value = ? WHERE setting = ?;",
-                [json.dumps(value), key])
+                [json.dumps(value, sort_keys=True), key])
         else:
             self.dbapi.execute(
                 "INSERT INTO metadata (setting, value) VALUES (?, ?);",
-                [key, json.dumps(value)])
+                [key, json.dumps(value, sort_keys=True)])
 
     def get_name_group_keys(self):
         """
@@ -671,7 +671,7 @@ class DBAPI(DbGeneric):
                                                 WHERE handle = ?;""",
                                [person.gid,
                                 self._order_by_person_key(person),
-                                json.dumps(person.to_struct()),
+                                json.dumps(person.to_struct(), sort_keys=True),
                                 given_name,
                                 surname,
                                 gender_type,
@@ -688,7 +688,7 @@ class DBAPI(DbGeneric):
                 [person.handle,
                  self._order_by_person_key(person),
                  person.gid,
-                 json.dumps(person.to_struct()),
+                 json.dumps(person.to_struct(), sort_keys=True),
                  given_name, surname, gender_type])
         self.update_secondary_values(person)
         if not trans.batch:
@@ -746,7 +746,7 @@ class DBAPI(DbGeneric):
                                [family.gid,
                                 family.father_handle,
                                 family.mother_handle,
-                                json.dumps(family.to_struct()),
+                                json.dumps(family.to_struct(), sort_keys=True),
                                 family.handle])
         else:
             self.dbapi.execute(
@@ -757,7 +757,7 @@ class DBAPI(DbGeneric):
                  family.gid,
                  family.father_handle,
                  family.mother_handle,
-                 json.dumps(family.to_struct())])
+                 json.dumps(family.to_struct(), sort_keys=True)])
         self.update_secondary_values(family)
         if not trans.batch:
             self.update_backlinks(family)
@@ -808,7 +808,7 @@ class DBAPI(DbGeneric):
                                                 WHERE handle = ?;""",
                                [citation.gid,
                                 self._order_by_citation_key(citation),
-                                json.dumps(citation.to_struct()),
+                                json.dumps(citation.to_struct(), sort_keys=True),
                                 citation.handle])
         else:
             self.dbapi.execute(
@@ -817,7 +817,7 @@ class DBAPI(DbGeneric):
                 [citation.handle,
                  self._order_by_citation_key(citation),
                  citation.gid,
-                 json.dumps(citation.to_struct())])
+                 json.dumps(citation.to_struct(), sort_keys=True)])
         self.update_secondary_values(citation)
         if not trans.batch:
             self.update_backlinks(citation)
@@ -851,7 +851,7 @@ class DBAPI(DbGeneric):
                                                 WHERE handle = ?;""",
                                [source.gid,
                                 self._order_by_source_key(source),
-                                json.dumps(source.to_struct()),
+                                json.dumps(source.to_struct(), sort_keys=True),
                                 source.handle])
         else:
             self.dbapi.execute(
@@ -860,7 +860,7 @@ class DBAPI(DbGeneric):
                 [source.handle,
                  self._order_by_source_key(source),
                  source.gid,
-                 json.dumps(source.to_struct())])
+                 json.dumps(source.to_struct(), sort_keys=True)])
         self.update_secondary_values(source)
         if not trans.batch:
             self.update_backlinks(source)
@@ -896,14 +896,14 @@ class DBAPI(DbGeneric):
                                                     json_data = ?
                                                 WHERE handle = ?;""",
                                [repository.gid,
-                                json.dumps(repository.to_struct()),
+                                json.dumps(repository.to_struct(), sort_keys=True),
                                 repository.handle])
         else:
             self.dbapi.execute(
                 """INSERT INTO repository (handle, gid, json_data)
                                           VALUES(?, ?, ?);""",
                 [repository.handle, repository.gid,
-                 json.dumps(repository.to_struct())])
+                 json.dumps(repository.to_struct(), sort_keys=True)])
         self.update_secondary_values(repository)
         if not trans.batch:
             self.update_backlinks(repository)
@@ -931,13 +931,13 @@ class DBAPI(DbGeneric):
                                                     json_data = ?
                                                 WHERE handle = ?;""",
                                [note.gid,
-                                json.dumps(note.to_struct()),
+                                json.dumps(note.to_struct(), sort_keys=True),
                                 note.handle])
         else:
             self.dbapi.execute(
                 """INSERT INTO note (handle, gid, json_data)
                                     VALUES(?, ?, ?);""",
-                [note.handle, note.gid, json.dumps(note.to_struct())])
+                [note.handle, note.gid, json.dumps(note.to_struct(), sort_keys=True)])
         self.update_secondary_values(note)
         if not trans.batch:
             self.update_backlinks(note)
@@ -964,7 +964,7 @@ class DBAPI(DbGeneric):
                                                 WHERE handle = ?;""",
                                [place.gid,
                                 self._order_by_place_key(place),
-                                json.dumps(place.to_struct()),
+                                json.dumps(place.to_struct(), sort_keys=True),
                                 place.handle])
         else:
             self.dbapi.execute(
@@ -973,7 +973,7 @@ class DBAPI(DbGeneric):
                 [place.handle,
                  self._order_by_place_key(place),
                  place.gid,
-                 json.dumps(place.to_struct())])
+                 json.dumps(place.to_struct(), sort_keys=True)])
         self.update_secondary_values(place)
         if not trans.batch:
             self.update_backlinks(place)
@@ -1007,7 +1007,7 @@ class DBAPI(DbGeneric):
                                                     json_data = ?
                                                 WHERE handle = ?;""",
                                [event.gid,
-                                json.dumps(event.to_struct()),
+                                json.dumps(event.to_struct(), sort_keys=True),
                                 event.handle])
         else:
             self.dbapi.execute(
@@ -1015,7 +1015,7 @@ class DBAPI(DbGeneric):
                                      VALUES(?, ?, ?);""",
                 [event.handle,
                  event.gid,
-                 json.dumps(event.to_struct())])
+                 json.dumps(event.to_struct(), sort_keys=True)])
         self.update_secondary_values(event)
         if not trans.batch:
             self.update_backlinks(event)
@@ -1045,7 +1045,7 @@ class DBAPI(DbGeneric):
             self.dbapi.execute("""UPDATE tag SET json_data = ?,
                                                  order_by = ?
                                          WHERE handle = ?;""",
-                               [json.dumps(tag.to_struct()),
+                               [json.dumps(tag.to_struct(), sort_keys=True),
                                 self._order_by_tag_key(tag.name),
                                 tag.handle])
         else:
@@ -1053,7 +1053,7 @@ class DBAPI(DbGeneric):
                                                   VALUES(?, ?, ?);""",
                                [tag.handle,
                                 self._order_by_tag_key(tag.name),
-                                json.dumps(tag.to_struct())])
+                                json.dumps(tag.to_struct(), sort_keys=True)])
         if not trans.batch:
             self.update_backlinks(tag)
 
@@ -1072,7 +1072,7 @@ class DBAPI(DbGeneric):
                                                 WHERE handle = ?;""",
                                [media.gid,
                                 self._order_by_media_key(media),
-                                json.dumps(media.to_struct()),
+                                json.dumps(media.to_struct(), sort_keys=True),
                                 media.handle])
         else:
             self.dbapi.execute(
@@ -1081,7 +1081,7 @@ class DBAPI(DbGeneric):
                 [media.handle,
                  self._order_by_media_key(media),
                  media.gid,
-                 json.dumps(media.to_struct())])
+                 json.dumps(media.to_struct(), sort_keys=True)])
         self.update_secondary_values(media)
         if not trans.batch:
             self.update_backlinks(media)

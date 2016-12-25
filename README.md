@@ -50,6 +50,31 @@ Released version installation (once released):
 pip3 install gprime
 ```
 
+Getting Started
+---------------
+
+To run gPrime, you need to do two things:
+
+1. Create a site directory
+2. Create at least one user and password
+
+To create a site directory, provide a name for the tree, and give the site-dir directory:
+
+```
+python3 -m gprime.app --create="My Family Tree" --site-dir="family_tree"
+```
+
+Then, you need at least one user:
+
+```
+python3 -m gprime.app --site-dir="family_tree" --add-user
+Username: (type in a username, no spaces)
+Password: (does not show any characters)
+```
+
+Optionally, you may now want to also import some data (see below).
+
+
 Running
 -------
 
@@ -73,14 +98,11 @@ Where `familytree.cfg` contains options and values, such as:
 ```
 port     = 8000
 site_dir = "My Family Tree"
-username = "demo"
 ```
-or 
+or
 
 ```
 site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
-username      = "demo"
-password_hash = "$5$rounds=535000$cFxCHFY.x1Ks3owt$PJYZtnr.LMDyRQXjLw8JWenNnNjKSWjRUjYJaPW4bn2"
 language      = "fr"
 ```
 
@@ -90,13 +112,14 @@ Options:
 ------------
 
 * --site-dir=PATH - The directory of the gPrime site directory (required)
-* --config-file=FILE - The config file of these options
-* --username=USERNAME - Username (required)
-* --sitename="Site Name" - Name to use for the site (gPrime is default)
-* --password-hash=HASH - Password hash for username
-* --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
-* --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
+* --config-file=FILE - The config file of these options (optional)
+* --sitename="Site Name" - Name to use for the site (optional, gPrime is default)
 * --language=LANG_CODE - Language code (eg, "fr") for language to show webpages
+* --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
+* --add-user - Interactively enter a username and password
+* --remove-user - Remove a user
+* --change-password - Change a user's password
+* --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
 * --port=PORT-NUMBER - Port to use (8000 is default)
 * --hostname=LOCALHOST - Hostname to use (localhost is default)
 * --server=True|False - Start the server? Default is True
@@ -109,11 +132,11 @@ Common variations
 -----------------
 
 ```
-python3 -m gprime.app --create="Smith Family" --site-dir="gprime_folder" --username=demo --server=False
+python3 -m gprime.app --create="Smith Family" --site-dir="gprime_folder"
 
-python3 -m gprime.app --site-dir="gprime_folder" --import-file="myinfo.gramps" --username=demo --server=False
+python3 -m gprime.app --site-dir="gprime_folder" --import-file="myinfo.gramps"
 
-python3 -m gprime.app --site-dir="/path/to/gprime_folder" --username=demo
+python3 -m gprime.app --site-dir="/path/to/gprime_folder"
 
 python3 -m gprime.app --help
 ```

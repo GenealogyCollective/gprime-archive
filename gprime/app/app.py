@@ -1,9 +1,28 @@
+#
+# gPrime - a web-based genealogy program
+#
+# Copyright (c) 2016 gPrime Development Team
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+
 ## Python imports
 import os
 import sys
 import base64
 import uuid
-from passlib.hash import sha256_crypt as crypt
 import getpass
 import select
 import signal
@@ -13,6 +32,7 @@ import threading
 from .handlers import *
 from .forms import *
 from .forms.actionform import import_file
+from .passman import password_manager
 
 from tornado.web import Application, url, StaticFileHandler
 
@@ -328,12 +348,14 @@ def main():
            help="Use xsrf cookie, True/False", type=bool)
     define("config-file", default=None,
            help="Config file of gPrime options", type=str)
-    define("username", default=None,
-           help="Login username (required)", type=str)
-    define("password-hash", default=None,
-           help="Encrypted login password", type=str)
     define("create", default=None,
-           help="Create a site directory (given by --site-dir) with this Family TRee name", type=str)
+           help="Create a site directory (given by --site-dir) with this Family Tree name", type=str)
+    define("add-user", default=False,
+           help="Add a user/password", type=bool)
+    define("remove-user", default=False,
+           help="Remove a user", type=bool)
+    define("change-password", default=False,
+           help="Change a user's password", type=bool)
     define("server", default=True,
            help="Start the server, True/False", type=bool)
     define("import-file", default=None,
@@ -349,10 +371,9 @@ def main():
     # Read config-file options:
     if options.config_file:
         tornado.options.parse_config_file(options.config_file)
-    # Parse args again, so that command-line options override config-file:
-    tornado.options.parse_command_line()
-    if options.username is None:
-        raise Exception("--username=NAME was not provided")
+        # Parse args again, so that command-line options override config-file:
+        tornado.options.parse_command_line()
+    ################# Process command-line arguments
     if options.site_dir is None:
         raise Exception("--site-dir=NAME was not provided")
     else:
@@ -365,7 +386,6 @@ def main():
     gprime.const.set_site_dir(options.site_dir) ## when we don't have options
     database_dir = os.path.join(options.site_dir, "database")
     users_dir = os.path.join(options.site_dir, "users")
-    user_dir = os.path.join(options.site_dir, "users", options.username)
     media_dir = os.path.join(options.site_dir, "media")
     media_cache_dir = os.path.join(options.site_dir, "media", "cache")
     if options.create:
@@ -379,9 +399,30 @@ def main():
         # Make the media folder:
         os.makedirs(media_dir)
         os.makedirs(media_cache_dir)
-    ## Initialize user:
-    if not os.path.exists(user_dir):
-        os.makedirs(user_dir)
+        password_manager.save()
+        with open(os.path.join(options.site_dir, "passwd"), "w") as fp:
+            fp.write("### This is the password file for gPrime\n")
+            fp.write("\n")
+    password_manager.load()
+    if options.add_user:
+        username = input("Username: ")
+        plaintext = getpass.getpass()
+        options.server = False
+        password_manager.add_user(username, plaintext)
+        password_manager.save()
+        ## Initialize user folder:
+        os.makedirs(os.path.join(options.site_dir, "users", username))
+    if options.remove_user:
+        username = input("Username: ")
+        options.server = False
+        password_manager.remove_user(username)
+        password_manager.save()
+    if options.change_password:
+        username = input("Username: ")
+        plaintext = getpass.getpass()
+        options.server = False
+        password_manager.change_password(username, plaintext)
+        password_manager.save()
     ## Open the database:
     database = DbState().open_database(database_dir)
     #options.database = database.get_dbname()
@@ -393,12 +434,9 @@ def main():
     # Start server up, or exit:
     if not options.server:
         return
-    # Starting server:
+    ############################ Starting server:
     define("database", default="Untitled Family Tree", type=str)
     options.database = database.get_dbname()
-    if options.password_hash is None:
-        plaintext = getpass.getpass()
-        options.password_hash = crypt.hash(plaintext)
     tornado.log.logging.info("gPrime starting...")
     if options.debug:
         import tornado.autoreload
@@ -418,8 +456,7 @@ def main():
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
     for key in ["port", "site_dir", "hostname", "sitename",
-                "debug", "xsrf", "config_file", "username",
-                "password_hash"]:
+                "debug", "xsrf", "config_file"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))
     tornado.log.logging.info("Control+C twice to stop server. Running...")
     # Open up a browser window:

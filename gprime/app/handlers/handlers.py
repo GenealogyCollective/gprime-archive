@@ -25,6 +25,7 @@ from passlib.hash import sha256_crypt as crypt
 
 from gprime.utils.locale import Locale, _
 from gprime.const import VERSION
+from gprime.app.passman import password_manager
 
 template_functions = {}
 exec("from gprime.app.template_functions import *",
@@ -109,8 +110,7 @@ class LoginHandler(BaseHandler):
     def post(self):
         getusername = self.get_argument("username")
         getpassword = self.get_argument("password")
-        if (getusername == self.opts.username and
-            crypt.verify(getpassword, self.opts.password_hash)):
+        if password_manager.verify_password(getusername, getpassword):
             self.set_secure_cookie("user", self.get_argument("username"))
             self.redirect(self.get_argument("next",
                                             self.reverse_url("main")))

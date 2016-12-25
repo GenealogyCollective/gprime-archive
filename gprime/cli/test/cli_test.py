@@ -108,24 +108,24 @@ class UnicodeTest(unittest.TestCase):
     #    self.assertEqual(self.newtitle, title, "Compare titles %s and %s" %
     #                      (repr(self.newtitle), repr(title)))
 
-# class CLITest(unittest.TestCase):
-#     def tearDown(self):
-#         if os.path.exists(example_copy):
-#             os.remove(example_copy)
-#         self.call("--remove", "Test: test1_cli")
+class CLITest(unittest.TestCase):
+    def tearDown(self):
+        if os.path.exists(example_copy):
+            os.remove(example_copy)
+        self.call("--remove", "Test: test1_cli")
 
-#     def setUp(self):
-#         self.gramps = Gramps()
-#         self.tearDown()
+    def setUp(self):
+        self.gramps = Gramps()
+        self.tearDown()
 
-#     def call(self, *args, stdin=None):
-#         self.gramps.run(*args, stdin=stdin)
+    def call(self, *args, stdin=None):
+        self.gramps.run(*args, stdin=stdin)
 
-#     def test1a_cli(self):
-#         self.call("-C", "Test: test1_cli", "--import", example)
+    def test1a_cli(self):
+        self.call("-C", "Test: test1_cli", "--import", example)
 
-#     def test1b_cli(self):
-#         self.call("-O", "Test: test1_cli", "--export", example_copy)
+    def test1b_cli(self):
+        self.call("-O", "Test: test1_cli", "--export", example_copy)
 
 if __name__ == "__main__":
     unittest.main()

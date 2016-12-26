@@ -57,7 +57,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Notes
         # ---------------------------------
-        for obj in db.iter_notes(order_by=("gid", "ASC")):
+        for obj in db.iter_notes(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -65,7 +65,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Event
         # ---------------------------------
-        for obj in db.iter_events(order_by=("gid", "ASC")):
+        for obj in db.iter_events(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -73,7 +73,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Person
         # ---------------------------------
-        for obj in db.iter_people(order_by=("gid", "ASC")):
+        for obj in db.iter_people(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -81,7 +81,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Family
         # ---------------------------------
-        for obj in db.iter_families(order_by=("gid", "ASC")):
+        for obj in db.iter_families(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -89,7 +89,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Repository
         # ---------------------------------
-        for obj in db.iter_repositories(order_by=("gid", "ASC")):
+        for obj in db.iter_repositories(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -97,7 +97,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Place
         # ---------------------------------
-        for obj in db.iter_places(order_by=("gid", "ASC")):
+        for obj in db.iter_places(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -105,7 +105,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Source
         # ---------------------------------
-        for obj in db.iter_sources(order_by=("gid", "ASC")):
+        for obj in db.iter_sources(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -113,7 +113,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Citation
         # ---------------------------------
-        for obj in db.iter_citations(order_by=("gid", "ASC")):
+        for obj in db.iter_citations(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -121,7 +121,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Media
         # ---------------------------------
-        for obj in db.iter_media(order_by=("gid", "ASC")):
+        for obj in db.iter_media(order_by=[("gid", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)
@@ -129,7 +129,7 @@ def exportData(db, filename,
         # ---------------------------------
         # Tag
         # ---------------------------------
-        for obj in db.iter_tags(order_by=("name", "ASC")):
+        for obj in db.iter_tags(order_by=[("name", "ASC")]):
             write_line(fp, obj)
             count += 1
             callback(100 * count/total)

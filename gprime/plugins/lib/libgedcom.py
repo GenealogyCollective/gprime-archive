@@ -130,7 +130,6 @@ from gprime.utils.lds import TEMPLES
 from gprime.utils.unknown import make_unknown, create_explanation_note
 from gprime.datehandler._dateparser import DateParser
 from gprime.db.dbconst import EVENT_KEY
-from gprime.gui.dialog import WarningDialog
 from gprime.lib.const import IDENTICAL, DIFFERENT
 from gprime.lib import (StyledText, StyledTextTag, StyledTextTagType)
 from gprime.plugins.lib.libplaceimport import PlaceImport

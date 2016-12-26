@@ -37,19 +37,9 @@ LOG = logging.getLogger(".GedcomImport")
 from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 from gprime.errors import DbError, GedcomError
-from gprime.gui.glade import Glade
 from gprime.plugins.lib.libmixin import DbMixin
 from gprime.plugins.lib import libgedcom
 from gprime.utils.libformatting import ImportInfo
-# The following code is necessary to ensure that when Help->Plugin
-# Manager->Reload is executed, not only is the top-level exportgedcom file
-# reloaded, but also the dependent libgedcom. This ensures that testing can have
-# a quick turnround, without having to restart Gramps.
-module = __import__("gramps.plugins.lib.libgedcom",
-                    fromlist=["gramps.plugins.lib"])   # why o why ?? as above!
-import imp
-imp.reload(module)
-
 from gprime.config import config
 
 #-------------------------------------------------------------------------

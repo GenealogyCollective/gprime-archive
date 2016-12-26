@@ -46,8 +46,6 @@ log = logging.getLogger(".WriteFtree")
 #
 #-------------------------------------------------------------------------
 from gprime.utils.alive import probably_alive
-from gprime.gui.plug.export import WriterOptionBox
-from gprime.gui.glade import Glade
 
 #-------------------------------------------------------------------------
 #

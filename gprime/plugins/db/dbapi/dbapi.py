@@ -1040,8 +1040,10 @@ class DBAPI(DbGeneric):
         Commit the specified Tag to the database, storing the changes as
         part of the transaction.
         """
+        old_tag = None
         tag.change = int(change_time or time.time())
         if tag.handle in self.tag_map:
+            old_tag = self.get_tag_from_handle(tag.handle).to_struct()
             self.dbapi.execute("""UPDATE tag SET json_data = ?,
                                                  order_by = ?
                                          WHERE handle = ?;""",
@@ -1054,8 +1056,13 @@ class DBAPI(DbGeneric):
                                [tag.handle,
                                 self._order_by_tag_key(tag.name),
                                 json.dumps(tag.to_struct(), sort_keys=True)])
+        self.update_secondary_values(tag)
         if not trans.batch:
             self.update_backlinks(tag)
+            db_op = TXNUPD if old_tag else TXNADD
+            trans.add(TAG_KEY, db_op, tag.handle,
+                      old_tag,
+                      tag.to_struct())
 
     def commit_media(self, media, trans, change_time=None):
         """
@@ -1212,7 +1219,10 @@ class DBAPI(DbGeneric):
         # next we sort by fields and direction
         pos = len(order_by) - 1
         for (field, order) in reversed(order_by): # sort the lasts parts first
-            sorted_items.sort(key=itemgetter(pos), reverse=(order == "DESC"))
+            try:
+                sorted_items.sort(key=itemgetter(pos), reverse=(order == "DESC"))
+            except:
+                pass # might not be able to sort if a None in set
             pos -= 1
         # now we will look them up again:
         for (order_by_values, handle) in sorted_items:

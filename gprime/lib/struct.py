@@ -137,6 +137,12 @@ class Struct:
         # return them
         return results
 
+    def instantiate(self):
+        """
+        Turns the current item into a Python object.
+        """
+        return self.from_struct(self())
+
     def select(self, thing1, thing2):
         if thing2 == "*":
             return thing1

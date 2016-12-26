@@ -473,14 +473,15 @@ def attribute_table(form, user, action):
         (form._("Type"), 40),
         (form._("Value"), 49),
     )
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     attributes = db.dji.Attribute.filter(object_type=obj_type,
-    #                                       object_id=obj.id)
-    #     for attribute in attributes:
-    #         table.append_row(attribute.attribute_type.name,
-    #                   attribute.value)
-    #         has_data = True
+    count = 1
+    if user or form.instance.public:
+        for attribute in form.instance.attribute_list:
+            table.append_row(attribute.type.string,
+                             attribute.value,
+                             link="/%s/%s/attribute/%s" %
+                             (form.view, form.instance.handle, count))
+            count += 1
+            has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add Attribute"), "FIXME", icon="+")
@@ -506,13 +507,15 @@ def address_table(form, user, action): #TODO: Make table customizable (For insta
         (form._("Country"), 15),
     )
     s = Struct.wrap(form.instance, form.database)
-    count = 0
+    count = 1
     for address in s.address_list:
         table.append_row(address.date.text,
                          address.location.street,
                          address.location.city,
                          address.location.state,
-                         address.location.country)
+                         address.location.country,
+                         link="/%s/%s/address/%s" %
+                         (form.view, form.instance.handle, count))
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
@@ -569,20 +572,15 @@ def internet_table(form, user, action):
         (form._("Description"), 35),
     )
     s = Struct.wrap(form.instance, form.database)
-    count = 0
-    for url1 in s.urls:
-        table.append_row(url1.type.string,
-                         url1.path, #TODO: Path should be link to page (with redirect and/or warning about leaving gprime if desired?)
-                         url1.desc)
+    count = 1
+    for url in s.urls:
+        table.append_row(url.type.string,
+                         url.path,
+                         url.desc,
+                         link="/%s/%s/url/%s" %
+                         (form.view, form.instance.handle, count))
         has_data = True
         count += 1
-    #if user or form.instance.public:
-    #     urls = db.dji.Url.filter(person=obj)
-    #     for url_obj in urls:
-    #         table.appenurld_row(str(url_obj.url_type),
-    #                   url_obj.path,
-    #                   _obj.desc)
-    #         has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add Internet"), "FIXME", icon="+")
@@ -597,13 +595,13 @@ def internet_table(form, user, action):
 def association_table(form, user, action):
     retval = ""
     has_data = False
-    cssid = "tab-associations"
+    cssid = "tab-association"
     table = Table(form)
     table.set_columns(
         ("", 11),
-        (form._("Name"), 10),
+        (form._("Name"), 40),
         (form._("ID"), 10),
-        (form._("Association"), 10),
+        (form._("Association"), 39),
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
@@ -612,26 +610,21 @@ def association_table(form, user, action):
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
     if user or form.instance.public:
-    #         count = 1
-    #         associations = person.get_person_ref_list()
-    #         for association in associations: # PersonRef
-    #             table.append_row(Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user and link and action == "view" else "",
-    #                       association.ref_object.get_primary_name(),
-    #                       association.ref_object.gid,
-    #                       association.description,
-    #                       )
-    #             links.append(('URL', "/person/%s/association/%d" % (obj.handle, count)))
-    #             has_data = True
-    #             count += 1
-    #         table.links(links)
+        s = Struct.wrap(form.instance, form.database)
+        count = 1
+        for personref in s.person_ref_list:
+            table.append_row(
+                name_display(personref.ref.instance),
+                personref.ref.gid,
+                personref.rel,
+                link="/%s/%s/association/%s" % (
+                    form.view, form.instance.handle, count)
+            )
+            has_data = True
+            count += 1
         text = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
         text += """</div>"""
         text += table.get_html(action)
-    #         count = 1
-    #         for association in associations: # PersonRef
-    #             text = text.replace("[[x%d]]" % count, make_icon_button("x", "/person/%s/remove/association/%d" % (obj.handle, count)))
-    #             text = text.replace("[[^%d]]" % count, make_icon_button("^", "/person/%s/up/association/%d" % (obj.handle, count)))
-    #             text = text.replace("[[v%d]]" % count, make_icon_button("v", "/person/%s/down/association/%d" % (obj.handle, count)))
         retval += text
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
@@ -683,21 +676,25 @@ def lds_table(form, user, action):
     table.set_columns(
         ("", 11),
         (form._("Type"), 10),
-        (form._("Date"), 10),
+        (form._("Date"), 19),
         (form._("Status"), 10),
-        (form._("Temple"), 10),
-        (form._("Place"), 10),
+        (form._("Temple"), 20),
+        (form._("Place"), 30),
     )
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     ldss = obj.lds_set.all().order_by("order")
-    #     for lds in ldss:
-    #         table.append_row(str(lds.lds_type),
-    #                   display_date(lds),
-    #                   str(lds.status),
-    #                   lds.temple,
-    #                   get_title(lds.place))
-    #         has_data = True
+    s = Struct.wrap(form.instance, form.database)
+    count = 1
+    if user or form.instance.public:
+        for lds in s.lds_ord_list:
+            date = lds.date.instantiate()
+            table.append_row(lds.type,
+                             date_display(date) if date else "",
+                             lds.status,
+                             lds.temple,
+                             lds.place.title,
+                             link="/person/%s/lds/%s" %
+                             (form.instance.handle, count))
+            has_data = True
+            count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add LDS"), "FIXME", icon="+")
@@ -843,7 +840,8 @@ def children_table(form, user, action):
                          render_gender(child.gender),
                          childref.frel.string,
                          childref.mrel.string,
-                         form.birth_date(child))
+                         form.birth_date(child),
+                         link="/person/%s" % handle)
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""

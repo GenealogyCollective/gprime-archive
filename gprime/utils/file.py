@@ -33,6 +33,7 @@ import os
 import sys
 import shutil
 import hashlib
+from collections import defaultdict
 import logging
 LOG = logging.getLogger(".gen.utils.file")
 
@@ -153,7 +154,7 @@ def expand_path(path, normalize = True):
     We make the assumption that the user will not use a path that contain variable names
     (it is technically possible to use characters "{", "}" in  paths)
     """
-    environment = dict(os.environ)
+    environment = defaultdict(str, os.environ)
     # FIXME: reimplement ENV here
     #environment.update(ENV)
     #environment['GRAMPSHOME'] = USER_HOME

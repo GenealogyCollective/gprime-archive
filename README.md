@@ -8,6 +8,12 @@ gPrime is a web-based application for genealogy. It uses the Gramps API for data
 * Multi-user, password protected
 * Support IIIF Image Server API - http://iiif.io/api/image/2.1/
 
+Additional Information
+----------------------
+
+* Blog - https://genealogycollective.wordpress.com/
+* Mailing list - https://groups.google.com/forum/#!forum/genealogycollective
+
 Requirements
 ------------
 

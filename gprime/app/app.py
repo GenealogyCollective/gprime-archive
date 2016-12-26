@@ -350,12 +350,14 @@ def main():
            help="Config file of gPrime options", type=str)
     define("create", default=None,
            help="Create a site directory (given by --site-dir) with this Family Tree name", type=str)
-    define("add-user", default=False,
-           help="Add a user/password", type=bool)
-    define("remove-user", default=False,
-           help="Remove a user", type=bool)
-    define("change-password", default=False,
-           help="Change a user's password", type=bool)
+    define("add-user", default=None,
+           help="Add a user with password", type=str)
+    define("remove-user", default=None,
+           help="Remove a user", type=str)
+    define("change-password", default=None,
+           help="Change a user's password", type=str)
+    define("password", default=None,
+           help="Give password on command-line (not recommended)", type=str)
     define("server", default=True,
            help="Start the server, True/False", type=bool)
     define("import-file", default=None,
@@ -405,23 +407,26 @@ def main():
             fp.write("\n")
     password_manager.load()
     if options.add_user:
-        username = input("Username: ")
-        plaintext = getpass.getpass()
+        if options.password:
+            plaintext = options.password
+        else:
+            plaintext = getpass.getpass()
         options.server = False
-        password_manager.add_user(username, plaintext)
+        password_manager.add_user(options.add_user, plaintext)
         password_manager.save()
         ## Initialize user folder:
-        os.makedirs(os.path.join(options.site_dir, "users", username))
+        os.makedirs(os.path.join(options.site_dir, "users", options.add_user))
     if options.remove_user:
-        username = input("Username: ")
         options.server = False
-        password_manager.remove_user(username)
+        password_manager.remove_user(options.remove_user)
         password_manager.save()
     if options.change_password:
-        username = input("Username: ")
-        plaintext = getpass.getpass()
+        if options.password:
+            plaintext = options.password
+        else:
+            plaintext = getpass.getpass()
         options.server = False
-        password_manager.change_password(username, plaintext)
+        password_manager.change_password(options.change_password, plaintext)
         password_manager.save()
     ## Open the database:
     database = DbState().open_database(database_dir)

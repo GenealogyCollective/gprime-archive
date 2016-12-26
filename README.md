@@ -65,11 +65,10 @@ To create a site directory, provide a name for the tree, and give the site-dir d
 python3 -m gprime.app --create="My Family Tree" --site-dir="family_tree"
 ```
 
-Then, you need at least one user:
+Then, you need at least one user (as an example, we use "demo" as the username):
 
 ```
-python3 -m gprime.app --site-dir="family_tree" --add-user
-Username: (type in a username, no spaces)
+python3 -m gprime.app --site-dir="family_tree" --add-user=demo
 Password: (does not show any characters)
 ```
 
@@ -97,7 +96,7 @@ python3 -m gprime.app --config-file="familytree.cfg"
 Where `familytree.cfg` contains options and values, such as:
 
 ```
-port     = 8000
+port     = 8001
 site_dir = "My_Family_Tree_Folder"
 ```
 or
@@ -111,21 +110,22 @@ Options:
 ------------
 
 * --site-dir=PATH - The directory of the gPrime site directory (required)
-* --config-file=FILE - The config file of these options (optional)
-* --sitename="Site Name" - Name to use for the site (optional, gPrime is default)
-* --language=LANG_CODE - Language code (eg, "fr") for language to show webpages
+* --config-file=FILE - A config file of these options (optional)
+* --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
+* --language=LANG_CODE - Language code (eg, "fr") for language to show webpages ("en", English, is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
-* --add-user - Interactively enter a username and password
-* --remove-user - Remove a user
-* --change-password - Change a user's password
+* --add-user=USERNAME - Add a username and password; prompts for password if --password not given
+* --remove-user=USERNAME - Remove a user's username and password from "SITE-DIR/passwd" file
+* --change-password=USERNAME - Change a user's password; prompts for password if --password not given
+* --password=PASSWORD - Use with --change-password, or --add-user (this option is not recommended)
 * --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
-* --port=PORT-NUMBER - Port to use (8000 is default)
-* --hostname=LOCALHOST - Hostname to use (localhost is default)
+* --port=PORT-NUMBER - Port to listen on (8000 is default)
+* --hostname=LOCALHOST - Hostname to listen on ("localhost" is default)
 * --server=True|False - Start the server? Default is True
 * --open-browser=True|False - open a web browser on startup?
-* --debug=True|False - Use to see additional debugging information
-* --xsrf=True/False - Use cross-site request forgery protection
-* --help - List additional options
+* --debug=True|False - Use to see additional debugging information; useful for development (auto-restarts server)
+* --xsrf=True/False - Use cross-site request forgery protection (recommended)
+* --help - List additional options and details
 
 Common variations
 -----------------

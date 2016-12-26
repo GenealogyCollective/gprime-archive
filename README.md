@@ -13,12 +13,13 @@ Requirements
 
 * Python3
 
-Python packages:
+Python package dependencies:
 
 * tornado
 * PIL
 * simplejson
 * passlib
+* meta
 
 Installation
 -------------

@@ -247,34 +247,6 @@ reports.addcli(TestDynamic, "export_gedcom",
 #                "-O", TREE_NAME,
 #                "--export", "test_export.wtf")
 
-reports.addcli(TestDynamic, "export_gw",
-               err_does_contain("Cleaning up."),
-               ["test_export.gw"],
-               "--force",
-               "-O", TREE_NAME,
-               "--export", "test_export.gw")
-
-reports.addcli(TestDynamic, "export_gpkg",
-               err_does_contain("Cleaning up."),
-               ["test_export.gpkg"],
-               "--force",
-               "-O", TREE_NAME,
-               "--export", "test_export.gpkg")
-
-reports.addcli(TestDynamic, "export_vcs",
-               err_does_contain("Cleaning up."),
-               ["test_export.vcs"],
-               "--force",
-               "-O", TREE_NAME,
-               "--export", "test_export.vcs")
-
-reports.addcli(TestDynamic, "export_vcf",
-               err_does_contain("Cleaning up."),
-               ["test_export.vcf"],
-               "--force",
-               "-O", TREE_NAME,
-               "--export", "test_export.vcf")
-
 report_list = [
     ("ancestor_chart", "svg", ["ancestor_chart.svg",
                                "ancestor_chart-2.svg",

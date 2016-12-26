@@ -1141,10 +1141,17 @@ class ImageHandler(BaseHandler):
             image = None
         else:
             # Need to load it up for the first time!
-            image = Image.open(filename)
-            info = self.make_info(infoId, image)
-        imageW = info['width']
-        imageH = info['height']
+            if os.path.exists(filename):
+                image = Image.open(filename)
+                info = self.make_info(infoId, image)
+                imageW = info['width']
+                imageH = info['height']
+            else:
+                image = None
+        if image is None:
+            self.set_status(404, "File does not exist.")
+            self.finish("File does not exist.")
+            return
 
         # Check region
         if region == 'full':

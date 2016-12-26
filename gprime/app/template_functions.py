@@ -338,6 +338,17 @@ def repository_table(form, user, action):
         (form._("Call number"), 20),
         (form._("Type"), 20),
     )
+    if user or form.instance.public:
+        count = 1
+        for repo_ref in form.instance.reporef_list:
+            handle = repo_ref.ref
+            repo = form.database.get_repository_from_handle(handle)
+            table.append_row(repo.gid,
+                             repo.name,
+                             repo_ref.call_number,
+                             repo.type)
+            has_data = True
+            count += 1;
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add New Repository"), "FIXME", icon="+")
@@ -345,33 +356,7 @@ def repository_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    # if user or form.instance.public:
-    #     obj_type = ContentType.objects.get_for_model(obj)
-    #     refs = db.dji.RepositoryRef.filter(object_type=obj_type,
-    #                                     object_id=obj.id)
-    #     count = 1
-    #     for repo_ref in refs:
-    #         repository = repo_ref.ref_object
-    #         table.append_row(
-    #             Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #             repository.gid,
-    #             repository.name,
-    #             repo_ref.call_number,
-    #             str(repository.repository_type),
-    #             )
-    #         has_data = True
-    #         count += 1
-    #     text = table.get_html(action)
-    #     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-    #     text = text.replace("}}", """</div>""")
-    #     count = 1
-    #     for repo_ref in refs:
-    #         item = obj.__class__.__name__.lower()
-    #         text = text.replace("[[x%d]]" % count, make_icon_button("x", "/%s/%s/remove/repositoryref/%d" % (item, obj.handle, count)))
-    #         text = text.replace("[[^%d]]" % count, make_icon_button("^", "/%s/%s/up/repositoryref/%d" % (item, obj.handle, count)))
-    #         text = text.replace("[[v%d]]" % count, make_icon_button("v", "/%s/%s/down/repositoryref/%d" % (item, obj.handle, count)))
-    #         count += 1
-    #     retval += text
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval

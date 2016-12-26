@@ -74,12 +74,11 @@ python3 -m gprime.app --create="My Family Tree" --site-dir="family_tree"
 Then, you need at least one user (as an example, we use "demo" as the username):
 
 ```
-python3 -m gprime.app --site-dir="family_tree" --add-user=demo
+python3 -m gprime.app --site-dir="~/family_tree" --add-user=demo
 Password: (does not show any characters)
 ```
 
-Optionally, you may now want to also import some data (see below).
-
+Optionally, you may now want to also import some data (see below). The site-directory has a folder named "media" for all of the images and other documents. You can copy them here, or, in the previous example, make ~/family_tree/media link to your media folder.
 
 Running
 -------

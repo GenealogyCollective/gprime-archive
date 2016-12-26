@@ -283,7 +283,6 @@ register('interface.surname-box-height', 150)
 register('interface.treemodel-cache-size', 1000)
 
 register('paths.recent-export-dir', '')
-register('paths.recent-file', '')
 register('paths.recent-import-dir', '')
 register('paths.website-cms-uri', '')
 register('paths.website-cal-uri', '')

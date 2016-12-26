@@ -43,7 +43,6 @@ import re
 # gramps modules
 #
 #-------------------------------------------------------------------------
-from gprime.recentfiles import recent_files
 from gprime.utils.file import rm_tempdir, get_empty_tempdir
 from .clidbman import CLIDbManager, NAME_FILE, find_locker_name
 
@@ -376,7 +375,6 @@ class ArgHandler:
                 title = self.dbstate.db.get_dbname()
                 if not title:
                     title = db_path
-                recent_files(db_path, title)
                 self.open = db_path
                 self.__open_action()
             else:

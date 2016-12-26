@@ -61,7 +61,6 @@ from gprime.db.exceptions import (DbUpgradeRequiredError,
                                       PythonDowngradeError)
 from gprime.plug import BasePluginManager
 from gprime.utils.config import get_researcher
-from gprime.recentfiles import recent_files
 
 #-------------------------------------------------------------------------
 #
@@ -240,7 +239,7 @@ class CLIManager:
         """
         Open and make a family tree active
         """
-        self._read_recent_file(path)
+        pass
 
     def _errordialog(self, title, errormessage):
         """
@@ -248,38 +247,6 @@ class CLIManager:
         """
         print(_('ERROR: %s') % errormessage, file=sys.stderr)
         sys.exit(1)
-
-    def _read_recent_file(self, filename):
-        """
-        Called when a file needs to be loaded
-        """
-        # A recent database should already have a directory.
-        # If not, do nothing, just return.
-        # This can be handled better if family tree delete/rename
-        # also updated the recent file menu info in displaystate.py
-        if not  os.path.isdir(filename):
-            self._errordialog(
-                _("Could not load a recent Family Tree."),
-                _("Family Tree does not exist, as it has been deleted."))
-            return
-
-        if os.path.isfile(os.path.join(filename, "lock")):
-            self._errordialog(
-                _("The database is locked."),
-                _("Use the --force-unlock option if you are sure "
-                  "that the database is not in use."))
-            return
-
-        if self.db_loader.read_file(filename):
-            # Attempt to figure out the database title
-            path = os.path.join(filename, "name.txt")
-            try:
-                with open(path) as ifile:
-                    title = ifile.readline().strip()
-            except:
-                title = filename
-
-            self._post_load_newdb(filename, 'x-directory/normal', title)
 
     def _post_load_newdb(self, filename, filetype, title=None):
         """
@@ -324,10 +291,6 @@ class CLIManager:
 
         self.dbstate.db.enable_signals()
         self.dbstate.signal_change()
-
-        config.set('paths.recent-file', filename)
-
-        recent_files(filename, name)
         self.file_loaded = True
 
     def do_reg_plugins(self, dbstate, uistate):

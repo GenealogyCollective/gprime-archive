@@ -97,7 +97,7 @@ Where `familytree.cfg` contains options and values, such as:
 
 ```
 port     = 8000
-site_dir = "My Family Tree"
+site_dir = "My_Family_Tree_Folder"
 ```
 or
 
@@ -105,8 +105,6 @@ or
 site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
 language      = "fr"
 ```
-
-If you do not provide `--password-hash` (an encrypt password) on the command-line or in the config file then a plaintext password will be interactively requested, and the crypt generated.
 
 Options:
 ------------

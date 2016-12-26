@@ -35,9 +35,9 @@ class TagForm(Form):
 
     # Fields for editor:
     edit_fields = [
-        "type",
-        "tag_list",
-        "private",
+        "name",
+        "color",
+        "priority",
     ]
 
     # URL for page view rows:

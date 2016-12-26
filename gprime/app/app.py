@@ -382,10 +382,10 @@ def main():
         options.site_dir = os.path.expanduser(options.site_dir)
     # Handle gPrime intialization:
     import gprime.const # initializes locale
+    gprime.const.set_site_dir(options.site_dir) ## when we don't have options
     from gprime.dbstate import DbState
     from gprime.cli.user import User
     ### Handle site options:
-    gprime.const.set_site_dir(options.site_dir) ## when we don't have options
     database_dir = os.path.join(options.site_dir, "database")
     users_dir = os.path.join(options.site_dir, "users")
     media_dir = os.path.join(options.site_dir, "media")

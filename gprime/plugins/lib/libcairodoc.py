@@ -51,7 +51,6 @@ from gprime.plug.report import utils
 from gprime.errors import PluginError
 from gprime.plug.docbackend import CairoBackend
 from gprime.utils.image import resize_to_buffer
-from gprime.gui.utils import SystemFonts
 
 #------------------------------------------------------------------------
 #
@@ -82,6 +81,49 @@ DEBUG = False
 # Font selection
 #
 #------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------
+#
+# SystemFonts class
+#
+#-------------------------------------------------------------------------
+
+class SystemFonts:
+    """
+    Define fonts available to Gramps
+
+    This is a workaround for bug which prevents the list_families method
+    being called more than once.
+
+    The bug is described here: https://bugzilla.gnome.org/show_bug.cgi?id=679654
+
+    This code generates a warning:
+    /usr/local/lib/python2.7/site-packages/gi/types.py:47:
+    Warning: g_value_get_object: assertion `G_VALUE_HOLDS_OBJECT (value)' failed
+
+    To get a list of fonts, instantiate this class and call
+    :meth:`get_system_fonts`
+
+    .. todo:: GTK3: the underlying bug may be fixed at some point in the future
+    """
+
+    __FONTS = None
+
+    def __init__(self):
+        """
+        Populate the class variable __FONTS only once.
+        """
+        if SystemFonts.__FONTS is None:
+            families = PangoCairo.font_map_get_default().list_families()
+            #print ('GRAMPS GTK3: a g_value_get_object warning:')
+            SystemFonts.__FONTS = [family.get_name() for family in families]
+            SystemFonts.__FONTS.sort()
+
+    def get_system_fonts(self):
+        """
+        Return a sorted list of fonts available to Gramps
+        """
+        return SystemFonts.__FONTS
 
 _TTF_FREEFONT = {
     FONT_SERIF: 'FreeSerif',

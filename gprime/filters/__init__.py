@@ -33,11 +33,15 @@ from ._paramfilter import ParamFilter
 from ._searchfilter import SearchFilter, ExactSearchFilter
 
 #def reload_system_filters():
-    #global SystemFilters
-    #SystemFilters = FilterList(SYSTEM_FILTERS)
-    #SystemFilters.load()
+#    global SystemFilters
+#    SystemFilters = FilterList(SYSTEM_FILTERS)
+#    SystemFilters.load()
 
 def reload_custom_filters():
+    import os
+    from gprime.const import get_user_home
+    VERSION_DIR = get_user_home("demo") ## FIXME: how to get username to where needed?
+    CUSTOM_FILTERS = os.path.join(VERSION_DIR, "custom_filters.xml")
     global CustomFilters
     CustomFilters = FilterList(CUSTOM_FILTERS)
     CustomFilters.load()
@@ -45,5 +49,5 @@ def reload_custom_filters():
 #if not SystemFilters:
     #reload_system_filters()
 
-#if not CustomFilters:
-#    reload_custom_filters()
+if not CustomFilters:
+    reload_custom_filters()

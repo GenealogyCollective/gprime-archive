@@ -645,6 +645,10 @@ class OptionHandler(_options.OptionHandler):
         _options.OptionHandler.__init__(self, module_name, options_dict, None)
 
     def init_subclass(self):
+        from gprime.const import get_user_home
+        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
+
         self.collection_class = OptionListCollection
         self.list_class = OptionList
         self.filename = REPORT_OPTIONS
@@ -735,6 +739,8 @@ class OptionHandler(_options.OptionHandler):
         """Where to save user defined styles for this report."""
         # Get the first part of name, if it contains a comma:
         # (will just be module_name, if no comma)
+        from gprime.const import get_user_home
+        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
         filename = "%s.xml" % self.module_name.split(",")[0]
         return os.path.join(USER_HOME, filename)
 
@@ -966,6 +972,9 @@ class DocOptionHandler(_options.OptionHandler):
         _options.OptionHandler.__init__(self, module_name, options_dict)
 
     def init_subclass(self):
+        from gprime.const import get_user_home
+        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
         self.collection_class = DocOptionListCollection
         self.list_class = OptionList
         self.filename = REPORT_OPTIONS

@@ -265,6 +265,8 @@ class CommandLineReport:
         """
         Initialize the options that are hard-coded into the report system.
         """
+        from gprime.const import get_user_home
+        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
         self.options_dict = {
             'of'        : self.option_class.handler.module_name,
             'off'       : self.option_class.handler.get_format_name(),

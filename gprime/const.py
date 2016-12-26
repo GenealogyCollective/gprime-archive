@@ -261,7 +261,7 @@ EXPANDED = 2
 TYPE_BOX_NORMAL = 0
 TYPE_BOX_FAMILY = 1
 
-_SITE_DIR = None
+_SITE_DIR = "."
 
 def set_site_dir(site_dir):
     global _SITE_DIR
@@ -270,7 +270,7 @@ def set_site_dir(site_dir):
 def get_site_dir():
     return _SITE_DIR
 
-def get_user_home(self, username):
+def get_user_home(username):
     """
     USER_HOME is now dynamic, based on logged in user.
     """

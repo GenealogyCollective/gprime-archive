@@ -460,6 +460,7 @@ def main():
     app = GPrimeApp(options, database)
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
+    tornado.log.logging.info("    DATA_DIR = " + gprime.const.DATA_DIR)
     for key in ["port", "site_dir", "hostname", "sitename",
                 "debug", "xsrf", "config_file"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))

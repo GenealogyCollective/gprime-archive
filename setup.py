@@ -18,16 +18,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-try:
-    from setuptools.core import setup
-except ImportError:
-    from distutils.core import setup
 import sys
 import os
 import argparse
+import glob
 
+from distutils.core import setup
 from distutils.command.build import build
 from distutils.command.install import install
+
 from distutils.util import convert_path, newer
 from distutils import log
 
@@ -52,9 +51,23 @@ with open('gprime/version.py', 'rb') as fid:
             version = line.strip().split()[-1][1:-1]
             break
 
+# Apparently, if you use one custom command, they all lose their minds:
+class Install(install):
+    sub_commands = install.sub_commands + [
+        ('install_scripts', None),
+        ('install_data', None),
+        ('install_lib', None),
+    ]
+
 class Build(build):
     """Custom build command."""
+    sub_commands = install.sub_commands + [
+        ('build_scripts', None),
+        ('build_py', None),
+        ('build_ext', None),
+    ]
     def run(self):
+        log.info('Build.run()...')
         self.build_trans()
         self.build_intl()
         super().run()
@@ -199,36 +212,59 @@ def merge(in_file, out_file, option, po_dir='po', cache=True):
 def get_data_files(path):
     retval = []
     for folder, subdirs, files in os.walk(path):
+        subfolder = []
         for filename in files:
-            retval.append(os.path.join(folder, filename))
+            subfolder.append(os.path.join(folder, filename))
+        if subfolder:
+            retval.append([folder, subfolder])
     return retval
 
-data_files = [
-    ("share/gprime/data/templates", get_data_files("share/gprime/data/templates")),
-    ("share/gprime/images", get_data_files("share/gprime/images")),
-    ("share/gprime/data/jhtmlarea", get_data_files("share/gprime/data/jhtmlarea")),
-    ("share/gprime/data/javascript", get_data_files("share/gprime/data/javascript")),
-    ("share/gprime/data/css", get_data_files("share/gprime/data/css")),
-    ("share/gprime/data/", ["share/gprime/data/authors.xml"]),
-]
+data_files = get_data_files("share") + [("share/gprime/data/", ["share/gprime/data/authors.xml"])]
 
-setup(name='gprime',
-      version=version,
-      description='gPrime webapp for genealogy',
-      long_description=open('README.md', 'rb').read().decode('utf-8'),
-      cmdclass = {'build': Build, 'install': install},
-      author='Doug Blank',
-      author_email='doug.blank@gmail.org',
-      url="https://github.com/GenealogyCollective/gprime",
-      install_requires=["tornado", "simplejson", "passlib", "meta", "pillow"],
-      packages=['gprime',
-                'gprime.app',
-                'gprime.app.handlers'],
-      data_files=data_files,
-      classifiers=[
-          "Environment :: Web Environment",
-          "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
-          'Programming Language :: Python :: 3',
-          "Topic :: Sociology :: Genealogy",
-      ]
+# Find all packages:
+here = os.path.abspath(os.path.dirname(__file__))
+packages = []
+for d, _, _ in os.walk(os.path.join(here, "gprime")):
+    if os.path.exists(os.path.join(d, '__init__.py')):
+        packages.append(d[len(here)+1:].replace(os.path.sep, '.'))
+
+setup_args = dict(
+    name='gprime',
+    cmdclass = {
+        'build': Build,
+        'install': Install,
+    },
+    version=version,
+    description='gPrime webapp for genealogy',
+    long_description=open('README.md', 'rb').read().decode('utf-8'),
+    author='Doug Blank',
+    author_email='doug.blank@gmail.org',
+    url="https://github.com/GenealogyCollective/gprime",
+    install_requires=["tornado", "simplejson", "passlib", "meta", "pillow"],
+    packages=packages,
+    data_files=data_files,
+    classifiers=[
+        "Environment :: Web Environment",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        'Programming Language :: Python :: 3',
+        "Topic :: Sociology :: Genealogy",
+    ],
+    scripts = glob.glob(os.path.join("scripts", "*"))
 )
+
+if 'develop' in sys.argv or any(a.startswith('bdist') for a in sys.argv):
+    import setuptools
+
+setuptools_args = {}
+setuptools_args["entry_points"] = {
+    "console_scripts": [
+        "gprime = gprime.app:main",
+    ]
+}
+
+if 'setuptools' in sys.modules:
+    setup_args.update(setuptools_args)
+    setup_args.pop('scripts')
+
+if __name__ == '__main__':
+    setup(**setup_args)

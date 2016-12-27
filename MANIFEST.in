@@ -1,14 +1,9 @@
 include README.md
-
 include MANIFEST.in
-recursive-include share/gprime/images *
-recursive-include share/gprime/data *
-recursive-include share/gprime/data/templates *.html
-recursive-include share/gprime/data/jhtmlarea *
-recursive-include share/gprime/data/css *
-recursive-include share/gprime/data/javascript *.js
+recursive-include share *
 recursive-include gprime *
 recursive-include po *
+recursive-include scripts *
 
 # Remove files created in the build
 exclude share/gprime/data/tips.xml

@@ -4,7 +4,7 @@
 {% block title %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 {% block heading %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 
-{% block content %} 
+{% block content %}
    <script type="text/javascript">
    $(function(){
      $('#tabs').tabs({
@@ -20,7 +20,7 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
+<table class="infolist" style="width:100%;">
 <tbody>
   {% if messages %}
     <hr>
@@ -38,7 +38,7 @@
 
 Gramps ID: N0001                               Type: General
   Private: False                               Tags:
-Place:        
+Place:
 
 #}
 
@@ -99,13 +99,36 @@ Place:
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a class="tab-enclosed-by" href="#tab-enclosed-by">{{_("Enclosed By")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-alt-names" href="#tab-alt-names">{{_("Alternate Name")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">{{_("Citation")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">{{_("Media")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-internet" href="#tab-internet">{{_("Internet")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-enclosed-by" style="background-color: #f4f0ec;">
+    {{ enclosed_by_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">
+    {{ internet_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-alt-names" style="background-color: #f4f0ec;">
+    {{ alt_name_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;">
+    {{ citation_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;">
+    {{ note_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;">
+    {{ media_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ reference_table(form, user, action) }}
   </div>
 </div>
 
 </form>
 {% end %}
-

@@ -118,7 +118,7 @@ Put this in your site folder named "config.cfg" to use automatically.
 Options:
 ------------
 
-* --site-dir=PATH - The directory of the gPrime site directory (required)
+* --site-dir=PATH/TO/FOLDER - The directory of the gPrime site directory (required)
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
 * --language=LANG_CODE - Language code (eg, "fr") for language to show webpages ("en", English, is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
@@ -141,8 +141,8 @@ Common variations
 
 ```
 gprime --help
-gprime --site-dir="gprime_folder" --create="Smith Family"
-gprime --site-dir="gprime_folder" --import-file="myinfo.gramps"
-gprime --site-dir="gprime_folder" --add-user=demo --password=demo
-gprime --site-dir="/path/to/gprime_folder"
+gprime --site-dir="family_tree_folder" --create="Smith Family"
+gprime --site-dir="family_tree_folder" --import-file="myinfo.gramps"
+gprime --site-dir="family_tree_folder" --add-user=demo --password=demo
+gprime --site-dir="/path/to/family_tree_folder"
 ```

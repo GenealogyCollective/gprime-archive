@@ -377,7 +377,7 @@ def main():
         tornado.options.parse_command_line()
     ################# Process command-line arguments
     if options.site_dir is None:
-        raise Exception("--site-dir=NAME was not provided")
+        raise Exception("--site-dir=FOLDER was not provided on command line")
     else:
         options.site_dir = os.path.expanduser(options.site_dir)
     # Use site-dir/config.cfg if one, and not overridden on command line:

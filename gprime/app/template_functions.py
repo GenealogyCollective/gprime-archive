@@ -195,16 +195,6 @@ def event_table(form, user, action):
         retval += """&nbsp;""" # to keep tabs same height
     retval += """</div>"""
     retval += table.get_html(action)
-    #if act == "view":
-        #count = 1
-        #retval = retval.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-        #retval = retval.replace("}}", """</div>""")
-        #for (djevent, event_ref) in event_list:
-        #    item = form.instance.__class__.__name__.lower()
-        #    retval = retval.replace("[[x%d]]" % count, make_icon_button("x", "/%s/%s/remove/eventref/%d" % (item, form.instance.handle, count)))
-        #    retval = retval.replace("[[^%d]]" % count, make_icon_button("^", "/%s/%s/up/eventref/%d" % (item, form.instance.handle, count)))
-        #    retval = retval.replace("[[v%d]]" % count, make_icon_button("v", "/%s/%s/down/eventref/%d" % (item, form.instance.handle, count)))
-        #    count += 1
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -265,8 +255,9 @@ def surname_table(form, user, action):
     table = Table(form)
     table.set_columns(
         ("", 11),
-        (form._("Order"),  10),
-        (form._("Surname"), 10),
+        (form._("Surname"), 40),
+        (form._("prefix"), 39),
+        (form._("primary"), 10),
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
@@ -274,21 +265,28 @@ def surname_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    # if user or form.instance.public:
-    #     try:
-    #         name = obj.name_set.filter(order=order)[0]
-    #     except:
-    #         name = None
-    #     if name:
-    #         for surname in name.surname_set.all().order_by("order"):
-    #             table.append_row(str(surname.order), surname)
-    #             has_data = True
-    #         retval += table.get_html(action)
-    #     else:
-    #         retval += "<p id='error'>No such name order = %s</p>" % order
+    count = 1
+    if user or form.instance.public:
+        for surname in form.instance.primary_name.surname_list:
+            table.append_row(
+                surname.surname,
+                surname.prefix,
+                surname.primary,
+                link="/person/%s/surname/%s" % (form.instance.handle, count)
+            )
+            has_data = True
+            count += 1
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
+
+def enclosed_by_table(form, user, action):
+    cssid = "tab-enclosed-by"
+    return "FIXME"
+
+def alt_name_table(form, user, action):
+    cssid = "tab-alt-names"
+    return "FIXME"
 
 def citation_table(form, user, action):
     # FIXME: how can citation_table and source_table both be on same
@@ -629,19 +627,23 @@ def location_table(form, user, action):
         (form._("State"), 10),
         (form._("Country"), 10),
     )
-    # if user or form.instance.public:
-    #     # FIXME: location confusion!
-    #     # The single Location on the Location Tab is here too?
-    #     # I think if Parish is None, then these are single Locations;
-    #     # else they are in the table of alternate locations
-    #     for location in obj.location_set.all().order_by("order"):
-    #         table.append_row(
-    #             location.street,
-    #             location.locality,
-    #             location.city,
-    #             location.state,
-    #             location.country)
-    #         has_data = True
+    if user or form.instance.public:
+        # FIXME: location confusion!
+        # The single Location on the Location Tab is here too?
+        # I think if Parish is None, then these are single Locations;
+        # else they are in the table of alternate locations
+        # could be: place.alt_loc, address.location, researcher
+        count = 1
+        for location in form.instance.alt_loc:
+            table.append_row(
+                location.street,
+                location.locality,
+                location.city,
+                location.state,
+                location.country,
+                link="/place/%s/location/%s" % (form.instance.handle, count))
+            has_data = True
+            count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += make_icon_button(form._("Add Address"), "FIXME", icon="+")
@@ -793,7 +795,7 @@ def source_citation_table(form, user, action):
         (form._("Page"), 20),
         (form._("ID"), 20),
     )
-    ## Loop
+    ## FIXME: Loop
     retval += table.get_html(action)
     retval += nbsp("") # to keep tabs same height
     if has_data:

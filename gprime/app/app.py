@@ -380,6 +380,16 @@ def main():
         raise Exception("--site-dir=NAME was not provided")
     else:
         options.site_dir = os.path.expanduser(options.site_dir)
+    # Use site-dir/config.cfg if one, and not overridden on command line:
+    default_config_file = os.path.join(options.site_dir, "config.cfg")
+    if options.config_file is None and os.path.exists(default_config_file):
+        old_site_dir = options.site_dir
+        tornado.options.parse_config_file(default_config_file)
+        if options.site_dir != old_site_dir:
+            tornado.log.logging.warning("Ignoring site_dir = %s in config.cfg...", repr(options.site_dir))
+        # Parse args again, so that command-line options override config-file:
+        tornado.options.parse_command_line()
+        options.site_dir = old_site_dir # make sure this is not overridden
     # Handle gPrime intialization:
     import gprime.const # initializes locale
     gprime.const.set_site_dir(options.site_dir) ## when we don't have options

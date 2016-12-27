@@ -113,11 +113,12 @@ site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
 language      = "fr"
 ```
 
+Put this in your site folder named "config.cfg" to use automatically.
+
 Options:
 ------------
 
 * --site-dir=PATH - The directory of the gPrime site directory (required)
-* --config-file=FILE - A config file of these options (optional)
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
 * --language=LANG_CODE - Language code (eg, "fr") for language to show webpages ("en", English, is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
@@ -126,6 +127,7 @@ Options:
 * --change-password=USERNAME - Change a user's password; prompts for password if --password not given
 * --password=PASSWORD - Use with --change-password, or --add-user (this option is not recommended)
 * --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
+* --config-file=FILE - A config file of these options (optional); alternatively, will use SITE-DIR/config.cfg if one
 * --port=PORT-NUMBER - Port to listen on (8000 is default)
 * --hostname=LOCALHOST - Hostname to listen on ("localhost" is default)
 * --server=True|False - Start the server? Default is True
@@ -138,8 +140,9 @@ Common variations
 -----------------
 
 ```
-gprime --create="Smith Family" --site-dir="gprime_folder"
-gprime --site-dir="gprime_folder" --import-file="myinfo.gramps"
-gprime --site-dir="/path/to/gprime_folder"
 gprime --help
+gprime --site-dir="gprime_folder" --create="Smith Family"
+gprime --site-dir="gprime_folder" --import-file="myinfo.gramps"
+gprime --site-dir="gprime_folder" --add-user=demo --password=demo
+gprime --site-dir="/path/to/gprime_folder"
 ```

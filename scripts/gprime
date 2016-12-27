@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from gprime.app import main
 
 if __name__ == '__main__':

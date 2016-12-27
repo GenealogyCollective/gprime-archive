@@ -41,8 +41,8 @@ cd gprime
 Once you have the source files, you can:
 
 ```
-python3 setup.py build
-python3 setup.py install
+python setup.py build
+python setup.py install
 ```
 
 or simply:
@@ -51,10 +51,10 @@ or simply:
 pip install . --user -U
 ```
 
-Released version installation (once released):
+Released version installation:
 
 ```
-pip3 install gprime
+pip install gprime
 ```
 
 Getting Started
@@ -68,13 +68,15 @@ To run gPrime, you need to do two things:
 To create a site directory, provide a name for the tree, and give the site-dir directory:
 
 ```
-python3 -m gprime.app --create="My Family Tree" --site-dir="family_tree"
+gprime --create="My Family Tree" --site-dir="family_tree"
+# or, if not installed:
+python -m gprime.app --create="My Family Tree" --site-dir="family_tree"
 ```
 
 Then, you need at least one user (as an example, we use "demo" as the username):
 
 ```
-python3 -m gprime.app --site-dir="~/family_tree" --add-user=demo
+gprime --site-dir="~/family_tree" --add-user=demo
 Password: (does not show any characters)
 ```
 
@@ -88,14 +90,14 @@ You can run gprime directly from either the downloaded directory, or from the in
 Installed version:
 
 ```
-python3 -m gprime.app --config-file="familytree.conf"
+gprime --config-file="familytree.conf"
 ```
 
 Downloaded versions:
 
 ```
 export PYTHONPATH=/path/to/gprime
-python3 -m gprime.app --config-file="familytree.cfg"
+python -m gprime.app --config-file="familytree.cfg"
 ```
 
 Where `familytree.cfg` contains options and values, such as:
@@ -136,11 +138,8 @@ Common variations
 -----------------
 
 ```
-python3 -m gprime.app --create="Smith Family" --site-dir="gprime_folder"
-
-python3 -m gprime.app --site-dir="gprime_folder" --import-file="myinfo.gramps"
-
-python3 -m gprime.app --site-dir="/path/to/gprime_folder"
-
-python3 -m gprime.app --help
+gprime --create="Smith Family" --site-dir="gprime_folder"
+gprime --site-dir="gprime_folder" --import-file="myinfo.gramps"
+gprime --site-dir="/path/to/gprime_folder"
+gprime --help
 ```

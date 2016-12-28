@@ -29,3 +29,4 @@ from .placeform import PlaceForm
 from .repositoryform import RepositoryForm
 from .sourceform import SourceForm
 from .tagform import TagForm
+from .settingsform import SettingsForm

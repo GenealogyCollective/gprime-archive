@@ -856,3 +856,36 @@ def render_gender(gender):
     return {2: "unknown",
             1: "male",
             0: "female"}[gender]
+
+def render_css(form, user, action):
+    css_list = [ "Web_Basic-Ash.css",
+                 "Web_Basic-Blue.css",
+                 "Web_Basic-Cypress.css",
+                 "Web_Basic-Lilac.css",
+                 "Web_Basic-Peach.css",
+                 "Web_Basic-Spruce.css",
+                 "Web_Mainz.css",
+                 "Web_Nebraska.css",
+                 "Web_Print-Default.css",
+                 "Web_Visually.css"]
+    default = form.database.get_user_data(user)
+    retval = """<select name="css">"""
+    for css in sorted(css_list):
+        selected = "selected" if default["css"] == css else ""
+        retval += """<option value="%s" %s>%s</option>""" % (css, selected, css)
+    retval += "</select>"
+    return retval
+
+def render_language(form, user, action):
+    languages = ['ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en_GB',
+                 'eo', 'es', 'fi', 'fr', 'he', 'hr', 'hu', 'is', 'it',
+                 'ja', 'lt', 'nb', 'nl', 'nn', 'pl', 'pt_BR', 'pt_PT',
+                 'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'tr', 'uk', 'vi',
+                 'zh_CN', 'zh_HK', 'zh_TW', 'en']
+    default = form.database.get_user_data(user)
+    retval = """<select name="language">"""
+    for language in sorted(languages):
+        selected = "selected" if default["language"] == language else ""
+        retval += """<option value="%s" %s>%s</option>""" % (language, selected, language)
+    retval += "</select>"
+    return retval

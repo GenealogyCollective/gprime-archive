@@ -369,18 +369,19 @@ function buttonOut(button) {
     <div class="container">
     <ul class="menu" id="dropmenu">
     {% if user %}
-         <li><a href="/">Home</a></li>
-         <li><a href="/action">Actions</a></li>
+         <li><a href="/"> {{_("Home")}}</a></li>
+         <li><a href="/action">{{_("Actions")}}</a></li>
+         <li><a href="/settings">{{_("Settings")}}</a></li>
 	 {% if next %}
-             <li><a href="/logout/?next={# next #}">Logout</a></li>
+             <li><a href="/logout/?next={# next #}">{{_("Logout")}}</a></li>
 	 {% else %}
-             <li><a href="/logout">Logout</a></li>
+             <li><a href="/logout">{{_("Logout")}}</a></li>
 	 {% end %}
     {% else %}
 	 {% if next %}
-         <li><a href="/login?next={# next #}">Login</a></li>
+         <li><a href="/login?next={# next #}">{{_("Login")}}</a></li>
          {% else %}
-         <li><a href="/login">Login</a></li>
+         <li><a href="/login">{{_("Login")}}</a></li>
 	 {% end %}
   {% end %}
     </ul>
@@ -406,7 +407,7 @@ function buttonOut(button) {
     <p id="createdate">
       <a href="https://genealogycollective.github.io/gprime/">gPrime, version {{gprime_version}}</a>.
     </p>
-    <p id="copyright">&copy; 2016 <a href="https://github.com/GenealogyCollective/">Genealogy Collective</a>
+    <p id="copyright">&copy; 2016-2017 <a href="https://github.com/GenealogyCollective/">Genealogy Collective</a>
     </p>
     {% end %}
    </div>

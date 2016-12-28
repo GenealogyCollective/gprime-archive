@@ -48,165 +48,67 @@ class GPrimeApp(Application):
         self.user_data = {} # user to user_data map
         self.database = database
         self.sitename = self.options.sitename
-        super().__init__([
-            url(r"/", HomeHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="main"),
-            url(r'/login', LoginHandler,
-                {
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="login"),
-            url(r'/logout', LogoutHandler,
-                {
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="logout"),
-            url(r'/(.*)/(.*)/delete', DeleteHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-            ),
-            url(r'/action/?(.*)', ActionHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="action"),
-            url(r'/person/?(.*)', PersonHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="person"),
-            url(r'/note/?(.*)', NoteHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="note"),
-            url(r'/family/?(.*)', FamilyHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="family"),
-            url(r'/citation/?(.*)', CitationHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="citation"),
-            url(r'/event/?(.*)', EventHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="event"),
-            url(r'/media/?(.*)', MediaHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="media"),
-            url(r'/place/?(.*)', PlaceHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="place"),
-            url(r'/repository/?(.*)', RepositoryHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="repository"),
-            url(r'/source/?(.*)', SourceHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="source"),
-            url(r'/tag/?(.*)', TagHandler,
-                {
-                    "database": self.database,
-                    "sitename": self.sitename,
-                    "opts" : self.options,
-                    "app": self,
-                },
-                name="tag"),
-            url(r'/imageserver/(.*)', ImageHandler,
-                {
-                    "database": self.database,
-                    "opts" : self.options,
-                    "SITE_DIR": self.options.site_dir,
-                    "PORT": self.options.port,
-                    "HOSTNAME": self.options.hostname,
-                    "GET_IMAGE_FN": self.get_image_path_from_handle,
-                    "sitename": self.sitename,
-                    "app": self,
-                },
-                name="imageserver",
-            ),
-            url(r"/json/", JsonHandler,
-                {
-                    "database": self.database,
-                    "app": self,
-                }
-            ),
-            url(r"/data/(.*)", StaticFileHandler,
-                {
-                    'path': gprime.const.DATA_DIR,
-                }),
-            url(r"/css/(.*)", StaticFileHandler,
-                {
-                    'path': os.path.join(gprime.const.DATA_DIR, "css"),
-                }),
-            url(r"/js/(.*)", StaticFileHandler,
-                {
-                    'path': os.path.join(gprime.const.DATA_DIR, "javascript"),
-                }),
-            url(r"/images/(.*)", StaticFileHandler,
-                {
-                    'path': gprime.const.IMAGE_DIR,
-                }),
-            url(r"/img/(.*)", StaticFileHandler, # CSS images
-                {
-                    'path': os.path.join(gprime.const.DATA_DIR, "img"),
-                }),
-        ], **settings)
+        handlers = [
+            (r"/", HomeHandler, "main", {}),
+            (r'/settings', SettingsHandler, "settings", {}),
+            (r'/login', LoginHandler, "login", {}),
+            (r'/logout', LogoutHandler, "logout", {}),
+            (r'/(.*)/(.*)/delete', DeleteHandler, "delete", {}),
+            (r'/action/?(.*)', ActionHandler, "action", {}),
+            (r'/person/?(.*)', PersonHandler, "person", {}),
+            (r'/note/?(.*)', NoteHandler, "note", {}),
+            (r'/family/?(.*)', FamilyHandler, "family", {}),
+            (r'/citation/?(.*)', CitationHandler, "citation", {}),
+            (r'/event/?(.*)', EventHandler, "event", {}),
+            (r'/media/?(.*)', MediaHandler, "media", {}),
+            (r'/place/?(.*)', PlaceHandler, "place", {}),
+            (r'/repository/?(.*)', RepositoryHandler, "repository", {}),
+            (r'/source/?(.*)', SourceHandler, "source", {}),
+            (r'/tag/?(.*)', TagHandler, "tag", {}),
+            (r'/imageserver/(.*)', ImageHandler, "imageserver", {
+                "SITE_DIR": self.options.site_dir,
+                "PORT": self.options.port,
+                "HOSTNAME": self.options.hostname,
+                "GET_IMAGE_FN": self.get_image_path_from_handle,
+            }),
+            (r"/json/", JsonHandler, "json", {}),
+            (r"/data/(.*)", StaticFileHandler, "data", {
+                'path': gprime.const.DATA_DIR,
+            }),
+            (r"/css/(.*)", StaticFileHandler, "css", {
+                'path': os.path.join(gprime.const.DATA_DIR, "css"),
+            }),
+            (r"/js/(.*)", StaticFileHandler, "javascript", {
+                'path': os.path.join(gprime.const.DATA_DIR, "javascript"),
+            }),
+            (r"/images/(.*)", StaticFileHandler, "images", {
+                'path': gprime.const.IMAGE_DIR,
+            }),
+            (r"/img/(.*)", StaticFileHandler, "css_img", {
+                'path': os.path.join(gprime.const.DATA_DIR, "img"),
+            }),
+        ]
+        super().__init__([url(handler[0], handler[1],
+                              self.make_env(handler[3]),
+                              name=handler[2])
+                          for handler in handlers], **settings)
+
+    def make_env(self, handler_env):
+        ## HACK: static handlers don't like anything else but path:
+        if "path" in handler_env:
+            return handler_env
+        env = {
+            "database": self.database,
+            "sitename": self.sitename,
+            "opts" : self.options,
+            "app": self,
+        }
+        env.update(handler_env)
+        return env
+
+    def clear_user_data(self, user):
+        if user in self.user_data:
+            del self.user_data[user]
 
     def get_translate_func(self, user):
         from gprime.utils.locale import Locale, _

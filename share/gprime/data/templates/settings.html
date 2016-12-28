@@ -1,0 +1,63 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{# bread crumbs #}
+  
+<div id="summaryarea">
+<table class="infolist" style="width:100%;"> 
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">
+       {# personform.errors #}
+       {# nameform.errors #}
+       {# surnameform.errors #}
+       {# logform.errors #}
+    </div>
+    <hr>
+  {% end %}
+<form method="post">{% module xsrf_form_html() %}
+<tr>
+ <td class="ColumnAttribute">{{ _("CSS Style") }}:</td>
+ <td class="ColumnValue" id="data">{{ render_css(form, user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ _("Language") }}:</td>
+ <td class="ColumnValue" id="data">{{ render_language(form, user, action) }}</td>
+</tr>
+</tbody>
+</table>
+
+{% if logform %}
+  <table>
+    {# logform.as_table #}
+  </table>
+{% end %}
+
+{% if user %}
+  <input type="hidden" name="action" value="save"/>
+  <input type="submit" value="Save"/>
+  {{make_button(_("Cancel"), "/")}}
+{% else %}
+{% end %}
+
+</form>
+{% end %}

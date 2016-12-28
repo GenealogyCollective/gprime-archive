@@ -35,6 +35,7 @@ class FamilyHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,10 +50,10 @@ class FamilyHandler(BaseHandler):
                 family = self.database.get_family_from_handle(handle)
             if family:
                 self.render("family.html",
-                            **self.get_template_dict(tview=self._("family detail"),
+                            **self.get_template_dict(tview=_("family detail"),
                                                      page=page,
                                                      action=action,
-                                                     form=FamilyForm(self.database, self._, instance=family),
+                                                     form=FamilyForm(self.database, _, instance=family),
                                                      logform=None))
                 return
             else:
@@ -61,15 +62,16 @@ class FamilyHandler(BaseHandler):
                 self.finish("<html><body>No such family</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("family view"),
+                    **self.get_template_dict(tview=_("family view"),
                                              page=page,
                                              search=search,
-                                             form=FamilyForm(self.database, self._),
+                                             form=FamilyForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -79,6 +81,6 @@ class FamilyHandler(BaseHandler):
             family.handle = handle = create_id()
         else:
             family = self.database.get_family_from_handle(handle)
-        form = FamilyForm(self.database, self._, instance=family)
+        form = FamilyForm(self.database, _, instance=family)
         form.save(handler=self)
         self.redirect("/family/%(handle)s" % {"handle": handle})

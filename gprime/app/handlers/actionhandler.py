@@ -32,6 +32,7 @@ class ActionHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -44,26 +45,27 @@ class ActionHandler(BaseHandler):
             table = Table()
             action = table.get_item_by_handle(handle)
             self.render("action.html",
-                        **self.get_template_dict(tview=self._("action detail"),
+                        **self.get_template_dict(tview=_("action detail"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self.database, self._, instance=action),
+                                                 form=ActionForm(self.database, _, instance=action),
                                              )
                     )
         else:
             self.render("page_view.html",
-                        **self.get_template_dict(tview=self._("action view"),
+                        **self.get_template_dict(tview=_("action view"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self.database, self._),
+                                                 form=ActionForm(self.database, _),
                                              )
                     )
 
     @tornado.web.authenticated
     def post(self, handle):
+        _ = self.app.get_translate_func(self.current_user)
         # Use dict db for place to put Action Table:
         table = Table()
         action = table.get_item_by_handle(handle)
-        form = ActionForm(self.database, self._, instance=action)
+        form = ActionForm(self.database, _, instance=action)
         # Run report on actual database:
         form.run_action(action, self)

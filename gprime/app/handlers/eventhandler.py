@@ -35,6 +35,7 @@ class EventHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,11 +50,11 @@ class EventHandler(BaseHandler):
                 event = self.database.get_event_from_handle(handle)
             if event:
                 self.render("event.html",
-                            **self.get_template_dict(tview=self._("event detail"),
+                            **self.get_template_dict(tview=_("event detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=EventForm(self.database, self._, instance=event),
+                                                     form=EventForm(self.database, _, instance=event),
                                                      logform=None))
                 return
             else:
@@ -62,15 +63,16 @@ class EventHandler(BaseHandler):
                 self.finish("<html><body>No such event</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("event view"),
+                    **self.get_template_dict(tview=_("event view"),
                                              page=page,
                                              search=search,
-                                             form=EventForm(self.database, self._),
+                                             form=EventForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -80,7 +82,7 @@ class EventHandler(BaseHandler):
             event.handle = handle = create_id()
         else:
             event = self.database.get_event_from_handle(handle)
-        form = EventForm(self.database, self._, instance=event)
+        form = EventForm(self.database, _, instance=event)
         form.save(handler=self)
         self.redirect("/event/%(handle)s" % {"handle": handle})
 

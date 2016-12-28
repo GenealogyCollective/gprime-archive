@@ -50,7 +50,7 @@ class PasswordManager():
         self.account[username] = password_hash
 
     def remove_user(self, username):
-        if username in self.account[username]:
+        if username in self.account:
             del self.account[username]
         else:
             raise Exception("Username does not exist: %s" % username)

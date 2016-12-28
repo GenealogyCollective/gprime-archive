@@ -2284,3 +2284,27 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             return ast.literal_eval(version)
         else:
             return (0, 0, 0)
+
+    def add_user(self, username, data):
+        """
+        Add a user to the user table.
+        """
+        pass
+
+    def update_user_data(self, username, data):
+        """
+        Set user data.
+        """
+        pass
+
+    def get_user_data(self, username):
+        """
+        Get user data.
+        """
+        pass
+
+    def remove_user(self, username):
+        """
+        Remove a user from the user table.
+        """
+        pass

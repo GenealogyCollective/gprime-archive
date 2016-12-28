@@ -35,6 +35,7 @@ class TagHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,11 +50,11 @@ class TagHandler(BaseHandler):
                 tag = self.database.get_tag_from_handle(handle)
             if tag:
                 self.render("tag.html",
-                            **self.get_template_dict(tview=self._("tag detail"),
+                            **self.get_template_dict(tview=_("tag detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=TagForm(self.database, self._, instance=tag),
+                                                     form=TagForm(self.database, _, instance=tag),
                                                      logform=None))
                 return
             else:
@@ -62,15 +63,16 @@ class TagHandler(BaseHandler):
                 self.finish("<html><body>No such tag</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("tag view"),
+                    **self.get_template_dict(tview=_("tag view"),
                                              page=page,
                                              search=search,
-                                             form=TagForm(self.database, self._),
+                                             form=TagForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -80,7 +82,7 @@ class TagHandler(BaseHandler):
             tag.handle = handle = create_id()
         else:
             tag = self.database.get_tag_from_handle(handle)
-        form = TagForm(self.database, self._, instance=tag)
+        form = TagForm(self.database, _, instance=tag)
         form.save(handler=self)
         self.redirect("/tag/%(handle)s" % {"handle": handle})
 

@@ -35,6 +35,7 @@ class NoteHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,11 +50,11 @@ class NoteHandler(BaseHandler):
                 note = self.database.get_note_from_handle(handle)
             if note:
                 self.render("note.html",
-                            **self.get_template_dict(tview=self._("note detail"),
+                            **self.get_template_dict(tview=_("note detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=NoteForm(self.database, self._, instance=note),
+                                                     form=NoteForm(self.database, _, instance=note),
                                                      logform=None))
                 return
             else:
@@ -62,15 +63,16 @@ class NoteHandler(BaseHandler):
                 self.finish("<html><body>No such note</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("note view"),
+                    **self.get_template_dict(tview=_("note view"),
                                              page=page,
                                              search=search,
-                                             form=NoteForm(self.database, self._),
+                                             form=NoteForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -80,7 +82,7 @@ class NoteHandler(BaseHandler):
             note.handle = handle = create_id()
         else:
             note = self.database.get_note_from_handle(handle)
-        form = NoteForm(self.database, self._, instance=note)
+        form = NoteForm(self.database, _, instance=note)
         form.save(handler=self)
         self.redirect("/note/%(handle)s" % {"handle": handle})
 

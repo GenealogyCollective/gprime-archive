@@ -35,6 +35,7 @@ class SourceHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,11 +50,11 @@ class SourceHandler(BaseHandler):
                 source = self.database.get_source_from_handle(handle)
             if source:
                 self.render("source.html",
-                            **self.get_template_dict(tview=self._("source detail"),
+                            **self.get_template_dict(tview=_("source detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=SourceForm(self.database, self._, instance=source),
+                                                     form=SourceForm(self.database, _, instance=source),
                                                      logform=None))
                 return
             else:
@@ -62,7 +63,7 @@ class SourceHandler(BaseHandler):
                 self.finish("<html><body>No such source</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("source view"),
+                    **self.get_template_dict(tview=_("source view"),
                                              page=page,
                                              search=search,
                                              form=SourceForm(self.database, self._),
@@ -71,6 +72,7 @@ class SourceHandler(BaseHandler):
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -80,7 +82,7 @@ class SourceHandler(BaseHandler):
             source.handle = handle = create_id()
         else:
             source = self.database.get_source_from_handle(handle)
-        form = SourceForm(self.database, self._, instance=source)
+        form = SourceForm(self.database, _, instance=source)
         form.save(handler=self)
         self.redirect("/source/%(handle)s" % {"handle": handle})
 

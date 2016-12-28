@@ -26,10 +26,11 @@ from ..forms import PersonForm
 class DeleteHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, table, handle):
+        _ = self.app.get_translate_func(self.current_user)
         handle_func = self.database.get_table_func(table.title(),"handle_func")
         instance = handle_func(handle)
         form_class = self.get_form(table)
-        form = form_class(self.database, self._, instance=instance)
+        form = form_class(self.database, _, instance=instance)
         self.render('delete.html',
                     **self.get_template_dict(form=form,
                                              table=table,

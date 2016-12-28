@@ -42,16 +42,10 @@ class GPrimeApp(Application):
     """
     def __init__(self, options, database, settings=None):
         import gprime.const
-        from gprime.utils.locale import Locale, _
         self.options = options
         if settings is None:
             settings = self.default_settings()
-        if options.language is None:
-            self.glocale = Locale
-            self._ = _
-        else:
-            self.glocale = Locale(lang=options.language)
-            self._ = self.glocale.translation.gettext
+        self.user_data = {} # user to user_data map
         self.database = database
         self.sitename = self.options.sitename
         super().__init__([
@@ -60,24 +54,21 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="main"),
             url(r'/login', LoginHandler,
                 {
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="login"),
             url(r'/logout', LogoutHandler,
                 {
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="logout"),
             url(r'/(.*)/(.*)/delete', DeleteHandler,
@@ -85,8 +76,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
             ),
             url(r'/action/?(.*)', ActionHandler,
@@ -94,8 +84,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="action"),
             url(r'/person/?(.*)', PersonHandler,
@@ -103,8 +92,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="person"),
             url(r'/note/?(.*)', NoteHandler,
@@ -112,8 +100,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="note"),
             url(r'/family/?(.*)', FamilyHandler,
@@ -121,8 +108,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="family"),
             url(r'/citation/?(.*)', CitationHandler,
@@ -130,8 +116,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="citation"),
             url(r'/event/?(.*)', EventHandler,
@@ -139,8 +124,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="event"),
             url(r'/media/?(.*)', MediaHandler,
@@ -148,8 +132,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="media"),
             url(r'/place/?(.*)', PlaceHandler,
@@ -157,8 +140,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="place"),
             url(r'/repository/?(.*)', RepositoryHandler,
@@ -166,8 +148,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="repository"),
             url(r'/source/?(.*)', SourceHandler,
@@ -175,8 +156,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="source"),
             url(r'/tag/?(.*)', TagHandler,
@@ -184,8 +164,7 @@ class GPrimeApp(Application):
                     "database": self.database,
                     "sitename": self.sitename,
                     "opts" : self.options,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="tag"),
             url(r'/imageserver/(.*)', ImageHandler,
@@ -197,14 +176,14 @@ class GPrimeApp(Application):
                     "HOSTNAME": self.options.hostname,
                     "GET_IMAGE_FN": self.get_image_path_from_handle,
                     "sitename": self.sitename,
-                    "glocale": self.glocale,
-                    "_": self._,
+                    "app": self,
                 },
                 name="imageserver",
             ),
             url(r"/json/", JsonHandler,
                 {
                     "database": self.database,
+                    "app": self,
                 }
             ),
             url(r"/data/(.*)", StaticFileHandler,
@@ -228,6 +207,45 @@ class GPrimeApp(Application):
                     'path': os.path.join(gprime.const.DATA_DIR, "img"),
                 }),
         ], **settings)
+
+    def get_translate_func(self, user):
+        from gprime.utils.locale import Locale, _
+        def func(*args, **kwargs):
+            if user not in self.user_data:
+                try:
+                    user_data = self.database.get_user_data(user)
+                except:
+                    user_data = {}
+                if user_data:
+                    self.user_data[user] = user_data
+                else:
+                    self.user_data[user] = {}
+            if "language" in self.user_data[user] and self.user_data[user]["language"]:
+                self.user_data[user]["glocale"] = Locale(lang=self.user_data[user]["language"])
+                self.user_data[user]["_"] = self.user_data[user]["glocale"].translation.gettext
+            else:
+                self.user_data[user]["language"] = "en"
+                self.user_data[user]["glocale"] = Locale
+                self.user_data[user]["_"] = _
+            return self.user_data[user]["_"](*args, **kwargs)
+        return func
+
+    def get_css(self, user):
+        if user not in self.user_data:
+            try:
+                user_data = self.database.get_user_data(user)
+            except:
+                user_data = {}
+            if user_data:
+                self.user_data[user] = user_data
+            else:
+                self.user_data[user] = {}
+        if "css" in self.user_data[user]:
+            if not self.user_data[user]["css"]:
+                self.user_data[user]["css"] = "Web_Mainz.css"
+        else:
+            self.user_data[user]["css"] = "Web_Mainz.css"
+        return self.user_data[user]["css"]
 
     def default_settings(self):
         """
@@ -364,9 +382,6 @@ def main():
            help="Import a file", type=str)
     define("open-browser", default=True,
            help="Open default web browser", type=bool)
-    define("language", default=None,
-           help="Language code (eg, 'fr') to use", type=str)
-
     # Let's go!
     # Really, just need the config-file:
     tornado.options.parse_command_line()
@@ -416,6 +431,8 @@ def main():
             fp.write("### This is the password file for gPrime\n")
             fp.write("\n")
     password_manager.load()
+    ## Open the database:
+    database = DbState().open_database(database_dir)
     if options.add_user:
         if options.password:
             plaintext = options.password
@@ -425,11 +442,16 @@ def main():
         password_manager.add_user(options.add_user, plaintext)
         password_manager.save()
         ## Initialize user folder:
-        os.makedirs(os.path.join(options.site_dir, "users", options.add_user))
+        try:
+            os.makedirs(os.path.join(options.site_dir, "users", options.add_user))
+        except:
+            pass
+        database.add_user(username=options.add_user, data={}) # could set css here
     if options.remove_user:
         options.server = False
         password_manager.remove_user(options.remove_user)
         password_manager.save()
+        database.remove_user(username=options.remove_user)
     if options.change_password:
         if options.password:
             plaintext = options.password
@@ -438,8 +460,6 @@ def main():
         options.server = False
         password_manager.change_password(options.change_password, plaintext)
         password_manager.save()
-    ## Open the database:
-    database = DbState().open_database(database_dir)
     #options.database = database.get_dbname()
     ## Options after opening:
     if options.import_file:

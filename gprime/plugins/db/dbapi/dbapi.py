@@ -224,11 +224,23 @@ class DBAPI(DbGeneric):
                                   Column("female", "INTEGER"),
                                   Column("male", "INTEGER"),
                                   Column("unknown", "INTEGER")])
+        UserTable = Table("user",
+                          [Column("username", "VARCHAR(50)", primary=True),
+                           Column("gid", "VARCHAR(50)"),
+                           Column("name", "TEXT"),
+                           Column("email", "TEXT"),
+                           Column("css", "TEXT"),
+                           Column("write_permission", "INTEGER"),
+                           Column("admin", "INTEGER"),
+                           Column("language", "VARCHAR(20)"),
+                          ])
 
         for table in [ReferenceTable, NamegroupTable, MetadataTable,
-                      GenderstatsTable]:
+                      GenderstatsTable, UserTable]:
             if not self.dbapi.table_exists(table.name):
                 self.create_table(table)
+            else:
+                self.update_table(table)
             for column in table.columns:
                 if column.index:
                     index_name = "%s_%s" % (table.name, column.name)
@@ -2179,3 +2191,70 @@ class DBAPI(DbGeneric):
         summary = super().get_summary()
         summary.update(self.dbapi.__class__.get_summary())
         return summary
+
+    def update_user_data(self, username, data):
+        """
+        Set the user's data.
+        """
+        old_data = self.get_user_data(username)
+        self.dbapi.execute("""UPDATE user SET gid = ?,
+                                              name = ?,
+                                              css = ?,
+                                              write_permission = ?,
+                                              admin = ?,
+                                              language = ?,
+                                              email = ?
+                               WHERE username = ?;""",
+                           [data.get("gid", old_data["gid"]),
+                            data.get("name", old_data["name"]),
+                            data.get("css", old_data["css"]),
+                            data.get("write_permission", old_data["write_permission"]),
+                            data.get("admin", old_data["admin"]),
+                            data.get("language", old_data["language"]),
+                            data.get("email", old_data["email"]),
+                            username])
+        self.dbapi.commit()
+
+    def add_user(self, username, data):
+        """
+        Add a user to the user table.
+        """
+        self.dbapi.execute("""INSERT INTO user
+                                (username, gid, name, css, write_permission, admin, language, email)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?);""",
+                           [username,
+                            data.get("gid", ""),
+                            data.get("name", ""),
+                            data.get("css", "Web_Mainz.css"),
+                            data.get("write_permission", 1),
+                            data.get("admin", 1),
+                            data.get("language", "en"),
+                            data.get("email", ""),
+                           ])
+        self.dbapi.commit()
+
+    def get_user_data(self, username):
+        """
+        Add a user to the user table.
+        """
+        self.dbapi.execute("SELECT gid, name, css, write_permission, admin, language, email FROM user WHERE username = ?;", [username])
+        row = self.dbapi.fetchone()
+        if row:
+            return {
+                "gid": row[0],
+                "name": row[1],
+                "css": row[2],
+                "write_permission": row[3],
+                "admin": row[4],
+                "language": row[5],
+                "email": row[6],
+            }
+        else:
+            return None
+
+    def remove_user(self, username):
+        """
+        Remove user from table
+        """
+        self.dbapi.execute("DELETE FROM user WHERE username = ?;", [username])
+        self.dbapi.commit()

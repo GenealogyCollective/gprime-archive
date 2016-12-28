@@ -37,7 +37,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.database = None
         self.sitename = None
         self.opts = None
-        for name in ["database", "sitename", "opts", "glocale", "_"]:
+        for name in ["database", "sitename", "opts", "app"]:
             if name in kwargs:
                 setattr(self, name, kwargs[name])
                 del kwargs[name]
@@ -60,12 +60,6 @@ class BaseHandler(tornado.web.RequestHandler):
             user = user.decode()
         return user
 
-    def set_language(self, language):
-        if language == Locale.DEFAULT_TRANSLATION_STR:
-            language = None
-        self.glocale = Locale(lang=language)
-        self._ = self.glocale.translation.gettext
-
     def get_template_dict(self, **kwargs):
         dict = {
             "database": self.database,
@@ -74,10 +68,10 @@ class BaseHandler(tornado.web.RequestHandler):
             "user": self.current_user,
             "sitename": self.sitename,
             "opts": self.opts,
-            "css_theme": "Web_Mainz.css",
+            "css_theme": self.app.get_css(self.current_user),
+            "_": self.app.get_translate_func(self.current_user),
             "gprime_version": VERSION,
             "messages": [],
-            "_": self._,
             "next": self.get_argument("next", None),
         }
         dict.update(template_functions)
@@ -104,7 +98,6 @@ class HomeHandler(BaseHandler):
 
 class LoginHandler(BaseHandler):
     def get(self):
-        self.set_language("fr_FR.UTF-8")
         self.render('login.html',
                     **self.get_template_dict())
     def post(self):
@@ -115,11 +108,7 @@ class LoginHandler(BaseHandler):
             self.redirect(self.get_argument("next",
                                             self.reverse_url("main")))
         else:
-            wrong = self.get_secure_cookie("wrong")
-            if not wrong:
-                wrong = 0
-            self.set_secure_cookie("wrong", str(int(wrong)+1))
-            self.write('Something Wrong With Your Data <a href="/login">Back</a> '+str(wrong))
+            self.redirect(self.reverse_url("login"))
 
 class LogoutHandler(BaseHandler):
     def get(self):

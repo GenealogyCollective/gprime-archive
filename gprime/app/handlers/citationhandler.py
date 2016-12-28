@@ -35,6 +35,7 @@ class CitationHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -49,11 +50,11 @@ class CitationHandler(BaseHandler):
                 citation = self.database.get_citation_from_handle(handle)
             if citation:
                 self.render("citation.html",
-                            **self.get_template_dict(tview=self._("citation detail"),
+                            **self.get_template_dict(tview=_("citation detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=CitationForm(self.database, self._, instance=citation),
+                                                     form=CitationForm(self.database, _, instance=citation),
                                                      logform=None))
                 return
             else:
@@ -62,15 +63,16 @@ class CitationHandler(BaseHandler):
                 self.finish("<html><body>No such citation</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("citation view"),
+                    **self.get_template_dict(tview=_("citation view"),
                                              page=page,
                                              search=search,
-                                             form=CitationForm(self.database, self._),
+                                             form=CitationForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -80,7 +82,7 @@ class CitationHandler(BaseHandler):
             citation.handle = handle = create_id()
         else:
             citation = self.database.get_citation_from_handle(handle)
-        form = CitationForm(self.database, self._, instance=citation)
+        form = CitationForm(self.database, _, instance=citation)
         form.save(handler=self)
         self.redirect("/citation/%(handle)s" % {"handle": handle})
 

@@ -35,6 +35,7 @@ class PersonHandler(BaseHandler):
         /add
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
+        _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
         if "/" in path:
@@ -51,11 +52,11 @@ class PersonHandler(BaseHandler):
             if person:
                 person.probably_alive = True
                 self.render("person.html",
-                            **self.get_template_dict(tview=self._("person detail"),
+                            **self.get_template_dict(tview=_("person detail"),
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PersonForm(self.database, self._, instance=person),
+                                                     form=PersonForm(self.database, _, instance=person),
                                                      logform=None))
                 return
             else:
@@ -64,15 +65,16 @@ class PersonHandler(BaseHandler):
                 self.finish("<html><body>No such person</body></html>")
                 return
         self.render("page_view.html",
-                    **self.get_template_dict(tview=self._("person view"),
+                    **self.get_template_dict(tview=_("person view"),
                                              page=page,
                                              search=search,
-                                             form=PersonForm(self.database, self._),
+                                             form=PersonForm(self.database, _),
                                          )
                 )
 
     @tornado.web.authenticated
     def post(self, path):
+        _ = self.app.get_translate_func(self.current_user)
         if "/" in path:
             handle, action = path.split("/")
         else:
@@ -83,7 +85,7 @@ class PersonHandler(BaseHandler):
             person.handle = handle = create_id()
         else:
             person = self.database.get_person_from_handle(handle)
-        form = PersonForm(self.database, self._, instance=person)
+        form = PersonForm(self.database, _, instance=person)
         form.save(handler=self)
         self.redirect("/person/%(handle)s" % {"handle": handle})
 

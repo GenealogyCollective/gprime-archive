@@ -877,15 +877,50 @@ def render_css(form, user, action):
     return retval
 
 def render_language(form, user, action):
-    languages = ['ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'en_GB',
-                 'eo', 'es', 'fi', 'fr', 'he', 'hr', 'hu', 'is', 'it',
-                 'ja', 'lt', 'nb', 'nl', 'nn', 'pl', 'pt_BR', 'pt_PT',
-                 'ru', 'sk', 'sl', 'sq', 'sr', 'sv', 'tr', 'uk', 'vi',
-                 'zh_CN', 'zh_HK', 'zh_TW', 'en']
+    languages = [
+        ('ar', "Arabic", form._("Arabic")),
+        ('bg', "Bulgarian", form._("Bulgarian")),
+        ('ca', "Catalan", form._("Catalan")),
+        ('cs', "Czech", form._("Czech")),
+        ('da', "Danish", form._("Danish")),
+        ('de', "German", form._("German")),
+        ('el', "Greek", form._("Greek")),
+        ('en', "English", form._("English")),
+        ('en_GB', "English, Great Britian", form._("English, Great Britian")),
+        ('eo', "Esperanto", form._("Esperanto")),
+        ('es', "Spanish", form._("Spanish")),
+        ('fi', "Finnish", form._("Finnish")),
+        ('fr', "French", form._("French")),
+        ('he', "Hebrew", form._("Hebrew")),
+        ('hr', "Croatian", form._("Croatian")),
+        ('hu', "Hungarian", form._("Hungarian")),
+        ('is', "Icelandic", form._("Icelandic")),
+        ('it', "Italian", form._("Italian")),
+        ('ja', "Japanese", form._("Japanese")),
+        ('lt', "Lithuanian", form._("Lithuanian")),
+        ('nb', "Norwegian Bokmål", form._("Norwegian Bokmål")),
+        ('nl', "Dutch", form._("Dutch")),
+        ('nn', "Norwegian Nynorsk", form._("Norwegian Nynorsk")),
+        ('pl', "Polish", form._("Polish")),
+        ('pt_BR', "Portuguese, Brazil", form._("Portuguese, Brazil")),
+        ('pt_PT', "Portuguese, Portugal", form._("Portuguese, Portugal")),
+        ('ru', "Russian", form._("Russian")),
+        ('sk', "Slovak", form._("Slovak")),
+        ('sl', "Slovenian", form._("Slovenian")),
+        ('sq', "Albanian", form._("Albanian")),
+        ('sr', "Serbian", form._("Serbian")),
+        ('sv', "Swedish", form._("Swedish")),
+        ('tr', "Turkish", form._("Turkish")),
+        ('uk', "Ukrainian", form._("Ukrainian")),
+        ('vi', "Vietnamese", form._("Vietnamese")),
+        ('zh_CN', "Chinese, mainland China", form._("Chinese, mainland China")),
+        ('zh_HK', "Chinese, Hong Kong", form._("Chinese, Hong Kong")),
+        ('zh_TW', "Chinese, Taiwan", form._("Chinese, Taiwan")),
+    ]
     default = form.database.get_user_data(user)
     retval = """<select name="language">"""
-    for language in sorted(languages):
+    for (language, name, tname) in sorted(languages, key=lambda items: items[2]):
         selected = "selected" if default["language"] == language else ""
-        retval += """<option value="%s" %s>%s</option>""" % (language, selected, language)
+        retval += """<option value="%s" %s>%s (%s)</option>""" % (language, selected, tname, name)
     retval += "</select>"
     return retval

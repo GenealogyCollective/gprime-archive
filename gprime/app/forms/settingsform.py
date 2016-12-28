@@ -22,17 +22,19 @@ class SettingsForm():
     """
     A form for listing, viewing, and editing user settings.
     """
-    def __init__(self, database, _):
+    def __init__(self, handler, database, _):
         self.database = database
+        self.handler = handler
         self._ = _
         self.tview = self._("Settings")
         self.view = "Settings"
+        self.instance = self.database.get_user_data(self.handler.current_user)
 
     def save(self, handler):
         self.handler = handler
         # save the settings to the user table
         update = {}
-        for field in ["css", "language"]:
+        for field in ["css", "language", "email", "name"]:
             update[field] = handler.get_argument(field)
         self.database.update_user_data(handler.current_user, update)
         handler.app.clear_user_data(handler.current_user)

@@ -110,7 +110,6 @@ or
 
 ```
 site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
-language      = "fr"
 ```
 
 Put this in your site folder named "config.cfg" to use automatically.
@@ -120,7 +119,6 @@ Options:
 
 * --site-dir=PATH/TO/FOLDER - The directory of the gPrime site directory (required)
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
-* --language=LANG_CODE - Language code (eg, "fr") for language to show webpages ("en", English, is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
 * --add-user=USERNAME - Add a username and password; prompts for password if --password not given
 * --remove-user=USERNAME - Remove a user's username and password from "SITE-DIR/passwd" file

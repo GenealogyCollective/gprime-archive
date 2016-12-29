@@ -80,6 +80,9 @@ class TableObject(BaseObject):
             self.handle = None
             self.change = 0
 
+    def make_url(self):
+        return "/%s/%s" % (self.__class__.__name__.lower(), self.handle)
+
     @abstractmethod
     def to_struct(self):
         """
@@ -417,4 +420,3 @@ class TableObject(BaseObject):
             setattr(path, attr, ftype(value))
             count = 1
         return count
-

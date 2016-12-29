@@ -49,28 +49,27 @@ class GPrimeApp(Application):
         self.database = database
         self.sitename = self.options.sitename
         handlers = [
-            (r"/", HomeHandler, "main", {}),
-            (r'/settings', SettingsHandler, "settings", {}),
-            (r'/login', LoginHandler, "login", {}),
-            (r'/logout', LogoutHandler, "logout", {}),
-            (r'/(.*)/(.*)/delete', DeleteHandler, "delete", {}),
-            (r'/action/?(.*)', ActionHandler, "action", {}),
-            (r'/person/?(.*)', PersonHandler, "person", {}),
-            (r'/note/?(.*)', NoteHandler, "note", {}),
-            (r'/family/?(.*)', FamilyHandler, "family", {}),
-            (r'/citation/?(.*)', CitationHandler, "citation", {}),
-            (r'/event/?(.*)', EventHandler, "event", {}),
-            (r'/media/?(.*)', MediaHandler, "media", {}),
-            (r'/place/?(.*)', PlaceHandler, "place", {}),
-            (r'/repository/?(.*)', RepositoryHandler, "repository", {}),
-            (r'/source/?(.*)', SourceHandler, "source", {}),
-            (r'/tag/?(.*)', TagHandler, "tag", {}),
-            (r'/imageserver/(.*)', ImageHandler, "imageserver", {
+            (r"/", HomeHandler, "main", self.make_env({})),
+            (r'/settings', SettingsHandler, "settings", self.make_env({})),
+            (r'/login', LoginHandler, "login", self.make_env({})),
+            (r'/logout', LogoutHandler, "logout", self.make_env({})),
+            (r'/action/?(.*)', ActionHandler, "action", self.make_env({})),
+            (r'/person/?(.*)', PersonHandler, "person", self.make_env({})),
+            (r'/note/?(.*)', NoteHandler, "note", self.make_env({})),
+            (r'/family/?(.*)', FamilyHandler, "family", self.make_env({})),
+            (r'/citation/?(.*)', CitationHandler, "citation", self.make_env({})),
+            (r'/event/?(.*)', EventHandler, "event", self.make_env({})),
+            (r'/media/?(.*)', MediaHandler, "media", self.make_env({})),
+            (r'/place/?(.*)', PlaceHandler, "place", self.make_env({})),
+            (r'/repository/?(.*)', RepositoryHandler, "repository", self.make_env({})),
+            (r'/source/?(.*)', SourceHandler, "source", self.make_env({})),
+            (r'/tag/?(.*)', TagHandler, "tag", self.make_env({})),
+            (r'/imageserver/(.*)', ImageHandler, "imageserver", self.make_env({
                 "SITE_DIR": self.options.site_dir,
                 "PORT": self.options.port,
                 "HOSTNAME": self.options.hostname,
                 "GET_IMAGE_FN": self.get_image_path_from_handle,
-            }),
+            })),
             (r"/json/", JsonHandler, "json", {}),
             (r"/data/(.*)", StaticFileHandler, "data", {
                 'path': gprime.const.DATA_DIR,
@@ -88,15 +87,13 @@ class GPrimeApp(Application):
                 'path': os.path.join(gprime.const.DATA_DIR, "img"),
             }),
         ]
-        super().__init__([url(handler[0], handler[1],
-                              self.make_env(handler[3]),
+        super().__init__([url(handler[0],
+                              handler[1],
+                              handler[3],
                               name=handler[2])
                           for handler in handlers], **settings)
 
     def make_env(self, handler_env):
-        ## HACK: static handlers don't like anything else but path:
-        if "path" in handler_env:
-            return handler_env
         env = {
             "database": self.database,
             "sitename": self.sitename,

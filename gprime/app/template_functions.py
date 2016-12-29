@@ -73,31 +73,50 @@ def nbsp(string):
 
 class Table(object):
     """
-    >>> table = Table("eventref")
+    >>> table = Table(form)
+    >>> table = Table(form, nested_url, style)
     >>> table.set_columns(("Col1", 10), ("Col2", 90))
-    >>> table.append_row("1", "2", "3", link="/person/37463746")
-    >>> table.append_row("4", "5", "6", link="/event/3763746")
+    >>> table.append_row("1", "2", "3", goto=goto_url, edit=edit_url)
+    >>> table.append_row("4", "5", "6")
     >>> table.get_html("edit")
     """
-    def __init__(self, form, ttype=None, ttype_obj=None, style=None):
+    def __init__(self, form, style=None):
         self.id = "tab_table" ## css id
         self.obj_type = form.view
         self.handle = form.instance.handle
-        self.ttype = ttype  # "eventref"
-        self.ttype_obj = ttype_obj # "event"
         self.style = style
         self.form = form
         self.column_widths = None
         self.columns = []
         self.rows = []
-        self.links = []
+        self.gotos = []
+        self.edits = []
+
+    def goto_url(self, position):
+        return self.gotos[position]
+
+    def edit_url(self, position, *args):
+        edit = self.edits[position]
+        if args:
+            return edit + "/" + ("/".join(args))
+        else:
+            return edit
 
     def set_columns(self, *args):
         self.columns = args
 
-    def append_row(self, *args, link=None):
+    def append_row(self, *args, goto=None, edit=None):
+        """
+        args = the values for the columns
+        goto = the link to goto when click on row
+        edit = the link to edit when del,up,down row
+        """
         self.rows.append(list(map(nbsp, args)))
-        self.links.append(link)
+        self.gotos.append(goto)
+        if edit: # not the same as goto
+            self.edits.append(edit)
+        else:
+            self.edits.append(goto)
 
     def get_html(self, action, style=None, tab_height=200):
         style = style if style else self.style
@@ -116,7 +135,7 @@ class Table(object):
         table += rowhtml
 
         row_count = 1
-        for row in self.rows: #TODO: Properly implement the remove/up/down buttons
+        for row in self.rows:
             rowhtml = Html("tr")
             cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[0][1]), colspan="1")
             div = Html("div", style="background-color: lightgray; padding: 2px 0px 0px 2px")
@@ -125,31 +144,27 @@ class Table(object):
                         src="/images/gtk-remove.png",
                         onmouseover="buttonOver(this)" if action == "edit" else None,
                         onmouseout="buttonOut(this)" if action == "edit" else None,
-                        onclick="document.location.href='/%s/%s/remove/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" else None,
+                        onclick="document.location.href='%s'" % self.edit_url(row_count - 1, "remove") if action == "edit" else None, # /person/HANDLE/name/1/remove
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row up", title="Move row up",
                         src="/images/up.png",
                         onmouseover="buttonOver(this)" if action == "edit" and row_count > 1 else None,
                         onmouseout="buttonOut(this)" if action == "edit" and row_count > 1 else None,
-                        onclick="document.location.href='/%s/%s/up/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" and row_count > 1 else None,
+                        onclick="document.location.href='%s'" % self.edit_url(row_count - 1, "up") if action == "edit" and row_count > 1 else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             div += Html("img", height="22", width="22",
                         alt="Move row down", title="Move row down",
                         src="/images/down.png",
                         onmouseover="buttonOver(this)" if action == "edit" and row_count < len(self.rows) else None,
                         onmouseout="buttonOut(this)" if action == "edit" and row_count < len(self.rows) else None,
-                        onclick="document.location.href='/%s/%s/down/%s/%s'" % (self.obj_type, self.handle, self.ttype, row_count) if action == "edit" and row_count < len(self.rows) else None,
+                        onclick="document.location.href='%s'" % self.edit_url(row_count - 1, "down") if action == "edit" and row_count < len(self.rows) else None,
                         style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;")
             cell += div
             rowhtml += cell
             for count in range(1, len(self.columns)):
                 cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[count][1]), colspan="1")
-                url = self.links[row_count - 1]
-                try:
-                    cell += """<a href="%s" style="display: block;">%s</a>""" % (url, row[count - 1])
-                except:
-                    tornado.log.logging.info("improper rows: %s", row)
+                cell += """<a href="%s" style="display: block;">%s</a>""" % (self.goto_url(row_count - 1), row[count - 1])
                 rowhtml += cell
             table += rowhtml
             row_count += 1
@@ -157,12 +172,11 @@ class Table(object):
         return str(html) #.replace("&amp;nbsp;", "&nbsp;")
 
 #TODO: Ensure user and privacy levels are accounted for in tables
-#TODO: Rows in tables should link to objects (or objects should be otherwise editable from tables)
 def event_table(form, user, action):
     retval = ""
     has_data = False
     cssid = "tab-events"
-    table = Table(form, "eventref", "event")
+    table = Table(form) # form, link-name
     event = Event()
     eventref = EventRef()
     table.set_columns(
@@ -175,7 +189,7 @@ def event_table(form, user, action):
         (eventref.get_label("role", form._), 10),
     )
     s = Struct.wrap(form.instance, form.database)
-    count = 0
+    count = 1
     for event_ref in s.event_ref_list: # eventrefs
         event = event_ref.ref
         table.append_row(event.description,
@@ -184,13 +198,14 @@ def event_table(form, user, action):
                          event.date.text,
                          event.place.name.value,
                          event_ref.role.string,
-                         link="/event/%s" % event.instance.handle)
+                         goto=event.instance.make_url(),
+                         edit=form.make_url("event/%s" % count))
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px"/>"""
     if action == "view":
-        retval += make_icon_button(form._("Add New Event to %s" % form.table), "/%s/%s/eventref/add" % (form.view, form.instance.handle), icon="+") # )
-        retval += make_icon_button(form._("Add Existing Event to %s" % form.table), "/%s/%s/eventref/share" % (form.view, form.instance.handle), icon="p") # )
+        retval += make_icon_button(form._("Add New Event"), form.make_url("eventref/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Event"), form.make_url("eventref/share"), icon="p")
     else:
         retval += """&nbsp;""" # to keep tabs same height
     retval += """</div>"""
@@ -232,12 +247,12 @@ def name_table(form, user, action):
                              name.group_as,
                              [form._("No"), form._("Yes")][citationq],
                              note_text,
-                             link="/person/%s/name/%s" % (form.instance.handle, count + 1))
+                             goto=form.make_url("name/%s" % (count + 1)))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Name"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Name"), form.make_url("name/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -246,7 +261,7 @@ def name_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def surname_table(form, user, action):
+def surname_table(form, user, action, name_count):
     person_handle = args[0]
     order = args[1]
     retval = ""
@@ -261,7 +276,7 @@ def surname_table(form, user, action):
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Surname"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Surname"), form.make_url("name", name_row, "surname/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -272,8 +287,7 @@ def surname_table(form, user, action):
                 surname.surname,
                 surname.prefix,
                 surname.primary,
-                link="/person/%s/surname/%s" % (form.instance.handle, count)
-            )
+                goto=form.make_url("name/%s/surname/%s" % (name_count, count)))
             has_data = True
             count += 1
     if has_data:
@@ -309,13 +323,14 @@ def citation_table(form, user, action):
                 table.append_row(citation.gid,
                                  citation.confidence,
                                  citation.page,
-                                 link="/citation/%s" % citation.handle)
+                                 goto=citation.make_url(),
+                                 edit=form.make_url("citation/%s" % count))
                 has_data = True
                 count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add New Citation"), "FIXME", icon="+")
-        retval += make_icon_button(form._("Add Existing Citation"), "FIXME", icon="p")
+        retval += make_icon_button(form._("Add New Citation"), form.make_url("citation/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Citation"), form.make_url("citation/share"), icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -344,13 +359,15 @@ def repository_table(form, user, action):
             table.append_row(repo.gid,
                              repo.name,
                              repo_ref.call_number,
-                             repo.type)
+                             repo.type,
+                             goto=repo.make_url(),
+                             edit=form.make_url("respository/%s" % count))
             has_data = True
             count += 1;
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add New Repository"), "FIXME", icon="+")
-        retval += make_icon_button(form._("Add Existing Repository"), "FIXME", icon="p")
+        retval += make_icon_button(form._("Add New Repository"), form.make_url("repository/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Repository"), form.make_url("repository/share"), icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -372,19 +389,19 @@ def note_table(form, user, action):
     )
     if user or form.instance.public:
         notes = Struct.wrap(form.instance, form.database).note_list;
-        links = []
         count = 1
         for note in notes:
             table.append_row(note.gid,
                              str(note.type.string),
                              note.text.string[:50],
-                             link="/note/%s" % note.instance.handle)
+                             goto=note.instance.make_url(),
+                             edit=form.make_url("note/%s" % count))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add New Note"), "FIXME", icon="+")
-        retval += make_icon_button(form._("Add Existing Note"), "FIXME", icon="p")
+        retval += make_icon_button(form._("Add New Note"), form.make_url("note/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Note"), form.make_url("note/share"), icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -392,56 +409,6 @@ def note_table(form, user, action):
     text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
     text = text.replace("}}", """</div>""")
     retval += text
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def data_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-data"
-    table = Table(form)
-    table.set_columns(
-        ("", 11),
-        (form._("Type"), 39),
-        (form._("Value"), 50),
-    )
-    retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
-    if user and action == "view":
-        # /data/$act/citation/%s
-        retval += make_icon_button(form._("Add Data"), "FIXME", icon="+")
-    else:
-        retval += nbsp("") # to keep tabs same height
-    retval += """</div>"""
-    # if user or form.instance.public:
-    #     item_class = obj.__class__.__name__.lower()
-    #     if item_class == "citation":
-    #         refs = models.CitationAttribute.objects.filter(citation=obj).order_by("order")
-    #     elif item_class == "source":
-    #         refs = models.SourceAttribute.objects.filter(source=obj).order_by("order")
-    #     count = 1
-    #     for ref in refs:
-    #         if item_class == "citation":
-    #             ref_obj = ref.citation
-    #         elif item_class == "source":
-    #             ref_obj = ref.source
-    #         table.append_row(
-    #             Link("{{[[x%d]][[^%d]][[v%d]]}}" % (count, count, count)) if user else "",
-    #             ref_obj.key,
-    #             ref_obj.value,
-    #             )
-    #         has_data = True
-    #         count += 1
-        # text = table.get_html(action)
-        # text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-        # text = text.replace("}}", """</div>""")
-        # count = 1
-        # for repo_ref in refs:
-        #     text = text.replace("[[x%d]]" % count, make_icon_button("x", "/%s/%s/remove/attribute/%d" % (item_class, obj.handle, count)))
-        #     text = text.replace("[[^%d]]" % count, make_icon_button("^", "/%s/%s/up/attribute/%d" % (item_class, obj.handle, count)))
-        #     text = text.replace("[[v%d]]" % count, make_icon_button("v", "/%s/%s/down/attribute/%d" % (item_class, obj.handle, count)))
-        #     count += 1
-        # retval += text
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
@@ -461,13 +428,12 @@ def attribute_table(form, user, action):
         for attribute in form.instance.attribute_list:
             table.append_row(attribute.type.string,
                              attribute.value,
-                             link="/%s/%s/attribute/%s" %
-                             (form.view, form.instance.handle, count))
+                             goto="attribute/%s" % count)
             count += 1
             has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Attribute"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Attribute"), form.make_url("attribute/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -497,13 +463,12 @@ def address_table(form, user, action): #TODO: Make table customizable (For insta
                          address.location.city,
                          address.location.state,
                          address.location.country,
-                         link="/%s/%s/address/%s" %
-                         (form.view, form.instance.handle, count))
+                         goto="address/%s" % count)
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Address"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Address"), form.make_url("address/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -523,18 +488,21 @@ def media_table(form, user, action):
         (form._("Type"), 10),
         (form._("Path/Filename"), 30),
     )
+    count = 1
     if user or form.instance.public:
         for media_ref in form.instance.media_list:
             media = form.database.get_media_from_handle(media_ref.ref)
             table.append_row(media.desc,
                              media.mime,
                              media.path,
-                             link="/media/%s" % media.handle)
+                             goto=media.make_url(),
+                             edit=form.make_url("media/%s" % count))
             has_data = True
+            count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add New Media"), "FIXME", icon="+")
-        retval += make_icon_button(form._("Add Existing Media"), "FIXME", icon="p")
+        retval += make_icon_button(form._("Add New Media"), form.make_url("media/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Media"), form.make_url("media/share"), icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -560,13 +528,12 @@ def internet_table(form, user, action):
         table.append_row(url.type.string,
                          url.path,
                          url.desc,
-                         link="/%s/%s/url/%s" %
-                         (form.view, form.instance.handle, count))
+                         goto="internet/%s" % count)
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Internet"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Internet"), form.make_url("internet/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -588,7 +555,7 @@ def association_table(form, user, action):
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Association"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Association"), form.make_url("association/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -600,9 +567,7 @@ def association_table(form, user, action):
                 name_display(personref.ref.instance),
                 personref.ref.gid,
                 personref.rel,
-                link="/%s/%s/association/%s" % (
-                    form.view, form.instance.handle, count)
-            )
+                goto="association/%s" % count)
             has_data = True
             count += 1
         text = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
@@ -641,12 +606,12 @@ def location_table(form, user, action):
                 location.city,
                 location.state,
                 location.country,
-                link="/place/%s/location/%s" % (form.instance.handle, count))
+                goto="location/%s" % count)
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add Address"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add Address"), form.make_url("alternatelocations/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -678,13 +643,12 @@ def lds_table(form, user, action):
                              lds.status,
                              lds.temple,
                              lds.place.title,
-                             link="/person/%s/lds/%s" %
-                             (form.instance.handle, count))
+                             goto="lds/%s" % count)
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += make_icon_button(form._("Add LDS"), "FIXME", icon="+")
+        retval += make_icon_button(form._("Add LDS"), form.make_url("lds/add"), icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -715,24 +679,29 @@ def person_reference_table(form, user, action):
     )
     if (user or form.instance.public) and action != "add":
         s = Struct.wrap(form.instance, form.database)
-        count = 0
+        count = 1
         for family in s.family_list:
             table1.append_row(family.gid,
-                              sa.describe(family.instance), link="/family/%s" % family.instance.handle)
+                              sa.describe(family.instance),
+                              goto=family.instance.make_url(),
+                              edit=form.make_url("spousefamily/%s" % count))
             has_data = True
             count += 1
+        count = 1
         for family in s.parent_family_list:
             table2.append_row(family.gid,
-                              sa.describe(family.instance), link="/family/%s" % family.instance.handle)
+                              sa.describe(family.instance),
+                              goto=family.instance.make_url(),
+                              edit=form.make_url("parentfamily/%s" % count))
             has_data = True
             count += 1
         text1 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
         if user and action == "view":
             text1 += make_icon_button(form._("Add as Spouse to New Family"),
-                                      "/family/add/spouse/%s" % form.instance.handle,
+                                      form.make_url("spousefamily/add"),
                                       icon="+")
             text1 += make_icon_button(form._("Add as Spouse to Existing Family"),
-                                      "/family/share/spouse/%s" % form.instance.handle,
+                                      form.make_url("spousefamily/share"),
                                       icon="p")
         else:
             text1 += nbsp("") # to keep tabs same height
@@ -741,10 +710,10 @@ def person_reference_table(form, user, action):
         text2 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
         if user and action == "view":
             text2 += make_icon_button(form._("Add as Child to New Family"),
-                                      "/family/add/child/%s" % form.instance.handle,
+                                      form.make_url("childfamily/add"),
                                       icon="+")
             text2 += make_icon_button(form._("Add as Child to Existing Family"),
-                                      "/family/share/child/%s" % form.instance.handle,
+                                      form.make_url("childfamily/share"),
                                       icon="p")
         else:
             text2 += nbsp("") # to keep tabs same height
@@ -775,27 +744,10 @@ def reference_table(form, user, action):
     for ref_pair in form.database.find_backlink_handles(form.instance.handle):
         obj_type, handle = ref_pair
         obj = form.database.get_table_func(obj_type, "handle_func")(handle)
-        table.append_row(obj_type, sa.describe(obj), obj.gid, link="/%s/%s" % (obj_type.lower(), handle))
+        table.append_row(obj_type, sa.describe(obj), obj.gid,
+                         goto=obj.make_url(),
+                         edit=form.make_url("reference/%s" % count)) ## FIXME: no editing!
         has_data = True
-    retval += table.get_html(action)
-    retval += nbsp("") # to keep tabs same height
-    if has_data:
-        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
-    return retval
-
-def source_citation_table(form, user, action):
-    retval = ""
-    has_data = False
-    cssid = "tab-citations"
-    table = Table(form)
-    table.set_columns(
-        ("", 11),
-        (form._("Title"), 29),
-        (form._("Author"), 20),
-        (form._("Page"), 20),
-        (form._("ID"), 20),
-    )
-    ## FIXME: Loop
     retval += table.get_html(action)
     retval += nbsp("") # to keep tabs same height
     if has_data:
@@ -828,7 +780,8 @@ def children_table(form, user, action):
                          childref.frel.string,
                          childref.mrel.string,
                          form.birth_date(child),
-                         link="/person/%s" % handle)
+                         goto=child.make_url(),
+                         edit=form.make_url("childref/%s" % count))
         has_data = True
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
@@ -921,6 +874,9 @@ def render_language(form, user, action):
     retval = """<select name="language">"""
     for (language, name, tname) in sorted(languages, key=lambda items: items[2]):
         selected = "selected" if default["language"] == language else ""
-        retval += """<option value="%s" %s>%s (%s)</option>""" % (language, selected, tname, name)
+        if name == tname:
+            retval += """<option value="%s" %s>%s</option>""" % (language, selected, name)
+        else:
+            retval += """<option value="%s" %s>%s (%s)</option>""" % (language, selected, tname, name)
     retval += "</select>"
     return retval

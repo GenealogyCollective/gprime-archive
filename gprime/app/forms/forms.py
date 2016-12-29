@@ -78,6 +78,19 @@ class Form(object):
         self.set_post_process_functions()
         self.sa = SimpleAccess(self.database)
 
+    def make_url(self, *parts):
+        """
+        Return the url to a primary object, if one, else view.
+        """
+        if parts:
+            parts = "/" + ("/".join(parts))
+        else:
+            parts = ""
+        if self.instance:
+            return "/%s/%s%s" % (self.view, self.instance.handle, parts)
+        else:
+            return "/%s%s" % (self.view, parts)
+
     def set_post_process_functions(self):
         pass
 

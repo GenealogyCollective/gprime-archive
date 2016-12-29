@@ -45,7 +45,6 @@ from gprime.db.dbconst import (DBLOGNAME, DBBACKEND, KEY_TO_NAME_MAP,
 from gprime.db.generic import DbGeneric
 from gprime.lib import (Tag, Media, Person, Family, Source,
                             Citation, Event, Place, Repository, Note)
-from gprime.lib.genderstats import GenderStats
 from gprime.const import LOCALE as glocale
 _ = glocale.translation.gettext
 
@@ -219,11 +218,6 @@ class DBAPI(DbGeneric):
                                       null=False),
                               Column("value", "TEXT")])
 
-        GenderstatsTable = Table("gender_stats",
-                                 [Column("given_name", "TEXT"),
-                                  Column("female", "INTEGER"),
-                                  Column("male", "INTEGER"),
-                                  Column("unknown", "INTEGER")])
         UserTable = Table("user",
                           [Column("username", "VARCHAR(50)", primary=True),
                            Column("password", "TEXT"),
@@ -237,7 +231,7 @@ class DBAPI(DbGeneric):
                           ])
 
         for table in [ReferenceTable, NamegroupTable, MetadataTable,
-                      GenderstatsTable, UserTable]:
+                      UserTable]:
             if not self.dbapi.table_exists(table.name):
                 self.create_table(table)
             else:
@@ -661,13 +655,6 @@ class DBAPI(DbGeneric):
         person.change = int(change_time or time.time())
         if person.handle in self.person_map:
             old_person = self.get_person_from_handle(person.handle)
-            # Update gender statistics if necessary
-            if (old_person.gender != person.gender
-                    or (old_person.primary_name.first_name !=
-                        person.primary_name.first_name)):
-
-                self.genderStats.uncount_person(old_person)
-                self.genderStats.count_person(person)
             # Update surname list if necessary
             if (self._order_by_person_key(person) !=
                     self._order_by_person_key(old_person)):
@@ -690,7 +677,6 @@ class DBAPI(DbGeneric):
                                 gender_type,
                                 person.handle])
         else:
-            self.genderStats.count_person(person)
             self.add_to_surname_list(person, trans.batch)
             given_name, surname, gender_type = self.get_person_data(person)
             # Insert the person:
@@ -1407,9 +1393,6 @@ class DBAPI(DbGeneric):
         """
         # First, expand json to individual fields:
         self.rebuild_secondary_fields()
-        # Next, rebuild stats:
-        gstats = self.get_gender_stats()
-        self.genderStats = GenderStats(gstats)
         # Rebuild all order_by fields:
         ## Rebuild place order_by:
         self.dbapi.execute("""select json_data from place;""")
@@ -1768,27 +1751,6 @@ class DBAPI(DbGeneric):
         if row:
             return json.loads(row[0])
 
-    def get_gender_stats(self):
-        """
-        Returns a dictionary of
-        {given_name: (male_count, female_count, unknown_count)}
-        """
-        self.dbapi.execute(
-            """SELECT given_name, female, male, unknown FROM gender_stats;""")
-        gstats = {}
-        for row in self.dbapi.fetchall():
-            gstats[row[0]] = (row[1], row[2], row[3])
-        return gstats
-
-    def save_gender_stats(self, gstats):
-        self.dbapi.execute("""DELETE FROM gender_stats;""")
-        for key in gstats.stats:
-            female, male, unknown = gstats.stats[key]
-            self.dbapi.execute(
-                """INSERT INTO gender_stats(given_name, female, male, unknown)
-                                           VALUES(?, ?, ?, ?);""",
-                [key, female, male, unknown])
-
     def get_surname_list(self):
         """
         Return the list of locale-sorted surnames contained in the database.
@@ -1834,7 +1796,6 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("""DROP TABLE  reference;""")
         self.dbapi.execute("""DROP TABLE  name_group;""")
         self.dbapi.execute("""DROP TABLE  metadata;""")
-        self.dbapi.execute("""DROP TABLE  gender_stats;""")
 
     def _sql_type(self, python_type):
         """

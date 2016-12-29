@@ -63,7 +63,6 @@ from gprime.utils.id import create_id
 from gprime.lib.researcher import Researcher
 from gprime.lib import (Tag, Media, Person, Family, Source, Citation, Event,
                             Place, Repository, Note, NameOriginType)
-from gprime.lib.genderstats import GenderStats
 from gprime.lib.struct import Struct
 from gprime.config import config
 
@@ -743,7 +742,6 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
         self._bm_changes = 0
         self.has_changed = False
         self.surname_list = []
-        self.genderStats = GenderStats() # can pass in loaded stats as dict
         self.owner = Researcher()
         if directory:
             self.load(directory)
@@ -841,10 +839,6 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             self.undolog = None
         self.undodb = DbGenericUndo(self, self.undolog)
         self.undodb.open()
-
-        # Other items to load
-        gstats = self.get_gender_stats()
-        self.genderStats = GenderStats(gstats)
 
         # Indexes:
         self.cmap_index = self.get_metadata('cmap_index', 0)
@@ -1886,7 +1880,6 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
                 # Save misc items:
                 if self.has_changed:
                     self.save_surname_list()
-                    self.save_gender_stats(self.genderStats)
 
                 # Indexes:
                 self.set_metadata('cmap_index', self.cmap_index)

@@ -22,48 +22,6 @@ MODULE_VERSION="1.0"
 
 #------------------------------------------------------------------------
 #
-# Comma _Separated Values Spreadsheet (CSV)
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'ex_csv'
-plg.name  = _("Comma Separated Values Spreadsheet (CSV)")
-plg.name_accell  = _("Comma _Separated Values Spreadsheet (CSV)")
-plg.description =  _("CSV is a common spreadsheet format.")
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'exportcsv.py'
-plg.ptype = EXPORT
-plg.export_function = 'exportData'
-plg.export_options = 'CSVWriterOptionBox'
-plg.export_options_title = _('CSV spreadsheet options')
-plg.extension = "csv"
-
-#------------------------------------------------------------------------
-#
-# Web Family Tree export
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'ex_webfamtree'
-plg.name  = _('Web Family Tree')
-plg.name_accell  = _('_Web Family Tree')
-plg.description =  _("Web Family Tree format")
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'exportftree.py'
-plg.ptype = EXPORT
-plg.export_function = 'writeData'
-plg.export_options = 'WriterOptionBox'
-plg.export_options_title = _('Web Family Tree export options')
-plg.extension = "wft"
-
-#------------------------------------------------------------------------
-#
 # GEDCOM
 #
 #------------------------------------------------------------------------
@@ -83,27 +41,6 @@ plg.export_function = 'export_data'
 plg.export_options = 'WriterOptionBox'
 plg.export_options_title = _('GEDCOM export options')
 plg.extension = "ged"
-
-#------------------------------------------------------------------------
-#
-# Geneweb
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'ex_geneweb'
-plg.name  = _('GeneWeb')
-plg.name_accell  = _('_GeneWeb')
-plg.description =  _('GeneWeb is a web based genealogy program.')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'exportgeneweb.py'
-plg.ptype = EXPORT
-plg.export_function = 'exportData'
-plg.export_options = 'WriterOptionBox'
-plg.export_options_title = _('GeneWeb export options')
-plg.extension = "gw"
 
 #------------------------------------------------------------------------
 #
@@ -149,48 +86,6 @@ plg.export_function = 'export_data'
 plg.export_options = 'WriterOptionBoxWithCompression'
 plg.export_options_title = _('Gramps XML export options')
 plg.extension = "gramps"
-
-#------------------------------------------------------------------------
-#
-# vCalendar
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'ex_vcal'
-plg.name  = _('vCalendar')
-plg.name_accell  = _('vC_alendar')
-plg.description =  _('vCalendar is used in many calendaring and PIM applications.')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'exportvcalendar.py'
-plg.ptype = EXPORT
-plg.export_function = 'exportData'
-plg.export_options = 'WriterOptionBox'
-plg.export_options_title = _('vCalendar export options')
-plg.extension = "vcs"
-
-#------------------------------------------------------------------------
-#
-# vCard
-#
-#------------------------------------------------------------------------
-
-plg = newplugin()
-plg.id    = 'ex_vcard'
-plg.name  = _('vCard')
-plg.name_accell  = _('_vCard')
-plg.description =  _('vCard is used in many addressbook and pim applications.')
-plg.version = '1.0'
-plg.gprime_target_version = MODULE_VERSION
-plg.status = STABLE
-plg.fname = 'exportvcard.py'
-plg.ptype = EXPORT
-plg.export_function = 'exportData'
-plg.export_options = 'WriterOptionBox'
-plg.export_options_title = _('vCard export options')
-plg.extension = "vcf"
 
 #------------------------------------------------------------------------
 #

@@ -58,7 +58,6 @@ from .citation import Citation
 from .tag import Tag
 
 # These are actually metadata
-from .genderstats import GenderStats
 from .researcher import Researcher
 
 # Type classes

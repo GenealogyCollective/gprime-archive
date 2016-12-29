@@ -64,7 +64,6 @@ class DictionaryDb(DbGeneric):
         self._reference_list = []
         self._name_group_dict = {}
         self._metadata_dict = {}
-        self._gender_stats_dict = {}
 
         # Types:
         self.child_ref_types = set()
@@ -255,13 +254,6 @@ class DictionaryDb(DbGeneric):
         if person.handle in self.person_map:
             emit = "person-update"
             old_person = self.get_person_from_handle(person.handle)
-            # Update gender statistics if necessary
-            if (old_person.gender != person.gender or
-                old_person.primary_name.first_name !=
-                  person.primary_name.first_name):
-
-                self.genderStats.uncount_person(old_person)
-                self.genderStats.count_person(person)
             # Update surname list if necessary
             if (self._order_by_person_key(person) !=
                 self._order_by_person_key(old_person)):
@@ -273,7 +265,6 @@ class DictionaryDb(DbGeneric):
             self._person_id_dict[person.gid] = person
         else:
             emit = "person-add"
-            self.genderStats.count_person(person)
             self.add_to_surname_list(person, trans.batch)
             given_name, surname, gender_type = self.get_person_data(person)
             # Insert the person:
@@ -771,8 +762,6 @@ class DictionaryDb(DbGeneric):
         callback(5)
 
     def rebuild_secondary(self, update):
-        gstats = self.get_gender_stats()
-        self.genderStats = GenderStats(gstats)
         self.surname_list = self.build_surname_list()
 
     def has_handle_for_person(self, key):
@@ -975,48 +964,6 @@ class DictionaryDb(DbGeneric):
         if key in self._tag_dict:
             return self._tag_dict[key].to_struct()
 
-    def rebuild_gender_stats(self):
-        """
-        Builds and returns a dictionary of
-        {given_name: (male_count, female_count, unknown_count)}
-        Called locally: this is a database-efficient version
-        """
-        # In dictionarydb, there is no separate persistent storage of
-        # gender stats, so we just get from the source:
-        return self.get_gender_stats()
-
-    def get_gender_stats(self):
-        """
-        Returns a dictionary of
-        {given_name: (male_count, female_count, unknown_count)}
-        UNKNOWN = 2
-        MALE    = 1
-        FEMALE  = 0
-        """
-        gstats = {}
-        for person in self._person_dict.values():
-            if person.primary_name:
-                first_name = person.primary_name.first_name
-                if first_name not in gstats:
-                    gstats[first_name] = (0, 0, 0)
-                if person.gender == Person.MALE:
-                    gstats[first_name] = (gstats[first_name][0] + 1,
-                                          gstats[first_name][1],
-                                          gstats[first_name][2])
-                elif person.gender == Person.FEMALE:
-                    gstats[first_name] = (gstats[first_name][0],
-                                          gstats[first_name][1] + 1,
-                                          gstats[first_name][2])
-                else:
-                    gstats[first_name] = (gstats[first_name][0],
-                                          gstats[first_name][1],
-                                          gstats[first_name][2] + 1)
-        return gstats
-
-    def save_gender_stats(self, gstats):
-        # Gender stats are not saved in the dictionary db
-        pass
-
     def save_surname_list(self):
         """
         Save the surname_list into persistant storage.
@@ -1067,7 +1014,6 @@ class DictionaryDb(DbGeneric):
         self._reference_list = []
         self._name_group_dict = {}
         self._metadata_dict = {}
-        self._gender_stats_dict = {}
 
     def load(self, directory, callback=None, mode=None,
              force_schema_upgrade=False,

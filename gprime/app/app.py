@@ -28,11 +28,11 @@ import select
 import signal
 import webbrowser
 import threading
+from passlib.hash import sha256_crypt as crypt
 
 from .handlers import *
 from .forms import *
 from .forms.actionform import import_file
-from .passman import password_manager
 
 from tornado.web import Application, url, StaticFileHandler
 
@@ -328,11 +328,6 @@ def main():
         # Make the media folder:
         os.makedirs(media_dir)
         os.makedirs(media_cache_dir)
-        password_manager.save()
-        with open(os.path.join(options.site_dir, "passwd"), "w") as fp:
-            fp.write("### This is the password file for gPrime\n")
-            fp.write("\n")
-    password_manager.load()
     ## Open the database:
     database = DbState().open_database(database_dir)
     if options.add_user:
@@ -341,18 +336,16 @@ def main():
         else:
             plaintext = getpass.getpass()
         options.server = False
-        password_manager.add_user(options.add_user, plaintext)
-        password_manager.save()
         ## Initialize user folder:
         try:
             os.makedirs(os.path.join(options.site_dir, "users", options.add_user))
         except:
             pass
-        database.add_user(username=options.add_user, data={}) # could set css here
+        database.add_user(username=options.add_user,
+                          password=crypt.hash(plaintext),
+                          data={}) # could set css here
     if options.remove_user:
         options.server = False
-        password_manager.remove_user(options.remove_user)
-        password_manager.save()
         database.remove_user(username=options.remove_user)
     if options.change_password:
         if options.password:
@@ -360,8 +353,8 @@ def main():
         else:
             plaintext = getpass.getpass()
         options.server = False
-        password_manager.change_password(options.change_password, plaintext)
-        password_manager.save()
+        database.update_user_data(username=options.change_password,
+                                  data={"password": crypt.hash(plaintext)})
     #options.database = database.get_dbname()
     ## Options after opening:
     if options.import_file:

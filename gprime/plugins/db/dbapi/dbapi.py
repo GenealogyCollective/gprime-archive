@@ -226,6 +226,7 @@ class DBAPI(DbGeneric):
                                   Column("unknown", "INTEGER")])
         UserTable = Table("user",
                           [Column("username", "VARCHAR(50)", primary=True),
+                           Column("password", "TEXT"),
                            Column("gid", "VARCHAR(50)"),
                            Column("name", "TEXT"),
                            Column("email", "TEXT"),
@@ -2198,6 +2199,7 @@ class DBAPI(DbGeneric):
         """
         old_data = self.get_user_data(username)
         self.dbapi.execute("""UPDATE user SET gid = ?,
+                                              password = ?,
                                               name = ?,
                                               css = ?,
                                               write_permission = ?,
@@ -2206,6 +2208,7 @@ class DBAPI(DbGeneric):
                                               email = ?
                                WHERE username = ?;""",
                            [data.get("gid", old_data["gid"]),
+                            data.get("password", old_data["password"]),
                             data.get("name", old_data["name"]),
                             data.get("css", old_data["css"]),
                             data.get("write_permission", old_data["write_permission"]),
@@ -2215,15 +2218,16 @@ class DBAPI(DbGeneric):
                             username])
         self.dbapi.commit()
 
-    def add_user(self, username, data):
+    def add_user(self, username, password, data):
         """
         Add a user to the user table.
         """
         self.dbapi.execute("""INSERT INTO user
-                                (username, gid, name, css, write_permission, admin, language, email)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?);""",
+                                (username, gid, password, name, css, write_permission, admin, language, email)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);""",
                            [username,
                             data.get("gid", ""),
+                            password,
                             data.get("name", ""),
                             data.get("css", "Web_Mainz.css"),
                             data.get("write_permission", 1),
@@ -2237,17 +2241,18 @@ class DBAPI(DbGeneric):
         """
         Add a user to the user table.
         """
-        self.dbapi.execute("SELECT gid, name, css, write_permission, admin, language, email FROM user WHERE username = ?;", [username])
+        self.dbapi.execute("SELECT gid, password, name, css, write_permission, admin, language, email FROM user WHERE username = ?;", [username])
         row = self.dbapi.fetchone()
         if row:
             return {
                 "gid": row[0],
-                "name": row[1],
-                "css": row[2],
-                "write_permission": row[3],
-                "admin": row[4],
-                "language": row[5],
-                "email": row[6],
+                "password": row[1],
+                "name": row[2],
+                "css": row[3],
+                "write_permission": row[4],
+                "admin": row[5],
+                "language": row[6],
+                "email": row[7],
             }
         else:
             return None

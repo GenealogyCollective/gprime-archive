@@ -18,6 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+from passlib.hash import sha256_crypt as crypt
+
 class SettingsForm():
     """
     A form for listing, viewing, and editing user settings.
@@ -36,5 +38,7 @@ class SettingsForm():
         update = {}
         for field in ["css", "language", "email", "name"]:
             update[field] = handler.get_argument(field)
+        if handler.get_argument("password"):
+            update["password"] = crypt.hash(handler.get_argument("password"))
         self.database.update_user_data(handler.current_user, update)
         handler.app.clear_user_data(handler.current_user)

@@ -178,6 +178,7 @@ class ArgHandler:
         self.cl_bool = False
         self.imports = []
         self.exports = []
+        self.removes = parser.removes
 
         self.open = self.__handle_open_option(parser.open, parser.create)
         self.sanitize_args(parser.imports, parser.exports)
@@ -407,6 +408,12 @@ class ArgHandler:
                     print(_('%(full_DB_path)s with name "%(f_t_name)s"'
                            ) % {'full_DB_path' : dirname,
                                 'f_t_name'     : name})
+            return
+
+        # Handle the "--remove" Family Tree
+        if self.removes:
+            for name in self.removes:
+                self.dbman.remove_database(name, self.user)
             return
 
         # Handle the "-L" List Family Trees in detail option.

@@ -98,7 +98,10 @@ def dynamic_cli_method(report_name, test_function,
 class TestDynamic(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        pass
+        try:
+            os.makedirs("temp")
+        except:
+            pass
 
     @classmethod
     def call(cls, *args):

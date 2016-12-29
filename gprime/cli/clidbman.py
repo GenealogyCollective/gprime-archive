@@ -396,49 +396,6 @@ class CLIDbManager:
             return True
         return False
 
-    def needs_recovery(self, dbpath):
-        """
-        Returns True if the database in dirpath needs recovery
-        """
-        if os.path.isfile(os.path.join(dbpath, "need_recover")):
-            return True
-        return False
-
-    def remove_database(self, dbname, user=None):
-        """
-        Deletes a database folder given a pattenr that matches
-        its proper name.
-        """
-        dbdir = os.path.expanduser("./gprime-test") # config.get('database.path'))
-        match_list = []
-        for dpath in os.listdir(dbdir):
-            dirpath = os.path.join(dbdir, dpath)
-            path_name = os.path.join(dirpath, NAME_FILE)
-            if os.path.isfile(path_name):
-                with open(path_name, 'r', encoding='utf8') as file:
-                    name = file.readline().strip()
-                if re.match("^" + dbname + "$", name) or dbname == name:
-                    match_list.append((name, dirpath))
-        if len(match_list) == 0:
-            CLIDbManager.ERROR("Family tree not found",
-                               "No matching family tree found: '%s'" % dbname)
-        # now delete them:
-        for (name, directory) in match_list:
-            if user is None or user.prompt(
-                    _('Remove family tree warning'),
-                    _('Are you sure you want to remove '
-                      'the family tree named\n"%s"?'
-                     ) % name,
-                    _('yes'), _('no'), default_label=_('no')):
-                try:
-                    for (top, dirs, files) in os.walk(directory):
-                        for filename in files:
-                            os.unlink(os.path.join(top, filename))
-                    os.rmdir(directory)
-                except (IOError, OSError) as msg:
-                    CLIDbManager.ERROR(_("Could not delete Family Tree"),
-                                       str(msg))
-
     def rename_database(self, filepath, new_text):
         """
         Renames the database by writing the new value to the name.txt file

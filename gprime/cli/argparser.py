@@ -63,7 +63,6 @@ Application options
   -C, --create=FAMILY_TREE               Create on open if new Family Tree
   -i, --import=FILENAME                  Import file
   -e, --export=FILENAME                  Export file
-  -r, --remove=FAMILY_TREE_PATTERN       Remove matching Family Tree(s) (use regular expressions)
   -f, --format=FORMAT                    Specify Family Tree format
   -a, --action=ACTION                    Specify action
   -p, --options=OPTIONS_STRING           Specify options
@@ -140,7 +139,6 @@ class ArgParser:
     -C, --create=FAMILY_TREE        Create on open if new Family Tree
     -i, --import=FILENAME           Import file
     -e, --export=FILENAME           Export file
-    -r, --remove=PATTERN            Remove matching Family Tree(s)
     -f, --format=FORMAT             Specify Family Tree format
     -a, --action=ACTION             Specify action
     -p, --options=OPTIONS_STRING    Specify options
@@ -199,7 +197,6 @@ class ArgParser:
         self.exports = []
         self.actions = []
         self.imports = []
-        self.removes = []
         self.imp_db_path = None
         self.list = False
         self.list_more = False
@@ -285,8 +282,6 @@ class ArgParser:
                         and options[opt_ix + 1][0] in ('-f', '--format')):
                     family_tree_format = options[opt_ix + 1][1]
                 self.imports.append((value, family_tree_format))
-            elif option in ['-r', '--remove']:
-                self.removes.append(value)
             elif option in ['-e', '--export']:
                 family_tree_format = None
                 if (opt_ix < len(options) - 1
@@ -396,7 +391,6 @@ class ArgParser:
         if (len(options) > 0
                 and self.open is None
                 and self.imports == []
-                and self.removes == []
                 and not (self.list
                          or self.list_more
                          or self.list_table
@@ -426,9 +420,6 @@ class ArgParser:
         """
         if self.errors:
             #errors in argument parsing ==> give cli error, no gui needed
-            return False
-
-        if len(self.removes) > 0:
             return False
 
         if self.list or self.list_more or self.list_table or self.help:

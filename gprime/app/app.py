@@ -70,7 +70,7 @@ class GPrimeApp(Application):
                 "HOSTNAME": self.options.hostname,
                 "GET_IMAGE_FN": self.get_image_path_from_handle,
             })),
-            (r"/json/", JsonHandler, "json", {}),
+            (r"/json/", JsonHandler, "json", self.make_env({})),
             (r"/data/(.*)", StaticFileHandler, "data", {
                 'path': gprime.const.DATA_DIR,
             }),

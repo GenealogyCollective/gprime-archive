@@ -1,0 +1,159 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{# bread crumbs #}
+
+  <p>
+  {{ make_link("/person", "People") }} > {{ make_link("/person/%(handle)s", form.instance.gid, handle=form.instance.handle) }} > {{ make_link("/person/%(handle)s/name/%(row)s", "Name", handle=form.instance.handle, row=form.row) }}
+  </p>
+
+
+<div id="summaryarea">
+<table class="infolist" style="width:100%;"> 
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">
+       {# personform.errors #}
+       {# nameform.errors #}
+       {# surnameform.errors #}
+       {# logform.errors #}
+    </div>
+    <hr>
+  {% end %}
+<form method="post">{% module xsrf_form_html() %}
+
+
+</tbody>
+</table>
+
+{% if logform %}
+  <table>
+    {# logform.as_table #}
+  </table>
+{% end %}
+
+<div id="summaryarea">
+<table class="infolist" style="width:100%;"> 
+<tbody>
+  {% if messages %}
+    <hr>
+    <p id="error">The following fields have errors. Please correct and try again.</p>
+    <div id="error">
+       {# personform.errors #}
+       {# nameform.errors #}
+       {# surnameform.errors #}
+       {# logform.errors #}
+    </div>
+    <hr>
+  {% end %}
+
+    {#
+    "citation_list": CitationBase.to_struct(self),
+    "note_list": NoteBase.to_struct(self),
+    #}    
+
+<form method="post">{% module xsrf_form_html() %}
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.first_name") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.first_name", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.call") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.call", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.nick") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.nick", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.famnick") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.famnick", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.private") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.private", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.date") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.date", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.suffix") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.suffix", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.title") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.title", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.group_as") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.group_as", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.sort_as") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.sort_as", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("primary_name.display_as") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("primary_name.display_as", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+{% if user %}
+  {% if action != "view" %}
+    <input type="hidden" name="action" value="save"/>
+    <input type="submit" value={{_T_("Save")}}/>
+    {{make_button(_("Cancel"), form.instance.make_url("#tab-names"))}}
+  {% else %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ make_icon_button(_("Add Name"), "/person/%(handle)s/name/add", icon="+", handle=form.handle) }}
+      {{ make_icon_button(_("Edit Name"), "/person/%(handle)s/name/%(row)s/edit", icon="?", handle=form.handle, row=form.row) }}
+      {{ make_icon_button(_("Delete Name"), "/person/%(handle)s/name/%(row)s/delete", icon="-", handle=form.handle, row=form.row) }}
+      </div>
+    
+  {% end %}
+{% end %}
+
+<div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
+  <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a class="tab-surnames" href="#tab-surnames">{{_("Surnames")}}</a></li>
+    <li class="ui-state-default ui-corner-top"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
+    <li class="ui-state-default ui-corner-top"><a class="tab-citations" href="#tab-citations">{{_("Citations")}}</a></li>
+  </ul>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-surnames" style="background-color: #f4f0ec;"> 
+    {{ surname_table(form, user, action, form.row) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-notes" style="background-color: #f4f0ec;"> 
+    {{ note_table(form, user, action) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
+    {{ citation_table(form, user, action) }}
+  </div>
+</div>
+
+      
+</form>
+{% end %}

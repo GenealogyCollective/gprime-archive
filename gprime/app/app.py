@@ -54,6 +54,8 @@ class GPrimeApp(Application):
             (r'/login', LoginHandler, "login", self.make_env({})),
             (r'/logout', LogoutHandler, "logout", self.make_env({})),
             (r'/action/?(.*)', ActionHandler, "action", self.make_env({})),
+            #(r'/person/(.*)/name/(.*)/surname/(.*)', SurnameHandler, "surnamename", self.make_env({})),
+            (r'/person/(.*)/name/(.*)/?(.*)', NameHandler, "name", self.make_env({})),
             (r'/person/?(.*)', PersonHandler, "person", self.make_env({})),
             (r'/note/?(.*)', NoteHandler, "note", self.make_env({})),
             (r'/family/?(.*)', FamilyHandler, "family", self.make_env({})),

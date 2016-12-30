@@ -83,7 +83,10 @@ class Form(object):
         Return the url to a primary object, if one, else view.
         """
         if parts:
-            parts = "/" + ("/".join(parts))
+            if parts[0].startswith("#"):
+                parts = "".join(parts)
+            else:
+                parts = "/" + ("/".join(parts))
         else:
             parts = ""
         if self.instance:

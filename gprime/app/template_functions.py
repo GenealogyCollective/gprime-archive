@@ -225,7 +225,7 @@ def name_table(form, user, action):
         (form._("Type"), 20),
         (form._("Group As"), 15),
         (form._("Source"), 10),
-        (form._("Note Preview"), 15),
+        (form._("Note"), 15),
     )
     if user or form.instance.public:
         count = 0
@@ -261,9 +261,7 @@ def name_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def surname_table(form, user, action, name_count):
-    person_handle = args[0]
-    order = args[1]
+def surname_table(form, user, action, name_row):
     retval = ""
     has_data = False
     cssid = "tab-surnames"
@@ -287,9 +285,10 @@ def surname_table(form, user, action, name_count):
                 surname.surname,
                 surname.prefix,
                 surname.primary,
-                goto=form.make_url("name/%s/surname/%s" % (name_count, count)))
+                goto=form.make_url("name/%s/surname/%s" % (name_row, count)))
             has_data = True
             count += 1
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval

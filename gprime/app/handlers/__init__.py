@@ -33,3 +33,4 @@ from .repositoryhandler import RepositoryHandler
 from .sourcehandler import SourceHandler
 from .taghandler import TagHandler
 from .settingshandler import SettingsHandler
+from .namehandler import NameHandler

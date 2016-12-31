@@ -96,6 +96,15 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
                 "value": self.value}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": cls.__name__,
+            "private": bool,
+            "type": AttributeType,
+            "value": str
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

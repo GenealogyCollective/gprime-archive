@@ -689,6 +689,19 @@ class Date:
                 "newyear": self.newyear}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "Date",
+            "calendar": int,
+            "modifier": int,
+            "quality": int,
+            "dateval": (int, int, int, bool),
+            "text": str,
+            "sortval": int,
+            "newyear": int
+        }
+
+    @classmethod
     def from_struct(cls, struct, full=False):
         """
         Given a struct data representation, return a serialized object.

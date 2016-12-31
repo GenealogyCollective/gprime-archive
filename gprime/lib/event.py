@@ -128,11 +128,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         Return the schema as a dictionary for this class.
         """
         from .attribute import Attribute
-        from .citation import Citation
-        from .note import Note
         from .date import Date
-        from .tag import Tag
-        from .media import Media
         return {
             "handle": Handle("Event", "EVENT-HANDLE"),
             "gid": str,
@@ -140,12 +136,12 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
             "date": Date,
             "description": str,
             "place": Handle("Place", "PLACE-HANDLE"),
-            "citation_list": [Citation],
-            "note_list": [Note],
-            "media_list": [Media],
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
+            "media_list": [Handle("Media", "MEDIA-HANDLE")],
             "attribute_list": [Attribute],
             "change": int,
-            "tag_list": [Tag],
+            "tag_list": [Handle("Tag", "TAG-HANDLE")],
             "private": bool,
         }
 

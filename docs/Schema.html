@@ -1,0 +1,735 @@
+<html>
+<body>
+<h1>gPrime Schema</h1>
+<p><a id="top"></a>These are the primary objects in gPrime. Click on their names to see the full specification.</p>
+<ol>
+<li><a href="#Person">Person</a></li>
+<li><a href="#Event">Event</a></li>
+<li><a href="#Repository">Repository</a></li>
+<li><a href="#Place">Place</a></li>
+<li><a href="#Citation">Citation</a></li>
+<li><a href="#Source">Source</a></li>
+<li><a href="#Tag">Tag</a></li>
+<li><a href="#Note">Note</a></li>
+<li><a href="#Family">Family</a></li>
+<li><a href="#Media">Media</a></li>
+</ol>
+<hr/>
+<ol>
+<a id="Person"><h2><li>Person</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>address_list</b>: list of <u>Address</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>location</b>: <u>Location</u>:
+            <ul>
+                <li><b>city</b>: string</li>
+                <li><b>country</b>: string</li>
+                <li><b>county</b>: string</li>
+                <li><b>locality</b>: string</li>
+                <li><b>parish</b>: string</li>
+                <li><b>phone</b>: string</li>
+                <li><b>postal</b>: string</li>
+                <li><b>state</b>: string</li>
+                <li><b>street</b>: string</li>
+            </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+        </ul>
+</li>
+    <li><b>alternate_names</b>: list of <u>Name</u>:
+        <ul>
+            <li><b>call</b>: string</li>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>display_as</b>: string</li>
+            <li><b>famnick</b>: string</li>
+            <li><b>first_name</b>: string</li>
+            <li><b>group_as</b>: string</li>
+            <li><b>nick</b>: string</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>sort_as</b>: string</li>
+            <li><b>suffix</b>: string</li>
+            <li><b>surname_list</b>: list of <u>Surname</u>:
+                <ul>
+                    <li><b>connector</b>: string</li>
+                    <li><b>origintype</b>: <u>NameOriginType</u>:
+                    <ul>
+                        <li><b>string</b>: string</li>
+                        <li><b>value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>prefix</b>: string</li>
+                    <li><b>primary</b>: string</li>
+                    <li><b>surname</b>: string</li>
+                </ul>
+</li>
+            <li><b>title</b>: string</li>
+            <li><b>type</b>: <u>NameType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+    <li><b>attribute_list</b>: list of <u>Attribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>birth_ref_index</b>: integer</li>
+    <li><b>change</b>: integer</li>
+    <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+    <li><b>death_ref_index</b>: integer</li>
+    <li><b>event_ref_list</b>: list of <u>EventRef</u>:
+        <ul>
+            <li><b>attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>private</b>: boolean</li>
+                    <li><b>type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>string</b>: string</li>
+                        <li><b>value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>value</b>: string</li>
+                </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>ref</b>: <a href="#Event">Event</a></li>
+            <li><b>role</b>: <u>EventRoleType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+    <li><b>family_list</b>: list of <a href="#Family">Family</a></li>
+    <li><b>gender</b>: integer</li>
+    <li><b>gid</b>: string</li>
+    <li><b>lds_ord_list</b>: list of <u>LdsOrd</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>famc</b>: <a href="#Family">Family</a></li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>place</b>: <a href="#Place">Place</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>status</b>: integer</li>
+            <li><b>temple</b>: string</li>
+            <li><b>type</b>: integer</li>
+        </ul>
+</li>
+    <li><b>media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>private</b>: boolean</li>
+                    <li><b>type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>string</b>: string</li>
+                        <li><b>value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>value</b>: string</li>
+                </ul>
+</li>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>parent_family_list</b>: list of <a href="#Family">Family</a></li>
+    <li><b>person_ref_list</b>: list of <u>PersonRef</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>ref</b>: <a href="#Person">Person</a></li>
+            <li><b>rel</b>: string</li>
+        </ul>
+</li>
+    <li><b>primary_name</b>: <u>Name</u>:
+    <ul>
+        <li><b>call</b>: string</li>
+        <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+        <li><b>date</b>: <u>Date</u>:
+        <ul>
+            <li><b>calendar</b>: integer</li>
+            <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+            <li><b>modifier</b>: integer</li>
+            <li><b>newyear</b>: integer</li>
+            <li><b>quality</b>: integer</li>
+            <li><b>sortval</b>: integer</li>
+            <li><b>text</b>: string</li>
+        </ul>
+</li>
+        <li><b>display_as</b>: string</li>
+        <li><b>famnick</b>: string</li>
+        <li><b>first_name</b>: string</li>
+        <li><b>group_as</b>: string</li>
+        <li><b>nick</b>: string</li>
+        <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+        <li><b>private</b>: boolean</li>
+        <li><b>sort_as</b>: string</li>
+        <li><b>suffix</b>: string</li>
+        <li><b>surname_list</b>: list of <u>Surname</u>:
+            <ul>
+                <li><b>connector</b>: string</li>
+                <li><b>origintype</b>: <u>NameOriginType</u>:
+                <ul>
+                    <li><b>string</b>: string</li>
+                    <li><b>value</b>: integer</li>
+                </ul>
+</li>
+                <li><b>prefix</b>: string</li>
+                <li><b>primary</b>: string</li>
+                <li><b>surname</b>: string</li>
+            </ul>
+</li>
+        <li><b>title</b>: string</li>
+        <li><b>type</b>: <u>NameType</u>:
+        <ul>
+            <li><b>string</b>: string</li>
+            <li><b>value</b>: integer</li>
+        </ul>
+</li>
+    </ul>
+</li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>urls</b>: list of <u>Url</u>:
+        <ul>
+            <li><b>desc</b>: string</li>
+            <li><b>path</b>: string</li>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>UrlType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+</ul>
+
+<a id="Event"><h2><li>Event</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>attribute_list</b>: list of <u>Attribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>change</b>: integer</li>
+    <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+    <li><b>date</b>: <u>Date</u>:
+    <ul>
+        <li><b>calendar</b>: integer</li>
+        <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+        <li><b>modifier</b>: integer</li>
+        <li><b>newyear</b>: integer</li>
+        <li><b>quality</b>: integer</li>
+        <li><b>sortval</b>: integer</li>
+        <li><b>text</b>: string</li>
+    </ul>
+</li>
+    <li><b>description</b>: string</li>
+    <li><b>gid</b>: string</li>
+    <li><b>media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>place</b>: <a href="#Place">Place</a></li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>type</b>: <u>EventType</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>value</b>: integer</li>
+    </ul>
+</li>
+</ul>
+
+<a id="Repository"><h2><li>Repository</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>address_list</b>: list of <u>Address</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>location</b>: <u>Location</u>:
+            <ul>
+                <li><b>city</b>: string</li>
+                <li><b>country</b>: string</li>
+                <li><b>county</b>: string</li>
+                <li><b>locality</b>: string</li>
+                <li><b>parish</b>: string</li>
+                <li><b>phone</b>: string</li>
+                <li><b>postal</b>: string</li>
+                <li><b>state</b>: string</li>
+                <li><b>street</b>: string</li>
+            </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+        </ul>
+</li>
+    <li><b>change</b>: integer</li>
+    <li><b>gid</b>: string</li>
+    <li><b>name</b>: string</li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>type</b>: <u>RepositoryType</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>value</b>: integer</li>
+    </ul>
+</li>
+    <li><b>urls</b>: list of <u>Url</u>:
+        <ul>
+            <li><b>desc</b>: string</li>
+            <li><b>path</b>: string</li>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>UrlType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+</ul>
+
+<a id="Place"><h2><li>Place</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>alt_loc</b>: list of <u>Location</u>:
+        <ul>
+            <li><b>city</b>: string</li>
+            <li><b>country</b>: string</li>
+            <li><b>county</b>: string</li>
+            <li><b>locality</b>: string</li>
+            <li><b>parish</b>: string</li>
+            <li><b>phone</b>: string</li>
+            <li><b>postal</b>: string</li>
+            <li><b>state</b>: string</li>
+            <li><b>street</b>: string</li>
+        </ul>
+</li>
+    <li><b>alt_names</b>: list of <u>PlaceName</u>:
+        <ul>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>lang</b>: string</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>change</b>: integer</li>
+    <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+    <li><b>code</b>: string</li>
+    <li><b>gid</b>: string</li>
+    <li><b>lat</b>: string</li>
+    <li><b>long</b>: string</li>
+    <li><b>media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>name</b>: <u>PlaceName</u>:
+    <ul>
+        <li><b>date</b>: <u>Date</u>:
+        <ul>
+            <li><b>calendar</b>: integer</li>
+            <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+            <li><b>modifier</b>: integer</li>
+            <li><b>newyear</b>: integer</li>
+            <li><b>quality</b>: integer</li>
+            <li><b>sortval</b>: integer</li>
+            <li><b>text</b>: string</li>
+        </ul>
+</li>
+        <li><b>lang</b>: string</li>
+        <li><b>value</b>: string</li>
+    </ul>
+</li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>place_type</b>: <u>PlaceType</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>value</b>: integer</li>
+    </ul>
+</li>
+    <li><b>placeref_list</b>: list of <u>PlaceRef</u>:
+        <ul>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>ref</b>: <a href="#Place">Place</a></li>
+        </ul>
+</li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>title</b>: string</li>
+    <li><b>urls</b>: list of <u>Url</u>:
+        <ul>
+            <li><b>desc</b>: string</li>
+            <li><b>path</b>: string</li>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>UrlType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+</ul>
+
+<a id="Citation"><h2><li>Citation</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>change</b>: integer</li>
+    <li><b>confidence</b>: string</li>
+    <li><b>date</b>: <u>Date</u>:
+    <ul>
+        <li><b>calendar</b>: integer</li>
+        <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+        <li><b>modifier</b>: integer</li>
+        <li><b>newyear</b>: integer</li>
+        <li><b>quality</b>: integer</li>
+        <li><b>sortval</b>: integer</li>
+        <li><b>text</b>: string</li>
+    </ul>
+</li>
+    <li><b>gid</b>: string</li>
+    <li><b>media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>page</b>: string</li>
+    <li><b>private</b>: boolean</li>
+    <li><b>source_handle</b>: <a href="#Source">Source</a></li>
+    <li><b>srcattr_list</b>: list of <u>SrcAttribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+</ul>
+
+<a id="Source"><h2><li>Source</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>abbrev</b>: string</li>
+    <li><b>author</b>: string</li>
+    <li><b>change</b>: integer</li>
+    <li><b>gid</b>: string</li>
+    <li><b>media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>private</b>: boolean</li>
+    <li><b>pubinfo</b>: string</li>
+    <li><b>reporef_list</b>: list of <u>RepoRef</u>:
+        <ul>
+            <li><b>call_number</b>: string</li>
+            <li><b>media_type</b>: <u>SourceMediaType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>ref</b>: <a href="#Repository">Repository</a></li>
+        </ul>
+</li>
+    <li><b>srcattr_list</b>: list of <u>SrcAttribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>title</b>: string</li>
+</ul>
+
+<a id="Tag"><h2><li>Tag</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>change</b>: integer</li>
+    <li><b>color</b>: string</li>
+    <li><b>name</b>: string</li>
+    <li><b>priority</b>: integer</li>
+</ul>
+
+<a id="Note"><h2><li>Note</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>change</b>: integer</li>
+    <li><b>format</b>: integer</li>
+    <li><b>gid</b>: string</li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>text</b>: <u>StyledText</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>tags</b>: list of <u>StyledTextTag</u>:
+            <ul>
+                <li><b>name</b>: <u>StyledTextTagType</u>:
+                <ul>
+                    <li><b>string</b>: string</li>
+                    <li><b>value</b>: integer</li>
+                </ul>
+</li>
+                <li><b>ranges</b>: list of tuple of integer, integer</li>
+                <li><b>value</b>: variable types</li>
+            </ul>
+</li>
+    </ul>
+</li>
+    <li><b>type</b>: <u>NoteType</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>value</b>: integer</li>
+    </ul>
+</li>
+</ul>
+
+<a id="Family"><h2><li>Family</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>attribute_list</b>: list of <u>Attribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>change</b>: integer</li>
+    <li><b>child_ref_list</b>: list of <u>ChildRef</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>frel</b>: <u>ChildRefType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>mrel</b>: <u>ChildRefType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>ref</b>: <a href="#Person">Person</a></li>
+        </ul>
+</li>
+    <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+    <li><b>event_ref_list</b>: list of <u>EventRef</u>:
+        <ul>
+            <li><b>attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>private</b>: boolean</li>
+                    <li><b>type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>string</b>: string</li>
+                        <li><b>value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>value</b>: string</li>
+                </ul>
+</li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>ref</b>: <a href="#Event">Event</a></li>
+            <li><b>role</b>: <u>EventRoleType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+        </ul>
+</li>
+    <li><b>father_handle</b>: <a href="#Person">Person</a></li>
+    <li><b>gid</b>: string</li>
+    <li><b>lds_ord_list</b>: list of <u>LdsOrd</u>:
+        <ul>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>date</b>: <u>Date</u>:
+            <ul>
+                <li><b>calendar</b>: integer</li>
+                <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+                <li><b>modifier</b>: integer</li>
+                <li><b>newyear</b>: integer</li>
+                <li><b>quality</b>: integer</li>
+                <li><b>sortval</b>: integer</li>
+                <li><b>text</b>: string</li>
+            </ul>
+</li>
+            <li><b>famc</b>: <a href="#Family">Family</a></li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>place</b>: <a href="#Place">Place</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>status</b>: integer</li>
+            <li><b>temple</b>: string</li>
+            <li><b>type</b>: integer</li>
+        </ul>
+</li>
+    <li><b>media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>private</b>: boolean</li>
+                    <li><b>type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>string</b>: string</li>
+                        <li><b>value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>value</b>: string</li>
+                </ul>
+</li>
+            <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>private</b>: boolean</li>
+            <li><b>rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
+    <li><b>mother_handle</b>: <a href="#Person">Person</a></li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+    <li><b>type</b>: <u>FamilyRelType</u>:
+    <ul>
+        <li><b>string</b>: string</li>
+        <li><b>value</b>: integer</li>
+    </ul>
+</li>
+</ul>
+
+<a id="Media"><h2><li>Media</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>attribute_list</b>: list of <u>Attribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
+    <li><b>change</b>: integer</li>
+    <li><b>checksum</b>: string</li>
+    <li><b>citation_list</b>: list of <a href="#Citation">Citation</a></li>
+    <li><b>date</b>: <u>Date</u>:
+    <ul>
+        <li><b>calendar</b>: integer</li>
+        <li><b>dateval</b>: tuple of integer, integer, integer, boolean</li>
+        <li><b>modifier</b>: integer</li>
+        <li><b>newyear</b>: integer</li>
+        <li><b>quality</b>: integer</li>
+        <li><b>sortval</b>: integer</li>
+        <li><b>text</b>: string</li>
+    </ul>
+</li>
+    <li><b>desc</b>: string</li>
+    <li><b>gid</b>: string</li>
+    <li><b>mime</b>: string</li>
+    <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
+    <li><b>path</b>: string</li>
+    <li><b>private</b>: boolean</li>
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+</ul>
+
+</ol>
+</body>
+</html>

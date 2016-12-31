@@ -93,6 +93,18 @@ class ChildRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
                 "mrel": self.mrel.to_struct()}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "ChildRef",
+            "private": bool,
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
+            "ref": Handle("Person", "PERSON-HANDLE"),
+            "frel": ChildRefType,
+            "mrel": ChildRefType,
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

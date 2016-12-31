@@ -88,6 +88,17 @@ class RepoRef(SecondaryObject, PrivacyBase, NoteBase, RefBase):
             }
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "RepositoryRef",
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
+            "ref": Handle("Repository", "REPOSITORY-HANDLE"),
+            "call_number": str,
+            "media_type": SourceMediaType,
+            "private": bool,
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

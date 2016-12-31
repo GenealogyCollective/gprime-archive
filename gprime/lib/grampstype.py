@@ -316,5 +316,13 @@ class GrampsType(object, metaclass=GrampsTypeMeta):
     def __ne__(self, value):
         return not self.__eq__(value)
 
+    @classmethod
+    def get_schema(cls):
+        return {
+            "_class": cls.__name__,
+            "value": int,
+            "string": str,
+        }
+
     value = property(__int__, __set_int, None, "Returns or sets integer value")
     string = property(__str__, __set_str, None, "Returns or sets string value")

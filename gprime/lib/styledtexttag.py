@@ -89,6 +89,15 @@ class StyledTextTag:
                 "ranges": self.ranges}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "StyledTextTag",
+            "name": StyledTextTagType,
+            "value": object,
+            "ranges": [(int, int)]
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

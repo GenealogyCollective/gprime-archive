@@ -90,6 +90,17 @@ class PersonRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase):
                 "rel": self.rel}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "PersonRef",
+            "private": bool,
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
+            "ref": Handle("Person", "PERSON-HANDLE"),
+            "rel": str,
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

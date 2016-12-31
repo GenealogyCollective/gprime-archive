@@ -91,6 +91,16 @@ class Url(SecondaryObject, PrivacyBase):
                 "type": self.type.to_struct()}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "Url",
+            "private": bool,
+            "path": str,
+            "desc": str,
+            "type": UrlType
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

@@ -89,6 +89,16 @@ class PlaceName(SecondaryObject, DateBase):
             }
 
     @classmethod
+    def get_schema(cls):
+        from .date import Date
+        return {
+            "_class": "PlaceName",
+            "value": str,
+            "date": Date,
+            "lang": str
+            }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

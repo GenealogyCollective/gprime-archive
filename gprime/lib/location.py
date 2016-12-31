@@ -89,6 +89,21 @@ class Location(SecondaryObject, LocationBase):
                 "parish": self.parish}
 
     @classmethod
+    def get_schema(cls):
+        return {
+            "_class": "Location",
+            "street": str,
+            "locality": str,
+            "city": str,
+            "county": str,
+            "state": str,
+            "country": str,
+            "postal": str,
+            "phone": str,
+            "parish": str
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

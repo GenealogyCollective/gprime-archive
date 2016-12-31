@@ -86,6 +86,20 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
                }
 
     @classmethod
+    def get_schema(cls):
+        from .date import Date
+        from .handle import Handle
+        from .location import Location
+        return {
+            "_class": "Address",
+            "private": bool,
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "CITATION-HANDLE")],
+            "date": Date,
+            "location": Location
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

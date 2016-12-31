@@ -166,6 +166,23 @@ class LdsOrd(SecondaryObject, CitationBase, NoteBase,
                 "private": self.private}
 
     @classmethod
+    def get_schema(cls):
+        from .date import Date
+        from .handle import Handle
+        return {
+            "_class": "LdsOrd",
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
+            "date": Date,
+            "type": int,
+            "place": Handle("Place", "PLACE-HANDLE"),
+            "famc": Handle("Family", "FAMILY-HANDLE"),
+            "temple": str,
+            "status": int,
+            "private": bool
+        }
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

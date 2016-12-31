@@ -96,15 +96,13 @@ class MediaRef(SecondaryObject, PrivacyBase, CitationBase, NoteBase, RefBase,
         :rtype: dict
         """
         from .attribute import Attribute
-        from .citation import Citation
-        from .note import Note
         return {
             "private": bool,
-            "citation_list": [Citation],
-            "note_list": [Note],
+            "citation_list": [Handle("Citation", "CITATION-HANDLE")],
+            "note_list": [Handle("Note", "NOTE-HANDLE")],
             "attribute_list": [Attribute],
             "ref": Handle("Media", "MEDIA-HANDLE"),
-            "rect": tuple, # or None if (0,0,0,0)
+            "rect": tuple([int, int, int, int]), # or None if (0,0,0,0)
         }
 
     @classmethod

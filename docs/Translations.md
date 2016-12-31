@@ -1,6 +1,9 @@
-For developers:
+# Translations
 
-## Editing Templates
+This page contains information on editing the translations for gPrime.
+
+Editing Templates
+-----------------
 
 When editing the templates in `gprime/share/gprime/data/templates/*.html`, you may use:
 

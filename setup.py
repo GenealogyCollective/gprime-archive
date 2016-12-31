@@ -61,7 +61,7 @@ class Install(install):
 
 class Build(build):
     """Custom build command."""
-    sub_commands = install.sub_commands + [
+    sub_commands = build.sub_commands + [
         ('build_scripts', None),
         ('build_py', None),
         ('build_ext', None),

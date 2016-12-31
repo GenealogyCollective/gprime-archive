@@ -32,13 +32,12 @@ class SettingsForm():
         self.view = "Settings"
         self.instance = self.database.get_user_data(self.handler.current_user)
 
-    def save(self, handler):
-        self.handler = handler
+    def save(self):
         # save the settings to the user table
         update = {}
         for field in ["css", "language", "email", "name"]:
-            update[field] = handler.get_argument(field)
-        if handler.get_argument("password"):
-            update["password"] = crypt.hash(handler.get_argument("password"))
-        self.database.update_user_data(handler.current_user, update)
-        handler.app.clear_user_data(handler.current_user)
+            update[field] = self.handler.get_argument(field)
+        if self.handler.get_argument("password") and self.handler.current_user != "demo":
+            update["password"] = crypt.hash(self.handler.get_argument("password"))
+        self.database.update_user_data(self.handler.current_user, update)
+        self.handler.app.clear_user_data(self.handler.current_user)

@@ -13,6 +13,7 @@ Additional Information
 
 * Blog - https://genealogycollective.wordpress.com/
 * Mailing list - https://groups.google.com/forum/#!forum/genealogycollective
+* Documentation - https://github.com/GenealogyCollective/gprime/tree/master/docs#gprime-documentation
 
 Requirements
 ------------

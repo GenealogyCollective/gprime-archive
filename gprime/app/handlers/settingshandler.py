@@ -39,5 +39,5 @@ class SettingsHandler(BaseHandler):
     def post(self, path=""):
         _ = self.app.get_translate_func(self.current_user)
         form = SettingsForm(self, self.database, _)
-        form.save(handler=self)
+        form.save()
         self.redirect("/settings")

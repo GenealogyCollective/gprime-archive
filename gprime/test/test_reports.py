@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 #
-# Gramps - a GTK+/GNOME based genealogy program
+# gPrime - a web-based genealogy program
 #
 # Copyright (c) 2016 Gramps Development Team
 #

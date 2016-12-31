@@ -1,4 +1,4 @@
-# Gramps - a GTK+/GNOME based genealogy program
+# gPrime - a web-based genealogy program
 #
 # Copyright (C) 2012 - 2015 Douglas S. Blank <doug.blank@gmail.com>
 #

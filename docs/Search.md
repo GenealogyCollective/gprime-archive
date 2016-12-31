@@ -26,31 +26,7 @@ If you specify which field to search, then gPrime will search exactly. The searc
 
 You may use commas to separate AND criteria. You may use | to separate OR criteria. OR has higher precedence than AND. 
 
-## Structure names
-
-### Person
-
-* handle:  
-* gramps_id: 
-* gender: 
-* primary_name: 
-* alternate_names: 
-* death_ref_index: 
-* birth_ref_index: 
-* event_ref_list: 
-* family_list: 
-* parent_family_list: 
-* media_list: 
-* address_list: 
-* attribute_list: 
-* urls: 
-* lds_ord_list: 
-* citation_list: 
-* note_list: 
-* change: 
-* tag_list: 
-* private: 
-* person_ref_list: 
+[gPrime Schema](http://htmlpreview.github.io/?https://github.com/GenealogyCollective/gprime/blob/master/docs/Schema.html)
 
 ## Examples
 

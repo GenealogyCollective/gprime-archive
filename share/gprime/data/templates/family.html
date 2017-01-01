@@ -20,7 +20,7 @@
 
 {% include "detail_breadcrumb.html" %}
 
-<h2>{{ form.render("father_handle", user, "view", link="/person/%(handle)s", handle=form.instance.father_handle)  }} and 
+<h2>{{ form.render("father_handle", user, "view", link="/person/%(handle)s", _class="get_focus", handle=form.instance.father_handle)  }} and 
 {{ form.render("mother_handle", user, "view", link="/person/%(handle)s", handle=form.instance.mother_handle)  }}
 </h2>
 

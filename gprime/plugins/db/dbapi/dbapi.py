@@ -1944,6 +1944,8 @@ class DBAPI(DbGeneric):
             return "1"
         elif value is False:
             return "0"
+        elif value is None:
+            return '""'
         elif isinstance(value, list):
             return repr(tuple(value))
         else:

@@ -256,7 +256,7 @@ class Form(object):
                 width = 100 // cols
                 self.select_fields = [(field, width) for field in select_fields]
                 # Make sure these fields have something in them:
-                select_where = ["OR", [(field, "!=", "") for field in select_fields]]
+                select_where = ["OR", [(field, "!=", None) for field in select_fields]]
             else:
                 self.select_fields = self.original_select_fields
                 select_where = None
@@ -268,8 +268,9 @@ class Form(object):
                     self.where = ["AND", [where]]
                 elif len(where) == 4:
                     self.where = ["AND", [where]]
-                if select_where:
-                    self.where = ["AND", [self.where, select_where]]
+                # FIXME: bug where None in select_where is different from ""
+                #if select_where:
+                #    self.where = ["AND", [self.where, select_where]]
             elif select_where:
                 self.where = select_where
         #self.select_fields = [("tag_list.0.name", 50), ("note_list.0.gid", 50)]
@@ -344,7 +345,7 @@ class Form(object):
     def get_label(self, field):
         return self.instance.get_label(field, self._)
 
-    def render(self, field, user, action, js=None, link=None, **kwargs):
+    def render(self, field, user, action, js=None, _class=None, link=None, **kwargs):
         from gprime.lib.handle import HandleClass
         from gprime.lib.struct import Struct
         from gprime.lib.grampstype import GrampsType
@@ -353,7 +354,8 @@ class Form(object):
             s = Struct.wrap(self.instance, self.database)
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
-            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%">""" % (field, field)
+            _class = """class ="%s" """ % _class if _class else ""
+            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%" %s>""" % (field, field, _class)
             tags = set()
             for item in data:
                 ## Tags:
@@ -371,14 +373,16 @@ class Form(object):
                 "field": field,
                 "checked": "checked" if data else "",
                 "disabled": "" if action == "edit" else "disabled",
+                "_class": """class ="%s" """ % _class if _class else "",
             }
-            return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field)s"></input>""" % env
+            return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field)s" %(_class)s></input>""" % env
         elif isinstance(data, GrampsType):
             env = {
                 "field": field,
                 "disabled": "" if action == "edit" else "disabled",
+                "_class": """class ="%s" """ % _class if _class else "",
             }
-            retval = """<select name="%(field)s" %(disabled)s id="id_%(field)s" style="width: 100%%">""" % env
+            retval = """<select name="%(field)s" %(disabled)s id="id_%(field)s" style="width: 100%%" %(_class)s>""" % env
             if action == "edit":
                 for option in data._DATAMAP:
                     env["selected"] = "selected" if option[2] == data.string else ""
@@ -394,8 +398,12 @@ class Form(object):
             retval = data
             if action in ["edit", "add"]:
                 id = js if js else "id_" + field
-                dict = {"id": id, "name": field, "value": retval}
-                retval = """<input id="%(id)s" type="text" name="%(name)s" value="%(value)s" style="display:table-cell; width:100%%">""" % dict
+                dict = {"id": id,
+                        "name": field,
+                        "value": retval,
+                        "_class": """class ="%s" """ % _class if _class else "",
+                }
+                retval = """<input id="%(id)s" type="text" name="%(name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s>""" % dict
         if field in self.post_process_functions:
             retval = self.post_process_functions[field](data, {})
         if link and action == "view":

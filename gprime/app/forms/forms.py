@@ -21,6 +21,7 @@
 import logging
 import math
 import time
+import re
 
 from ..template_functions import make_button
 
@@ -77,6 +78,7 @@ class Form(object):
         self.log = logging.getLogger(".Form")
         self.set_post_process_functions()
         self.sa = SimpleAccess(self.database)
+        self.original_select_fields = self.select_fields
 
     def make_url(self, *parts):
         """
@@ -145,22 +147,22 @@ class Form(object):
                 (" | <b>Showing</b> %s/%s <b>of</b> %s <b>in</b> %.4g seconds" % (matching, records, total, round(self.rows.time, 4))) +
                 "</div>")
 
-    def parse(self, search_pair):
+    def parse_where(self, search_pair):
         """
         search_pair: field OP value | search_pair OR search_pair
         """
         if "|" in search_pair:
             search_pairs = [s.strip() for s in search_pair.split("|")]
-            return ["OR", [self.parse(pair) for pair in search_pairs]]
+            return ["OR", [self.parse_where(pair) for pair in search_pairs]]
         elif "," in search_pair:
             search_pairs = [s.strip() for s in search_pair.split(",")]
-            return ["AND", [self.parse(pair) for pair in search_pairs]]
+            return ["AND", [self.parse_where(pair) for pair in search_pairs]]
         if "^" in search_pair: # second level or
             search_pairs = [s.strip() for s in search_pair.split("^")]
-            return ["OR", [self.parse(pair) for pair in search_pairs]]
+            return ["OR", [self.parse_where(pair) for pair in search_pairs]]
         elif "&" in search_pair:  # second level and
             search_pairs = [s.strip() for s in search_pair.split("&")]
-            return ["AND", [self.parse(pair) for pair in search_pairs]]
+            return ["AND", [self.parse_where(pair) for pair in search_pairs]]
         elif "!=" in search_pair:
             field, term = [s.strip() for s in search_pair.split("!=", 1)]
             if "%" in term:
@@ -218,18 +220,64 @@ class Form(object):
             term = term[1:-1]
         return term
 
+    def parse(self, search):
+        """
+        Returns (column_names, where)
+        """
+        match = re.match("select (.*) where (.*)", search)
+        if match:
+            return match.groups()
+        else:
+            match = re.match("select (.*)", search)
+            if match:
+                return match.groups()[0], None
+            else:
+                return None, search
+
+    def parse_select(self, search):
+        """
+        """
+        fields = [col.strip() for col in search.split(",")]
+        retval = []
+        for field in fields:
+            field = self.database.get_table_func(self.table,"class_func").get_field_alias(field)
+            retval.append(field)
+        return retval
+
     def select(self, page=1, search=None):
         self.page = page - 1
         self.search = search
         self.where = None
         if search:
-            where = self.parse(search)
-            if len(where) == 2:
-                self.where = where
-            elif len(where) == 3:
-                self.where = ["AND", [where]]
+            select_fields, where = self.parse(search)
+            if select_fields:
+                select_fields = self.parse_select(select_fields)
+                cols = len(select_fields)
+                width = 100 // cols
+                self.select_fields = [(field, width) for field in select_fields]
+                # Make sure these fields have something in them:
+                select_where = ["OR", [(field, "!=", "") for field in select_fields]]
+            else:
+                self.select_fields = self.original_select_fields
+                select_where = None
+            if where:
+                where = self.parse_where(where)
+                if len(where) == 2:
+                    self.where = where
+                elif len(where) == 3:
+                    self.where = ["AND", [where]]
+                elif len(where) == 4:
+                    self.where = ["AND", [where]]
+                if select_where:
+                    self.where = ["AND", [self.where, select_where]]
+            elif select_where:
+                self.where = select_where
+        #self.select_fields = [("tag_list.0.name", 50), ("note_list.0.gid", 50)]
+        #self.where = ['OR', [('tag_list.name', '!=', None),
+        #                      ("note_list.gid", "!=", None)]]
         self.log.debug("search: " + search)
         self.log.debug("where: " + str(self.where))
+        self.log.debug("select: " + str(self.select_fields))
         queryset = self.database.get_queryset_by_table_name(self.table)
         queryset.limit(start=self.page * self.page_size, count=self.page_size)
         queryset.order_by = self.order_by

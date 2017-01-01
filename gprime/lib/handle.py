@@ -51,6 +51,8 @@ def Handle(_classname, handle):
         Class created to have classname attribute.
         """
         classname = _classname
+        def get_labels(self, _):
+            return self.classname
     h = MyHandleClass(handle)
     return h
 

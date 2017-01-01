@@ -251,8 +251,7 @@ class TableObject(BaseObject):
         if chain[-1] in labels:
             return labels[chain[-1]]
         else:
-            raise Exception("%s has no such label on %s: '%s'" %
-                            (cls, path, field))
+            return field
 
     @classmethod
     def get_field_type(cls, field):

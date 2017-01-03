@@ -247,7 +247,10 @@ class TableObject(BaseObject):
         """
         chain = field.split(".")
         path = cls._follow_schema_path(chain[:-1])
-        labels = path.get_labels(_)
+        try:
+            labels = path.get_labels(_)
+        except: # When object doesn't have a get_labels method:
+            return field
         if chain[-1] in labels:
             return labels[chain[-1]]
         else:

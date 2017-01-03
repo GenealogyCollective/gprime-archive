@@ -358,7 +358,7 @@ function buttonOut(button) {
 </STYLE>
 </head>
 <body onclick="hideMenus()"
-      onload="if (document.getElementsByClassName('get_focus')) {document.getElementsByClassName('get_focus')[0].focus();}"
+      onload="if (document.getElementsByClassName('get_focus').length > 0) {document.getElementsByClassName('get_focus')[0].focus();}"
 >
    <div id="header" style="padding-top: 1em; background-position:0px -32px;">
      <h1 id="SiteTitle" style="margin-left: 0em;">{% block heading %}{{sitename}}{% end %}</h1>

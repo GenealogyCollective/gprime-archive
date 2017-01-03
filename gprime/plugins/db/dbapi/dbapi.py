@@ -141,20 +141,8 @@ class DBAPI(DbGeneric):
 
     def initialize_backend(self, directory):
         # Run code from directory
-        from gprime.utils.configmanager import ConfigManager
-        config_file = os.path.join(directory, 'settings.ini')
-        config_mgr = ConfigManager(config_file)
-        config_mgr.register('database.dbtype', 'sqlite')
-        config_mgr.register('database.dbname', 'gramps')
-        config_mgr.register('database.host', 'localhost')
-        config_mgr.register('database.user', 'user')
-        config_mgr.register('database.password', 'password')
-        config_mgr.register('database.port', 'port')
-        config_mgr.load() # load from settings.ini
         settings = {
-            "__file__":
-            os.path.join(directory, "settings.py"),
-            "config": config_mgr
+            "__file__": os.path.join(directory, "settings.py"),
         }
         settings_file = os.path.join(directory, "settings.py")
         with open(settings_file) as fp:

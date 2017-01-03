@@ -19,37 +19,29 @@
 #
 
 ## This file is copied from gprime/plugins/db/dbapi/settings.py
-## into each grampsdb/*/ directory. You can edit each copy
+## into each SITE-DIR/database directory. You can edit each copy
 ## to connect to different databases, or with different
 ## parameters.
 
-## The database options are saved in settings.ini.
-# NOTE: config is predefined
+import os
 
-# NOTE: you can override this in settings.ini or here:
-dbtype = config.get('database.dbtype')
+from gprime.plugins.db.dbapi.sqlite import Sqlite
+path_to_db = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                          'sqlite.db')
+dbapi = Sqlite(path_to_db)
 
-if dbtype == "sqlite":
-    from gprime.plugins.db.dbapi.sqlite import Sqlite
-    path_to_db = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                              'sqlite.db')
-    dbapi = Sqlite(path_to_db)
-else:
-    # NOTE: you can override these settings here or in settings.ini:
-    dbname = config.get('database.dbname')
-    host = config.get('database.host')
-    user = config.get('database.user')
-    password = config.get('database.password')
-    port = config.get('database.port')
-    if dbtype == "mysql":
-        from gprime.plugins.db.dbapi.mysql import MySQL
-        dbapi = MySQL(host, user, password, dbname,
-                      charset='utf8', use_unicode=True)
-    elif dbtype == "postgresql":
-        from gprime.plugins.db.dbapi.postgresql import Postgresql
-        dbapi = Postgresql(dbname=dbname, user=user,
-                           host=host, password=password)
-    else:
-        raise AttributeError(("invalid DB-API dbtype: '%s'. " +
-                              "Should be 'sqlite', 'mysql', " +
-                              "or 'postgresql'") % dbtype)
+# Edit this file to use other SQL databases:
+
+# dbname = "mydatabase"
+# host = "localhost"
+# user = "username"
+# password = "password"
+# port = "8000"
+
+# from gprime.plugins.db.dbapi.mysql import MySQL
+# dbapi = MySQL(host, user, password, dbname,
+#               charset='utf8', use_unicode=True)
+
+# from gprime.plugins.db.dbapi.postgresql import Postgresql
+# dbapi = Postgresql(dbname=dbname, user=user,
+#                    host=host, password=password)

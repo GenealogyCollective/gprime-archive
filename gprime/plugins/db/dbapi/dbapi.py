@@ -129,15 +129,11 @@ class DBAPI(DbGeneric):
         _LOG.debug("Write database backend file to 'dbapi'")
         with open(versionpath, "w") as version_file:
             version_file.write("dbapi")
-        # Write settings.py and settings.ini:
+        # Write settings.py
         settings_py = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                    "settings.py")
-        settings_ini = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                    "settings.ini")
         LOG.debug("Copy settings.py from: " + settings_py)
-        LOG.debug("Copy settings.ini from: " + settings_py)
         shutil.copy2(settings_py, directory)
-        shutil.copy2(settings_ini, directory)
 
     def initialize_backend(self, directory):
         # Run code from directory

@@ -52,11 +52,18 @@ class ActionHandler(BaseHandler):
                                              )
                     )
         else:
+            form = ActionForm(self)
+            try:
+                form.select(page, search)
+            except Exception as exp:
+                self.send_message(str(exp))
+                self.redirect(form.make_url())
+                return
             self.render("page_view.html",
                         **self.get_template_dict(tview=_("action view"),
                                                  page=page,
                                                  search=search,
-                                                 form=ActionForm(self),
+                                                 form=form,
                                              )
                     )
 

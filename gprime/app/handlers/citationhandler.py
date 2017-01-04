@@ -62,11 +62,18 @@ class CitationHandler(BaseHandler):
                 self.set_status(404)
                 self.finish("<html><body>No such citation</body></html>")
                 return
+        form = CitationForm(self)
+        try:
+            form.select(page, search)
+        except Exception as exp:
+            self.send_message(str(exp))
+            self.redirect(form.make_url())
+            return
         self.render("page_view.html",
                     **self.get_template_dict(tview=_("citation view"),
                                              page=page,
                                              search=search,
-                                             form=CitationForm(self),
+                                             form=form,
                                          )
                 )
 

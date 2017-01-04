@@ -64,13 +64,22 @@ class PersonHandler(BaseHandler):
                 self.set_status(404)
                 self.finish("<html><body>No such person</body></html>")
                 return
+        form = PersonForm(self)
+        # Do this here, to catch errors:
+        try:
+            form.select(page, search)
+        except Exception as exp:
+            self.send_message(str(exp))
+            self.redirect(form.make_url())
+            return
+        # If no errors, carry on:
         self.render("page_view.html",
                     **self.get_template_dict(tview=_("person view"),
                                              page=page,
                                              search=search,
-                                             form=PersonForm(self),
-                                         )
-                )
+                                             form=form,
+                    )
+        )
 
     @tornado.web.authenticated
     def post(self, path):

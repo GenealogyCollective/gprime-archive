@@ -288,20 +288,12 @@ class Form(object):
             time = 0
             total = 0
         start_time = time.time()
-        try:
-            self.rows = Result(queryset.select(*(self.get_select_fields() + self.env_fields)))
-        except Exception as exp:
-            self.handler.app.messages[self.handler.current_user].append(str(exp))
-            self.rows = Result()
-            return ""
+        self.rows = Result(queryset.select(*(self.get_select_fields() + self.env_fields)))
         queryset = self.database.get_queryset_by_table_name(self.table)
         queryset.where_by = self.where
         self.rows.total = queryset.count()
         self.rows.time = time.time() - start_time
         return ""
-
-    def clear_messages(self):
-        self.handler.app.messages[self.handler.current_user][:] = []
 
     def get_select_fields(self):
         return [field for (field, width) in self.select_fields]

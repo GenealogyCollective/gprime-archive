@@ -62,11 +62,18 @@ class TagHandler(BaseHandler):
                 self.set_status(404)
                 self.finish("<html><body>No such tag</body></html>")
                 return
+        form = TagForm(self)
+        try:
+            form.select(page, search)
+        except Exception as exp:
+            self.send_message(str(exp))
+            self.redirect(form.make_url())
+            return
         self.render("page_view.html",
                     **self.get_template_dict(tview=_("tag view"),
                                              page=page,
                                              search=search,
-                                             form=TagForm(self),
+                                             form=form,
                                          )
                 )
 

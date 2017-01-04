@@ -21,6 +21,7 @@
 import tornado.web
 import logging
 import hmac
+import json
 from passlib.hash import sha256_crypt as crypt
 
 from gprime.utils.locale import Locale, _
@@ -70,12 +71,25 @@ class BaseHandler(tornado.web.RequestHandler):
             "css_theme": self.app.get_css(self.current_user),
             "_": self.app.get_translate_func(self.current_user),
             "gprime_version": VERSION,
-            "messages": self.app.messages[self.current_user],
+            "messages": self.get_messages(),
             "next": self.get_argument("next", None),
         }
         dict.update(template_functions)
         dict.update(kwargs)
         return dict
+
+    def send_message(self, message):
+        self.set_secure_cookie("gprime-messages",
+                               json.dumps([message]).encode())
+
+    def get_messages(self):
+        # get cookie values:
+        cookie = self.get_secure_cookie("gprime-messages")
+        retval = []
+        if cookie:
+            retval = json.loads(cookie.decode())
+            self.clear_cookie("gprime-messages")
+        return retval
 
     def get_form(self, table):
         """

@@ -43,7 +43,6 @@ class GPrimeApp(Application):
     """
     def __init__(self, options, database, settings=None):
         import gprime.const
-        self.messages = defaultdict(list)
         self.options = options
         if settings is None:
             settings = self.default_settings()

@@ -389,20 +389,15 @@ function buttonOut(button) {
     </div>
    </div>
    <div class="grampsweb">
-     {#
      {% if messages %}
        {% for message in messages %}
-           <font color="red">{{ message }}</font><br/>
+           <p><font color="red">{{ message }}</font></p>
        {% end %}
      {% end %}
-     #}
-     {% if 0 %}
-        <div id="system_message" class="{#  message_type  #}">
-           <font color="red">{# message #}</font><br/>
-        </div>
-    {% end %}
+     
     {% block content %}
     {% end %}
+
    <div class="content">
     </div>
    </div>

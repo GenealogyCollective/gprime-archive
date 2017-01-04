@@ -62,11 +62,18 @@ class MediaHandler(BaseHandler):
                 self.set_status(404)
                 self.finish("<html><body>No such media</body></html>")
                 return
+        form = MediaForm(self)
+        try:
+            form.select(page, search)
+        except Exception as exp:
+            self.send_message(str(exp))
+            self.redirect(form.make_url())
+            return
         self.render("page_view.html",
                     **self.get_template_dict(tview=_("media view"),
                                              page=page,
                                              search=search,
-                                             form=MediaForm(self),
+                                             form=form,
                                          )
                 )
 

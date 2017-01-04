@@ -66,15 +66,16 @@ class Form(object):
     count_width = 5
     table = None
 
-    def __init__(self, database, _, instance=None):
+    def __init__(self, handler, instance=None):
         # scheme is a map from FIELD to Python Type, list[Gramps objects], or Handle
-        self._class = database.get_table_func(self.table, "class_func")
+        self.handler = handler
+        self.database = self.handler.database
+        self._ = self.handler.app.get_translate_func(self.handler.current_user)
+        self.instance = instance
+        self._class = self.database.get_table_func(self.table, "class_func")
         if self._class:
             self.schema = self._class.get_schema()
         self.where = None
-        self.database = database
-        self.instance = instance
-        self._ = _
         self.log = logging.getLogger(".Form")
         self.set_post_process_functions()
         self.sa = SimpleAccess(self.database)
@@ -224,11 +225,11 @@ class Form(object):
         """
         Returns (column_names, where)
         """
-        match = re.match("select (.*) where (.*)", search)
+        match = re.match("SELECT (.*) WHERE (.*)", search, re.IGNORECASE)
         if match:
             return match.groups()
         else:
-            match = re.match("select (.*)", search)
+            match = re.match("SELECT (.*)", search, re.IGNORECASE)
             if match:
                 return match.groups()[0], None
             else:
@@ -287,12 +288,20 @@ class Form(object):
             time = 0
             total = 0
         start_time = time.time()
-        self.rows = Result(queryset.select(*(self.get_select_fields() + self.env_fields)))
+        try:
+            self.rows = Result(queryset.select(*(self.get_select_fields() + self.env_fields)))
+        except Exception as exp:
+            self.handler.app.messages[self.handler.current_user].append(str(exp))
+            self.rows = Result()
+            return ""
         queryset = self.database.get_queryset_by_table_name(self.table)
         queryset.where_by = self.where
         self.rows.total = queryset.count()
         self.rows.time = time.time() - start_time
         return ""
+
+    def clear_messages(self):
+        self.handler.app.messages[self.handler.current_user][:] = []
 
     def get_select_fields(self):
         return [field for (field, width) in self.select_fields]
@@ -413,7 +422,7 @@ class Form(object):
     def get(self, field):
         return self.instance.get_field(field, self.database)
 
-    def save(self, handler):
+    def save(self):
         from gprime.lib.grampstype import GrampsType
         # go thorough fields and save values
         for field in self.edit_fields:
@@ -424,14 +433,14 @@ class Form(object):
                 continue
             if isinstance(part, (list, tuple)): # Tag
                 try:
-                    value = handler.get_arguments(field)
+                    value = self.handler.get_arguments(field)
                 except:
                     self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
                     value = None
                 part[:] = value
             elif isinstance(part, bool): # Bool
                 try:
-                    value = handler.get_argument(field)
+                    value = self.handler.get_argument(field)
                 except:
                     value = "off"
                 self.instance.set_field(field, True if value == "on" else False)
@@ -441,7 +450,7 @@ class Form(object):
                 pass
             else:
                 try:
-                    value = handler.get_argument(field)
+                    value = self.handler.get_argument(field)
                 except:
                     self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
                     value = None

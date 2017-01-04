@@ -56,7 +56,7 @@ class PersonHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PersonForm(self.database, _, instance=person),
+                                                     form=PersonForm(self, instance=person),
                                                      logform=None))
                 return
             else:
@@ -68,7 +68,7 @@ class PersonHandler(BaseHandler):
                     **self.get_template_dict(tview=_("person view"),
                                              page=page,
                                              search=search,
-                                             form=PersonForm(self.database, _),
+                                             form=PersonForm(self),
                                          )
                 )
 
@@ -85,7 +85,7 @@ class PersonHandler(BaseHandler):
             person.handle = handle = create_id()
         else:
             person = self.database.get_person_from_handle(handle)
-        form = PersonForm(self.database, _, instance=person)
-        form.save(handler=self)
+        form = PersonForm(self, instance=person)
+        form.save()
         self.redirect("/person/%(handle)s" % {"handle": handle})
 

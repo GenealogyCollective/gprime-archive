@@ -25,8 +25,8 @@ class NameForm(Form):
     A form for listing, viewing, and editing user settings.
     """
     table = "Person"
-    def __init__(self, database, _, instance, handle, row):
-        super().__init__(database, _, instance)
+    def __init__(self, handler, instance, handle, row):
+        super().__init__(handler, instance)
         self.tview = self._("Name")
         self.view = "Name"
         self.row = row

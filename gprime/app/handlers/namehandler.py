@@ -44,7 +44,7 @@ class NameHandler(BaseHandler):
         self.render("name.html",
                     **self.get_template_dict(tview=_("name"),
                                              action=action,
-                                             form=NameForm(self.database, _, instance, handle, row),
+                                             form=NameForm(self, instance, handle, row),
                                              logform=None))
         return
 
@@ -57,6 +57,6 @@ class NameHandler(BaseHandler):
         if action == "add":
             instance.alternate_names.append(Name())
             ## FIXME: put data from form into Name
-        form = NameForm(self.database, _, instance, handle, row)
+        form = NameForm(self, instance, handle, row)
         form.save()
         self.redirect(instance.make_url("#tab-names"))

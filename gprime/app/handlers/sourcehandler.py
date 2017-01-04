@@ -54,7 +54,7 @@ class SourceHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=SourceForm(self.database, _, instance=source),
+                                                     form=SourceForm(self, instance=source),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class SourceHandler(BaseHandler):
                     **self.get_template_dict(tview=_("source view"),
                                              page=page,
                                              search=search,
-                                             form=SourceForm(self.database, self._),
+                                             form=SourceForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class SourceHandler(BaseHandler):
             source.handle = handle = create_id()
         else:
             source = self.database.get_source_from_handle(handle)
-        form = SourceForm(self.database, _, instance=source)
-        form.save(handler=self)
+        form = SourceForm(self, instance=source)
+        form.save()
         self.redirect("/source/%(handle)s" % {"handle": handle})
 

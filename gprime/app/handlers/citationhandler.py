@@ -54,7 +54,7 @@ class CitationHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=CitationForm(self.database, _, instance=citation),
+                                                     form=CitationForm(self, instance=citation),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class CitationHandler(BaseHandler):
                     **self.get_template_dict(tview=_("citation view"),
                                              page=page,
                                              search=search,
-                                             form=CitationForm(self.database, _),
+                                             form=CitationForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class CitationHandler(BaseHandler):
             citation.handle = handle = create_id()
         else:
             citation = self.database.get_citation_from_handle(handle)
-        form = CitationForm(self.database, _, instance=citation)
-        form.save(handler=self)
+        form = CitationForm(self, instance=citation)
+        form.save()
         self.redirect("/citation/%(handle)s" % {"handle": handle})
 

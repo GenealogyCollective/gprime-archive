@@ -24,10 +24,10 @@ class SettingsForm():
     """
     A form for listing, viewing, and editing user settings.
     """
-    def __init__(self, handler, database, _):
-        self.database = database
+    def __init__(self, handler):
         self.handler = handler
-        self._ = _
+        self.database = handler.database
+        self._ = handler.app._
         self.tview = self._("Settings")
         self.view = "Settings"
         self.instance = self.database.get_user_data(self.handler.current_user)

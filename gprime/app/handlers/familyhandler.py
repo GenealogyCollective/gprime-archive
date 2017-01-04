@@ -53,7 +53,7 @@ class FamilyHandler(BaseHandler):
                             **self.get_template_dict(tview=_("family detail"),
                                                      page=page,
                                                      action=action,
-                                                     form=FamilyForm(self.database, _, instance=family),
+                                                     form=FamilyForm(self, instance=family),
                                                      logform=None))
                 return
             else:
@@ -65,7 +65,7 @@ class FamilyHandler(BaseHandler):
                     **self.get_template_dict(tview=_("family view"),
                                              page=page,
                                              search=search,
-                                             form=FamilyForm(self.database, _),
+                                             form=FamilyForm(self),
                                          )
                 )
 
@@ -81,6 +81,6 @@ class FamilyHandler(BaseHandler):
             family.handle = handle = create_id()
         else:
             family = self.database.get_family_from_handle(handle)
-        form = FamilyForm(self.database, _, instance=family)
-        form.save(handler=self)
+        form = FamilyForm(self, instance=family)
+        form.save()
         self.redirect("/family/%(handle)s" % {"handle": handle})

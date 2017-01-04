@@ -54,7 +54,7 @@ class RepositoryHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=RepositoryForm(self.database, _, instance=repository),
+                                                     form=RepositoryForm(self, instance=repository),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class RepositoryHandler(BaseHandler):
                     **self.get_template_dict(tview=_("repository view"),
                                              page=page,
                                              search=search,
-                                             form=RepositoryForm(self.database, _),
+                                             form=RepositoryForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class RepositoryHandler(BaseHandler):
             repository.handle = handle = create_id()
         else:
             repository = self.database.get_repository_from_handle(handle)
-        form = RepositoryForm(self.database, _, instance=repository)
-        form.save(handler=self)
+        form = RepositoryForm(self, instance=repository)
+        form.save()
         self.redirect("/repository/%(handle)s" % {"handle": handle})
 

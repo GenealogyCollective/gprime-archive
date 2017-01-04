@@ -54,7 +54,7 @@ class EventHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=EventForm(self.database, _, instance=event),
+                                                     form=EventForm(self, instance=event),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class EventHandler(BaseHandler):
                     **self.get_template_dict(tview=_("event view"),
                                              page=page,
                                              search=search,
-                                             form=EventForm(self.database, _),
+                                             form=EventForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class EventHandler(BaseHandler):
             event.handle = handle = create_id()
         else:
             event = self.database.get_event_from_handle(handle)
-        form = EventForm(self.database, _, instance=event)
-        form.save(handler=self)
+        form = EventForm(self, instance=event)
+        form.save()
         self.redirect("/event/%(handle)s" % {"handle": handle})
 

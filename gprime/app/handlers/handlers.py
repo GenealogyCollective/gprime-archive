@@ -70,7 +70,7 @@ class BaseHandler(tornado.web.RequestHandler):
             "css_theme": self.app.get_css(self.current_user),
             "_": self.app.get_translate_func(self.current_user),
             "gprime_version": VERSION,
-            "messages": [],
+            "messages": self.app.messages[self.current_user],
             "next": self.get_argument("next", None),
         }
         dict.update(template_functions)

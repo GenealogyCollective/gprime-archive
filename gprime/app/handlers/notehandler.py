@@ -54,7 +54,7 @@ class NoteHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=NoteForm(self.database, _, instance=note),
+                                                     form=NoteForm(self, instance=note),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class NoteHandler(BaseHandler):
                     **self.get_template_dict(tview=_("note view"),
                                              page=page,
                                              search=search,
-                                             form=NoteForm(self.database, _),
+                                             form=NoteForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class NoteHandler(BaseHandler):
             note.handle = handle = create_id()
         else:
             note = self.database.get_note_from_handle(handle)
-        form = NoteForm(self.database, _, instance=note)
-        form.save(handler=self)
+        form = NoteForm(self, instance=note)
+        form.save()
         self.redirect("/note/%(handle)s" % {"handle": handle})
 

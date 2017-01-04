@@ -54,7 +54,7 @@ class MediaHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=MediaForm(self.database, _, instance=media),
+                                                     form=MediaForm(self, instance=media),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class MediaHandler(BaseHandler):
                     **self.get_template_dict(tview=_("media view"),
                                              page=page,
                                              search=search,
-                                             form=MediaForm(self.database, _),
+                                             form=MediaForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class MediaHandler(BaseHandler):
             media.handle = handle = create_id()
         else:
             media = self.database.get_media_from_handle(handle)
-        form = MediaForm(self.database, _, instance=media)
-        form.save(handler=self)
+        form = MediaForm(self, instance=media)
+        form.save()
         self.redirect("/media/%(handle)s" % {"handle": handle})
 

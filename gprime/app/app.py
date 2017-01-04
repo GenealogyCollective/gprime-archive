@@ -29,6 +29,7 @@ import signal
 import webbrowser
 import threading
 from passlib.hash import sha256_crypt as crypt
+from collections import defaultdict
 
 from .handlers import *
 from .forms import *
@@ -42,6 +43,7 @@ class GPrimeApp(Application):
     """
     def __init__(self, options, database, settings=None):
         import gprime.const
+        self.messages = defaultdict(list)
         self.options = options
         if settings is None:
             settings = self.default_settings()

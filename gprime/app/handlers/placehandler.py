@@ -54,7 +54,7 @@ class PlaceHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PlaceForm(self.database, _, instance=place),
+                                                     form=PlaceForm(self, instance=place),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class PlaceHandler(BaseHandler):
                     **self.get_template_dict(tview=_("place view"),
                                              page=page,
                                              search=search,
-                                             form=PlaceForm(self.database, _),
+                                             form=PlaceForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class PlaceHandler(BaseHandler):
             place.handle = handle = create_id()
         else:
             place = self.database.get_place_from_handle(handle)
-        form = PlaceForm(self.database, _, instance=place)
-        form.save(handler=self)
+        form = PlaceForm(self, instance=place)
+        form.save()
         self.redirect("/place/%(handle)s" % {"handle": handle})
 

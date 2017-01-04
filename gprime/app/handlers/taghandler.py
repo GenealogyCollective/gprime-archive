@@ -54,7 +54,7 @@ class TagHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=TagForm(self.database, _, instance=tag),
+                                                     form=TagForm(self, instance=tag),
                                                      logform=None))
                 return
             else:
@@ -66,7 +66,7 @@ class TagHandler(BaseHandler):
                     **self.get_template_dict(tview=_("tag view"),
                                              page=page,
                                              search=search,
-                                             form=TagForm(self.database, _),
+                                             form=TagForm(self),
                                          )
                 )
 
@@ -82,7 +82,7 @@ class TagHandler(BaseHandler):
             tag.handle = handle = create_id()
         else:
             tag = self.database.get_tag_from_handle(handle)
-        form = TagForm(self.database, _, instance=tag)
-        form.save(handler=self)
+        form = TagForm(self, instance=tag)
+        form.save()
         self.redirect("/tag/%(handle)s" % {"handle": handle})
 

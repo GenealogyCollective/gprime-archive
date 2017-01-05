@@ -27,7 +27,7 @@ class SettingsForm():
     def __init__(self, handler):
         self.handler = handler
         self.database = handler.database
-        self._ = handler.app._
+        self._ = self.handler.app.get_translate_func(self.handler.current_user)
         self.tview = self._("Settings")
         self.view = "Settings"
         self.instance = self.database.get_user_data(self.handler.current_user)

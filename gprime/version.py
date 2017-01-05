@@ -18,9 +18,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-__version__ = "0.0.5"
-
-VERSION_TUPLE = (1, 0, 0)
-VERSION_QUALIFIER = ""
-VERSION        = '.'.join(map(str,VERSION_TUPLE)) + VERSION_QUALIFIER
+## "-alpha", "-beta" is optional:
+__version__ = "1.0.6-alpha"
+VERSION        = __version__
+# three numbers, semantic versioning:
+VERSION_TUPLE = tuple([int(number) for number in __version__.split("-")[0].split(".")])
+# two string numbers, semantic versioning:
 major_version = "%s.%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1])

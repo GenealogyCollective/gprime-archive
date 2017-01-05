@@ -72,9 +72,12 @@ class Form(object):
         self.database = self.handler.database
         self._ = self.handler.app.get_translate_func(self.handler.current_user)
         self.instance = instance
-        self._class = self.database.get_table_func(self.table, "class_func")
-        if self._class:
+        if self.table in self.database.get_table_names():
+            self._class = self.database.get_table_func(self.table, "class_func")
             self.schema = self._class.get_schema()
+        else:
+            self._class = None
+            self.schema = None
         self.where = None
         self.log = logging.getLogger(".Form")
         self.set_post_process_functions()

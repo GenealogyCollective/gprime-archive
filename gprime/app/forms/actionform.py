@@ -170,9 +170,9 @@ class ActionForm(Form):
 
     def __init__(self, handler, instance=None):
         self.gramps_database = handler.database
-        database = DictionaryDb()
-        database.load(None)
-        database.add_table_funcs("Action", Table().get_function_dict())
+        handler.database = DictionaryDb()
+        handler.database.load(None)
+        handler.database.add_table_funcs("Action", Table().get_function_dict())
         super().__init__(handler, instance=instance)
 
     def set_post_process_functions(self):

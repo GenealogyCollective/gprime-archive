@@ -187,19 +187,19 @@
     {{ event_table(form, user, action) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;"> 
-    {{ citation_table(form, user, action) }}
+    {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action) }}
+    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
-    {{ note_table(form, user, action) }}
+    {{ note_table(form, user, action, form.instance.note_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;"> 
-    {{ media_table(form, user, action) }}
+    {{ media_table(form, user, action, form.instance.media_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-lds" style="background-color: #f4f0ec;"> 
-    {{ lds_table(form, user, action) }}
+    {{ lds_table(form, user, action, form.instance.lds_ord_list) }}
   </div>
 </div>
 

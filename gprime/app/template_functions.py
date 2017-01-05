@@ -301,7 +301,7 @@ def alt_name_table(form, user, action):
     cssid = "tab-alt-names"
     return "FIXME"
 
-def citation_table(form, user, action):
+def citation_table(form, user, action, citation_list):
     # FIXME: how can citation_table and source_table both be on same
     # page? This causes problems with form names, tab names, etc.
     retval = ""
@@ -316,7 +316,7 @@ def citation_table(form, user, action):
     )
     if user or form.instance.public:
         count = 1
-        for citation_ref in form.instance.citation_list:
+        for citation_ref in citation_list:
             if citation_ref:
                 citation = form.database.get_citation_from_handle(citation_ref)
                 table.append_row(citation.gid,
@@ -338,7 +338,7 @@ def citation_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def repository_table(form, user, action):
+def repository_table(form, user, action, reporef_list):
     retval = ""
     has_data = False
     cssid = "tab-repositories"
@@ -352,7 +352,7 @@ def repository_table(form, user, action):
     )
     if user or form.instance.public:
         count = 1
-        for repo_ref in form.instance.reporef_list:
+        for repo_ref in reporef_list:
             handle = repo_ref.ref
             repo = form.database.get_repository_from_handle(handle)
             table.append_row(repo.gid,
@@ -375,7 +375,7 @@ def repository_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def note_table(form, user, action):
+def note_table(form, user, action, note_list):
     retval = ""
     has_data = False
     cssid = "tab-notes"
@@ -387,13 +387,13 @@ def note_table(form, user, action):
         (form._("Note"), 59),
     )
     if user or form.instance.public:
-        notes = Struct.wrap(form.instance, form.database).note_list;
         count = 1
-        for note in notes:
+        for handle in note_list:
+            note = form.database.get_note_from_handle(handle)
             table.append_row(note.gid,
                              str(note.type.string),
                              note.text.string[:50],
-                             goto=note.instance.make_url(),
+                             goto=note.make_url(),
                              edit=form.make_url("note/%s" % count))
             has_data = True
             count += 1
@@ -404,15 +404,12 @@ def note_table(form, user, action):
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
-    text = table.get_html(action)
-    text = text.replace("{{", """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">""")
-    text = text.replace("}}", """</div>""")
-    retval += text
+    retval += table.get_html(action)
     if has_data:
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def attribute_table(form, user, action):
+def attribute_table(form, user, action, attribute_list):
     retval = ""
     has_data = False
     cssid = "tab-attributes"
@@ -424,7 +421,7 @@ def attribute_table(form, user, action):
     )
     count = 1
     if user or form.instance.public:
-        for attribute in form.instance.attribute_list:
+        for attribute in attribute_list:
             table.append_row(attribute.type.string,
                              attribute.value,
                              goto="attribute/%s" % count)
@@ -441,7 +438,7 @@ def attribute_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def address_table(form, user, action): #TODO: Make table customizable (For instance, if user desires to display counties or lat/long)
+def address_table(form, user, action, address_list): #TODO: Make table customizable (For instance, if user desires to display counties or lat/long)
     retval = ""
     has_data = False
     cssid = "tab-addresses"
@@ -454,14 +451,13 @@ def address_table(form, user, action): #TODO: Make table customizable (For insta
         (form._("State"), 15),
         (form._("Country"), 15),
     )
-    s = Struct.wrap(form.instance, form.database)
     count = 1
-    for address in s.address_list:
+    for address in address_list:
         table.append_row(address.date.text,
-                         address.location.street,
-                         address.location.city,
-                         address.location.state,
-                         address.location.country,
+                         address.street,
+                         address.city,
+                         address.state,
+                         address.country,
                          goto="address/%s" % count)
         has_data = True
         count += 1
@@ -476,7 +472,7 @@ def address_table(form, user, action): #TODO: Make table customizable (For insta
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def media_table(form, user, action):
+def media_table(form, user, action, media_list):
     retval = ""
     has_data = False
     cssid = "tab-media"
@@ -489,7 +485,7 @@ def media_table(form, user, action):
     )
     count = 1
     if user or form.instance.public:
-        for media_ref in form.instance.media_list:
+        for media_ref in media_list:
             media = form.database.get_media_from_handle(media_ref.ref)
             table.append_row(media.desc,
                              media.mime,
@@ -510,7 +506,7 @@ def media_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def internet_table(form, user, action):
+def internet_table(form, user, action, urls):
     retval = ""
     has_data = False
     cssid = "tab-internet"
@@ -521,9 +517,8 @@ def internet_table(form, user, action):
         (form._("Path"), 35),
         (form._("Description"), 35),
     )
-    s = Struct.wrap(form.instance, form.database)
     count = 1
-    for url in s.urls:
+    for url in urls:
         table.append_row(url.type.string,
                          url.path,
                          url.desc,
@@ -619,7 +614,7 @@ def location_table(form, user, action):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def lds_table(form, user, action):
+def lds_table(form, user, action, lds_ord_list):
     retval = ""
     has_data = False
     cssid = "tab-lds"
@@ -632,11 +627,10 @@ def lds_table(form, user, action):
         (form._("Temple"), 20),
         (form._("Place"), 30),
     )
-    s = Struct.wrap(form.instance, form.database)
     count = 1
     if user or form.instance.public:
-        for lds in s.lds_ord_list:
-            date = lds.date.instantiate()
+        for lds in lds_ord_list:
+            date = lds.date
             table.append_row(lds.type,
                              date_display(date) if date else "",
                              lds.status,

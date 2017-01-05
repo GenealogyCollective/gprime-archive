@@ -103,13 +103,13 @@
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("Sources")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;">
-    {{ address_table(form, user, action) }}
+    {{ address_table(form, user, action, form.instance.address_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">
-    {{ internet_table(form, user, action) }}
+    {{ internet_table(form, user, action, form.instance.urls) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;">
-    {{ note_table(form, user, action) }}
+    {{ note_table(form, user, action, form.instance.note_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ reference_table(form, user, action) }}

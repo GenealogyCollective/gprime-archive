@@ -39,6 +39,7 @@ class NameHandler(BaseHandler):
         _ = self.app.get_translate_func(self.current_user)
         instance = self.database.get_person_from_handle(handle)
         if action == "add":
+            ## FIXME:
             instance.alternate_names.append(Name())
 
         self.render("name.html",

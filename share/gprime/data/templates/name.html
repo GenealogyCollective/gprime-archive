@@ -72,48 +72,102 @@
 
 <form method="post">{% module xsrf_form_html() %}
 <tr>
- <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
+  <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
+
+  {% if int(form.row) == 1 %}
+  <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.type" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
+  
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.first_name") }}:</td>
+
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.first_name", user, action) }}</td>
+ {% else %}
+ <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.first_name" % (int(form.row) - 2), user, action) }}</td>
+ {% end %}
+
+
  <td class="ColumnAttribute">{{ form.get_label("primary_name.call") }}:</td>
+
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.call", user, action) }}</td>
+ {% else %}
+ <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.call" % (int(form.row) - 2), user, action) }}</td>
+ {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.nick") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.nick", user, action) }}</td>
+ {% else %}
+ <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.nick" % (int(form.row) - 2), user, action) }}</td>
+ {% end %}
  <td class="ColumnAttribute">{{ form.get_label("primary_name.famnick") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.famnick", user, action) }}</td>
+ {% else %}
+ <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.famnick" % (int(form.row) - 2), user, action) }}</td>
+ {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.private") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.private", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.private" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
  <td class="ColumnAttribute">{{ form.get_label("primary_name.date") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.date", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.date" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.suffix") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.suffix", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.suffix" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
  <td class="ColumnAttribute">{{ form.get_label("primary_name.title") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.title", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.title" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.group_as") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.group_as", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.group_as" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
  <td class="ColumnAttribute">{{ form.get_label("primary_name.sort_as") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.sort_as", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.sort_as" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.display_as") }}:</td>
+ {% if int(form.row) == 1 %}
  <td class="ColumnValue" id="data">{{ form.render("primary_name.display_as", user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.display_as" % (int(form.row) - 2), user, action) }}</td>
+  {% end %}
 </tr>
 <tr><td id="rowspace"></td></tr>
 </tbody>
@@ -146,11 +200,15 @@
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-surnames" style="background-color: #f4f0ec;"> 
     {{ surname_table(form, user, action, form.row) }}
   </div>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-notes" style="background-color: #f4f0ec;"> 
-    {{ note_table(form, user, action) }}
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-notes" style="background-color: #f4f0ec;">
+    {% if int(form.row) == 1 %}
+    {{ note_table(form, user, action, form.instance.primary_name.note_list) }}
+    {% else %}
+    {{ note_table(form, user, action, form.instance.alternate_names[int(form.row) - 2].note_list) }}
+    {% end %}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
-    {{ citation_table(form, user, action) }}
+    {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
 </div>
 

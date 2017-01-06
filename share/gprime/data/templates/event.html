@@ -20,7 +20,11 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
+  <table class="infolist" style="width:100%;">
+      <col width="10%">
+      <col width="35%">
+      <col width="10%">
+      <col width="35%">
 <tbody>
   {% if messages %}
     <hr>
@@ -44,32 +48,38 @@ Event:
 
 <form method="post">{% module xsrf_form_html() %}
 <tr>
- <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("date") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("date", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
- <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
-
+ <td class="ColumnAttribute">{{ form.get_label("description") }}:</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("description", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+  <td class="ColumnAttribute">
+    {{ form.get_label("place") }}:
+  </td>
+  <td class="ColumnValue" id="data" colspan="3">
+    {{ form.render("place.name.value", user, action) }}
+    [{{ form.render("place.gid", user, action) }}]
+  </td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
  <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
-
-{#
-
-
-
-#}
-
 <tr>
- <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
+ <td class="ColumnValue" id="data" rowspan="2">{{ form.render("private", user, action) }}</td>
 </tr>
-
-
-
 </tbody>
 </table>
 </div>
@@ -113,7 +123,7 @@ Event:
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">{{_("Citations")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">{{_("Source Citations")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">{{_("Gallery")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-attributes" href="#tab-attributes">{{_("Attributes")}}</a></li>

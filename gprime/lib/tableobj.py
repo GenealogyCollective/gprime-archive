@@ -320,7 +320,7 @@ class TableObject(BaseObject):
             while p < len(chain) and keep_going:
                 #print("while:", path_to, chain[p:])
                 part = chain[p]
-                if hasattr(current, part): # attribute
+                if hasattr(current, part) and not isinstance(current, (str, bool, int)): # attribute
                     current = getattr(current, part)
                     path_to.append(part)
                 # need to consider current+part if current is list:

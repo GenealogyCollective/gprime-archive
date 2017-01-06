@@ -65,6 +65,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
     @classmethod
     def get_labels(cls, _):
         return {
+            "_class": _("Source"),
             "handle": _("Handle"),
             "gid": _("ID"),
             "title": _("Title"),
@@ -74,7 +75,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "media_list": _("Media"),
             "abbrev": _("Abbreviation"),
             "change": _("Last changed"),
-            "srcattr_list": _("Source Attributes"),
+            "attribute_list": _("Source Attributes"),
             "reporef_list": _("Repositories"),
             "tag_list": _("Tags"),
             "private": _("Private")
@@ -111,9 +112,9 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "media_list": [Handle("Media", "MEDIA-HANDLE")],
             "abbrev": str,
             "change": int,
-            "srcattr_list": [SrcAttribute],
+            "attribute_list": [SrcAttribute],
             "reporef_list": [RepoRef],
-            "tag_list": [Handle("Tag", "")],
+            "tag_list": [Handle("Tag", "TAG-HANDLE")],
             "private": bool
         }
 
@@ -147,7 +148,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
                 "media_list": MediaBase.to_struct(self),
                 "abbrev": str(self.abbrev),
                 "change": self.change,
-                "srcattr_list": SrcAttributeBase.to_struct(self),
+                "attribute_list": SrcAttributeBase.to_struct(self),
                 "reporef_list": [rr.to_struct() for rr in self.reporef_list],
                 "tag_list": TagBase.to_struct(self),
                 "private": self.private}

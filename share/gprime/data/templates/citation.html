@@ -43,16 +43,37 @@ Citation:
 #}
 
 <form method="post">{% module xsrf_form_html() %}
-<tr>
- <td class="ColumnAttribute">{{ form.get_label("source_handle.title") }}:</td>
- <td class="ColumnValue" id="data">{{ form.instance.get_field("source_handle.title", form.database) }}</td>
- <td class="ColumnAttribute">{{ form.get_label("source_handle.author") }}:</td>
- <td class="ColumnValue" id="data" colspan="3">{{ form.render("source_handle.author", user, "view") }}</td>
+  <tr>
+
+    {% if form.instance.get_field("source_handle.self", form.database) %}
+    
+    <td class="ColumnAttribute">{{ _("Source Title") }}:</td>
+    <td class="ColumnValue" id="data">
+      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
+	{{ form.render("source_handle.title", user, "view") }}
+      </a>
+    </td>
+    <td class="ColumnAttribute">{{ _("Source Author") }}:</td>
+    <td class="ColumnValue" id="data">
+      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
+	{{ form.render("source_handle.author", user, "view") }}
+      </a>
+    </td>
+
+    {% else %}
+
+    <td class="ColumnAttribute">{{ _("Source Title") }}:</td>
+    <td class="ColumnValue" id="data"></td>
+    <td class="ColumnAttribute">{{ _("Source Author") }}:</td>
+    <td class="ColumnValue" id="data">
+
+    {% end %}
+
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("change") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("change", user, "view") }}</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("change", user, "view") }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -76,7 +97,7 @@ Citation:
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td> 
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnValue" id="data">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 </tbody>
 </table>

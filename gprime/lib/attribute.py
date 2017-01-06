@@ -115,7 +115,7 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
         data = (AttributeType.from_struct(struct.get("type", {})),
                 struct.get("value", default.value))
         (self.type, self.value) = data
-        PrivacyBase.set_from_struct(struct.get("private", default.private))
+        PrivacyBase.set_from_struct(self, struct)
         return self
 
     def get_text_data_list(self):

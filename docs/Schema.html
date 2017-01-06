@@ -460,6 +460,18 @@
 
 <a id="Citation"><h2><li>Citation</li></h2></a> [<a href="#top">top</a>]
 <ul>
+    <li><b>attribute_list</b>: list of <u>SrcAttribute</u>:
+        <ul>
+            <li><b>private</b>: boolean</li>
+            <li><b>type</b>: <u>AttributeType</u>:
+            <ul>
+                <li><b>string</b>: string</li>
+                <li><b>value</b>: integer</li>
+            </ul>
+</li>
+            <li><b>value</b>: string</li>
+        </ul>
+</li>
     <li><b>change</b>: integer</li>
     <li><b>confidence</b>: string</li>
     <li><b>date</b>: <u>Date</u>:
@@ -479,7 +491,13 @@
     <li><b>page</b>: string</li>
     <li><b>private</b>: boolean</li>
     <li><b>source_handle</b>: <a href="#Source">Source</a></li>
-    <li><b>srcattr_list</b>: list of <u>SrcAttribute</u>:
+    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
+</ul>
+
+<a id="Source"><h2><li>Source</li></h2></a> [<a href="#top">top</a>]
+<ul>
+    <li><b>abbrev</b>: string</li>
+    <li><b>attribute_list</b>: list of <u>SrcAttribute</u>:
         <ul>
             <li><b>private</b>: boolean</li>
             <li><b>type</b>: <u>AttributeType</u>:
@@ -491,12 +509,6 @@
             <li><b>value</b>: string</li>
         </ul>
 </li>
-    <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>
-</ul>
-
-<a id="Source"><h2><li>Source</li></h2></a> [<a href="#top">top</a>]
-<ul>
-    <li><b>abbrev</b>: string</li>
     <li><b>author</b>: string</li>
     <li><b>change</b>: integer</li>
     <li><b>gid</b>: string</li>
@@ -516,18 +528,6 @@
             <li><b>note_list</b>: list of <a href="#Note">Note</a></li>
             <li><b>private</b>: boolean</li>
             <li><b>ref</b>: <a href="#Repository">Repository</a></li>
-        </ul>
-</li>
-    <li><b>srcattr_list</b>: list of <u>SrcAttribute</u>:
-        <ul>
-            <li><b>private</b>: boolean</li>
-            <li><b>type</b>: <u>AttributeType</u>:
-            <ul>
-                <li><b>string</b>: string</li>
-                <li><b>value</b>: integer</li>
-            </ul>
-</li>
-            <li><b>value</b>: string</li>
         </ul>
 </li>
     <li><b>tag_list</b>: list of <a href="#Tag">Tag</a></li>

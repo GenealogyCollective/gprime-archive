@@ -44,17 +44,39 @@ Citation:
 
 <form method="post">{% module xsrf_form_html() %}
 <tr>
+ <td class="ColumnAttribute">{{ form.get_label("source_handle.title") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.instance.get_field("source_handle.title", form.database) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("source_handle.author") }}:</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("source_handle.author", user, "view") }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("change") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("change", user, "view") }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("date") }}:</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("date", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("page") }}:</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("page", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("confidence") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("confidence", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td> 
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
  <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
-</tr>
-<tr><td id="rowspace"></td></tr>
 </tr>
 </tbody>
 </table>
@@ -99,8 +121,20 @@ Citation:
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+    <li class="ui-corner-top ui-state-default ui-tabs-selected ui-state-active"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">{{_("Gallery")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-attributes" href="#tab-attributes">{{_("Attributes")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-notes" style="background-color: #f4f0ec;">
+    {{ note_table(form, user, action, form.instance.note_list) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-media" style="background-color: #f4f0ec;">
+    {{ media_table(form, user, action, form.instance.media_list) }}
+  </div>
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;">
+    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
+  </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ reference_table(form, user, action) }}
   </div>

@@ -96,7 +96,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "source_handle": Handle("Source", "SOURCE-HANDLE"),
             "note_list": [Handle("Note", "NOTE-HANDLE")],
             "media_list": [Handle("Media", "MEDIA-HANDLE")],
-            "srcattr_list": [SrcAttribute],
+            "attribute_list": [SrcAttribute],
             "change": int,
             "tag_list": [Handle("Tag", "TAG-HANDLE")],
             "private": bool,
@@ -127,7 +127,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "source_handle": _("Source"),
             "note_list": _("Notes"),
             "media_list": _("Media"),
-            "srcattribute_list": _("Source Attributes"),
+            "attribute_list": _("Source Attributes"),
             "change": _("Last changed"),
             "tag_list": _("Tags"),
             "private": _("Private"),
@@ -162,7 +162,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
                 "source_handle": Handle("Source", self.source_handle), #  5
                 "note_list": NoteBase.to_struct(self),           #  6
                 "media_list": MediaBase.to_struct(self),         #  7
-                "srcattr_list": SrcAttributeBase.to_struct(self),#  8
+                "attribute_list": SrcAttributeBase.to_struct(self),#  8
                 "change": self.change,                           #  9
                 "tag_list": TagBase.to_struct(self),             # 10
                 "private": self.private}                         # 11

@@ -21,12 +21,12 @@
 
 <div id="summaryarea">
 <table class="infolist" style="width:100%;"> 
+      <col width="10%">
       <col width="12.5%">
       <col width="12.5%">
       <col width="12.5%">
       <col width="12.5%">
-      <col width="12.5%">
-      <col width="12.5%">
+      <col width="15%">
       <col width="12.5%">
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
@@ -34,7 +34,7 @@
  <td colspan="4"></td>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
- <td colspan="1" rowspan="11" width="80px" style="border-style: double;">{{form.get_media(80)}}</td>
+ <td class="ColumnValue" id="data" colspan="1" rowspan="11" width="150px" style="border-style: double;">{{form.get_media(150, 150)}}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -71,7 +71,7 @@
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>

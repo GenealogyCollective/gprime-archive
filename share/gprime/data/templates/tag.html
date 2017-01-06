@@ -20,7 +20,9 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="80%">
 <tbody>
   {% if messages %}
     <hr>
@@ -49,8 +51,12 @@ Tag:
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
+ <td class="ColumnAttribute">{{ form.get_label("color") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("color", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
+ <td class="ColumnAttribute">{{ form.get_label("priority") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("priority", user, action) }}</td>
 </tr>
 </tbody>
 </table>

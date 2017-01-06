@@ -52,13 +52,13 @@ Citation:
     {% if form.instance.get_field("source_handle.self", form.database) %}
     
     <td class="ColumnAttribute">{{ _("Source Title") }}:</td>
-    <td class="ColumnValue" id="data">
+    <td class="ColumnValue">
       <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
 	{{ form.render("source_handle.title", user, "view") }}
       </a>
     </td>
     <td class="ColumnAttribute">{{ _("Source Author") }}:</td>
-    <td class="ColumnValue" id="data">
+    <td class="ColumnValue">
       <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
 	{{ form.render("source_handle.author", user, "view") }}
       </a>
@@ -101,8 +101,11 @@ Citation:
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td> 
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
+<tr><td id="rowspace"></td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
 </tbody>
 </table>
 </div>

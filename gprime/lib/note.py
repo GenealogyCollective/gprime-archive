@@ -149,7 +149,7 @@ class Note(BasicPrimaryObject):
             "handle": _("Handle"),
             "gid": _("ID"),
             "text": _("Text"),
-            "format": _("Format"),
+            "format": _("Preformatted"),
             "type": _("Type"),
             "change": _("Last changed"),
             "tag_list": _("Tags"),

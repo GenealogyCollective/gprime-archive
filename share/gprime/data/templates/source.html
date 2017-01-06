@@ -20,7 +20,11 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;">
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="35%">
+    <col width="10%">
+    <col width="35%">
 <tbody>
   {% if messages %}
     <hr>
@@ -37,6 +41,8 @@
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("title") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("title", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
+ <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -47,9 +53,6 @@
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("pubinfo") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("pubinfo", user, action) }}</td>
-</tr>
-<tr><td id="rowspace"></td></tr>
-<tr>
  <td class="ColumnAttribute">{{ form.get_label("abbrev") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("abbrev", user, action) }}</td>
 </tr>
@@ -57,13 +60,8 @@
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
-</tr>
-<tr><td id="rowspace"></td></tr>
-<tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
- <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 </tr>

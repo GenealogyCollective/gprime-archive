@@ -19,7 +19,7 @@
 #
 
 ## "-alpha", "-beta" is optional:
-__version__ = "1.0.6-alpha"
+__version__ = "1.0.7-alpha"
 VERSION        = __version__
 # three numbers, semantic versioning:
 VERSION_TUPLE = tuple([int(number) for number in __version__.split("-")[0].split(".")])

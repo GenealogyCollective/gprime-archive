@@ -359,7 +359,7 @@ class Form(object):
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
             _class = """class ="%s" """ % _class if _class else ""
-            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%" %s>""" % (field, field, _class)
+            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" %s>""" % (field, field, _class)
             tags = set()
             for item in data:
                 ## Tags:

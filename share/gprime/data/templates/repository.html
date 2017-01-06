@@ -21,7 +21,13 @@
 
 <div id="summaryarea">
 <table class="infolist" style="width:100%;"> 
-<tbody>
+
+  <col width="10%">
+  <col width="35%">
+  <col width="10%">
+  <col width="35%">
+
+  <tbody>
   {% if messages %}
     <hr>
     <p id="error">The following fields have errors. Please correct and try again.</p>
@@ -36,7 +42,7 @@
 <form method="post">{% module xsrf_form_html() %}
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("name") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("name", user, action) }}</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("name", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -50,7 +56,7 @@
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 </tr>
@@ -99,10 +105,10 @@
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
     <li class="ui-corner-top ui-state-default"><a class="tab-addresses" href="#tab-addresses">{{_("Addresses")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-internet" href="#tab-internet">{{_("Internet")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("Sources")}}</a></li>
   </ul>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;">
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-addresses" style="background-color: #f4f0ec;">
     {{ address_table(form, user, action, form.instance.address_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">

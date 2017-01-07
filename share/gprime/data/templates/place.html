@@ -20,7 +20,11 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;">
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="35%">
+    <col width="10%">
+    <col width="35%">
 <tbody>
   {% if messages %}
     <hr>
@@ -44,18 +48,46 @@ Place:
 
 <form method="post">{% module xsrf_form_html() %}
 <tr>
+ <td class="ColumnAttribute">{{ form.get_label("name-value") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("name.value", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("name-date") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("name.date", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("name-lang") }}:</td>
+ <td class="ColumnValue" id="data" colspan="3">{{ form.render("name.lang", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
+ <td class="ColumnValue" rowspan="5">{{ form.render("tag_list", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("lat") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("lat", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("long") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("long", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("place_type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("place_type", user, action) }}</td>
+ <td class="ColumnAttribute">{{ form.get_label("code") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("code", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
- <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
-</tr>
 </tbody>
 </table>
 </div>
@@ -100,21 +132,21 @@ Place:
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
     <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a class="tab-enclosed-by" href="#tab-enclosed-by">{{_("Enclosed By")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-alt-names" href="#tab-alt-names">{{_("Alternate Name")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">{{_("Citation")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">{{_("Media")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-alt-names" href="#tab-alt-names">{{_("Alternate Names")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-citations" href="#tab-citations">{{_("Source Citations")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
+    <li class="ui-corner-top ui-state-default"><a class="tab-media" href="#tab-media">{{_("Gallery")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-internet" href="#tab-internet">{{_("Internet")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("References")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-enclosed-by" style="background-color: #f4f0ec;">
-    {{ enclosed_by_table(form, user, action) }}
+    {{ enclosed_by_table(form, user, action, form.instance.placeref_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-internet" style="background-color: #f4f0ec;">
     {{ internet_table(form, user, action, form.instance.urls) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-alt-names" style="background-color: #f4f0ec;">
-    {{ alt_name_table(form, user, action) }}
+    {{ alt_name_table(form, user, action, form.instance.alt_names) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-citations" style="background-color: #f4f0ec;">
     {{ citation_table(form, user, action, form.instance.citation_list) }}

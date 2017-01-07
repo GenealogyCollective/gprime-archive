@@ -293,13 +293,73 @@ def surname_table(form, user, action, name_row):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def enclosed_by_table(form, user, action):
+def enclosed_by_table(form, user, action, placeref_list):
     cssid = "tab-enclosed-by"
-    return "FIXME"
+    retval = ""
+    has_data = False
+    table = Table(form)
+    table.set_columns(
+        ("", 11),
+        (form._("ID"), 10),
+        (form._("Name"), 30),
+        (form._("Type"), 19),
+        (form._("Date"), 30),
+    )
+    if user or form.instance.public:
+        count = 1
+        for ref in placeref_list:
+            place = form.database.get_place_from_handle(ref.ref)
+            table.append_row(place.gid,
+                             place.name.value,
+                             place.place_type,
+                             ref.date,
+                             goto=place.make_url(),
+                             edit=form.make_url("enclosed_by/%s" % count))
+            has_data = True
+            count += 1
+    retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
+    if user and action == "view":
+        retval += make_icon_button(form._("Add New Enclosing Place"), form.make_url("enclosed_by/add"), icon="+")
+        retval += make_icon_button(form._("Share Existing Enclosing Place"), form.make_url("enclosed_by/share"), icon="p")
+    else:
+        retval += nbsp("") # to keep tabs same height
+    retval += """</div>"""
+    retval += table.get_html(action)
+    if has_data:
+        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
+    return retval
 
-def alt_name_table(form, user, action):
+def alt_name_table(form, user, action, alt_names):
     cssid = "tab-alt-names"
-    return "FIXME"
+    retval = ""
+    has_data = False
+    table = Table(form)
+    table.set_columns(
+        ("", 11),
+        (form._("Name"), 30),
+        (form._("Date"), 30),
+        (form._("Language"), 29),
+    )
+    if user or form.instance.public:
+        count = 1
+        for place_name in alt_names:
+            table.append_row(place_name.value,
+                             place.name.date,
+                             goto=form.make_url("alt_name/%s" % count),
+                             edit=form.make_url("alt_name/%s" % count))
+            has_data = True
+            count += 1
+    retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
+    if user and action == "view":
+        retval += make_icon_button(form._("Add New Alternate Name"), form.make_url("enclosed_by/add"), icon="+")
+    else:
+        retval += nbsp("") # to keep tabs same height
+    retval += """</div>"""
+    retval += table.get_html(action)
+    if has_data:
+        retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
+    return retval
+
 
 def citation_table(form, user, action, citation_list):
     # FIXME: how can citation_table and source_table both be on same

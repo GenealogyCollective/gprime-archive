@@ -5,11 +5,11 @@ def primary():
     return [Person, Event, Repository, Place, Citation,
             Source, Tag, Note, Family, Media]
 
-def describe(item, indent=0):
+def describe(item, indent=0, path=""):
     if isinstance(item, list):
-        return "list of %s" % ", ".join(describe(i, indent + 4) for i in item)
+        return "list of %s" % ", ".join(describe(i, indent + 4, path) for i in item)
     elif isinstance(item, tuple):
-        return "tuple of %s" % ", ".join(describe(i, indent + 4) for i in item)
+        return "tuple of %s" % ", ".join(describe(i, indent + 4, path) for i in item)
     elif item == int:
         return "integer"
     elif item == bool:
@@ -25,7 +25,7 @@ def describe(item, indent=0):
         for field in fields:
             if field in ["handle", "_class"]: # don't show these
                 continue
-            retval += (" " * (indent + 4)) + "<li><b>%s</b>: %s</li>\n" % (field, describe(schema[field], indent + 4))
+            retval += (" " * (indent + 4)) + "<li><b>%s.%s</b>: %s</li>\n" % (path, field, describe(schema[field], indent + 4, path + "." + field))
         retval += " " * indent + "</ul>\n"
         if item in primary():
             return "<a id=\"%s\"><h2><li>%s</li></h2></a> [<a href=\"#top\">top</a>]\n%s" % (item.__name__, item.__name__, retval)
@@ -45,7 +45,7 @@ print("</ol>")
 print("<hr/>")
 print("<ol>")
 for table in primary():
-    print(describe(table))
+    print(describe(table, path=table.__name__))
 print("</ol>")
 print("</body>")
 print("</html>")

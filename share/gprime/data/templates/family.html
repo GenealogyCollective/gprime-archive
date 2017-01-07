@@ -29,8 +29,8 @@
 <tbody>
 <form method="post" onsubmit="setReturnValues()">{% module xsrf_form_html() %}
 <tr>
-<th colspan="2">Father/partner1</th>
-<th colspan="2">Mother/partner2</th>
+<td colspan="2"><b>Spouse 1:</b></td>
+<td colspan="2"><b>Spouse 2:</b></td>
 </tr>
 <tr>
  <td class="ColumnAttribute">Name:</td>
@@ -103,7 +103,7 @@
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
-  <th colspan="4">Relationship information</th>
+  <td colspan="4"><b>Relationship information:</b></td>
 </tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
@@ -114,12 +114,12 @@
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("private", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("type", user, action) }}</td>
 </tr>
 </tbody>
 </table>

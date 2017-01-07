@@ -26,26 +26,6 @@
       <col width="10%">
       <col width="35%">
 <tbody>
-  {% if messages %}
-    <hr>
-    <p id="error">The following fields have errors. Please correct and try again.</p>
-    <div id="error">
-       {# personform.errors #}
-       {# nameform.errors #}
-       {# surnameform.errors #}
-       {# logform.errors #}
-    </div>
-    <hr>
-  {% end %}
-
-{#
-
-Gramps ID: N0001                               Type: General
-  Private: False                               Tags:
-Citation:        
-
-#}
-
 <form method="post">{% module xsrf_form_html() %}
   <tr>
 
@@ -53,13 +33,13 @@ Citation:
     
     <td class="ColumnAttribute">{{ _("Source Title") }}:</td>
     <td class="ColumnValue">
-      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
+      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}" style="text-decoration: underline">
 	{{ form.render("source_handle.title", user, "view") }}
       </a>
     </td>
     <td class="ColumnAttribute">{{ _("Source Author") }}:</td>
     <td class="ColumnValue">
-      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}">
+      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}" style="text-decoration: underline">
 	{{ form.render("source_handle.author", user, "view") }}
       </a>
     </td>
@@ -99,7 +79,7 @@ Citation:
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td> 
+ <td class="ColumnValue">{{ form.render("private", user, action) }}</td> 
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
  <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
 </tr>
@@ -109,12 +89,6 @@ Citation:
 </tbody>
 </table>
 </div>
-
-{% if logform %}
-  <table>
-    {# logform.as_table #}
-  </table>
-{% end %}
 
 {% if user %}
   {% if action == "edit" %}

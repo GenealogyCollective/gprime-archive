@@ -344,9 +344,10 @@ def alt_name_table(form, user, action, alt_names):
         count = 1
         for place_name in alt_names:
             table.append_row(place_name.value,
-                             place.name.date,
-                             goto=form.make_url("alt_name/%s" % count),
-                             edit=form.make_url("alt_name/%s" % count))
+                             place_name.date,
+                             place_name.lang,
+                             goto=form.instance.make_url("alt_name/%s" % count),
+                             edit=form.instance.make_url("alt_name/%s" % count))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""

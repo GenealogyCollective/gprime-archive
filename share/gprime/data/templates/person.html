@@ -30,11 +30,14 @@
       <col width="12.5%">
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
-<tr>
- <td colspan="4"></td>
+  <tr>
+    <td>&nbsp;</td>
+  <td colspan="3">
+    <b>{{ form.display_name(form.instance) }}</b>
+  </td>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.type") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("primary_name.type", user, action) }}</td>
- <td class="ColumnValue" id="data" colspan="1" rowspan="11" width="150px" style="border-style: double;">{{form.get_media(150, 150)}}</td>
+ <td class="ColumnValue">{{ form.render("primary_name.type", user, action) }}</td>
+ <td colspan="1" rowspan="11" width="150px">{{form.get_media(150, 150)}}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -61,7 +64,7 @@
    link="/person/?search=surname%%3D%(surname)s", 
    surname=form.get("primary_name.surname_list.0.surname")) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.surname_list.0.origintype") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.0.origintype", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("primary_name.surname_list.0.origintype", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -76,21 +79,14 @@
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("private", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("probably_alive") }}:</td>
- <td class="ColumnValue" id="data">{% if form.probably_alive() %}Yes{% else %}No{% end %}</td>
 </tr>
 </tbody>
 </table>
 
 </div>
 </div>
-
-{% if logform %}
-  <table>
-    {# logform.as_table #}
-  </table>
-{% end %}
 
 {% if user %}
   {% if action == "edit" %}

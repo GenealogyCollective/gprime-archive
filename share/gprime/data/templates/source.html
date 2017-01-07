@@ -26,17 +26,6 @@
     <col width="10%">
     <col width="35%">
 <tbody>
-  {% if messages %}
-    <hr>
-    <p id="error">The following fields have errors. Please correct and try again.</p>
-    <div id="error">
-       {# personform.errors #}
-       {# nameform.errors #}
-       {# surnameform.errors #}
-       {# logform.errors #}
-    </div>
-    <hr>
-  {% end %}
 <form method="post">{% module xsrf_form_html() %}
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("title") }}:</td>
@@ -61,19 +50,13 @@
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("private", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 </tr>
 </tbody>
 </table>
 </div>
-
-{% if logform %}
-  <table>
-    {# logform.as_table #}
-  </table>
-{% end %}
 
 {% if user %}
   {% if action == "edit" %}

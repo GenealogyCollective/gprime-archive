@@ -24,26 +24,6 @@
     <col width="10%">
     <col width="80%">
 <tbody>
-  {% if messages %}
-    <hr>
-    <p id="error">The following fields have errors. Please correct and try again.</p>
-    <div id="error">
-       {# personform.errors #}
-       {# nameform.errors #}
-       {# surnameform.errors #}
-       {# logform.errors #}
-    </div>
-    <hr>
-  {% end %}
-
-{#
-
-Gramps ID: N0001                               Type: General
-  Private: False                               Tags:
-Tag:        
-
-#}
-
 <form method="post">{% module xsrf_form_html() %}
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("name") }}:</td>
@@ -61,12 +41,6 @@ Tag:
 </tbody>
 </table>
 </div>
-
-{% if logform %}
-  <table>
-    {# logform.as_table #}
-  </table>
-{% end %}
 
 {% if user %}
   {% if action == "edit" %}

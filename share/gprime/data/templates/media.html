@@ -20,33 +20,16 @@
 {% include "detail_breadcrumb.html" %}
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="70%">
+    <col width="20%">
 <tbody>
-  {% if messages %}
-    <hr>
-    <p id="error">The following fields have errors. Please correct and try again.</p>
-    <div id="error">
-       {# personform.errors #}
-       {# nameform.errors #}
-       {# surnameform.errors #}
-       {# logform.errors #}
-    </div>
-    <hr>
-  {% end %}
-
-{#
-
-Gramps ID: N0001                               Type: General
-  Private: False                               Tags:
-Media:        
-
-#}
-
 <form method="post">{% module xsrf_form_html() %}
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
- <td colspan="1" rowspan="11" width="150px" style="border-style: double;">{{form.get_media(150, 150)}}</td>
+ <td colspan="1" rowspan="11" width="150px" style="border-left-style: solid">{{form.get_media(150, 150)}}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -66,7 +49,7 @@ Media:
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("private", user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr> 
@@ -78,12 +61,6 @@ Media:
 </tbody>
 </table>
 </div>
-
-{% if logform %}
-  <table>
-    {# logform.as_table #}
-  </table>
-{% end %}
 
 {% if user %}
   {% if action == "edit" %}
@@ -123,13 +100,13 @@ Media:
     <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Notes")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-references" href="#tab-references">{{_("Referencess")}}</a></li>
   </ul>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-references" style="background-color: #f4f0ec;"> 
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
     {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
     {{ attribute_table(form, user, action, form.instance.attribute_list) }}
   </div>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 
+  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
     {{ note_table(form, user, action, form.instance.note_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;"> 

@@ -463,6 +463,9 @@ class Form(object):
                 return nd(person)
         return ""
 
+    def display_name(self, person):
+        return nd(person)
+
     def get_media(self, width, height=None):
         if hasattr(self.instance, "media_list"):
             if self.instance.media_list:

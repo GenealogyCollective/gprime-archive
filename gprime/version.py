@@ -18,8 +18,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-## "-alpha", "-beta" is optional:
-__version__ = "1.0.7-alpha"
+## "-alpha", "-beta", "-beta1" is optional:
+__version__ = "1.0.8-alpha"
 VERSION        = __version__
 # three numbers, semantic versioning:
 VERSION_TUPLE = tuple([int(number) for number in __version__.split("-")[0].split(".")])

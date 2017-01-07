@@ -127,30 +127,20 @@
 </div>
 
 {% if user %}
-  {% if action == "edit" %}
-    {# make_button "Cancel" "/family/%s" family.handle args #}
+  {% if action != "edit" %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ make_icon_button(_("Add Family"), "/family/add", icon="+") }}
+      {{ make_icon_button(_("Edit Family"), "/family/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {{ make_icon_button(_("Delete Family"), "/family/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      </div>
+  {% else %}
     <input type="hidden" id="father_return" name="father_return" value=""/>
     <input type="hidden" id="mother_return" name="mother_return" value=""/>
     <input type="hidden" name="action" value="save"/>
     <input type="hidden" name="search" value="{#search#}"/>
     <input type="hidden" name="page" value="{#page#}"/>
     <input type="submit" value="Save"/>
-  {% else %}
-    {% if action == "add" %}
-      {# make_button "Cancel" "/family/" args #}
-      <input type="hidden" id="father_return" name="father_return" value=""/>
-      <input type="hidden" id="mother_return" name="mother_return" value=""/>
-      <input type="hidden" name="action" value="create"/>
-      <input type="hidden" name="search" value="{#search#}"/>
-      <input type="hidden" name="page" value="{#page#}"/>
-      <input type="submit" value="Create"/>
-    {% else %}
-      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ make_icon_button(_("Add Family"), "/family/add", icon="+") }}
-      {{ make_icon_button(_("Edit Family"), "/family/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
-      {{ make_icon_button(_("Delete Family"), "/family/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
-      </div>
-    {% end %}
+    {{make_button(_("Cancel"), form.instance.make_url())}}
   {% end %}
 {% else %}
 {% end %}

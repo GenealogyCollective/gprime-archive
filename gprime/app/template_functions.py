@@ -163,7 +163,7 @@ class Table(object):
             cell += div
             rowhtml += cell
             for count in range(1, len(self.columns)):
-                cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[count][1]), colspan="1")
+                cell = Html("td", class_="TableDataCell", width=("%s%%" % self.columns[count][1]), colspan="1", style="vertical-align: middle")
                 cell += """<a href="%s" style="display: block;">%s</a>""" % (self.goto_url(row_count - 1), row[count - 1])
                 rowhtml += cell
             table += rowhtml
@@ -834,11 +834,15 @@ def children_table(form, user, action):
                          childref.mrel.string,
                          form.birth_date(child),
                          goto=child.make_url(),
-                         edit=form.make_url("childref/%s" % count))
+                         edit=form.make_url("child/%s" % count))
         has_data = True
         count += 1
-    retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
-    retval += "&nbsp;"
+    retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px"/>"""
+    if user and action == "view":
+        retval += make_icon_button(form._("Add New Child"), form.make_url("child/add"), icon="+")
+        retval += make_icon_button(form._("Add Existing Person as Child"), form.make_url("child/add"), icon="p")
+    else:
+        retval += nbsp("") # to keep tabs same height
     retval += "</div>"
     retval += table.get_html(action)
     if has_data:

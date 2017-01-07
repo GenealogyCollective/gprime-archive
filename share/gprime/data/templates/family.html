@@ -20,23 +20,17 @@
 
 {% include "detail_breadcrumb.html" %}
 
-<h2>{{ form.render("father_handle", user, "view", link="/person/%(handle)s", _class="get_focus", handle=form.instance.father_handle)  }} and 
-{{ form.render("mother_handle", user, "view", link="/person/%(handle)s", handle=form.instance.mother_handle)  }}
-</h2>
-
 <div id="summaryarea">
-<table class="infolist" style="width:90%;"> {# comment #} 4 cols {# end #}
+  <table class="infolist" style="width:90%;">
+    <col width="10%">
+    <col width="35%">
+    <col width="10%">
+    <col width="35%">
 <tbody>
-  {% if messages %}
-    <hr>
-    <p id="error">The following fields have errors. Please correct and try again.</p>
-    <div id="error">{# familyform.errors #}</div>
-    <hr>
-  {% end %}
 <form method="post" onsubmit="setReturnValues()">{% module xsrf_form_html() %}
 <tr>
-<th colspan="2">Father</th>
-<th colspan="2">Mother</th>
+<th colspan="2">Father/partner1</th>
+<th colspan="2">Mother/partner2</th>
 </tr>
 <tr>
  <td class="ColumnAttribute">Name:</td>
@@ -59,11 +53,11 @@
     </script>
     <div id="father"></div>  
 {% else %}
- {{ form.render("father_handle", user, action) }}
+ {{ form.render("father_handle", user, action, link="/person/%s" % form.instance.father_handle) }}
 {% end %}
 </td>
 {% else %}
- {{ form.render("father_handle", user, action) }}
+ {{ form.render("father_handle", user, action, link="/person/%s" % form.instance.father_handle) }}
 {% end %}
  </td>
  <td class="ColumnAttribute">Name:</td>
@@ -86,52 +80,46 @@
     </script>
     <div id="mother"></div>  
 {% else %}
- {{ form.render("mother_handle", user, action) }}
+ {{ form.render("mother_handle", user, action, link="/person/%s" % form.instance.mother_handle) }}
 {% end %}
 {% else %}
  {{ form.render("mother_handle", user, action) }}
 {% end %}
 </td>
 </tr>
-{% if user  %}
+<tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">Birth:</td>
  <td class="ColumnValue" id="data">{{ form.birth_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Birth:</td>
  <td class="ColumnValue" id="data">{{ form.birth_date(form.family_mother(form.instance)) }}</td>
 </tr>
-{% else %}
+<tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">Death:</td>
  <td class="ColumnValue" id="data">{{ form.death_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Death:</td>
  <td class="ColumnValue" id="data">{{ form.death_date(form.family_mother(form.instance)) }}</td>
 </tr>
-{% end %}
-<tr>
- <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{{ form.death_date(form.family_father(form.instance)) }}</td>
- <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{{ form.death_date(form.family_mother(form.instance)) }}</td>
-</tr>
-</tbody>
-</table>
-<table class="infolist"> 
-<tbody>
+<tr><td id="rowspace"></td></tr>
 <tr>
   <th colspan="4">Relationship information</th>
 </tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>
- <td class="ColumnAttribute">{# form.get_label("frel") #}:</td>
- <td class="ColumnValue" id="data">{# form.render("frel.type", user, action) #}</td>
-</tr>
-<tr>
  <td class="ColumnAttribute">{{ form.get_label("tag_list") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("tag_list", user, action) }}</td>
+ <td class="ColumnValue" rowspan="3">{{ form.render("tag_list", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
  <td class="ColumnAttribute">{{ form.get_label("private") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("private", user, action) }}</td>
+</tr>
+<tr><td id="rowspace"></td></tr>
+<tr>
+ <td class="ColumnAttribute">{{ form.get_label("type") }}:</td>
+ <td class="ColumnValue" id="data">{{ form.render("type", user, action) }}</td>
 </tr>
 </tbody>
 </table>

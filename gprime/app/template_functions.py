@@ -470,7 +470,7 @@ def note_table(form, user, action, note_list):
         retval += """ <SCRIPT LANGUAGE="JavaScript">setHasData("%s", 1)</SCRIPT>\n""" % cssid
     return retval
 
-def attribute_table(form, user, action, attribute_list):
+def attribute_table(form, user, action, attribute_list, url):
     retval = ""
     has_data = False
     cssid = "tab-attributes"
@@ -485,7 +485,7 @@ def attribute_table(form, user, action, attribute_list):
         for attribute in attribute_list:
             table.append_row(attribute.type.string,
                              attribute.value,
-                             goto="attribute/%s" % count)
+                             goto="%s/attribute/%s" % (url, count))
             count += 1
             has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""

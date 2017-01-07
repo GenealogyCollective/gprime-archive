@@ -135,7 +135,7 @@
     {{ media_table(form, user, action, form.instance.media_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;">
-    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
+    {{ attribute_table(form, user, action, form.instance.attribute_list, form.instance.make_url()) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-references" style="background-color: #f4f0ec;">
     {{ reference_table(form, user, action) }}

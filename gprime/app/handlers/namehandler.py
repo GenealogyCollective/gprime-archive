@@ -45,8 +45,7 @@ class NameHandler(BaseHandler):
         self.render("name.html",
                     **self.get_template_dict(tview=_("name"),
                                              action=action,
-                                             form=NameForm(self, instance, handle, row),
-                                             logform=None))
+                                             form=NameForm(self, instance, handle, row)))
         return
 
     @tornado.web.authenticated

@@ -31,8 +31,7 @@ class SettingsHandler(BaseHandler):
         _ = self.app.get_translate_func(self.current_user)
         self.render("settings.html",
                     **self.get_template_dict(tview=_("settings"),
-                                             form=SettingsForm(self),
-                                             logform=None))
+                                             form=SettingsForm(self)))
         return
 
     @tornado.web.authenticated

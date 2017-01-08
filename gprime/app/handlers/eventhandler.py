@@ -20,8 +20,11 @@
 
 from gprime.lib import Event
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import EventForm
@@ -49,14 +52,21 @@ class EventHandler(BaseHandler):
             else:
                 event = self.database.get_event_from_handle(handle)
             if event:
-                self.render("event.html",
-                            **self.get_template_dict(tview=_("event detail"),
-                                                     action=action,
-                                                     page=page,
-                                                     search=search,
-                                                     form=EventForm(self, instance=event),
-                                                     logform=None))
-                return
+                if action == "delete":
+                    ## Delete
+                    with DbTxn(_("Delete event"), self.database) as transaction:
+                        self.database.remove_event(handle, transaction)
+                    self.send_message("Deleted event. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/event")
+                    return
+                else:
+                    self.render("event.html",
+                                **self.get_template_dict(tview=_("event detail"),
+                                                         action=action,
+                                                         page=page,
+                                                         search=search,
+                                                         form=EventForm(self, instance=event)))
+                    return
             else:
                 self.clear()
                 self.set_status(404)
@@ -80,16 +90,29 @@ class EventHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, path):
         _ = self.app.get_translate_func(self.current_user)
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
         if "/" in path:
             handle, action = path.split("/")
         else:
             handle, action = path, "view"
-        if handle == "add":
-            event = Event()
-            event.handle = handle = create_id()
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Event.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = EventForm(self, instance=instance)
+            form.load_data()
+            self.render("event.html",
+                        **self.get_template_dict(tview=_("event detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=form))
         else:
-            event = self.database.get_event_from_handle(handle)
-        form = EventForm(self, instance=event)
-        form.save()
-        self.redirect("/event/%(handle)s" % {"handle": handle})
+            self.send_message("Updated event. <a href=\"FIXME\">Undo</a>")
+            form = EventForm(self, instance=instance)
+            form.save()
+            self.redirect("/event/%(handle)s" % {"handle": handle})
 

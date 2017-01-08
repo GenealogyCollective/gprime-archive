@@ -20,8 +20,11 @@
 
 from gprime.lib import Citation
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import CitationForm
@@ -49,14 +52,21 @@ class CitationHandler(BaseHandler):
             else:
                 citation = self.database.get_citation_from_handle(handle)
             if citation:
-                self.render("citation.html",
-                            **self.get_template_dict(tview=_("citation detail"),
-                                                     action=action,
-                                                     page=page,
-                                                     search=search,
-                                                     form=CitationForm(self, instance=citation),
-                                                     logform=None))
-                return
+                if action == "delete":
+                    ## Delete
+                    with DbTxn(_("Delete citation"), self.database) as transaction:
+                        self.database.remove_citation(handle, transaction)
+                    self.send_message("Deleted citation. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/citation")
+                    return
+                else:
+                    self.render("citation.html",
+                                **self.get_template_dict(tview=_("citation detail"),
+                                                         action=action,
+                                                         page=page,
+                                                         search=search,
+                                                         form=CitationForm(self, instance=citation)))
+                    return
             else:
                 self.clear()
                 self.set_status(404)
@@ -80,16 +90,29 @@ class CitationHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, path):
         _ = self.app.get_translate_func(self.current_user)
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
         if "/" in path:
             handle, action = path.split("/")
         else:
             handle, action = path, "view"
-        if handle == "add":
-            citation = Citation()
-            citation.handle = handle = create_id()
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Citation.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = CitationForm(self, instance=instance)
+            form.load_data()
+            self.render("citation.html",
+                        **self.get_template_dict(tview=_("citation detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=form))
         else:
-            citation = self.database.get_citation_from_handle(handle)
-        form = CitationForm(self, instance=citation)
-        form.save()
-        self.redirect("/citation/%(handle)s" % {"handle": handle})
+            self.send_message("Updated citation. <a href=\"FIXME\">Undo</a>")
+            form = CitationForm(self, instance=instance)
+            form.save()
+            self.redirect("/citation/%(handle)s" % {"handle": handle})
 

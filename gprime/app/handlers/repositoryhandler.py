@@ -20,8 +20,11 @@
 
 from gprime.lib import Repository
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import RepositoryForm
@@ -49,14 +52,21 @@ class RepositoryHandler(BaseHandler):
             else:
                 repository = self.database.get_repository_from_handle(handle)
             if repository:
-                self.render("repository.html",
-                            **self.get_template_dict(tview=_("repository detail"),
-                                                     action=action,
-                                                     page=page,
-                                                     search=search,
-                                                     form=RepositoryForm(self, instance=repository),
-                                                     logform=None))
-                return
+                if action == "delete":
+                    ## Delete
+                    with DbTxn(_("Delete repository"), self.database) as transaction:
+                        self.database.remove_repository(handle, transaction)
+                    self.send_message("Deleted repository. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/repository")
+                    return
+                else:
+                    self.render("repository.html",
+                                **self.get_template_dict(tview=_("repository detail"),
+                                                         action=action,
+                                                         page=page,
+                                                         search=search,
+                                                         form=RepositoryForm(self, instance=repository)))
+                    return
             else:
                 self.clear()
                 self.set_status(404)
@@ -80,16 +90,28 @@ class RepositoryHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, path):
         _ = self.app.get_translate_func(self.current_user)
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
         if "/" in path:
             handle, action = path.split("/")
         else:
             handle, action = path, "view"
-        if handle == "add":
-            repository = Repository()
-            repository.handle = handle = create_id()
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Repository.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = RepositoryForm(self, instance=instance)
+            form.load_data()
+            self.render("repository.html",
+                        **self.get_template_dict(tview=_("repository detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=form))
         else:
-            repository = self.database.get_repository_from_handle(handle)
-        form = RepositoryForm(self, instance=repository)
-        form.save()
-        self.redirect("/repository/%(handle)s" % {"handle": handle})
+            form = RepositoryForm(self, instance=instance)
+            form.save()
+            self.redirect("/repository/%(handle)s" % {"handle": handle})
 

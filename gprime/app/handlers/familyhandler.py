@@ -109,7 +109,7 @@ class FamilyHandler(BaseHandler):
                                                  action=action,
                                                  page=page,
                                                  search=search,
-                                                 form=FamilyForm(self, instance=instance)))
+                                                 form=form))
         else:
             self.send_message("Updated family. <a href=\"FIXME\">Undo</a>")
             form = FamilyForm(self, instance=instance)

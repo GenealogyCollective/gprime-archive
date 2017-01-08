@@ -73,8 +73,7 @@ class PersonHandler(BaseHandler):
                                                      action=action,
                                                      page=page,
                                                      search=search,
-                                                     form=PersonForm(self, instance=person),
-                                                     logform=None))
+                                                     form=PersonForm(self, instance=person)))
                 return
             else:
                 self.clear()
@@ -127,7 +126,7 @@ class PersonHandler(BaseHandler):
                                                  action=action,
                                                  page=page,
                                                  search=search,
-                                                 form=PersonForm(self, instance=instance)))
+                                                 form=form))
         else:
             self.send_message("Updated person. <a href=\"FIXME\">Undo</a>")
             form = PersonForm(self, instance=instance)

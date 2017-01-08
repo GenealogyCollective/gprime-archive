@@ -20,8 +20,11 @@
 
 from gprime.lib import Media
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import MediaForm
@@ -49,14 +52,21 @@ class MediaHandler(BaseHandler):
             else:
                 media = self.database.get_media_from_handle(handle)
             if media:
-                self.render("media.html",
-                            **self.get_template_dict(tview=_("media detail"),
-                                                     action=action,
-                                                     page=page,
-                                                     search=search,
-                                                     form=MediaForm(self, instance=media),
-                                                     logform=None))
-                return
+                if action == "delete":
+                    ## Delete
+                    with DbTxn(_("Delete media"), self.database) as transaction:
+                        self.database.remove_media(handle, transaction)
+                    self.send_message("Deleted media. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/media")
+                    return
+                else:
+                    self.render("media.html",
+                                **self.get_template_dict(tview=_("media detail"),
+                                                         action=action,
+                                                         page=page,
+                                                         search=search,
+                                                         form=MediaForm(self, instance=media)))
+                    return
             else:
                 self.clear()
                 self.set_status(404)
@@ -80,16 +90,29 @@ class MediaHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, path):
         _ = self.app.get_translate_func(self.current_user)
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
         if "/" in path:
             handle, action = path.split("/")
         else:
             handle, action = path, "view"
-        if handle == "add":
-            media = Media()
-            media.handle = handle = create_id()
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Media.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = MediaForm(self, instance=instance)
+            form.load_data()
+            self.render("media.html",
+                        **self.get_template_dict(tview=_("media detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=form))
         else:
-            media = self.database.get_media_from_handle(handle)
-        form = MediaForm(self, instance=media)
-        form.save()
-        self.redirect("/media/%(handle)s" % {"handle": handle})
+            self.send_message("Updated media. <a href=\"FIXME\">Undo</a>")
+            form = MediaForm(self, instance=instance)
+            form.save()
+            self.redirect("/media/%(handle)s" % {"handle": handle})
 

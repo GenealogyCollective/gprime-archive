@@ -144,7 +144,6 @@
 
 {% if user %}
   {% if action != "view" %}
-    <input type="hidden" name="action" value="save"/>
     <input type="submit" value={{_T_("Save")}}/>
     {{make_button(_("Cancel"), form.instance.make_url("#tab-names"))}}
   {% else %}

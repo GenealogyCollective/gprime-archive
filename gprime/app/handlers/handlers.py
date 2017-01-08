@@ -104,6 +104,19 @@ class BaseHandler(tornado.web.RequestHandler):
             raise Exception("invalid form")
         return form
 
+    def update_instance(self, instance, update_json):
+        path, pos, command = update_json.split("/")
+        pos = int(pos) - 1 # URLs are 1-based
+        list = instance.get_field(path)
+        if command == "remove":
+            del list[pos]
+        elif command == "up":
+            list[pos], list[pos + 1] = list[pos + 1], list[pos]
+        elif command == "down":
+            list[pos], list[pos - 1] = list[pos - 1], list[pos]
+        else:
+            raise Exception("invalid command: %s" % command)
+
 class HomeHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):

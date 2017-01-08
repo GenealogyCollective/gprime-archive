@@ -1748,6 +1748,14 @@ class DbGeneric(DbWriteBase, DbReadBase, UpdateCallback, Callback):
             return self.get_table_func(table_name,"gid_func")(gid)
         return None
 
+    def remove_person(self, handle, transaction):
+        """
+        Remove the Source specified by the database handle from the
+        database, preserving the change in the passed transaction.
+        """
+        self._do_remove(handle, transaction, self.person_map,
+                         self.person_id_map, PERSON_KEY)
+
     def remove_source(self, handle, transaction):
         """
         Remove the Source specified by the database handle from the

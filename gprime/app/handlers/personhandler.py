@@ -20,8 +20,11 @@
 
 from gprime.lib import Person, Surname
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import PersonForm
@@ -30,18 +33,24 @@ class PersonHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self, path=""):
         """
-        HANDLE
-        HANDLE/edit|delete
-        /add
-        b2cfa6ca1e174b1f63d/remove/eventref/1
+        person
+        person/add
+        person/b2cfa6ca1e174b1f63
+        person/b2cfa6ca1e174b1f63/edit
+        person/b2cfa6ca1e174b1f63/delete
         """
         _ = self.app.get_translate_func(self.current_user)
         page = int(self.get_argument("page", 1))
         search = self.get_argument("search", "")
-        if "/" in path:
-            handle, action= path.split("/", 1)
-        else:
+        if path.count("/") == 0: # handle
             handle, action = path, "view"
+        elif path.count("/") == 1: # handle/add
+            handle, action = path.split("/", 1)
+        else:
+            self.clear()
+            self.set_status(404)
+            self.finish("<html><body>No such person</body></html>")
+            return
         if handle:
             if handle == "add":
                 person = Person()
@@ -50,8 +59,16 @@ class PersonHandler(BaseHandler):
             else:
                 person = self.database.get_person_from_handle(handle)
             if person:
-                person.probably_alive = True
-                self.render("person.html",
+                if action == "delete":
+                    ## Delete person
+                    with DbTxn(_("Delete person"), self.database) as transaction:
+                        self.database.remove_person(handle, transaction)
+                    self.send_message("Deleted person. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/person")
+                    return
+                else:
+                    ## Action can be edit or view
+                    self.render("person.html",
                             **self.get_template_dict(tview=_("person detail"),
                                                      action=action,
                                                      page=page,
@@ -83,18 +100,36 @@ class PersonHandler(BaseHandler):
 
     @tornado.web.authenticated
     def post(self, path):
+        """
+        """
         _ = self.app.get_translate_func(self.current_user)
-        if "/" in path:
-            handle, action = path.split("/")
-        else:
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
+        if path.count("/") == 0: # handle
             handle, action = path, "view"
-        if handle == "add":
-            person = Person()
-            person.primary_name.surname_list.append(Surname())
-            person.handle = handle = create_id()
+        elif path.count("/") == 1: # handle/add
+            handle, action = path.split("/", 1)
         else:
-            person = self.database.get_person_from_handle(handle)
-        form = PersonForm(self, instance=person)
-        form.save()
-        self.redirect("/person/%(handle)s" % {"handle": handle})
-
+            self.clear()
+            self.set_status(404)
+            self.finish("<html><body>No such person</body></html>")
+            return
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Person.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = PersonForm(self, instance=instance)
+            form.load_data()
+            self.render("person.html",
+                        **self.get_template_dict(tview=_("person detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=PersonForm(self, instance=instance)))
+        else:
+            self.send_message("Updated person. <a href=\"FIXME\">Undo</a>")
+            form = PersonForm(self, instance=instance)
+            form.save()
+            self.redirect("/person/%(handle)s" % {"handle": handle})

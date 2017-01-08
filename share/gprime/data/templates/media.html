@@ -104,7 +104,7 @@
     {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, form.instance.attribute_list, form.instance.make_url()) }}
+    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
     {{ note_table(form, user, action, form.instance.note_list) }}

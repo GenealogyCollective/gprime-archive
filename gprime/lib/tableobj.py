@@ -82,6 +82,7 @@ class TableObject(BaseObject):
 
     def make_url(self, *args):
         if args:
+            args = [str(arg) for arg in args]
             if args[0].startswith("#"):
                 args = "".join(args)
             else:

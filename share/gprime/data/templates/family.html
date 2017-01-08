@@ -28,6 +28,7 @@
     <col width="35%">
 <tbody>
 <form method="post" onsubmit="setReturnValues()">{% module xsrf_form_html() %}
+<input type="hidden" name="json_data" value="{{form.get_json()}}"/>
 <tr>
 <td colspan="2"><b>Spouse 1:</b></td>
 <td colspan="2"><b>Spouse 2:</b></td>
@@ -137,8 +138,8 @@
     <input type="hidden" id="father_return" name="father_return" value=""/>
     <input type="hidden" id="mother_return" name="mother_return" value=""/>
     <input type="hidden" name="action" value="save"/>
-    <input type="hidden" name="search" value="{#search#}"/>
-    <input type="hidden" name="page" value="{#page#}"/>
+    <input type="hidden" name="search" value="{{search}}"/>
+    <input type="hidden" name="page" value="{{page}}"/>
     <input type="submit" value="Save"/>
     {{make_button(_("Cancel"), form.instance.make_url())}}
   {% end %}
@@ -168,7 +169,7 @@
     {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, form.instance.attribute_list, form.instance.make_url()) }}
+    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 
     {{ note_table(form, user, action, form.instance.note_list) }}

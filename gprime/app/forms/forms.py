@@ -21,6 +21,8 @@
 import logging
 import math
 import time
+import json
+import html
 import re
 
 from ..template_functions import make_button
@@ -89,6 +91,7 @@ class Form(object):
         Return the url to a primary object, if one, else view.
         """
         if parts:
+            parts = [str(arg) for arg in parts]
             if parts[0].startswith("#"):
                 parts = "".join(parts)
             else:
@@ -417,7 +420,10 @@ class Form(object):
     def get(self, field):
         return self.instance.get_field(field, self.database)
 
-    def save(self):
+    def get_json(self):
+        return html.escape(json.dumps(self.instance.to_struct()))
+
+    def load_data(self):
         from gprime.lib.grampstype import GrampsType
         # go thorough fields and save values
         for field in self.edit_fields:
@@ -451,6 +457,9 @@ class Form(object):
                     value = None
                     continue
                 self.instance.set_field(field, value)
+
+    def save(self):
+        self.load_data()
         transaction = self.database.get_transaction_class()
         commit = self.database.get_table_func(self._class.__name__,"commit_func")
         with transaction("Gramps Connect", self.database) as trans:

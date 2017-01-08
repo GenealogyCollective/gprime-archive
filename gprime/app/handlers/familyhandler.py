@@ -20,8 +20,11 @@
 
 from gprime.lib import Family
 from gprime.utils.id import create_id
+from gprime.db import DbTxn
 
 import tornado.web
+import json
+import html
 
 from .handlers import BaseHandler
 from ..forms import FamilyForm
@@ -49,13 +52,21 @@ class FamilyHandler(BaseHandler):
             else:
                 family = self.database.get_family_from_handle(handle)
             if family:
-                self.render("family.html",
-                            **self.get_template_dict(tview=_("family detail"),
-                                                     page=page,
-                                                     action=action,
-                                                     form=FamilyForm(self, instance=family),
-                                                     logform=None))
-                return
+                if action == "delete":
+                    ## Delete
+                    with DbTxn(_("Delete family"), self.database) as transaction:
+                        self.database.remove_family(handle, transaction)
+                    self.send_message("Deleted family. <a href='FIXME'>Undo</a>.")
+                    self.redirect("/family")
+                    return
+                else:
+                    self.render("family.html",
+                                **self.get_template_dict(tview=_("family detail"),
+                                                         page=page,
+                                                         action=action,
+                                                         search=search,
+                                                         form=FamilyForm(self, instance=family)))
+                    return
             else:
                 self.clear()
                 self.set_status(404)
@@ -79,15 +90,28 @@ class FamilyHandler(BaseHandler):
     @tornado.web.authenticated
     def post(self, path):
         _ = self.app.get_translate_func(self.current_user)
+        page = int(self.get_argument("page", 1) or 1)
+        search = self.get_argument("search", "")
         if "/" in path:
             handle, action = path.split("/")
         else:
             handle, action = path, "view"
-        if handle == "add":
-            family = Family()
-            family.handle = handle = create_id()
+        json_data = json.loads(html.unescape(self.get_argument("json_data")))
+        instance = Family.from_struct(json_data)
+        update_json = self.get_argument("update_json", None)
+        if update_json:
+            # edit the instance
+            self.update_instance(instance, update_json)
+            form = FamilyForm(self, instance=instance)
+            form.load_data()
+            self.render("family.html",
+                        **self.get_template_dict(tview=_("family detail"),
+                                                 action=action,
+                                                 page=page,
+                                                 search=search,
+                                                 form=FamilyForm(self, instance=instance)))
         else:
-            family = self.database.get_family_from_handle(handle)
-        form = FamilyForm(self, instance=family)
-        form.save()
-        self.redirect("/family/%(handle)s" % {"handle": handle})
+            self.send_message("Updated family. <a href=\"FIXME\">Undo</a>")
+            form = FamilyForm(self, instance=instance)
+            form.save()
+            self.redirect("/family/%(handle)s" % {"handle": handle})

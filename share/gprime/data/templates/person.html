@@ -29,7 +29,8 @@
       <col width="15%">
       <col width="12.5%">
 <tbody>
-<form method="post">{% module xsrf_form_html() %}
+  <form method="post">{% module xsrf_form_html() %}
+    <input type="hidden" name="json_data" value="{{form.get_json()}}"/>
   <tr>
     <td>&nbsp;</td>
   <td colspan="3">
@@ -89,29 +90,20 @@
 
 {% if user %}
   {% if action == "edit" %}
+    <input type="hidden" name="search" value="{{ search }}"/>
+    <input type="hidden" name="page" value="{{ page }}"/>
+    <input type="submit" value="Save"/>
     {% if form.instance.handle %}
        {{make_button(_("Cancel"), "/person/" + form.instance.handle)}}
     {% else %}
        {{make_button(_("Cancel"), "/person")}}
     {% end %}
-    <input type="hidden" name="action" value="save"/>
-    <input type="hidden" name="search" value="{# search #}"/>
-    <input type="hidden" name="page" value="{# page #}"/>
-    <input type="submit" value="Save"/>
   {% else %}
-    {% if action == "add" %}
-      {{ make_button(_("Cancel"), "/person/") }}
-      <input type="hidden" name="action" value="create"/>
-      <input type="hidden" name="search" value="{# search #}"/>
-      <input type="hidden" name="page" value="{# page #}"/>
-      <input type="submit" value="Create"/>
-    {% else %}
-      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+    <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
       {{ make_icon_button(_("Add Person"), "/person/add", icon="+") }}
       {{ make_icon_button(_("Edit Person"), "/person/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
       {{ make_icon_button(_("Delete Person"), "/person/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
-      </div>
-    {% end %}
+    </div>
   {% end %}
 {% else %}
 {% end %}
@@ -143,7 +135,7 @@
     {{ citation_table(form, user, action, form.instance.citation_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, form.instance.attribute_list, form.instance.make_url()) }}
+    {{ attribute_table(form, user, action, form.instance.attribute_list) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-addresses" style="background-color: #f4f0ec;"> 
     {{ address_table(form, user, action, form.instance.address_list) }}

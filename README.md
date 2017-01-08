@@ -129,6 +129,7 @@ Options:
 * --config-file=FILE - A config file of these options (optional); alternatively, will use SITE-DIR/config.cfg if one
 * --port=PORT-NUMBER - Port to listen on (8000 is default)
 * --hostname=LOCALHOST - Hostname to listen on ("localhost" is default)
+* --prefix=/PATH - a URL prefix to server data from
 * --server=True|False - Start the server? Default is True
 * --open-browser=True|False - open a web browser on startup?
 * --debug=True|False - Use to see additional debugging information; useful for development (auto-restarts server)

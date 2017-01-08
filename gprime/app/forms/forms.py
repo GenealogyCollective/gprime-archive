@@ -487,8 +487,8 @@ class Form(object):
                         "width": width,
                         "x": x1, "y": y1, "w": w, "h": h,
                     }
-                    full = self.make_url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg" % env)
-                    rect = self.url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg" % env)
+                    full = self.handler.app.make_url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg" % env)
+                    rect = self.handler.app.make_url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg" % env)
                     return (
                         """<a href="%(full)s"/>""" +
                         """<img src="%(rect)s"/>""" +

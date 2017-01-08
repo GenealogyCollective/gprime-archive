@@ -255,7 +255,7 @@ def surname_table(form, user, action, name_row):
                 surname.surname,
                 surname.prefix,
                 surname.primary,
-                goto=form.make_url("name/%s/surname/%s" % (name_row, count)))
+                goto=form.handler.app.make_url("/person/%s/name/%s/surname/%s" % (form.instance.handle, name_row, count)))
             has_data = True
             count += 1
     retval += table.get_html(action)

@@ -34,13 +34,13 @@
     
     <td class="ColumnAttribute">{{ _("Source Title") }}:</td>
     <td class="ColumnValue">
-      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}" style="text-decoration: underline">
+      <a href="{{form.handler.app.make_url(form.instance.get_field('source_handle.self', form.database).make_url())}}" style="text-decoration: underline">
 	{{ form.render("source_handle.title", user, "view") }}
       </a>
     </td>
     <td class="ColumnAttribute">{{ _("Source Author") }}:</td>
     <td class="ColumnValue">
-      <a href="{{form.instance.get_field('source_handle.self', form.database).make_url()}}" style="text-decoration: underline">
+      <a href="{{form.handler.app.make_url(form.instance.get_field('source_handle.self', form.database).make_url())}}" style="text-decoration: underline">
 	{{ form.render("source_handle.author", user, "view") }}
       </a>
     </td>

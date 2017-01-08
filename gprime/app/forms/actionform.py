@@ -235,7 +235,7 @@ class ActionForm(Form):
             pmgr = BasePluginManager.get_instance()
             pdata = pmgr.get_plugin(action.handle)
             export_file(self.gramps_database, "export." + pdata.extension, User()) # callback
-        handler.redirect("/action")
+        handler.redirect(self.handler.app.make_url("/action"))
 
 ## Copied from django-webapp; need to integrate:
 

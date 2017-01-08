@@ -174,8 +174,14 @@ def event_table(form, user, action):
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px"/>"""
     if action == "view":
-        retval += form.make_icon_button(form._("Add New Event"), form.make_url("event_ref_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Event"), form.make_url("event_ref_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Event"),
+            "/%s/%s/event_ref_list/add" % (form.view, form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Event"),
+            "/%s/%s/event_ref_list/share" % (form.view, form.instance.handle),
+            icon="p")
     else:
         retval += """&nbsp;""" # to keep tabs same height
     retval += """</div>"""
@@ -217,12 +223,16 @@ def name_table(form, user, action):
                              name.group_as,
                              [form._("No"), form._("Yes")][citationq],
                              note_text,
+                             edit="name/%s" % (count),
                              goto=form.make_url("name", (count + 1)))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Name"), form.make_url("name/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Name"),
+            "/%s/%s/name/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -244,7 +254,10 @@ def surname_table(form, user, action, name_row):
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Surname"), form.make_url("name", name_row, "surname/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Surname"),
+            "/person/%s/name/%s/surname/add" % (form.instance.handle, name_row),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -289,8 +302,14 @@ def enclosed_by_table(form, user, action, placeref_list):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Enclosing Place"), form.make_url("placeref_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Enclosing Place"), form.make_url("placeref_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Enclosing Place"),
+            "/place/%s/placeref_list/add" % form.instance.handle,
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Enclosing Place"),
+            "/place/%s/placeref_list/share" % form.instance.handle,
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -322,7 +341,10 @@ def alt_name_table(form, user, action, alt_names):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Alternate Name"), form.make_url("alternate_names/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add New Alternate Name"),
+            "/%s/%s/alternate_names/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -359,8 +381,14 @@ def citation_table(form, user, action, citation_list, path=""):
                 count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Citation"), form.make_url("citation_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Citation"), form.make_url("citation_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Citation"),
+            "/%s/%s/citation_list/add" % (form.view, form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Citation"),
+            "/%s/%s/citation_list/share" % (form.view, form.instance.handle),
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -396,8 +424,14 @@ def repository_table(form, user, action, reporef_list):
             count += 1;
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Repository"), form.make_url("reporef_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Repository"), form.make_url("reporef_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Repository"),
+            "/%s/%s/reporef_list/add" % (form.view, form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Repository"),
+            "/%s/%s/reporef_list/share" % (form.view, form.instance.handle),
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -430,8 +464,14 @@ def note_table(form, user, action, note_list, path=""):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Note"), form.make_url("note_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Note"), form.make_url("note_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Note"),
+            "/%s/%s/note_list/add" % (form.view, form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Note"),
+            "/%s/%s/note_list/add" % (form.view, form.instance.handle),
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -462,7 +502,10 @@ def attribute_table(form, user, action, attribute_list, path=""):
             has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Attribute"), url + "/attribute/add", icon="+")
+        retval += form.make_icon_button(
+            form._("Add Attribute"),
+            "/%s/%s/%sattribute_list/add" % (form.view, form.instance.handle, url),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -497,7 +540,10 @@ def address_table(form, user, action, address_list):
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Address"), form.make_url("address_list/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Address"),
+            "/%s/%s/address_list/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -530,8 +576,14 @@ def media_table(form, user, action, media_list):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Media"), form.make_url("media_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Share Existing Media"), form.make_url("media_list/share"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Media"),
+            "/%s/%s/media_list/add" % (form.view, form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Share Existing Media"),
+            "/%s/%s/media_list/share" % (form.view, form.instance.handle),
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -562,7 +614,10 @@ def internet_table(form, user, action, urls):
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Internet"), form.make_url("urls/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Internet"),
+            "/%s/%s/urls/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -584,7 +639,10 @@ def association_table(form, user, action):
     )
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Association"), form.make_url("personref_list/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Association"),
+            "/%s/%s/personref_list/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -642,7 +700,10 @@ def location_table(form, user, action):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add Address"), form.make_url("address_list/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add Address"),
+            "/%s/%s/address_list/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -679,7 +740,10 @@ def lds_table(form, user, action, lds_ord_list):
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add LDS"), form.make_url("lds_ords_list/add"), icon="+")
+        retval += form.make_icon_button(
+            form._("Add LDS"),
+            "/%s/%s/lds_ords_list/add" % (form.view, form.instance.handle),
+            icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += """</div>"""
@@ -715,7 +779,7 @@ def person_reference_table(form, user, action):
             table1.append_row(family.gid,
                               sa.describe(family.instance),
                               goto=form.handler.app.make_url(family.instance.make_url()),
-                              edit="spousefamily/%s" % count)
+                              edit="family_list/%s" % count)
             has_data = True
             count += 1
         count = 1
@@ -723,16 +787,16 @@ def person_reference_table(form, user, action):
             table2.append_row(family.gid,
                               sa.describe(family.instance),
                               goto=form.handler.app.make_url(family.instance.make_url()),
-                              edit="parentfamily/%s" % count)
+                              edit="parent_family_list/%s" % count)
             has_data = True
             count += 1
         text1 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
         if user and action == "view":
             text1 += form.make_icon_button(form._("Add as Spouse to New Family"),
-                                      form.make_url("parentfamily/add"),
+                                      "/family/%s/parent_family_list/add" % (form.instance.handle),
                                       icon="+")
             text1 += form.make_icon_button(form._("Add as Spouse to Existing Family"),
-                                      form.make_url("parentfamily/share"),
+                                      "/family/%s/parent_family_list/share" % (form.instance.handle),
                                       icon="p")
         else:
             text1 += nbsp("") # to keep tabs same height
@@ -741,10 +805,10 @@ def person_reference_table(form, user, action):
         text2 = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
         if user and action == "view":
             text2 += form.make_icon_button(form._("Add as Child to New Family"),
-                                      form.make_url("childfamily/add"),
+                                      "/family/%s/family_list/add" % (form.instance.handle),
                                       icon="+")
             text2 += form.make_icon_button(form._("Add as Child to Existing Family"),
-                                      form.make_url("childfamily/share"),
+                                      "/family/%s/family_list/share" % (form.instance.handle),
                                       icon="p")
         else:
             text2 += nbsp("") # to keep tabs same height
@@ -817,8 +881,14 @@ def children_table(form, user, action):
         count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px"/>"""
     if user and action == "view":
-        retval += form.make_icon_button(form._("Add New Child"), form.make_url("child_ref_list/add"), icon="+")
-        retval += form.make_icon_button(form._("Add Existing Person as Child"), form.make_url("child_ref_list/add"), icon="p")
+        retval += form.make_icon_button(
+            form._("Add New Child"),
+            "/family/%s/child_ref_list/add" % (form.instance.handle),
+            icon="+")
+        retval += form.make_icon_button(
+            form._("Add Existing Person as Child"),
+            "/family/%s/child_ref_list/share" % (form.instance.handle),
+            icon="p")
     else:
         retval += nbsp("") # to keep tabs same height
     retval += "</div>"

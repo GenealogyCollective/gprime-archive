@@ -2,6 +2,7 @@
 # gPrime - a web-based genealogy program
 #
 # Copyright (c) 2015 Gramps Development Team
+# Copyright (c) 2017 gPrime Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -499,18 +500,18 @@ class Form(object):
                             "handle": media_handle,
                             "width": width,
                         }
-                    full = self.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
-                    rect = self.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
+                    full = self.handler.app.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
+                    rect = self.handler.app.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
                     return (
                         """<a href="%(full)s">""" +
-                        """<img src="%(rect)s"/></a>""") % env
+                        """<img src="%(rect)s"/></a>""") % {"full": full, "rect": rect}
         else:
             env = {
                     "handle": self.instance.handle,
                     "width": width,
                 }
-            full = self.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
-            rect = self.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
+            full = self.handler.app.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
+            rect = self.handler.app.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
             return (
                 """<a href="%(full)s">""" +
                 """<img src="%(rect)s"/></a>""") % {"full": full, "rect": rect}
@@ -603,3 +604,4 @@ class Form(object):
 
     def make_link(self, url, text, **kwargs):
         return """<a href="%s"><b>%s</b></a>""" % ((self.handler.app.make_url(url) % kwargs), text)
+

@@ -57,6 +57,7 @@ class NameHandler(BaseHandler):
         if action == "add":
             instance.alternate_names.append(Name())
             ## FIXME: put data from form into Name
+        ## FIXME: handle post to remove/up/down names (primary name is listed)
         form = NameForm(self, instance, handle, row)
         form.save()
         self.redirect(self.app.make_url(instance.make_url("#tab-names")))

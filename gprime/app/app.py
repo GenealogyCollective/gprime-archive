@@ -1,7 +1,7 @@
 #
 # gPrime - a web-based genealogy program
 #
-# Copyright (c) 2016 gPrime Development Team
+# Copyright (c) 2016-2017 gPrime Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -51,6 +51,8 @@ class GPrimeApp(Application):
         if settings is None:
             settings = self.default_settings()
         handlers = [
+            (self.make_url(r"/(.*)/attribute_list/(.*)"),
+             AttributeHandler, "attribute_list", self.make_env({})),
             (self.make_url(r"/"),
              HomeHandler, "main", self.make_env({})),
             (self.make_url(r'/settings'),
@@ -199,6 +201,11 @@ class GPrimeApp(Application):
         if media:
             return media_path_full(self.database, media.get_path())
         return ""
+
+    def get_object_from_url(self, prefix):
+        view, handle = prefix.split("/")
+        obj = self.database.get_table_func(view.title(), "handle_func")(handle)
+        return obj
 
     def server_info(self):
         """

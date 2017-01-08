@@ -1,7 +1,7 @@
 #
 # gPrime - a web-based genealogy program
 #
-# Copyright (c) 2016 Gramps Development Team
+# Copyright (c) 2017 gPrime Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,20 +15,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-from .personform import PersonForm
-from .familyform import FamilyForm
-from .actionform import ActionForm
-from .noteform import NoteForm
-from .citationform import CitationForm
-from .eventform import EventForm
-from .mediaform import MediaForm
-from .placeform import PlaceForm
-from .repositoryform import RepositoryForm
-from .sourceform import SourceForm
-from .tagform import TagForm
-from .settingsform import SettingsForm
-from .nameform import NameForm
-from .attributeform import AttributeForm
+class AttributeForm():
+    """
+    A form for listing, viewing, and editing user settings.
+    """
+    def __init__(self, handler, instance):
+        self.handler = handler
+        self.database = handler.database
+        self.instance = instance
+        self._ = self.handler.app.get_translate_func(self.handler.current_user)
+        self.tview = self._("Attribute")
+        self.view = "Attribute"
+        self.instance = None
+
+    def save(self):
+        pass

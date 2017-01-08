@@ -130,9 +130,9 @@
 {% if user %}
   {% if action != "edit" %}
       <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ make_icon_button(_("Add Family"), "/family/add", icon="+") }}
-      {{ make_icon_button(_("Edit Family"), "/family/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
-      {{ make_icon_button(_("Delete Family"), "/family/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      {{ form.make_icon_button(_("Add Family"), "/family/add", icon="+") }}
+      {{ form.make_icon_button(_("Edit Family"), "/family/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {{ form.make_icon_button(_("Delete Family"), "/family/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
       </div>
   {% else %}
     <input type="hidden" id="father_return" name="father_return" value=""/>
@@ -140,7 +140,7 @@
     <input type="hidden" name="search" value="{{search}}"/>
     <input type="hidden" name="page" value="{{page}}"/>
     <input type="submit" value="Save"/>
-    {{make_button(_("Cancel"), form.instance.make_url())}}
+    {{form.make_button(_("Cancel"), "/family")}}
   {% end %}
 {% else %}
 {% end %}

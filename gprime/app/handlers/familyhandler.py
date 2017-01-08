@@ -57,7 +57,7 @@ class FamilyHandler(BaseHandler):
                     with DbTxn(_("Delete family"), self.database) as transaction:
                         self.database.remove_family(handle, transaction)
                     self.send_message("Deleted family. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/family")
+                    self.redirect(self.app.make_url("/family"))
                     return
                 else:
                     self.render("family.html",
@@ -114,4 +114,4 @@ class FamilyHandler(BaseHandler):
             self.send_message("Updated family. <a href=\"FIXME\">Undo</a>")
             form = FamilyForm(self, instance=instance)
             form.save()
-            self.redirect("/family/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/family/%(handle)s" % {"handle": handle}))

@@ -57,7 +57,7 @@ class SourceHandler(BaseHandler):
                     with DbTxn(_("Delete source"), self.database) as transaction:
                         self.database.remove_source(handle, transaction)
                     self.send_message("Deleted source. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/source")
+                    self.redirect(self.app.make_url("/source"))
                     return
                 else:
                     self.render("source.html",
@@ -114,5 +114,5 @@ class SourceHandler(BaseHandler):
             self.send_message("Updated source. <a href=\"FIXME\">Undo</a>")
             form = SourceForm(self, instance=instance)
             form.save()
-            self.redirect("/source/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/source/%(handle)s" % {"handle": handle}))
 

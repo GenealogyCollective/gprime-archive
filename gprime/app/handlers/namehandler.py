@@ -59,4 +59,4 @@ class NameHandler(BaseHandler):
             ## FIXME: put data from form into Name
         form = NameForm(self, instance, handle, row)
         form.save()
-        self.redirect(instance.make_url("#tab-names"))
+        self.redirect(self.app.make_url(instance.make_url("#tab-names")))

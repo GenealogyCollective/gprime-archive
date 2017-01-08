@@ -57,7 +57,7 @@ class CitationHandler(BaseHandler):
                     with DbTxn(_("Delete citation"), self.database) as transaction:
                         self.database.remove_citation(handle, transaction)
                     self.send_message("Deleted citation. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/citation")
+                    self.redirect(self.app.make_url("/citation"))
                     return
                 else:
                     self.render("citation.html",
@@ -77,7 +77,7 @@ class CitationHandler(BaseHandler):
             form.select(page, search)
         except Exception as exp:
             self.send_message(str(exp))
-            self.redirect(form.make_url())
+            self.redirect(self.app.make_url(form.make_url()))
             return
         self.render("page_view.html",
                     **self.get_template_dict(tview=_("citation view"),
@@ -114,5 +114,5 @@ class CitationHandler(BaseHandler):
             self.send_message("Updated citation. <a href=\"FIXME\">Undo</a>")
             form = CitationForm(self, instance=instance)
             form.save()
-            self.redirect("/citation/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/citation/%(handle)s" % {"handle": handle}))
 

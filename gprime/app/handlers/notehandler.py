@@ -57,7 +57,7 @@ class NoteHandler(BaseHandler):
                     with DbTxn(_("Delete note"), self.database) as transaction:
                         self.database.remove_note(handle, transaction)
                     self.send_message("Deleted note. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/note")
+                    self.redirect(self.app.make_url("/note"))
                     return
                 else:
                     self.render("note.html",
@@ -114,5 +114,5 @@ class NoteHandler(BaseHandler):
             self.send_message("Updated note. <a href=\"FIXME\">Undo</a>")
             form = NoteForm(self, instance=instance)
             form.save()
-            self.redirect("/note/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/note/%(handle)s" % {"handle": handle}))
 

@@ -1311,7 +1311,7 @@ class ImageHandler(BaseHandler):
         if fn != path:
             #self.set_header('Location', new_url)
             #return self.send("", status=301)
-            self.redirect("/imageserver/" + fn)
+            self.redirect(self.make_url("/imageserver/" + fn))
             return
 
         # Won't regenerate needlessly as earlier cache check would have found it

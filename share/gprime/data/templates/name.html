@@ -20,7 +20,7 @@
 {# bread crumbs #}
 
   <p>
-  {{ make_link("/person", "People") }} > {{ make_link("/person/%(handle)s", form.instance.gid, handle=form.instance.handle) }} > {{ make_link("/person/%(handle)s/name/%(row)s", "Name", handle=form.instance.handle, row=form.row) }}
+  {{ form.make_link("/person", "People") }} > {{ form.make_link("/person/%(handle)s", form.instance.gid, handle=form.instance.handle) }} > {{ form.make_link("/person/%(handle)s/name/%(row)s", "Name", handle=form.instance.handle, row=form.row) }}
   </p>
 
 
@@ -145,12 +145,12 @@
 {% if user %}
   {% if action != "view" %}
     <input type="submit" value={{_T_("Save")}}/>
-    {{make_button(_("Cancel"), form.instance.make_url("#tab-names"))}}
+    {{form.make_button(_("Cancel"), form.instance.make_url("#tab-names"))}}
   {% else %}
       <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ make_icon_button(_("Add Name"), "/person/%(handle)s/name/add", icon="+", handle=form.handle) }}
-      {{ make_icon_button(_("Edit Name"), "/person/%(handle)s/name/%(row)s/edit", icon="?", handle=form.handle, row=form.row) }}
-      {{ make_icon_button(_("Delete Name"), "/person/%(handle)s/name/%(row)s/delete", icon="-", handle=form.handle, row=form.row) }}
+      {{ form.make_icon_button(_("Add Name"), "/person/%(handle)s/name/add", icon="+", handle=form.handle) }}
+      {{ form.make_icon_button(_("Edit Name"), "/person/%(handle)s/name/%(row)s/edit", icon="?", handle=form.handle, row=form.row) }}
+      {{ form.make_icon_button(_("Delete Name"), "/person/%(handle)s/name/%(row)s/delete", icon="-", handle=form.handle, row=form.row) }}
       </div>
     
   {% end %}

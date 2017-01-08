@@ -367,19 +367,19 @@ function buttonOut(button) {
     <div class="container">
     <ul class="menu" id="dropmenu">
     {% if user %}
-         <li><a href="/"> {{_("Home")}}</a></li>
-         <li><a href="/action">{{_("Actions")}}</a></li>
-         <li><a href="/settings">{{_("Settings")}}</a></li>
+         <li><a href="{{make_url('/')}}"> {{_("Home")}}</a></li>
+         <li><a href="{{make_url('/action')}}">{{_("Actions")}}</a></li>
+         <li><a href="{{make_url('/settings')}}">{{_("Settings")}}</a></li>
 	 {% if next %}
-             <li><a href="/logout/?next={# next #}">{{_("Logout")}}</a></li>
+             <li><a href="{{make_url('/logout?next=' + next)}}">{{_("Logout")}}</a></li>
 	 {% else %}
-             <li><a href="/logout">{{_("Logout")}}</a></li>
+             <li><a href="{{make_url('/logout')}}">{{_("Logout")}}</a></li>
 	 {% end %}
     {% else %}
 	 {% if next %}
-         <li><a href="/login?next={# next #}">{{_("Login")}}</a></li>
+         <li><a href="{{make_url('/login?next=' + next)}}">{{_("Login")}}</a></li>
          {% else %}
-         <li><a href="/login">{{_("Login")}}</a></li>
+         <li><a href="{{make_url('/login')}}">{{_("Login")}}</a></li>
 	 {% end %}
   {% end %}
     </ul>

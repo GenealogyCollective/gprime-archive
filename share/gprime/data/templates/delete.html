@@ -10,7 +10,7 @@
 
   <form method="post">
     {% module xsrf_form_html() %}
-    {{ make_button(_("Cancel"), "/" + table + "/" + handle) }}
+    {{ form.make_button(_("Cancel"), "/" + table + "/" + handle) }}
     <input type="submit" value={{_("Delete")}} />
   </form>
 

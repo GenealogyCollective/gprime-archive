@@ -57,7 +57,7 @@ class RepositoryHandler(BaseHandler):
                     with DbTxn(_("Delete repository"), self.database) as transaction:
                         self.database.remove_repository(handle, transaction)
                     self.send_message("Deleted repository. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/repository")
+                    self.redirect(self.app.make_url("/repository"))
                     return
                 else:
                     self.render("repository.html",
@@ -113,5 +113,5 @@ class RepositoryHandler(BaseHandler):
         else:
             form = RepositoryForm(self, instance=instance)
             form.save()
-            self.redirect("/repository/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/repository/%(handle)s" % {"handle": handle}))
 

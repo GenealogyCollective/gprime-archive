@@ -57,7 +57,7 @@ class TagHandler(BaseHandler):
                     with DbTxn(_("Delete tag"), self.database) as transaction:
                         self.database.remove_tag(handle, transaction)
                     self.send_message("Deleted tag. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/tag")
+                    self.redirect(self.app.make_url("/tag"))
                     return
                 else:
                     self.render("tag.html",
@@ -114,5 +114,5 @@ class TagHandler(BaseHandler):
             self.send_message("Updated tag. <a href=\"FIXME\">Undo</a>")
             form = TagForm(self, instance=instance)
             form.save()
-            self.redirect("/tag/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/tag/%(handle)s" % {"handle": handle}))
 

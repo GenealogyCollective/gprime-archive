@@ -13,8 +13,8 @@
        </tr>
   {% for table in sorted(database.get_table_func()) %}
        <tr>
-          <td><a href="/{{table.lower()}}" class="browsecell">{{_(table)}}</a></td>
-          <td><a href="/{{table.lower()}}" class="browsecell">{{database.get_table_func(table,"count_func")()}}</a></td>
+          <td><a href="{{make_url('/' + table.lower())}}" class="browsecell">{{_(table)}}</a></td>
+          <td><a href="{{make_url('/' + table.lower())}}" class="browsecell">{{database.get_table_func(table,"count_func")()}}</a></td>
        </tr>
   {% end %}
   </table>

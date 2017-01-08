@@ -71,15 +71,15 @@
     <input type="hidden" name="page" value="{{ page }}"/>
     <input type="submit" value="Save"/>
     {% if form.instance.handle %}
-       {{make_button(_("Cancel"), "/event/" + form.instance.handle)}}
+       {{form.make_button(_("Cancel"), "/event/" + form.instance.handle)}}
     {% else %}
-       {{make_button(_("Cancel"), "/event")}}
+       {{form.make_button(_("Cancel"), "/event")}}
     {% end %}
   {% else %}
     <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-    {{ make_icon_button(_("Add Event"), "/event/add", icon="+") }}
-    {{ make_icon_button(_("Edit Event"), "/event/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
-    {{ make_icon_button(_("Delete Event"), "/event/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+    {{ form.make_icon_button(_("Add Event"), "/event/add", icon="+") }}
+    {{ form.make_icon_button(_("Edit Event"), "/event/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+    {{ form.make_icon_button(_("Delete Event"), "/event/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
     </div>
   {% end %}
 {% else %}

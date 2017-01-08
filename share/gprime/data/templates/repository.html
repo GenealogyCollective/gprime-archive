@@ -60,15 +60,15 @@
     <input type="hidden" name="page" value="{{ page }}"/>
     <input type="submit" value="Save"/>
     {% if form.instance.handle %}
-       {{make_button(_("Cancel"), "/repository/" + form.instance.handle)}}
+       {{form.make_button(_("Cancel"), "/repository/" + form.instance.handle)}}
     {% else %}
-       {{make_button(_("Cancel"), "/repository")}}
+       {{form.make_button(_("Cancel"), "/repository")}}
     {% end %}
   {% else %}
     <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-    {{ make_icon_button(_("Add Repository"), "/repository/add", icon="+") }}
-    {{ make_icon_button(_("Edit Repository"), "/repository/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
-    {{ make_icon_button(_("Delete Repository"), "/repository/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+    {{ form.make_icon_button(_("Add Repository"), "/repository/add", icon="+") }}
+    {{ form.make_icon_button(_("Edit Repository"), "/repository/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+    {{ form.make_icon_button(_("Delete Repository"), "/repository/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
     </div>
   {% end %}
 {% else %}

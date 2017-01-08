@@ -64,7 +64,7 @@ class PersonHandler(BaseHandler):
                     with DbTxn(_("Delete person"), self.database) as transaction:
                         self.database.remove_person(handle, transaction)
                     self.send_message("Deleted person. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/person")
+                    self.redirect(self.app.make_url("/person"))
                     return
                 else:
                     ## Action can be edit or view
@@ -131,4 +131,4 @@ class PersonHandler(BaseHandler):
             self.send_message("Updated person. <a href=\"FIXME\">Undo</a>")
             form = PersonForm(self, instance=instance)
             form.save()
-            self.redirect("/person/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/person/%(handle)s" % {"handle": handle}))

@@ -57,7 +57,7 @@ class EventHandler(BaseHandler):
                     with DbTxn(_("Delete event"), self.database) as transaction:
                         self.database.remove_event(handle, transaction)
                     self.send_message("Deleted event. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/event")
+                    self.redirect(self.app.make_url("/event"))
                     return
                 else:
                     self.render("event.html",
@@ -114,5 +114,5 @@ class EventHandler(BaseHandler):
             self.send_message("Updated event. <a href=\"FIXME\">Undo</a>")
             form = EventForm(self, instance=instance)
             form.save()
-            self.redirect("/event/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/event/%(handle)s" % {"handle": handle}))
 

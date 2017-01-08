@@ -73,10 +73,14 @@ class BaseHandler(tornado.web.RequestHandler):
             "gprime_version": VERSION,
             "messages": self.get_messages(),
             "next": self.get_argument("next", None),
+            "make_url": self.make_url
         }
         dict.update(template_functions)
         dict.update(kwargs)
         return dict
+
+    def make_url(self, url):
+        return self.app.make_url(url)
 
     def send_message(self, message):
         self.set_secure_cookie("gprime-messages",

@@ -57,7 +57,7 @@ class PlaceHandler(BaseHandler):
                     with DbTxn(_("Delete place"), self.database) as transaction:
                         self.database.remove_place(handle, transaction)
                     self.send_message("Deleted place. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/place")
+                    self.redirect(self.app.make_url("/place"))
                     return
                 else:
                     self.render("place.html",
@@ -113,5 +113,5 @@ class PlaceHandler(BaseHandler):
         else:
             form = PlaceForm(self, instance=instance)
             form.save()
-            self.redirect("/place/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/place/%(handle)s" % {"handle": handle}))
 

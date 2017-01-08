@@ -44,49 +44,72 @@ class GPrimeApp(Application):
     def __init__(self, options, database, settings=None):
         import gprime.const
         self.options = options
-        if settings is None:
-            settings = self.default_settings()
+        self.prefix = self.options.prefix
         self.user_data = {} # user to user_data map
         self.database = database
         self.sitename = self.options.sitename
+        if settings is None:
+            settings = self.default_settings()
         handlers = [
-            (r"/", HomeHandler, "main", self.make_env({})),
-            (r'/settings', SettingsHandler, "settings", self.make_env({})),
-            (r'/login', LoginHandler, "login", self.make_env({})),
-            (r'/logout', LogoutHandler, "logout", self.make_env({})),
-            (r'/action/?(.*)', ActionHandler, "action", self.make_env({})),
-            #(r'/person/(.*)/name/(.*)/surname/(.*)', SurnameHandler, "surnamename", self.make_env({})),
-            (r'/person/(.*)/name/(.*)/?(.*)', NameHandler, "name", self.make_env({})),
-            (r'/person/?(.*)', PersonHandler, "person", self.make_env({})),
-            (r'/note/?(.*)', NoteHandler, "note", self.make_env({})),
-            (r'/family/?(.*)', FamilyHandler, "family", self.make_env({})),
-            (r'/citation/?(.*)', CitationHandler, "citation", self.make_env({})),
-            (r'/event/?(.*)', EventHandler, "event", self.make_env({})),
-            (r'/media/?(.*)', MediaHandler, "media", self.make_env({})),
-            (r'/place/?(.*)', PlaceHandler, "place", self.make_env({})),
-            (r'/repository/?(.*)', RepositoryHandler, "repository", self.make_env({})),
-            (r'/source/?(.*)', SourceHandler, "source", self.make_env({})),
-            (r'/tag/?(.*)', TagHandler, "tag", self.make_env({})),
-            (r'/imageserver/(.*)', ImageHandler, "imageserver", self.make_env({
+            (self.make_url(r"/"),
+             HomeHandler, "main", self.make_env({})),
+            (self.make_url(r'/settings'),
+             SettingsHandler, "settings", self.make_env({})),
+            (self.make_url(r'/login'),
+             LoginHandler, "login", self.make_env({})),
+            (self.make_url(r'/logout'),
+             LogoutHandler, "logout", self.make_env({})),
+            (self.make_url(r'/action/?(.*)'),
+             ActionHandler, "action", self.make_env({})),
+            (self.make_url(r'/person/(.*)/name/(.*)/?(.*)'),
+             NameHandler, "name", self.make_env({})),
+            (self.make_url(r'/person/?(.*)'),
+             PersonHandler, "person", self.make_env({})),
+            (self.make_url(r'/note/?(.*)'),
+             NoteHandler, "note", self.make_env({})),
+            (self.make_url(r'/family/?(.*)'),
+             FamilyHandler, "family", self.make_env({})),
+            (self.make_url(r'/citation/?(.*)'),
+             CitationHandler, "citation", self.make_env({})),
+            (self.make_url(r'/event/?(.*)'),
+             EventHandler, "event", self.make_env({})),
+            (self.make_url(r'/media/?(.*)'),
+             MediaHandler, "media", self.make_env({})),
+            (self.make_url(r'/place/?(.*)'),
+             PlaceHandler, "place", self.make_env({})),
+            (self.make_url(r'/repository/?(.*)'),
+             RepositoryHandler, "repository", self.make_env({})),
+            (self.make_url(r'/source/?(.*)'),
+             SourceHandler, "source", self.make_env({})),
+            (self.make_url(r'/tag/?(.*)'),
+             TagHandler, "tag", self.make_env({})),
+            (self.make_url(r'/imageserver/(.*)'),
+             ImageHandler, "imageserver", self.make_env({
                 "SITE_DIR": self.options.site_dir,
                 "PORT": self.options.port,
                 "HOSTNAME": self.options.hostname,
                 "GET_IMAGE_FN": self.get_image_path_from_handle,
             })),
-            (r"/json/", JsonHandler, "json", self.make_env({})),
-            (r"/data/(.*)", StaticFileHandler, "data", {
+            (self.make_url(r"/json/"),
+             JsonHandler, "json", self.make_env({})),
+            (self.make_url(r"/data/(.*)"),
+             StaticFileHandler, "data", {
                 'path': gprime.const.DATA_DIR,
             }),
-            (r"/css/(.*)", StaticFileHandler, "css", {
+            (self.make_url(r"/css/(.*)"),
+             StaticFileHandler, "css", {
                 'path': os.path.join(gprime.const.DATA_DIR, "css"),
             }),
-            (r"/js/(.*)", StaticFileHandler, "javascript", {
+            (self.make_url(r"/js/(.*)"),
+             StaticFileHandler, "javascript", {
                 'path': os.path.join(gprime.const.DATA_DIR, "javascript"),
             }),
-            (r"/images/(.*)", StaticFileHandler, "images", {
+            (self.make_url(r"/images/(.*)"),
+             StaticFileHandler, "images", {
                 'path': gprime.const.IMAGE_DIR,
             }),
-            (r"/img/(.*)", StaticFileHandler, "css_img", {
+            (self.make_url(r"/img/(.*)"),
+             StaticFileHandler, "css_img", {
                 'path': os.path.join(gprime.const.DATA_DIR, "img"),
             }),
         ]
@@ -95,6 +118,12 @@ class GPrimeApp(Application):
                               handler[3],
                               name=handler[2])
                           for handler in handlers], **settings)
+
+    def make_url(self, pattern):
+        if pattern == "/" and self.prefix:
+            return self.prefix
+        else:
+            return "%s%s" % (self.prefix, pattern)
 
     def make_env(self, handler_env):
         env = {
@@ -155,7 +184,7 @@ class GPrimeApp(Application):
         import gprime.const
         return {
             "cookie_secret": base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
-            "login_url":     "/login",
+            "login_url":     self.make_url("/login"),
             'template_path': os.path.join(gprime.const.DATA_DIR, "templates"),
             'debug':         self.options.debug,
             "xsrf_cookies":  self.options.xsrf,
@@ -284,6 +313,8 @@ def main():
            help="Import a file", type=str)
     define("open-browser", default=True,
            help="Open default web browser", type=bool)
+    define("prefix", default="",
+           help="Site URL prefix", type=str)
     # Let's go!
     # Really, just need the config-file:
     tornado.options.parse_command_line()
@@ -398,7 +429,7 @@ def main():
             tornado.log.logging.warning('No web browser found: %s.' % e)
             browser = None
         if browser:
-            b = lambda : browser.open("http://%s:%s" % (options.hostname, options.port), new=2)
+            b = lambda : browser.open("http://%s:%s%s" % (options.hostname, options.port, app.make_url("/")), new=2)
             threading.Thread(target=b).start()
 
     app.init_signal()

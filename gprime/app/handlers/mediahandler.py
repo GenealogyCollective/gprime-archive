@@ -57,7 +57,7 @@ class MediaHandler(BaseHandler):
                     with DbTxn(_("Delete media"), self.database) as transaction:
                         self.database.remove_media(handle, transaction)
                     self.send_message("Deleted media. <a href='FIXME'>Undo</a>.")
-                    self.redirect("/media")
+                    self.redirect(self.app.make_url("/media"))
                     return
                 else:
                     self.render("media.html",
@@ -114,5 +114,5 @@ class MediaHandler(BaseHandler):
             self.send_message("Updated media. <a href=\"FIXME\">Undo</a>")
             form = MediaForm(self, instance=instance)
             form.save()
-            self.redirect("/media/%(handle)s" % {"handle": handle})
+            self.redirect(self.app.make_url("/media/%(handle)s" % {"handle": handle}))
 

@@ -10,7 +10,7 @@
 {% else %}
 <p id="description">{{_("Enter your login ID and password below.")}}</p>
 {% end %}
-<form method="POST" action="/login">{% module xsrf_form_html() %}
+<form method="POST" action="{{make_url('/login')}}">{% module xsrf_form_html() %}
  <table>
    <tr>
     <td align="right">
@@ -39,7 +39,7 @@
 {% if next %}
  <input type="hidden" name="next" value="{{next}}" />
 {% else %}
- <input type="hidden" name="next" value="/" />
+ <input type="hidden" name="next" value="{{make_url('/')}}" />
 {% end %}
 </form>
 {% end %}

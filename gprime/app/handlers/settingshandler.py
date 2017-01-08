@@ -39,4 +39,4 @@ class SettingsHandler(BaseHandler):
         _ = self.app.get_translate_func(self.current_user)
         form = SettingsForm(self)
         form.save()
-        self.redirect("/settings")
+        self.redirect(self.app.make_url("/settings"))

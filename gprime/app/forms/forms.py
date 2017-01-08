@@ -25,8 +25,6 @@ import json
 import html
 import re
 
-from ..template_functions import make_button
-
 from gprime.display.name import NameDisplay
 from gprime.datehandler import displayer, parser
 from gprime.simple import SimpleAccess
@@ -99,9 +97,9 @@ class Form(object):
         else:
             parts = ""
         if self.instance:
-            return "/%s/%s%s" % (self.view, self.instance.handle, parts)
+            return "%s/%s/%s%s" % (self.handler.app.prefix, self.view, self.instance.handle, parts)
         else:
-            return "/%s%s" % (self.view, parts)
+            return "%s/%s%s" % (self.handler.app.prefix, self.view, parts)
 
     def set_post_process_functions(self):
         pass
@@ -144,13 +142,13 @@ class Form(object):
         matching = len(self.rows)
         total_pages = math.ceil(records / self.page_size)
         return ("""<div align="center" style="background-color: lightgray; border: 1px solid black; border-radius:5px; margin: 0px 1px; padding: 1px;">""" +
-                make_button("<<", self.make_query(page=1)) +
+                self.make_button("<<", self.make_url(self.make_query(page=1))) +
                 " | " +
-                make_button("<", self.make_query(page=max(page - 1, 1))) +
+                self.make_button("<", "/" + self.view + (self.make_query(page=max(page - 1, 1)))) +
                 (" | <b>Page</b> %s of %s | " % (page, total_pages)) +
-                make_button(">", self.make_query(page=min(page + 1, total_pages))) +
+                self.make_button(">", "/" + self.view + self.make_query(page=min(page + 1, total_pages))) +
                 " | " +
-                make_button(">>", self.make_query(page=total_pages)) +
+                self.make_button(">>", "/" + self.view + self.make_query(page=total_pages)) +
                 (" | <b>Showing</b> %s/%s <b>of</b> %s <b>in</b> %.4g seconds" % (matching, records, total, round(self.rows.time, 4))) +
                 "</div>")
 
@@ -326,7 +324,7 @@ class Form(object):
                 env[field_name] = data
             if self.link:
                 link = self.link % env
-                retval_row.append(Column(url % (link, page, count), self.count_width))
+                retval_row.append(Column(url % (self.handler.app.make_url(link), page, count), self.count_width))
             else:
                 retval_row.append(Column(count, self.count_width))
             for field_name, field_width in self.select_fields:
@@ -336,7 +334,7 @@ class Form(object):
                 if self.link:
                     link = self.link % env
                     data = data if data else "&nbsp;"
-                    data = """<a href="%s?page=%s" class="browsecell">%s</a>""" % (link, page, data)
+                    data = """<a href="%s?page=%s" class="browsecell">%s</a>""" % (self.handler.app.make_url(link), page, data)
                 retval_row.append(Column(data, field_width))
             retval.append(retval_row)
             count += 1
@@ -414,7 +412,7 @@ class Form(object):
         if field in self.post_process_functions:
             retval = self.post_process_functions[field](data, {})
         if link and action == "view":
-            retval = '''<a href="''' +  (link % kwargs) + '''">''' + retval + """</a>"""
+            retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + retval + """</a>"""
         return str(retval)
 
     def get(self, field):
@@ -484,29 +482,38 @@ class Form(object):
                     x1, y1, x2, y2 = media_ref.rect
                     w = x2 - x1
                     h = y2 - y1
-                    return (
-                        """<a href="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg"/>""" +
-                        """<img src="/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg"/>""" +
-                        """</a>"""
-                    ) % {
+                    env = {
                         "handle": media_handle,
                         "width": width,
                         "x": x1, "y": y1, "w": w, "h": h,
                     }
-                else:
+                    full = self.make_url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/full/0/default.jpg" % env)
+                    rect = self.url("/imageserver/%(handle)s/pct:%(x)s,%(y)s,%(w)s,%(h)s/%(width)s,/0/default.jpg" % env)
                     return (
-                        """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
-                        """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
+                        """<a href="%(full)s"/>""" +
+                        """<img src="%(rect)s"/>""" +
+                        """</a>"""
+                    ) % {"full": full, "rect": rect}
+                else:
+                    env = {
                             "handle": media_handle,
                             "width": width,
                         }
-        else:
+                    full = self.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
+                    rect = self.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
                     return (
-                        """<a href="/imageserver/%(handle)s/full/full/0/default.jpg">""" +
-                        """<img src="/imageserver/%(handle)s/full/%(width)s,/0/default.jpg"/></a>""") % {
-                            "handle": self.instance.handle,
-                            "width": width,
-                        }
+                        """<a href="%(full)s">""" +
+                        """<img src="%(rect)s"/></a>""") % env
+        else:
+            env = {
+                    "handle": self.instance.handle,
+                    "width": width,
+                }
+            full = self.make_url("/imageserver/%(handle)s/full/full/0/default.jpg" % env)
+            rect = self.make_url("/imageserver/%(handle)s/full/%(width)s,/0/default.jpg" % env)
+            return (
+                """<a href="%(full)s">""" +
+                """<img src="%(rect)s"/></a>""") % {"full": full, "rect": rect}
         return ""
 
     def set_post_process_functions(self):
@@ -567,3 +574,32 @@ class Form(object):
         Textual description of this instance.
         """
         return str(self.instance.gid)
+
+    def make_button(self, text, link):
+        return """<input type="button" value="%s" onclick="location.href='%s';" />""" % (
+            text,
+            self.handler.app.make_url(link))
+
+    def make_icon_button(self, text, link, **kwargs):
+        if "icon" in kwargs:
+            if kwargs["icon"] == "+":
+                img_src = self.handler.app.make_url("/images/add.png")
+            elif kwargs["icon"] == "?":
+                img_src = self.handler.app.make_url("/images/text-editor.png")
+            elif kwargs["icon"] == "-":
+                img_src = self.handler.app.make_url("/images/gtk-remove.png")
+            elif kwargs["icon"] == "p": # pick
+                img_src = self.handler.app.make_url("/images/stock_index_24.png")
+            else:
+                raise Exception("invalid icon: %s" % kwargs["icon"])
+            return ("""<img height="22" width="22" alt="%(text)s" title="%(text)s"
+     src="%(img_src)s" onmouseover="buttonOver(this)" onmouseout="buttonOut(this)"
+        onclick="document.location.href='%(link)s'"
+     style="background-color: lightgray; border: 1px solid lightgray; border-radius:5px; margin: 0px 1px; padding: 1px;" />
+""") % {"link": self.handler.app.make_url(link % kwargs), "img_src": img_src, "text": text}
+        else:
+            return """<a href="%(link)s" class="browsecell">%(text)s</a>""" % {"link": self.handler.app.make_url(link % kwargs),
+                                                                               "text": text}
+
+    def make_link(self, url, text, **kwargs):
+        return """<a href="%s"><b>%s</b></a>""" % ((self.handler.app.make_url(url) % kwargs), text)

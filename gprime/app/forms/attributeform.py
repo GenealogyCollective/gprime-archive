@@ -18,18 +18,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-class AttributeForm():
+# Gramps Connect imports:
+from .forms import Form
+from gprime.lib.person import Person
+
+class AttributeForm(Form):
     """
     A form for listing, viewing, and editing user settings.
     """
-    def __init__(self, handler, instance):
-        self.handler = handler
-        self.database = handler.database
-        self.instance = instance
-        self._ = self.handler.app.get_translate_func(self.handler.current_user)
-        self.tview = self._("Attribute")
-        self.view = "Attribute"
-        self.instance = None
+    _class = Person
+    view = "person"
+    tview = "People"
+    table = "Person"
 
-    def save(self):
-        pass
+    def __init__(self, handler, instance, path, url):
+        super().__init__(handler, instance)
+        self.path = path
+        self.url = url
+        self.edit_fields = []
+        for field in ["type", "value", "private"]:
+            self.edit_fields.append(path + "." + field)

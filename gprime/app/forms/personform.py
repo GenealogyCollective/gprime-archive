@@ -91,9 +91,3 @@ class PersonForm(Form):
         "handle",
         "event_ref_list",
     ]
-
-    def probably_alive(self):
-        """
-        Placeholder for a probably_alive value.
-        """
-        return True

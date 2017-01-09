@@ -356,12 +356,13 @@ class Form(object):
         from gprime.lib.struct import Struct
         from gprime.lib.grampstype import GrampsType
         data = self.instance.get_field(field, self.database)
+        field_name = field
         if isinstance(data, (list, tuple)): ## Tags
             s = Struct.wrap(self.instance, self.database)
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
             _class = """class ="%s" """ % _class if _class else ""
-            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" %s>""" % (field, field, _class)
+            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" %s>""" % (field_name, field, _class)
             tags = set()
             for item in data:
                 ## Tags:
@@ -377,18 +378,20 @@ class Form(object):
         elif isinstance(data, bool): # Booleans (private, probably alive)
             env = {
                 "field": field,
+                "field_name": field_name,
                 "checked": "checked" if data else "",
                 "disabled": "" if action == "edit" else "disabled",
                 "_class": """class ="%s" """ % _class if _class else "",
             }
-            return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field)s" %(_class)s></input>""" % env
+            return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field_name)s" %(_class)s></input>""" % env
         elif isinstance(data, GrampsType):
             env = {
                 "field": field,
+                "field_name": field_name,
                 "disabled": "" if action == "edit" else "disabled",
                 "_class": """class ="%s" """ % _class if _class else "",
             }
-            retval = """<select name="%(field)s" %(disabled)s id="id_%(field)s" style="width: 100%%" %(_class)s>""" % env
+            retval = """<select name="%(field_name)s" %(disabled)s id="id_%(field)s" style="width: 100%%" %(_class)s>""" % env
             if action == "edit":
                 for option in data._DATAMAP:
                     env["selected"] = "selected" if option[2] == data.string else ""
@@ -406,10 +409,11 @@ class Form(object):
                 id = js if js else "id_" + field
                 dict = {"id": id,
                         "name": field,
+                        "field_name": field_name,
                         "value": retval,
                         "_class": """class ="%s" """ % _class if _class else "",
                 }
-                retval = """<input id="%(id)s" type="text" name="%(name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s>""" % dict
+                retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s>""" % dict
         if field in self.post_process_functions:
             retval = self.post_process_functions[field](data, {})
         if link and action == "view":
@@ -604,4 +608,3 @@ class Form(object):
 
     def make_link(self, url, text, **kwargs):
         return """<a href="%s"><b>%s</b></a>""" % ((self.handler.app.make_url(url) % kwargs), text)
-

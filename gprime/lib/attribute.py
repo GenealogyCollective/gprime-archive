@@ -105,6 +105,17 @@ class AttributeRoot(SecondaryObject, PrivacyBase):
         }
 
     @classmethod
+    def get_labels(cls, _):
+        return {
+            "private": _("Private"),
+            "type": _("Attribute type"),
+            "value":_("Attribute value")
+        }
+
+    def get_field(self, field, db=None):
+        return getattr(self, field)
+
+    @classmethod
     def from_struct(cls, struct):
         """
         Given a struct data representation, return a serialized object.

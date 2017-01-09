@@ -28,20 +28,39 @@ class AttributeHandler(BaseHandler):
     def get(self, prefix="", suffix=""):
         """
         prefix = 'person/b2cfa6ca14d1f274465'
-        suffix = '1'
+        suffix = '1', or '1/delete' add, or edit
         """
         _ = self.app.get_translate_func(self.current_user)
-        self.prefix = prefix
-        self.suffix = suffix
+        if "/" in suffix:
+            row, action = suffix.split("/")
+        else:
+            row, action = suffix, "view"
         instance = self.app.get_object_from_url(prefix)
+        path = "attribute_list.%s" % (int(row) - 1)
+        url = "/" + prefix + "/attribute_list/" + row
+        ## FIXME: Handle add and delete
         self.render("attribute.html",
                     **self.get_template_dict(tview=_("attribute"),
-                                             form=AttributeForm(self, instance=instance)))
+                                             action=action,
+                                             search="",
+                                             page="",
+                                             form=AttributeForm(self, instance, path, url)))
         return
 
     @tornado.web.authenticated
-    def post(self, path=""):
+    def post(self, prefix="", suffix=""):
+        """
+        prefix = 'person/b2cfa6ca14d1f274465'
+        suffix = '1'
+        """
         _ = self.app.get_translate_func(self.current_user)
-        form = AttributeForm(self)
+        if "/" in suffix:
+            row, action = suffix.split("/", 1)
+        else:
+            row, action = suffix, "view"
+        instance = self.app.get_object_from_url(prefix)
+        path = "attribute_list.%s" % (int(row) - 1)
+        url = "/" + prefix + "/attribute_list/" + row
+        form = AttributeForm(self, instance, path, url)
         form.save()
-        self.redirect(self.app.make_url("/"))
+        self.redirect(self.app.make_url(url))

@@ -1,7 +1,7 @@
 Running gPrime on a Server
 ==========================
 
-These are notes for running gPrime (and multiple copies of gPrime) on a server, such as Ubuntu.
+These are notes for running gPrime (and multiple copies of gPrime) on a server, such as Ubuntu. These notes are untested. They will eventually be tested, or removed.
 
 Requirements
 ------------

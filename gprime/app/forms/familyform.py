@@ -32,6 +32,10 @@ class FamilyForm(Form):
 
     # Fields for editor:
     edit_fields = [
+        "gid",
+        "tag_list",
+        "private",
+        "type"
     ]
 
     # URL for page view rows:

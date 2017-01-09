@@ -35,11 +35,12 @@ class MediaForm(Form):
 
     # Fields for editor:
     edit_fields = [
-        "type",
-        "text.string",
         "gid",
         "tag_list",
         "private",
+        "desc",
+        "date",
+        "path",
     ]
 
     # URL for page view rows:

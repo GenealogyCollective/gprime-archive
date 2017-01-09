@@ -91,16 +91,16 @@
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">Birth:</td>
- <td class="ColumnValue" id="data">{{ form.birth_date(form.family_father(form.instance)) }}</td>
+ <td class="ColumnValue">{{ form.birth_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Birth:</td>
- <td class="ColumnValue" id="data">{{ form.birth_date(form.family_mother(form.instance)) }}</td>
+ <td class="ColumnValue">{{ form.birth_date(form.family_mother(form.instance)) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{{ form.death_date(form.family_father(form.instance)) }}</td>
+ <td class="ColumnValue">{{ form.death_date(form.family_father(form.instance)) }}</td>
  <td class="ColumnAttribute">Death:</td>
- <td class="ColumnValue" id="data">{{ form.death_date(form.family_mother(form.instance)) }}</td>
+ <td class="ColumnValue">{{ form.death_date(form.family_mother(form.instance)) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
@@ -140,7 +140,7 @@
     <input type="hidden" name="search" value="{{search}}"/>
     <input type="hidden" name="page" value="{{page}}"/>
     <input type="submit" value="Save"/>
-    {{form.make_button(_("Cancel"), "/family")}}
+    {{form.make_button(_("Cancel"), form.instance.make_url())}}
   {% end %}
 {% else %}
 {% end %}

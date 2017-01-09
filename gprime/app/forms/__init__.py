@@ -32,3 +32,4 @@ from .tagform import TagForm
 from .settingsform import SettingsForm
 from .nameform import NameForm
 from .attributeform import AttributeForm
+from .mediarefform import MediaRefForm

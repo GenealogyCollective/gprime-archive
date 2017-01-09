@@ -39,6 +39,8 @@ class EventForm(Form):
         "gid",
         "tag_list",
         "private",
+        "date",
+        "description",
     ]
 
     # URL for page view rows:

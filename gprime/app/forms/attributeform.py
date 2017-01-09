@@ -26,15 +26,12 @@ class AttributeForm(Form):
     """
     A form for listing, viewing, and editing user settings.
     """
-    _class = Person
-    view = "person"
-    tview = "People"
-    table = "Person"
-
-    def __init__(self, handler, instance, path, url):
+    def __init__(self, handler, instance, subitem, path, url):
+        self.set_class_from_url(url, handler)
         super().__init__(handler, instance)
         self.path = path
         self.url = url
+        self.subitem = subitem
         self.edit_fields = []
         for field in ["type", "value", "private"]:
             self.edit_fields.append(path + "." + field)

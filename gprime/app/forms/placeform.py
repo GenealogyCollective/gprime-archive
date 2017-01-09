@@ -35,11 +35,16 @@ class PlaceForm(Form):
 
     # Fields for editor:
     edit_fields = [
-        "type",
-        "text.string",
         "gid",
         "tag_list",
         "private",
+        'name.value',
+        'name.date',
+        'name.lang',
+        'lat',
+        'long',
+        'place_type',
+        'code',
     ]
 
     # URL for page view rows:
@@ -75,4 +80,3 @@ class PlaceForm(Form):
     env_fields = [
         "handle",
     ]
-

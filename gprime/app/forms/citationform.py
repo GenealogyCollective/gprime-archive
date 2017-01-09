@@ -35,11 +35,12 @@ class CitationForm(Form):
 
     # Fields for editor:
     edit_fields = [
-        "type",
-        "text.string",
         "gid",
         "tag_list",
         "private",
+        "page",
+        "confidence",
+        "date",
     ]
 
     # URL for page view rows:

@@ -35,3 +35,4 @@ from .taghandler import TagHandler
 from .settingshandler import SettingsHandler
 from .namehandler import NameHandler
 from .attributehandler import AttributeHandler
+from .mediarefhandler import MediaRefHandler

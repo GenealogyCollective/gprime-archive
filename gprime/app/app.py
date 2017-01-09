@@ -53,6 +53,8 @@ class GPrimeApp(Application):
         handlers = [
             (self.make_url(r"/(.*)/attribute_list/(.*)"),
              AttributeHandler, "attribute_list", self.make_env({})),
+            (self.make_url(r"/(.*)/media_list/(.*)"),
+             MediaRefHandler, "media_list", self.make_env({})),
             (self.make_url(r"/"),
              HomeHandler, "main", self.make_env({})),
             (self.make_url(r'/settings'),

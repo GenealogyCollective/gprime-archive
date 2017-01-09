@@ -37,14 +37,19 @@ class AttributeHandler(BaseHandler):
             row, action = suffix, "view"
         instance = self.app.get_object_from_url(prefix)
         path = "attribute_list.%s" % (int(row) - 1)
+        if prefix.count("/") > 2:
+            parts = prefix.split("/") # "/person/handle/somethings/", ["", "person", "handle", "sometings"]
+            path = ".".join(parts[3:]) + path
         url = "/" + prefix + "/attribute_list/" + row
+        subitem = instance.get_field(path)
+        form = AttributeForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("attribute.html",
                     **self.get_template_dict(tview=_("attribute"),
                                              action=action,
                                              search="",
                                              page="",
-                                             form=AttributeForm(self, instance, path, url)))
+                                             form=form))
         return
 
     @tornado.web.authenticated
@@ -60,7 +65,11 @@ class AttributeHandler(BaseHandler):
             row, action = suffix, "view"
         instance = self.app.get_object_from_url(prefix)
         path = "attribute_list.%s" % (int(row) - 1)
+        if prefix.count("/") > 2:
+            parts = prefix.split("/") # "/person/handle/somethings/", ["", "person", "handle", "sometings"]
+            path = ".".join(parts[3:]) + path
         url = "/" + prefix + "/attribute_list/" + row
-        form = AttributeForm(self, instance, path, url)
+        subitem = instance.get_field(path)
+        form = AttributeForm(self, instance, subitem, path, url)
         form.save()
         self.redirect(self.app.make_url(url))

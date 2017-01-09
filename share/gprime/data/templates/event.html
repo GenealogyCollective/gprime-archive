@@ -45,8 +45,8 @@
     {{ form.get_label("place") }}:
   </td>
   <td class="ColumnValue" id="data" colspan="3">
-    {{ form.render("place.name.value", user, action) }}
-    [{{ form.render("place.gid", user, action) }}]
+    {{ form.render("place.name.value", user, "view") }}
+    [{{ form.render("place.gid", user, "view") }}]
   </td>
 </tr>
 <tr><td id="rowspace"></td></tr>

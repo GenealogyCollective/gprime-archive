@@ -355,9 +355,14 @@ class Form(object):
         from gprime.lib.handle import HandleClass
         from gprime.lib.struct import Struct
         from gprime.lib.grampstype import GrampsType
+        from gprime.lib.date import Date
         data = self.instance.get_field(field, self.database)
         field_name = field
-        if isinstance(data, (list, tuple)): ## Tags
+        if action == "edit" and field not in self.edit_fields:
+            self.log.warning("You are trying to edit field '%s', but it is NOT in the edit_fields list: %s" % (field, self.edit_fields))
+        if isinstance(data, (list, tuple)): ## Tags or rect
+            if len(data) == 4 and all([isinstance(item, int) for item in data]): # rect
+                return str(data)
             s = Struct.wrap(self.instance, self.database)
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
@@ -384,6 +389,18 @@ class Form(object):
                 "_class": """class ="%s" """ % _class if _class else "",
             }
             return """<input type="checkbox" %(checked)s id="id_%(field)s" %(disabled)s name="%(field_name)s" %(_class)s></input>""" % env
+        elif isinstance(data, Date):
+            if action == "edit":
+                env = {
+                    "field": field,
+                    "field_name": field_name,
+                    "value": data.text,
+                    "disabled": "" if action == "edit" else "disabled",
+                    "_class": """class ="%s" """ % _class if _class else "",
+                }
+                return """<input type="text" id="id_%(field)s" %(disabled)s name="%(field_name)s" value="%(value)s" %(_class)s></input>""" % env
+            else:
+                return data.text
         elif isinstance(data, GrampsType):
             env = {
                 "field": field,
@@ -413,7 +430,7 @@ class Form(object):
                         "value": retval,
                         "_class": """class ="%s" """ % _class if _class else "",
                 }
-                retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s>""" % dict
+                retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s></input>""" % dict
         if field in self.post_process_functions:
             retval = self.post_process_functions[field](data, {})
         if link and action == "view":
@@ -428,6 +445,7 @@ class Form(object):
 
     def load_data(self):
         from gprime.lib.grampstype import GrampsType
+        from gprime.lib.date import Date
         # go thorough fields and save values
         for field in self.edit_fields:
             try:
@@ -450,7 +468,11 @@ class Form(object):
                 self.instance.set_field(field, True if value == "on" else False)
             elif isinstance(part, GrampsType): # type
                 # FIXME: lookup type number, set item to Type()
-                self.log.debug("save grampstype: %s", field)
+                self.log.warning("save grampstype: %s", field)
+                pass
+            elif isinstance(part, Date):
+                # FIXME: parse, save date
+                self.log.warning("save date: %s", field)
                 pass
             else:
                 try:
@@ -531,7 +553,7 @@ class Form(object):
             "gender": self.render_gender,
             "birth_ref_index": self.event_index,
             "death_ref_index": self.event_index,
-            "text.string": self.preview,
+            #"text.string": self.preview,
             #"tag_list": self.get_tag_from_handle:name
         }
 
@@ -581,7 +603,7 @@ class Form(object):
         return str(self.instance.gid)
 
     def make_button(self, text, link):
-        return """<input type="button" value="%s" onclick="location.href='%s';" />""" % (
+        return """<input type="button" value="%s" onclick="location.href='%s';"></input>""" % (
             text,
             self.handler.app.make_url(link))
 
@@ -608,3 +630,10 @@ class Form(object):
 
     def make_link(self, url, text, **kwargs):
         return """<a href="%s"><b>%s</b></a>""" % ((self.handler.app.make_url(url) % kwargs), text)
+
+    def set_class_from_url(self, url, handler):
+        _ = handler.app.get_translate_func(handler.current_user)
+        self.view = url.split("/")[1]
+        self.table = self.view.title()
+        self.tview = _(self.table)
+        self._class = handler.database.get_table_func(self.table, "class_func")

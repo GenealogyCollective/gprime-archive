@@ -36,10 +36,11 @@ class NoteForm(Form):
     # Fields for editor:
     edit_fields = [
         "type",
-        "text.string",
         "gid",
         "tag_list",
         "private",
+        "format",
+        "text.string",
     ]
 
     # URL for page view rows:

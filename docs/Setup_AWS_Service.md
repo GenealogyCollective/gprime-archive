@@ -12,6 +12,7 @@ These are notes on using Amazon Web Services (yum-based install)
 
 Get Connect info for instance. Login (ssh) and run the following:
 
+```shell
 sudo service httpd stop
 
 sudo yum update
@@ -39,3 +40,4 @@ gprime --site-dir=family_tree --create="Demo Family"
 gprime --site-dir=family_tree --add-user=demo --password=demo
 
 sudo /usr/local/bin/gprime --site-dir=family_tree --open-browser=0 --port=80 &
+```

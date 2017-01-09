@@ -1,6 +1,6 @@
 # Setup an AWS service
 
-These are notes on using Amazon Web Services (yum-based install)
+These are notes on using Amazon Web Services (yum-based install). Everything below works, unless otherwise noted.
 
 1. Get a DNS name ($12, used gprime.info)
 2. Get a Reserved Instance (make a particular type, m2.mirco) ($95 compute cloud)
@@ -8,7 +8,7 @@ These are notes on using Amazon Web Services (yum-based install)
 4. Get an Elastic IP
 5. Associate subdomain with instance
 6. Add Elastic IP to DNS subdomain
-6. Enable SSH on something
+6. Enable SSH on something (work in progress)
 
 Get Connect info for instance. Login (ssh) and run the following:
 

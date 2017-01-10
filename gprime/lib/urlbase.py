@@ -56,7 +56,7 @@ class UrlBase:
         return [url.to_struct() for url in self.urls]
 
     def set_from_struct(self, struct):
-        url_list = struct.get("url_list", [])
+        url_list = struct.get("urls", [])
         self.urls = [Url.from_struct(item) for item in url_list]
 
     def get_url_list(self):

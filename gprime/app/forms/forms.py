@@ -29,6 +29,7 @@ import re
 from gprime.display.name import NameDisplay
 from gprime.datehandler import displayer, parser
 from gprime.simple import SimpleAccess
+from gprime.utils.id import create_id
 
 nd = NameDisplay().display
 dd = displayer.display
@@ -367,7 +368,11 @@ class Form(object):
             data = s.getitem_from_path(field.split("."))
             ## a list of handles
             _class = """class ="%s" """ % _class if _class else ""
-            retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" %s>""" % (field_name, field, _class)
+            if action == "edit":
+                retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" %s>""" % (field_name, field, _class)
+            else:
+                url = self.handler.app.make_url("/tag/")
+                retval = """<select multiple="multiple" name="%s" id="id_%s" style="width: 100%%; height: 100%%" onclick="location = &quot;%s&quot; + this.value;" %s>""" % (field_name, field, url, _class)
             tags = set()
             for item in data:
                 ## Tags:
@@ -487,6 +492,10 @@ class Form(object):
         self.load_data()
         transaction = self.database.get_transaction_class()
         commit = self.database.get_table_func(self._class.__name__,"commit_func")
+        if not self.instance.handle:
+            self.instance.handle = create_id()
+        ## FIXME: should gid be assigned before this? YES, I think, and checked to make
+        ## sure no dups
         with transaction("Gramps Connect", self.database) as trans:
             commit(self.instance, trans)
 

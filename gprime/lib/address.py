@@ -82,7 +82,14 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
                 "citation_list": CitationBase.to_struct(self),
                 "note_list": NoteBase.to_struct(self),
                 "date": DateBase.to_struct(self),
-                "location": LocationBase.to_struct(self)
+                "street": self.street,
+                "locality": self.locality,
+                "city": self.city,
+                "county": self.county,
+                "state": self.state,
+                "country": self.country,
+                "postal": self.postal,
+                "phone": self.phone,
                }
 
     @classmethod
@@ -96,7 +103,14 @@ class Address(SecondaryObject, PrivacyBase, CitationBase, NoteBase, DateBase,
             "citation_list": [Handle("Citation", "CITATION-HANDLE")],
             "note_list": [Handle("Note", "CITATION-HANDLE")],
             "date": Date,
-            "location": Location
+            "street": str,
+            "locality": str,
+            "city": str,
+            "county": str,
+            "state": str,
+            "country": str,
+            "postal": str,
+            "phone": str,
         }
 
     @classmethod

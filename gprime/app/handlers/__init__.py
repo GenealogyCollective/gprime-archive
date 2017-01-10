@@ -36,3 +36,11 @@ from .settingshandler import SettingsHandler
 from .namehandler import NameHandler
 from .attributehandler import AttributeHandler
 from .mediarefhandler import MediaRefHandler
+from .addresshandler import AddressHandler
+from .childrefhandler import ChildRefHandler
+from .eventrefhandler import EventRefHandler
+from .ldshandler import LDSHandler
+from .personrefhandler import PersonRefHandler
+from .placerefhandler import PlaceRefHandler
+from .reporefhandler import RepoRefHandler
+from .urlhandler import URLHandler

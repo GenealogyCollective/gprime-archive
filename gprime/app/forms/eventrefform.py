@@ -1,7 +1,7 @@
 #
-# gPrime - A web-based genealogy program
+# gPrime - a web-based genealogy program
 #
-# Copyright (C) 2013       John Ralls <jralls@ceridwen.us>
+# Copyright (c) 2017 gPrime Development Team
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,10 +18,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
-## "-alpha", "-beta", "-beta1" is optional:
-__version__ = "1.0.9-alpha"
-VERSION        = __version__
-# three numbers, semantic versioning:
-VERSION_TUPLE = tuple([int(number) for number in __version__.split("-")[0].split(".")])
-# two string numbers, semantic versioning:
-major_version = "%s.%s" % (VERSION_TUPLE[0], VERSION_TUPLE[1])
+# Gramps Connect imports:
+from .forms import Form
+from gprime.lib.person import Person
+
+class EventRefForm(Form):
+    """
+    A form for listing, viewing, and editing user settings.
+    """
+    def __init__(self, handler, instance, subitem, path, url):
+        self.set_class_from_url(url, handler)
+        super().__init__(handler, instance)
+        self.path = path
+        self.url = url
+        self.subitem = subitem
+        self.edit_fields = []
+        for field in ["type", "value", "private"]:
+            self.edit_fields.append(path + "." + field)

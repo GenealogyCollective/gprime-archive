@@ -641,7 +641,7 @@ def association_table(form, user, action):
     if user and action == "view":
         retval += form.make_icon_button(
             form._("Add Association"),
-            "/%s/%s/personref_list/add" % (form.view, form.instance.handle),
+            "/%s/%s/person_ref_list/add" % (form.view, form.instance.handle),
             icon="+")
     else:
         retval += nbsp("") # to keep tabs same height
@@ -654,8 +654,8 @@ def association_table(form, user, action):
                 name_display(personref.ref.instance),
                 personref.ref.gid,
                 personref.rel,
-                edit="personref_list/%s" % count,
-                goto=form.make_url("personref_list", count))
+                edit="person_ref_list/%s" % count,
+                goto=form.make_url("person_ref_list", count))
             has_data = True
             count += 1
         text = """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
@@ -734,15 +734,15 @@ def lds_table(form, user, action, lds_ord_list):
                              lds.status,
                              lds.temple,
                              lds.place.title,
-                             edit="lds_ords_list/%s" % count,
-                             goto=form.make_url("lds_ords_list", count))
+                             edit="lds_ord_list/%s" % count,
+                             goto=form.make_url("lds_ord_list", count))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""
     if user and action == "view":
         retval += form.make_icon_button(
             form._("Add LDS"),
-            "/%s/%s/lds_ords_list/add" % (form.view, form.instance.handle),
+            "/%s/%s/lds_ord_list/add" % (form.view, form.instance.handle),
             icon="+")
     else:
         retval += nbsp("") # to keep tabs same height

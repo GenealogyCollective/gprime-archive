@@ -32,8 +32,23 @@
   </tr>
   <tr><td id="rowspace"></td></tr>
   <tr>
-    <td class="ColumnAttribute">{{ _("Area of image") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".rect", user, action) }}</td>
+    <td class="ColumnAttribute">{{ _("Date") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".date", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Type") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".type", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Temple") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".temple", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Status") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".status", user, action) }}</td>
   </tr>
 
 </tbody>
@@ -65,9 +80,6 @@
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
     {{ citation_table(form, user, action, form.subitem.citation_list, form.path) }}
-  </div>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, form.subitem.attribute_list, form.path) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom
 	      ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 

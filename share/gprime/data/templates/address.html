@@ -32,10 +32,50 @@
   </tr>
   <tr><td id="rowspace"></td></tr>
   <tr>
-    <td class="ColumnAttribute">{{ _("Area of image") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".rect", user, action) }}</td>
+    <td class="ColumnAttribute">{{ _("Date") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".date", user, action) }}</td>
   </tr>
-
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Street") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".street", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Locality") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".locality", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("City") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".city", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("County") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".county", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("State") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".state", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Country") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".country", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Postal") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".postal", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Phone") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".phone", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
 </tbody>
 </table>
 
@@ -47,9 +87,9 @@
     {{form.make_button(_("Cancel"), form.url)}}
   {% else %}
     <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ form.make_icon_button(_("Add Media reference"), form.url + "/add", icon="+") }}
-      {{ form.make_icon_button(_("Edit Media reference"), form.url + "/edit", icon="?") }}
-      {{ form.make_icon_button(_("Delete Media reference"), form.url + "/delete", icon="-") }}
+      {{ form.make_icon_button(_("Add Address"), form.url + "/add", icon="+") }}
+      {{ form.make_icon_button(_("Edit Address"), form.url + "/edit", icon="?") }}
+      {{ form.make_icon_button(_("Delete Address"), form.url + "/delete", icon="-") }}
     </div>
   {% end %}
 {% else %}
@@ -60,14 +100,10 @@
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
     <li class="ui-corner-top ui-state-default ui-tabs-selected ui-state-active"><a class="tab-citations" href="#tab-citations">{{_("Citation")}}</a></li>
-    <li class="ui-corner-top ui-state-default"><a class="tab-attributes" href="#tab-attributes">{{_("Attribute")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
     {{ citation_table(form, user, action, form.subitem.citation_list, form.path) }}
-  </div>
-  <div class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" id="tab-attributes" style="background-color: #f4f0ec;"> 
-    {{ attribute_table(form, user, action, form.subitem.attribute_list, form.path) }}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom
 	      ui-tabs-hide" id="tab-notes" style="background-color: #f4f0ec;"> 

@@ -1,0 +1,73 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{% include "detail_breadcrumb.html" %}
+  
+<div id="summaryarea">
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="90%">
+<tbody>
+<form method="post">{% module xsrf_form_html() %}
+
+  <tr>
+    <td class="ColumnAttribute">{{_("Private") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".private", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Path") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".path", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Description") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".desc", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr>
+    <td class="ColumnAttribute">{{ _("Type") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".type", user, action) }}</td>
+  </tr>
+  <tr><td id="rowspace"></td></tr>
+  <tr><td id="rowspace"></td></tr>
+
+</tbody>
+</table>
+
+{% if user %}
+  {% if action == "edit" %}
+    <input type="hidden" name="search" value="{{ search }}"/>
+    <input type="hidden" name="page" value="{{ page }}"/>
+    <input type="submit" value="Save"/>
+    {{form.make_button(_("Cancel"), form.url)}}
+  {% else %}
+    <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ form.make_icon_button(_("Add URL"), form.url + "/add", icon="+") }}
+      {{ form.make_icon_button(_("Edit URL"), form.url + "/edit", icon="?") }}
+      {{ form.make_icon_button(_("Delete URL"), form.url + "/delete", icon="-") }}
+    </div>
+  {% end %}
+{% else %}
+{% end %}
+
+<!-- Tabs -->
+    
+</form>
+{% end %}

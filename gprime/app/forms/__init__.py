@@ -33,3 +33,11 @@ from .settingsform import SettingsForm
 from .nameform import NameForm
 from .attributeform import AttributeForm
 from .mediarefform import MediaRefForm
+from .addressform import AddressForm
+from .childrefform import ChildRefForm
+from .eventrefform import EventRefForm
+from .ldsform import LDSForm
+from .personrefform import PersonRefForm
+from .placerefform import PlaceRefForm
+from .reporefform import RepoRefForm
+from .urlform import URLForm

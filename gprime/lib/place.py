@@ -122,6 +122,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
         Return the schema as a dictionary for this class.
         """
         from .url import Url
+        from .mediaref import MediaRef
         return {
             "handle": Handle("Place", "PLACE-HANDLE"),
             "gid": str,
@@ -135,7 +136,7 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
             "code": str,
             "alt_loc": [Location],
             "urls": [Url],
-            "media_list": [Handle("Media", "MEDIA-HANDLE")],
+            "media_list": [MediaRef],
             "citation_list": [Handle("Citation", "CITATION-HANDLE")],
             "note_list": [Handle("Note", "NOTE-HANDLE")],
             "change": int,

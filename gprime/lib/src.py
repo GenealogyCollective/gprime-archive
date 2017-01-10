@@ -102,6 +102,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         from .srcattribute import SrcAttribute
         from .reporef import RepoRef
         from .url import Url
+        from .mediaref import MediaRef
         return {
             "handle": Handle("Source", "SOURCE-HANDLE"),
             "gid": str,
@@ -109,7 +110,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "author": str,
             "pubinfo": str,
             "note_list": [Handle("Note", "NOTE-HANDLE")],
-            "media_list": [Handle("Media", "MEDIA-HANDLE")],
+            "media_list": [MediaRef],
             "abbrev": str,
             "change": int,
             "attribute_list": [SrcAttribute],

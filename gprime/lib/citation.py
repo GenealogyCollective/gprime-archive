@@ -87,6 +87,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         """
         from .srcattribute import SrcAttribute
         from .date import Date
+        from .mediaref import MediaRef
         return {
             "handle": Handle("Citation", "CITATION-HANDLE"),
             "gid": str,
@@ -95,7 +96,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             "confidence": str,
             "source_handle": Handle("Source", "SOURCE-HANDLE"),
             "note_list": [Handle("Note", "NOTE-HANDLE")],
-            "media_list": [Handle("Media", "MEDIA-HANDLE")],
+            "media_list": [MediaRef],
             "attribute_list": [SrcAttribute],
             "change": int,
             "tag_list": [Handle("Tag", "TAG-HANDLE")],

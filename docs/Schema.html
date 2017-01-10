@@ -283,7 +283,27 @@
 </li>
     <li><b>Event.description</b>: string</li>
     <li><b>Event.gid</b>: string</li>
-    <li><b>Event.media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>Event.media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>Event.media_list.attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>Event.media_list.attribute_list.private</b>: boolean</li>
+                    <li><b>Event.media_list.attribute_list.type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>Event.media_list.attribute_list.type.string</b>: string</li>
+                        <li><b>Event.media_list.attribute_list.type.value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>Event.media_list.attribute_list.value</b>: string</li>
+                </ul>
+</li>
+            <li><b>Event.media_list.citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>Event.media_list.note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>Event.media_list.private</b>: boolean</li>
+            <li><b>Event.media_list.rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>Event.media_list.ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
     <li><b>Event.note_list</b>: list of <a href="#Note">Note</a></li>
     <li><b>Event.place</b>: <a href="#Place">Place</a></li>
     <li><b>Event.private</b>: boolean</li>
@@ -389,7 +409,27 @@
     <li><b>Place.gid</b>: string</li>
     <li><b>Place.lat</b>: string</li>
     <li><b>Place.long</b>: string</li>
-    <li><b>Place.media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>Place.media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>Place.media_list.attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>Place.media_list.attribute_list.private</b>: boolean</li>
+                    <li><b>Place.media_list.attribute_list.type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>Place.media_list.attribute_list.type.string</b>: string</li>
+                        <li><b>Place.media_list.attribute_list.type.value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>Place.media_list.attribute_list.value</b>: string</li>
+                </ul>
+</li>
+            <li><b>Place.media_list.citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>Place.media_list.note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>Place.media_list.private</b>: boolean</li>
+            <li><b>Place.media_list.rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>Place.media_list.ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
     <li><b>Place.name</b>: <u>PlaceName</u>:
     <ul>
         <li><b>Place.name.date</b>: <u>Date</u>:
@@ -476,7 +516,27 @@
     </ul>
 </li>
     <li><b>Citation.gid</b>: string</li>
-    <li><b>Citation.media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>Citation.media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>Citation.media_list.attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>Citation.media_list.attribute_list.private</b>: boolean</li>
+                    <li><b>Citation.media_list.attribute_list.type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>Citation.media_list.attribute_list.type.string</b>: string</li>
+                        <li><b>Citation.media_list.attribute_list.type.value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>Citation.media_list.attribute_list.value</b>: string</li>
+                </ul>
+</li>
+            <li><b>Citation.media_list.citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>Citation.media_list.note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>Citation.media_list.private</b>: boolean</li>
+            <li><b>Citation.media_list.rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>Citation.media_list.ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
     <li><b>Citation.note_list</b>: list of <a href="#Note">Note</a></li>
     <li><b>Citation.page</b>: string</li>
     <li><b>Citation.private</b>: boolean</li>
@@ -502,7 +562,27 @@
     <li><b>Source.author</b>: string</li>
     <li><b>Source.change</b>: integer</li>
     <li><b>Source.gid</b>: string</li>
-    <li><b>Source.media_list</b>: list of <a href="#Media">Media</a></li>
+    <li><b>Source.media_list</b>: list of <u>MediaRef</u>:
+        <ul>
+            <li><b>Source.media_list.attribute_list</b>: list of <u>Attribute</u>:
+                <ul>
+                    <li><b>Source.media_list.attribute_list.private</b>: boolean</li>
+                    <li><b>Source.media_list.attribute_list.type</b>: <u>AttributeType</u>:
+                    <ul>
+                        <li><b>Source.media_list.attribute_list.type.string</b>: string</li>
+                        <li><b>Source.media_list.attribute_list.type.value</b>: integer</li>
+                    </ul>
+</li>
+                    <li><b>Source.media_list.attribute_list.value</b>: string</li>
+                </ul>
+</li>
+            <li><b>Source.media_list.citation_list</b>: list of <a href="#Citation">Citation</a></li>
+            <li><b>Source.media_list.note_list</b>: list of <a href="#Note">Note</a></li>
+            <li><b>Source.media_list.private</b>: boolean</li>
+            <li><b>Source.media_list.rect</b>: tuple of integer, integer, integer, integer</li>
+            <li><b>Source.media_list.ref</b>: <a href="#Media">Media</a></li>
+        </ul>
+</li>
     <li><b>Source.note_list</b>: list of <a href="#Note">Note</a></li>
     <li><b>Source.private</b>: boolean</li>
     <li><b>Source.pubinfo</b>: string</li>

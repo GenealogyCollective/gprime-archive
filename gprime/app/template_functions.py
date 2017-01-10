@@ -571,7 +571,7 @@ def media_table(form, user, action, media_list):
                              media.mime,
                              media.path,
                              goto=form.make_url("media_list", count),
-                             edit="media_list/%s" % count)
+                             edit="media_list/%s" % (count))
             has_data = True
             count += 1
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""

@@ -129,6 +129,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         """
         from .attribute import Attribute
         from .date import Date
+        from .mediaref import MediaRef
         return {
             "handle": Handle("Event", "EVENT-HANDLE"),
             "gid": str,
@@ -138,7 +139,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
             "place": Handle("Place", "PLACE-HANDLE"),
             "citation_list": [Handle("Citation", "CITATION-HANDLE")],
             "note_list": [Handle("Note", "NOTE-HANDLE")],
-            "media_list": [Handle("Media", "MEDIA-HANDLE")],
+            "media_list": [MediaRef],
             "attribute_list": [Attribute],
             "change": int,
             "tag_list": [Handle("Tag", "TAG-HANDLE")],

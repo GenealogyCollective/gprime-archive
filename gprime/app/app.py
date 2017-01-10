@@ -221,7 +221,10 @@ class GPrimeApp(Application):
         return ""
 
     def get_object_from_url(self, prefix):
-        view, handle = prefix.split("/")
+        if prefix.count("/") == 1:
+            view, handle = prefix.split("/", 1)
+        elif prefix.count("/") > 1:
+            view, handle, extra = prefix.split("/", 2)
         obj = self.database.get_table_func(view.title(), "handle_func")(handle)
         return obj
 

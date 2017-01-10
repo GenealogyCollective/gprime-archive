@@ -33,7 +33,13 @@ Installation
 
 On Windows and Mac, perhaps the easiest method of using gPrime is to start with an [Anaconda Python3 environment](https://www.continuum.io/downloads).
 
-Install from github:
+Released version installation:
+
+```
+pip install gprime
+```
+
+Or you can install from github sources:
 
 ```
 git clone --depth 1 https://github.com/GenealogyCollective/gprime
@@ -42,24 +48,16 @@ cd gprime
 Once you have the source files, you can:
 
 ```
-python setup.py build
-python setup.py install
-```
-
-or simply:
-
-```
 pip install . --user -U
 ```
 
-Released version installation:
+(--user installs into user space, not global space. -U updates gPrime and dependencies. Leave off --user and use Adminstrative install method (sudo) to install for everyone. Optionally, you can run gPrime from this directory. See below.)
 
-```
-pip install gprime
-```
 
 Getting Started
 ---------------
+
+In all of the following commands, --site-dir is required.
 
 To run gPrime, you need to do two things:
 
@@ -69,56 +67,49 @@ To run gPrime, you need to do two things:
 To create a site directory, provide a name for the tree, and give the site-dir directory:
 
 ```
-gprime --create="My Family Tree" --site-dir="family_tree"
-# or, if not installed:
-python -m gprime.app --create="My Family Tree" --site-dir="family_tree"
+gprime --site-dir="family_tree" --create="My Family Tree" 
 ```
 
 Then, you need at least one user (as an example, we use "demo" as the username):
 
 ```
-gprime --site-dir="~/family_tree" --add-user=demo
-Password: (does not show any characters)
+gprime --site-dir="family_tree" --add-user=demo
+Password: (does not show any characters as you type)
 ```
 
-Optionally, you may now want to also import some data (see below). The site-directory has a folder named "media" for all of the images and other documents. You can copy them here, or, in the previous example, make ~/family_tree/media link to your media folder.
+Importing Data
+--------------
+
+Optionally, you may now want to also import some data (gPrime supports Gramps XML, GEDCOM, and JSON import formats):
+
+```
+gprime --site-dir="family_tree" --import-file="FamilyTree.gramps"
+```
+
+The site-directory has a folder named "media" for all of the images and other documents. You can copy them here, or, in the previous example, make ~/family_tree/media link to your media folder.
 
 Running
 -------
 
-You can run gprime directly from either the downloaded directory, or from the installed version.
+You can run gprime directly from either the github-downloaded directory, or from the installed version.
 
 Installed version:
 
 ```
-gprime --config-file="familytree.conf"
+gprime --site-dir="family_tree"
 ```
 
-Downloaded versions:
+To gPrime without installing it (you may need to use python3):
 
 ```
-export PYTHONPATH=/path/to/gprime
-python -m gprime.app --config-file="familytree.cfg"
+export PYTHONPATH=/path/to/gprime-source-dir
+python -m gprime.app --site-dir="family_tree"
 ```
-
-Where `familytree.cfg` contains options and values, such as:
-
-```
-port     = 8001
-site_dir = "My_Family_Tree_Folder"
-```
-or
-
-```
-site_dir      = "/home/dblank/Desktop/Blank_Family/Blank Family/"
-```
-
-Put this in your site folder named "config.cfg" to use automatically.
 
 Options:
 ------------
 
-* --site-dir=PATH/TO/FOLDER - The directory of the gPrime site directory (required)
+* --site-dir=/PATH/TO/FOLDER - The directory of the gPrime site directory (required)
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
 * --add-user=USERNAME - Add a username and password; prompts for password if --password not given
@@ -129,12 +120,24 @@ Options:
 * --config-file=FILE - A config file of these options (optional); alternatively, will use SITE-DIR/config.cfg if one
 * --port=PORT-NUMBER - Port to listen on (8000 is default)
 * --hostname=LOCALHOST - Hostname to listen on ("localhost" is default)
-* --prefix=/PATH - a URL prefix to server data from
+* --prefix=/PATH - a URL prefix (e.g., /PATH/person/ )
 * --server=True|False - Start the server? Default is True
 * --open-browser=True|False - open a web browser on startup?
-* --debug=True|False - Use to see additional debugging information; useful for development (auto-restarts server)
+* --debug=True|False - Use to see additional debugging information; useful for development (auto-restarts server on code change)
 * --xsrf=True/False - Use cross-site request forgery protection (recommended)
 * --help - List additional options and details
+
+Rather than having to list all of these options on a command-line, you can put them in the SITE-DIR/config.cfg file:
+
+```
+### This is the contents of file SITE-DIR/config.cfg.
+### Note that hyphens in option names are converted to underscores.
+
+port     = 8001
+site_dir = "My_Family_Tree_Folder"
+prefix   = "/jones"
+sitename = "Jerry's"
+```
 
 Common variations
 -----------------
@@ -144,5 +147,5 @@ gprime --help
 gprime --site-dir="family_tree_folder" --create="Smith Family"
 gprime --site-dir="family_tree_folder" --import-file="myinfo.gramps"
 gprime --site-dir="family_tree_folder" --add-user=demo --password=demo
-gprime --site-dir="/path/to/family_tree_folder"
+gprime --site-dir="family_tree_folder"
 ```

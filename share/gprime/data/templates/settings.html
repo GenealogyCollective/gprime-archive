@@ -25,27 +25,27 @@
 <form method="post">{% module xsrf_form_html() %}
 <tr>
  <td class="ColumnAttribute">{{ _("Name") }}:</td>
- <td class="ColumnValue" id="data"><input type="text" name="name" value="{{form.instance['name']}}"></input></td>
+ <td class="ColumnValue"><input type="text" name="name" value="{{form.instance['name']}}"></input></td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ _("Password") }}:</td>
- <td class="ColumnValue" id="data"><input type="password" name="password" value=""></input> {{_("(only enter text to change password)")}}</td>
+ <td class="ColumnValue"><input type="password" name="password" value=""></input> {{_("(only enter text to change password)")}}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ _("Email") }}:</td>
- <td class="ColumnValue" id="data"><input type="text" name="email" value="{{form.instance['email']}}"></input></td>
+ <td class="ColumnValue"><input type="text" name="email" value="{{form.instance['email']}}"></input></td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ _("CSS Style") }}:</td>
- <td class="ColumnValue" id="data">{{ render_css(form, user, action) }}</td>
+ <td class="ColumnValue">{{ render_css(form, user, action) }}</td>
 </tr>
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ _("Language") }}:</td>
- <td class="ColumnValue" id="data">{{ render_language(form, user, action) }}</td>
+ <td class="ColumnValue">{{ render_language(form, user, action) }}</td>
 </tr>
 </tbody>
 </table>

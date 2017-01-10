@@ -506,6 +506,46 @@ class Form(object):
                 return nd(person)
         return ""
 
+    def display_name_from_field_handle(self, field):
+        handle = self.instance.get_field(field, self.database)
+        person = self.database.get_person_from_handle(handle)
+        if person:
+            return nd(person)
+        else:
+            return ""
+
+    def display_event_from_field_handle(self, field):
+        handle = self.instance.get_field(field, self.database)
+        event = self.database.get_event_from_handle(handle)
+        if event:
+            return self.sa.describe(event)
+        else:
+            return ""
+
+    def display_media_from_field_handle(self, field):
+        handle = self.instance.get_field(field, self.database)
+        obj = self.database.get_media_from_handle(handle)
+        if obj:
+            return self.sa.describe(obj)
+        else:
+            return ""
+
+    def display_place_from_field_handle(self, field):
+        handle = self.instance.get_field(field, self.database)
+        obj = self.database.get_place_from_handle(handle)
+        if obj:
+            return self.sa.describe(obj)
+        else:
+            return ""
+
+    def display_repository_from_field_handle(self, field):
+        handle = self.instance.get_field(field, self.database)
+        obj = self.database.get_repository_from_handle(handle)
+        if obj:
+            return self.sa.describe(obj)
+        else:
+            return ""
+
     def display_name(self, person):
         return nd(person)
 
@@ -609,7 +649,7 @@ class Form(object):
         """
         Textual description of this instance.
         """
-        return str(self.instance.gid)
+        return self.sa.describe(self.instance)
 
     def make_button(self, text, link):
         return """<input type="button" value="%s" onclick="location.href='%s';"></input>""" % (

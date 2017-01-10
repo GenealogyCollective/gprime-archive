@@ -26,11 +26,18 @@
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
 
+    <td class="ColumnAttribute">{{ _("Event") }}:</td>
+    <td class="ColumnValue">
+      <a href="{{form.handler.app.make_url(form.instance.get_field(form.path + '.ref.self', form.database).make_url())}}" style="text-decoration: underline">
+	{{ form.display_event_from_field_handle(form.path + ".ref") }}
+      </a>
+    </td>
+
+  <tr><td id="rowspace"></td></tr>
   <tr>
     <td class="ColumnAttribute">{{_("Private") }}:</td>
     <td class="ColumnValue">{{ form.render(form.path + ".private", user, action) }}</td>
   </tr>
-  <tr><td id="rowspace"></td></tr>
   <tr>
     <td class="ColumnAttribute">{{ _("role") }}:</td>
     <td class="ColumnValue">{{ form.render(form.path + ".role", user, action) }}</td>
@@ -59,7 +66,7 @@
 
 <div class="ui-tabs ui-widget ui-widget-content ui-corner-all" id="tabs" style="border: none;">
   <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-    <li class="ui-corner-top ui-state-default ui-tabs-selected ui-state-active"><a class="tab-attributes" href="#tab-attributes">{{_("Attribute")}}</a></li>
+    <li class="ui-corner-top ui-state-default ui-tabs-selected ui-state-active"><a class="tab-attributes" href="#tab-attributes">{{_("Attributes")}}</a></li>
     <li class="ui-corner-top ui-state-default"><a class="tab-notes" href="#tab-notes">{{_("Note")}}</a></li>
   </ul>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-attributes" style="background-color: #f4f0ec;"> 

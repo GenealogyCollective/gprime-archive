@@ -418,7 +418,7 @@ def repository_table(form, user, action, reporef_list):
                              repo.name,
                              repo_ref.call_number,
                              repo.type,
-                             goto=form.handler.app.make_url(repo.make_url()),
+                             goto=form.make_url("reporef_list/%s" % count),
                              edit="reporef_list/%s" % count)
             has_data = True
             count += 1;

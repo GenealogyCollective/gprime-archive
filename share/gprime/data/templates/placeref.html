@@ -26,9 +26,17 @@
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
 
+    <td class="ColumnAttribute">{{ _("Place") }}:</td>
+    <td class="ColumnValue">
+      <a href="{{form.handler.app.make_url(form.instance.get_field(form.path + '.ref.self', form.database).make_url())}}" style="text-decoration: underline">
+	{{ form.display_place_from_field_handle(form.path + ".ref") }}
+      </a>
+    </td>
+
+  <tr><td id="rowspace"></td></tr>
   <tr>
-    <td class="ColumnAttribute">{{_("date") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".private", user, action) }}</td>
+    <td class="ColumnAttribute">{{_("Date") }}:</td>
+    <td class="ColumnValue">{{ form.render(form.path + ".date", user, action) }}</td>
   </tr>
   <tr><td id="rowspace"></td></tr>
 

@@ -20,7 +20,6 @@
 
 from gprime.lib import Note
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class NoteHandler(BaseHandler):
                 note = self.database.get_note_from_handle(handle)
             if note:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete note"), self.database) as transaction:
-                        self.database.remove_note(handle, transaction)
-                    self.send_message("Deleted note. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/note"))
+                    form = NoteForm(self, instance=note)
+                    form.delete()
                     return
                 else:
                     self.render("note.html",

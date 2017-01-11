@@ -20,6 +20,7 @@
 
 # Gramps imports:
 from gprime.lib.tag import Tag
+from gprime.db import DbTxn
 
 # Gramps Connect imports:
 from .forms import Form
@@ -69,3 +70,16 @@ class TagForm(Form):
 
     def describe(self):
         return self.instance.name
+
+    def delete(self):
+        tag_handle = self.instance.handle
+        with DbTxn(self._("Delete tag"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(tag_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Tag', [tag_handle])
+                commit_func(obj, transaction)
+            self.database.remove_tag(self.instance.handle, transaction)
+        self.handler.send_message("Deleted tag. <a href='FIXME'>Undo</a>.")
+        self.handler.redirect(self.handler.app.make_url("/tag"))

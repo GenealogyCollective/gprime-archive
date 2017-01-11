@@ -45,7 +45,7 @@ class PlaceRefHandler(BaseHandler):
         form = PlaceRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("placeref.html",
-                    **self.get_template_dict(tview=_("placeref"),
+                    **self.get_template_dict(tview=_("place reference"),
                                              action=action,
                                              search="",
                                              page="",

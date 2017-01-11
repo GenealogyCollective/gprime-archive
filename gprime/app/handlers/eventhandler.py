@@ -20,7 +20,6 @@
 
 from gprime.lib import Event
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class EventHandler(BaseHandler):
                 event = self.database.get_event_from_handle(handle)
             if event:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete event"), self.database) as transaction:
-                        self.database.remove_event(handle, transaction)
-                    self.send_message("Deleted event. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/event"))
+                    form = EventForm(self, instance=event)
+                    form.delete()
                     return
                 else:
                     self.render("event.html",

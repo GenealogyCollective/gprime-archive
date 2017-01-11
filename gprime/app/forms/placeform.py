@@ -20,6 +20,7 @@
 
 # Gramps imports:
 from gprime.lib.place import Place
+from gprime.db import DbTxn
 
 # Gramps Connect imports:
 from .forms import Form
@@ -80,3 +81,16 @@ class PlaceForm(Form):
     env_fields = [
         "handle",
     ]
+
+    def delete(self):
+        place_handle = self.instance.handle
+        with DbTxn(self._("Delete place"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(place_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Place', [place_handle])
+                commit_func(obj, transaction)
+            self.database.remove_place(place_handle, transaction)
+        self.handler.send_message("Deleted place. <a href='FIXME'>Undo</a>.")
+        self.handler.redirect(self.handler.app.make_url("/place"))

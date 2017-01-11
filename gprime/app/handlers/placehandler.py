@@ -20,7 +20,6 @@
 
 from gprime.lib import Place
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class PlaceHandler(BaseHandler):
                 place = self.database.get_place_from_handle(handle)
             if place:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete place"), self.database) as transaction:
-                        self.database.remove_place(handle, transaction)
-                    self.send_message("Deleted place. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/place"))
+                    form = PlaceForm(self, instance=place)
+                    form.delete()
                     return
                 else:
                     self.render("place.html",

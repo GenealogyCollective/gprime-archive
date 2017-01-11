@@ -20,7 +20,6 @@
 
 from gprime.lib import Citation
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class CitationHandler(BaseHandler):
                 citation = self.database.get_citation_from_handle(handle)
             if citation:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete citation"), self.database) as transaction:
-                        self.database.remove_citation(handle, transaction)
-                    self.send_message("Deleted citation. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/citation"))
+                    form = CitationForm(self, instance=citation)
+                    form.delete()
                     return
                 else:
                     self.render("citation.html",

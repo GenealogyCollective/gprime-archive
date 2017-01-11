@@ -45,7 +45,7 @@ class ChildRefHandler(BaseHandler):
         form = ChildRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("childref.html",
-                    **self.get_template_dict(tview=_("childref"),
+                    **self.get_template_dict(tview=_("child reference"),
                                              action=action,
                                              search="",
                                              page="",

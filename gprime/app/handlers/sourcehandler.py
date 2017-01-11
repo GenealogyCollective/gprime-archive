@@ -20,7 +20,6 @@
 
 from gprime.lib import Source
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class SourceHandler(BaseHandler):
                 source = self.database.get_source_from_handle(handle)
             if source:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete source"), self.database) as transaction:
-                        self.database.remove_source(handle, transaction)
-                    self.send_message("Deleted source. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/source"))
+                    form = SourceForm(self, instance=source)
+                    form.delete()
                     return
                 else:
                     self.render("source.html",

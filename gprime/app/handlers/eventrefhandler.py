@@ -45,7 +45,7 @@ class EventRefHandler(BaseHandler):
         form = EventRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("eventref.html",
-                    **self.get_template_dict(tview=_("eventref"),
+                    **self.get_template_dict(tview=_("event reference"),
                                              action=action,
                                              search="",
                                              page="",

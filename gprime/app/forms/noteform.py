@@ -24,6 +24,7 @@ from gprime.plugins.docgen.htmldoc import HtmlDoc
 from gprime.plugins.lib.libhtmlbackend import HtmlBackend, DocBackend, process_spaces
 from gprime.plugins.lib.libhtml import Html
 from gprime.lib import StyledText, StyledTextTag
+from gprime.db import DbTxn
 
 # Gramps Connect imports:
 from .forms import Form
@@ -87,7 +88,7 @@ class NoteForm(Form):
         if action == "edit":
             return """<textarea rows="10" cols="80" class="wysiwyg">%s</textarea>""" % notetext
         else:
-            return """<div id="" style="overflow-y:scroll; height:200px; background-color:white">%s</div>""" % notetext
+            return """<div id="" style="overflow-y:scroll; height:180px; background-color:white">%s</div>""" % notetext
 
     def load_data(self):
         super().load_data()
@@ -286,20 +287,15 @@ class WebAppParser(HTMLParser):
     def text(self):
         return self.__text
 
-"""
-snf = StyledNoteFormatter(db)
-
-# note to html:
-genlibnote = db.get_note_from_handle(note.handle)
-notetext = snf.format(genlibnote)
-
-# html to note:
-notedata = parse_styled_text(noteform.data["notetext"])
-note.text = notedata[0]
-note = noteform.save()
-dji.save_note_markup(note, notedata[1])
-note.save_cache()
-
-from django import forms
-forms.widgets.Textarea(attrs={'rows':'10', 'cols': '80', 'class':'wysiwyg'}))
-"""
+    def delete(self):
+        note_handle = self.instance.handle
+        with DbTxn(self._("Delete note"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(note_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Note', [note_handle])
+                commit_func(obj, transaction)
+            self.database.remove_note(self.instance.handle, transaction)
+        self.handler.send_message("Deleted note. <a href='FIXME'>Undo</a>.")
+        self.handler.redirect(self.handler.app.make_url("/note"))

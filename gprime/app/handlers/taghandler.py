@@ -20,7 +20,6 @@
 
 from gprime.lib import Tag
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class TagHandler(BaseHandler):
                 tag = self.database.get_tag_from_handle(handle)
             if tag:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete tag"), self.database) as transaction:
-                        self.database.remove_tag(handle, transaction)
-                    self.send_message("Deleted tag. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/tag"))
+                    form = TagForm(self, instance=tag)
+                    form.delete()
                     return
                 else:
                     self.render("tag.html",

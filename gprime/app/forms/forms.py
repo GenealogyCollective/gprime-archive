@@ -689,3 +689,6 @@ class Form(object):
         self.table = self.view.title()
         self.tview = _(self.table)
         self._class = handler.database.get_table_func(self.table, "class_func")
+
+    def delete(self):
+        raise Exception("Need to override this in form")

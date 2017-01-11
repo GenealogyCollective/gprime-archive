@@ -20,7 +20,6 @@
 
 from gprime.lib import Repository
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class RepositoryHandler(BaseHandler):
                 repository = self.database.get_repository_from_handle(handle)
             if repository:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete repository"), self.database) as transaction:
-                        self.database.remove_repository(handle, transaction)
-                    self.send_message("Deleted repository. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/repository"))
+                    form = RepositoryForm(self, instance=repository)
+                    form.delete()
                     return
                 else:
                     self.render("repository.html",

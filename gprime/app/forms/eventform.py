@@ -20,6 +20,7 @@
 
 # Gramps imports:
 from gprime.lib.event import Event
+from gprime.db import DbTxn
 
 # Gramps Connect imports:
 from .forms import Form
@@ -75,3 +76,15 @@ class EventForm(Form):
         "handle",
     ]
 
+    def delete(self):
+        event_handle = self.instance.handle
+        with DbTxn(self._("Delete event"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(event_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Event', [event_handle])
+                commit_func(obj, transaction)
+            self.database.remove_event(self.instance.handle, transaction)
+        self.handler.send_message(self._("Deleted event. <a href='%s'>Undo</a>." % "FIXME"))
+        self.handler.redirect(self.handler.app.make_url("/event"))

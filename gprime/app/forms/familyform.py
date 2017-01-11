@@ -19,6 +19,7 @@
 #
 
 from gprime.lib.family import Family
+from gprime.db import DbTxn
 
 from .forms import Form
 
@@ -78,3 +79,16 @@ class FamilyForm(Form):
             "mother_handle": self.get_person_from_handle,
             #"tag_list": self.get_tag_from_handle:name
         }
+
+    def delete(self):
+        family_handle = self.instance.handle
+        with DbTxn(self._("Delete family"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(family_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Family', [family_handle])
+                commit_func(obj, transaction)
+            self.database.remove_family(self.instance.handle, transaction)
+        self.handler.send_message(self._("Deleted family. <a href='%s'>Undo</a>." % "FIXME"))
+        self.handler.redirect(self.handler.app.make_url("/family"))

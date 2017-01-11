@@ -45,7 +45,7 @@ class MediaRefHandler(BaseHandler):
         form = MediaRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("mediaref.html",
-                    **self.get_template_dict(tview=_("mediaref"),
+                    **self.get_template_dict(tview=_("media reference"),
                                              action=action,
                                              search="",
                                              page="",

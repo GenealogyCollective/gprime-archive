@@ -20,7 +20,6 @@
 
 from gprime.lib import Person, Surname
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -61,10 +60,8 @@ class PersonHandler(BaseHandler):
             if person:
                 if action == "delete":
                     ## Delete person
-                    with DbTxn(_("Delete person"), self.database) as transaction:
-                        self.database.remove_person(handle, transaction)
-                    self.send_message("Deleted person. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/person"))
+                    form = PersonForm(self, instance=person)
+                    form.delete()
                     return
                 else:
                     ## Action can be edit or view

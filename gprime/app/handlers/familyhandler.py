@@ -20,7 +20,6 @@
 
 from gprime.lib import Family
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class FamilyHandler(BaseHandler):
                 family = self.database.get_family_from_handle(handle)
             if family:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete family"), self.database) as transaction:
-                        self.database.remove_family(handle, transaction)
-                    self.send_message("Deleted family. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/family"))
+                    form = FamilyForm(self, instance=family)
+                    form.delete()
                     return
                 else:
                     self.render("family.html",

@@ -21,6 +21,7 @@
 # Gramps imports:
 from gprime.lib.person import Person
 from gprime.display.name import NameDisplay
+from gprime.db import DbTxn
 
 # Gramps Connect imports:
 from .forms import Form
@@ -91,3 +92,16 @@ class PersonForm(Form):
         "handle",
         "event_ref_list",
     ]
+
+    def delete(self):
+        person_handle = self.instance.handle
+        with DbTxn(self._("Delete person"), self.database) as transaction:
+            for (item, handle) in self.database.find_backlink_handles(person_handle):
+                handle_func = self.database.get_table_func(item, "handle_func")
+                commit_func = self.database.get_table_func(item, "commit_func")
+                obj = handle_func(handle)
+                obj.remove_handle_references('Person', [person_handle])
+                commit_func(obj, transaction)
+            self.database.delete_person_from_database(this.instance.handle, transaction)
+        self.handler.send_message(self._("Deleted person. <a href='%s'>Undo</a>." % "FIXME"))
+        self.handler.redirect(self.handler.app.make_url("/person"))

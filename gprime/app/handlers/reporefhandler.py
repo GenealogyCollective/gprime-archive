@@ -45,7 +45,7 @@ class RepoRefHandler(BaseHandler):
         form = RepoRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("reporef.html",
-                    **self.get_template_dict(tview=_("reporef"),
+                    **self.get_template_dict(tview=_("report reference"),
                                              action=action,
                                              search="",
                                              page="",

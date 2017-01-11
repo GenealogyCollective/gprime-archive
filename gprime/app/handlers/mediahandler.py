@@ -20,7 +20,6 @@
 
 from gprime.lib import Media
 from gprime.utils.id import create_id
-from gprime.db import DbTxn
 
 import tornado.web
 import json
@@ -53,11 +52,8 @@ class MediaHandler(BaseHandler):
                 media = self.database.get_media_from_handle(handle)
             if media:
                 if action == "delete":
-                    ## Delete
-                    with DbTxn(_("Delete media"), self.database) as transaction:
-                        self.database.remove_media(handle, transaction)
-                    self.send_message("Deleted media. <a href='FIXME'>Undo</a>.")
-                    self.redirect(self.app.make_url("/media"))
+                    form = MediaForm(self, instance=media)
+                    form.delete()
                     return
                 else:
                     self.render("media.html",

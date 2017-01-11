@@ -45,7 +45,7 @@ class PersonRefHandler(BaseHandler):
         form = PersonRefForm(self, instance, subitem, path, url)
         ## FIXME: Handle add and delete
         self.render("personref.html",
-                    **self.get_template_dict(tview=_("personref"),
+                    **self.get_template_dict(tview=_("person reference"),
                                              action=action,
                                              search="",
                                              page="",

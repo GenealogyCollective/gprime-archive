@@ -33,7 +33,7 @@
   <tr><td id="rowspace"></td></tr>
   <tr>
     <td class="ColumnAttribute">{{ _("Date") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".date", user, action) }}</td>
+    <td class="ColumnValue" id="data">{{ form.render(form.path + ".date", user, action) }}</td>
   </tr>
   <tr><td id="rowspace"></td></tr>
   <tr>
@@ -43,12 +43,12 @@
   <tr><td id="rowspace"></td></tr>
   <tr>
     <td class="ColumnAttribute">{{ _("Temple") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".temple", user, action) }}</td>
+    <td class="ColumnValue" id="data">{{ form.render(form.path + ".temple", user, action) }}</td>
   </tr>
   <tr><td id="rowspace"></td></tr>
   <tr>
     <td class="ColumnAttribute">{{ _("Status") }}:</td>
-    <td class="ColumnValue">{{ form.render(form.path + ".status", user, action) }}</td>
+    <td class="ColumnValue" id="data">{{ form.render(form.path + ".status", user, action) }}</td>
   </tr>
 
 </tbody>

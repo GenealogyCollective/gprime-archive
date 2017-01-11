@@ -436,8 +436,11 @@ class Form(object):
                         "_class": """class ="%s" """ % _class if _class else "",
                 }
                 retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s></input>""" % dict
-        #if field in self.post_process_functions:
-        #    retval = self.post_process_functions[field](data, {})
+        if action == "view":
+            ## FIXME: kwargs may have ints
+            ## This is useful in views; not sure about detail view
+            if field in self.post_process_functions:
+                retval = self.post_process_functions[field](data, {})
         if link and action == "view":
             retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + retval + """</a>"""
         return str(retval)

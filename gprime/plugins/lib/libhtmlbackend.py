@@ -309,6 +309,6 @@ class HtmlBackend(DocBackend):
                     return self.STYLETAG_MARKUP[DocBackend.UNDERLINE]
             else:
                 return self.STYLETAG_MARKUP[DocBackend.UNDERLINE]
-        return ('<a href="%s">' % self.ESCAPE_FUNC()(value),
+        return ('<a href="%s" style="text-decoration: underline">' % self.ESCAPE_FUNC()(value),
                 '</a>')
 

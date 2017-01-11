@@ -80,7 +80,7 @@ class NoteForm(Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.snf = StyledNoteFormatter(self.database)
+        self.snf = StyledNoteFormatter(self)
 
     def render_note(self, user, action):
         # note to html:
@@ -93,7 +93,7 @@ class NoteForm(Form):
     def load_data(self):
         super().load_data()
         text = self.handler.get_argument("notetext")
-        parser = WebAppParser()
+        parser = WebAppParser(self)
         text = text.replace("&nbsp;", " ") # otherwise removes them?
         parser.feed(text)
         parser.close()
@@ -123,8 +123,9 @@ class WebAppBackend(HtmlBackend):
 
 ### Taken from Narrated Web Report
 class StyledNoteFormatter(object):
-    def __init__(self, database):
-        self.database = database
+    def __init__(self, form):
+        self.form = form
+        self.database = form.database
         self._backend = WebAppBackend()
         self._backend.build_link = self.build_link
 
@@ -145,7 +146,7 @@ class StyledNoteFormatter(object):
         """
         if prop == "gramps_id":
             if obj_class in self.database.get_table_names():
-                obj = self.database.get_table_metadata(obj_class)["gramps_id_func"](handle)
+                obj = self.database.get_table_metadata(obj_class)["gid_func"](handle)
                 if obj:
                     handle = obj.handle
                 else:
@@ -155,7 +156,7 @@ class StyledNoteFormatter(object):
                 raise AttributeError("invalid gramps_id lookup " +
                                      "in table name '%s'" % obj_class)
         # handle, ppl
-        return "/%s/%s" % (obj_class.lower(), handle)
+        return self.form.handler.app.make_url("/%s/%s" % (obj_class.lower(), handle))
 
 class WebAppParser(HTMLParser):
     BOLD = 0
@@ -168,8 +169,9 @@ class WebAppParser(HTMLParser):
     SUPERSCRIPT = 7
     LINK = 8
 
-    def __init__(self):
+    def __init__(self, form):
         HTMLParser.__init__(self)
+        self.form = form
         self.__text = ""
         self.__tags = {}
         self.__stack = []
@@ -263,7 +265,9 @@ class WebAppParser(HTMLParser):
             # "a": get /object/handle, or url
             if "href" in attrs:
                 href = attrs["href"]
-                if href.startswith("/"):
+                if href.startswith(self.form.handler.app.make_url("/")):
+                    # remove prefix:
+                    href = href[len(self.form.handler.app.prefix):]
                     parts = href.split("/")
                     arg = "gramps://%s/handle/%s" % (parts[-2].title(), parts[-1])
                 else:

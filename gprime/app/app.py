@@ -445,6 +445,7 @@ def main():
     app.listen(options.port)
     tornado.log.logging.info("Starting with the folowing settings:")
     tornado.log.logging.info("    DATA_DIR = " + gprime.const.DATA_DIR)
+    tornado.log.logging.info("    serving  = http://%s:%s%s" % (options.hostname, options.port, options.prefix))
     for key in ["port", "site_dir", "hostname", "sitename",
                 "debug", "xsrf", "config_file"]:
         tornado.log.logging.info("    " + key + " = " + repr(getattr(options, key)))

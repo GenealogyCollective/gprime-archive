@@ -9,14 +9,14 @@
     <meta name="generator" content="Gramps 3.2.0-0.SVN12859M http://gramps-project.org/" />
     <meta name="author" content="" />
     {% end %}
-    <link href="/images/ped24.ico" type="image/x-icon" rel="shortcut icon" />
+    <link href="{{ make_url('/images/ped24.ico') }}" type="image/x-icon" rel="shortcut icon" />
     {% block css %}
-    <link media="screen" href="/css/{{css_theme}}" type="text/css" rel="stylesheet" />
-    <link media="print" href="/css/Web_Print-Default.css" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/data/javascript/jquery.flexbox.min.js"></script>
-    <link type="text/css" rel="stylesheet" href="/css/jquery.flexbox.css" />
+    <link media="screen" href="{{ make_url('/css/' + css_theme) }}" type="text/css" rel="stylesheet" />
+    <link media="print" href="{{ make_url('/css/Web_Print-Default.css') }}" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="{{ make_url('/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ make_url('/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ make_url('/data/javascript/jquery.flexbox.min.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ make_url('/css/jquery.flexbox.css') }}" />
     {% end %}
 
    <style type="text/css">

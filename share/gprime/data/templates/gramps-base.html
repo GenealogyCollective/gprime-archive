@@ -15,8 +15,6 @@
     <link media="print" href="/css/Web_Print-Default.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/data/jhtmlarea/scripts/jHtmlArea-0.7.0.js"></script>
-    <link rel="Stylesheet" type="text/css" href="/data/jhtmlarea/style/jHtmlArea.css" />
     <script type="text/javascript" src="/data/javascript/jquery.flexbox.min.js"></script>
     <link type="text/css" rel="stylesheet" href="/css/jquery.flexbox.css" />
     {% end %}
@@ -354,6 +352,7 @@ function buttonOut(button) {
   cursor          :  pointer; }
 -->
 </STYLE>
+{% block javascript_head %}{% end %}
 </head>
 <body onclick="hideMenus()"
       onload="if (document.getElementsByClassName('get_focus').length > 0) {document.getElementsByClassName('get_focus')[0].focus();}"

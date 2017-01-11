@@ -1,6 +1,12 @@
 {% autoescape None %}
 {% extends "gramps-base.html" %}
 
+{% block javascript_head %}
+   <script type="text/javascript" src="/js/jhtmlarea/scripts/jHtmlArea-0.7.0.js"></script>  
+   <link rel="Stylesheet" type="text/css" href="/js/jhtmlarea/style/jHtmlArea.css" />
+{% end %}
+
+
 {% block title %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 {% block heading %}{{sitename}}: {{opts.database}}, {{_(tview)}} {% end %}
 
@@ -12,7 +18,22 @@
 			document.location.hash = ui.panel.id;
 		}
      });
+     $('.wysiwyg').htmlarea({
+              toolbar: [
+                 "bold", "italic", "underline", 
+                 "|", "forecolor", "superscript", "p",
+                 "|", "link", "unlink", 
+                 "|", "html"
+              ]
+            });
+     // FIXME: add font, fontsize, backcolor
+     // FIXME: find easier way:
+     $('.jHtmlArea').contents().find('iframe').contents().find('body').css({"background-color": "white"});
    });
+   
+   function setnotetext() {
+        document.getElementById('notetext').value = $('.jHtmlArea').contents().find('iframe').contents().find('body').html();
+   }
    </script>
 
 <div class="content" id="IndividualDetail">
@@ -22,7 +43,7 @@
 <div id="summaryarea">
 <table class="infolist" style="width:100%;"> 
 <tbody>
-<form method="post">{% module xsrf_form_html() %}
+<form method="post" onsubmit="setnotetext()">{% module xsrf_form_html() %}
 <input type="hidden" name="json_data" value="{{form.get_json()}}"/>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
@@ -45,7 +66,12 @@
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("text.string") }}:</td>
- <td class="ColumnValue" id="data" width="65%" height="100px" colspan="2">{{ form.render("text.string", user, "view", _class="get_focus", size=30) }}</td>
+ <td class="ColumnValue" width="65%" height="100px" colspan="2">
+   <input type="hidden" id="notetext" name="notetext" value=""></input>
+   {{ form.render_note(user, action) }}
+   {# form.render("text.string", user, "view", _class="get_focus", size=30) #}
+   {#   <div style="overflow-y: scroll; height: 100px;">{{notetext|safe}}</div> #}
+ </td>
 </tr>
 </tbody>
 </table>

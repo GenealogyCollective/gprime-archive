@@ -436,8 +436,8 @@ class Form(object):
                         "_class": """class ="%s" """ % _class if _class else "",
                 }
                 retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s></input>""" % dict
-        if field in self.post_process_functions:
-            retval = self.post_process_functions[field](data, {})
+        #if field in self.post_process_functions:
+        #    retval = self.post_process_functions[field](data, {})
         if link and action == "view":
             retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + retval + """</a>"""
         return str(retval)
@@ -602,7 +602,7 @@ class Form(object):
             "gender": self.render_gender,
             "birth_ref_index": self.event_index,
             "death_ref_index": self.event_index,
-            #"text.string": self.preview,
+            "text.string": self.preview,
             #"tag_list": self.get_tag_from_handle:name
         }
 

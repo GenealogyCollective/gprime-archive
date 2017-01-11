@@ -261,3 +261,9 @@ class Repository(NoteBase, AddressBase, UrlBase, IndirectCitationBase,
         :rtype: str
         """
         return self.name
+
+    def remove_handle_references(self, classname, handle_list):
+        if classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)

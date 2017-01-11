@@ -193,24 +193,6 @@ class BasicPrimaryObject(TableObject, PrivacyBase, TagBase):
         """
         return False
 
-    def remove_citation_references(self, handle_list):
-        """
-        Remove the specified citation references from the object.
-
-        In the base class no such references exist. Derived classes should
-        override this if they provide citation references.
-        """
-        pass
-
-    def remove_media_references(self, handle_list):
-        """
-        Remove the specified media references from the object.
-
-        In the base class no such references exist. Derived classes should
-        override this if they provide media references.
-        """
-        pass
-
     def replace_citation_references(self, old_handle, new_handle):
         """
         Replace all references to the old citation handle with those to the new
@@ -311,21 +293,30 @@ class PrimaryObject(BasicPrimaryObject):
         else:
             return self._has_handle_reference(classname, handle)
 
-    def remove_handle_references(self, classname, handle_list):
-        """
-        Remove all references in this object to object handles in the list.
+    def remove_event_references(self, handle_list):
+        new_list = [ref for ref in self.event_ref_list
+                    if ref.ref not in handle_list]
+        self.event_ref_list = new_list
 
-        :param classname: The name of the primary object class.
-        :type classname: str
-        :param handle_list: The list of handles to be removed.
-        :type handle_list: str
-        """
-        if classname == 'Citation' and isinstance(self, CitationBase):
-            self.remove_citation_references(handle_list)
-        elif classname == 'Media' and isinstance(self, MediaBase):
-            self.remove_media_references(handle_list)
-        else:
-            self._remove_handle_references(classname, handle_list)
+    def remove_media_references(self, handle_list):
+        self.media_list = [ref for ref in self.media_list
+                           if ref.ref not in handle_list]
+
+    def remove_tag_references(self, handle_list):
+        self.tag_list = [handle for handle in self.tag_list
+                         if handle not in handle_list]
+
+    def remove_note_references(self, handle_list):
+        self.note_list = [handle for handle in self.note_list
+                          if handle not in handle_list]
+
+    def remove_citation_references(self, handle_list):
+        self.citation_list = [handle for handle in self.citation_list
+                              if handle not in handle_list]
+
+    def remove_place_references(self, handle_list):
+        self.placeref_list = [ref for ref in self.placeref_list
+                              if ref.ref not in handle_list]
 
     def replace_handle_reference(self, classname, old_handle, new_handle):
         """
@@ -350,12 +341,6 @@ class PrimaryObject(BasicPrimaryObject):
         Return True if the handle is referenced by the object.
         """
         return False
-
-    def _remove_handle_references(self, classname, handle_list):
-        """
-        Remove the handle references from the object.
-        """
-        pass
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):
         """

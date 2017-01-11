@@ -243,3 +243,6 @@ class Tag(TableObject):
 
     priority = property(get_priority, set_priority, None,
                         'Returns or sets priority of the tag')
+
+    def remove_handle_references(self, classname, handle_list):
+        pass

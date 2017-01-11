@@ -144,17 +144,6 @@ class MediaBase:
         """
         return obj_handle in [media_ref.ref for media_ref in self.media_list]
 
-    def remove_media_references(self, obj_handle_list):
-        """
-        Remove references to all media handles in the list.
-
-        :param obj_handle_list: The list of media handles to be removed.
-        :type obj_handle_list: list
-        """
-        new_media_list = [media_ref for media_ref in self.media_list
-                          if media_ref.ref not in obj_handle_list]
-        self.media_list = new_media_list
-
     def replace_media_references(self, old_handle, new_handle):
         """
         Replace all references to old media handle with the new handle and

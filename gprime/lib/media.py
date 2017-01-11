@@ -336,3 +336,11 @@ class Media(CitationBase, NoteBase, DateBase, AttributeBase,
     def get_checksum(self):
         """Return the checksum of the image."""
         return self.checksum
+
+    def remove_handle_references(self, classname, handle_list):
+        if classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+        elif classname == 'Citation':
+            self.remove_citation_references(handle_list)

@@ -287,7 +287,7 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
             return handle in [x.place for x in self.lds_ord_list]
         return False
 
-    def _remove_handle_references(self, classname, handle_list):
+    def remove_handle_references(self, classname, handle_list):
         """
         Remove all references in this object to object handles in the list.
 
@@ -297,21 +297,33 @@ class Family(CitationBase, NoteBase, MediaBase, AttributeBase, LdsOrdBase,
         :type handle_list: str
         """
         if classname == 'Event':
-            new_list = [ref for ref in self.event_ref_list
-                        if ref.ref not in handle_list]
-            self.event_ref_list = new_list
+            self.remove_event_references(handle_list)
         elif classname == 'Person':
-            new_list = [ref for ref in self.child_ref_list
-                        if ref.ref not in handle_list]
-            self.child_ref_list = new_list
-            if self.father_handle in handle_list:
-                self.father_handle = None
-            if self.mother_handle in handle_list:
-                self.mother_handle = None
+            self.remove_person_references(handle_list)
         elif classname == 'Place':
-            for lds_ord in self.lds_ord_list:
-                if lds_ord.place in handle_list:
-                    lds_ord.place = None
+            self.remove_place_references(handle_list)
+        elif classname == 'Media':
+            self.remove_media_references(handle_list)
+        elif classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+        elif classname == 'Citation':
+            self.remove_citation_references(handle_list)
+
+    def remove_person_references(self, handle_list):
+        new_list = [ref for ref in self.child_ref_list
+                    if ref.ref not in handle_list]
+        self.child_ref_list = new_list
+        if self.father_handle in handle_list:
+            self.father_handle = None
+        if self.mother_handle in handle_list:
+            self.mother_handle = None
+
+    def remove_place_references(self):
+        for lds_ord in self.lds_ord_list:
+            if lds_ord.place in handle_list:
+                lds_ord.place = None
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):
         """

@@ -223,7 +223,7 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
             return self.place == handle
         return False
 
-    def _remove_handle_references(self, classname, handle_list):
+    def remove_handle_references(self, classname, handle_list):
         """
         Remove all references in this object to object handles in the list.
 
@@ -232,8 +232,17 @@ class Event(CitationBase, NoteBase, MediaBase, AttributeBase,
         :param handle_list: The list of handles to be removed.
         :type handle_list: str
         """
-        if classname == 'Place' and self.place in handle_list:
-            self.place = ""
+        if classname == 'Place':
+            if self.place in handle_list:
+                self.place = ""
+        elif classname == "Tag":
+            self.remove_tag_references(handle_list)
+        elif classname == "Citation":
+            self.remove_citation_references(handle_list)
+        elif classname == "Media":
+            self.remove_media_references(handle_list)
+        elif classname == "Note":
+            self.remove_note_references(handle_list)
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):
         """

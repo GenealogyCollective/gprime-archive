@@ -223,7 +223,7 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             return handle == self.get_reference_handle()
         return False
 
-    def _remove_handle_references(self, classname, handle_list):
+    def remove_handle_references(self, classname, handle_list):
         """
         Remove all references in this object to object handles in the list.
 
@@ -232,8 +232,17 @@ class Citation(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :param handle_list: The list of handles to be removed.
         :type handle_list: str
         """
-        if classname == 'Source' and \
-           self.get_reference_handle() in handle_list:
+        if classname == "Citation":
+            self.remove_citation_references(handle_list)
+        elif classname == 'Source':
+            self.remove_source_references(handle_list)
+        elif classname == 'Media':
+            self.remove_media_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+
+    def remove_source_references(self, handle_list):
+        if self.get_reference_handle() in handle_list:
             self.set_reference_handle(None)
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):

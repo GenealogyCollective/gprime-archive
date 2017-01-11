@@ -350,49 +350,67 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
                        for ordinance in self.lds_ord_list)
         return False
 
-    def _remove_handle_references(self, classname, handle_list):
+    def remove_handle_references(self, classname, handle_list):
         if classname == 'Event':
-            # Keep a copy of the birth and death references
-            birth_ref = self.get_birth_ref()
-            death_ref = self.get_death_ref()
-
-            new_list = [ref for ref in self.event_ref_list
-                        if ref.ref not in handle_list]
-            # If deleting removing the reference to the event
-            # to which birth or death ref_index points, unset the index
-            if (self.birth_ref_index != -1
-                    and self.event_ref_list[self.birth_ref_index].ref
-                    in handle_list):
-                self.set_birth_ref(None)
-            if (self.death_ref_index != -1
-                    and self.event_ref_list[self.death_ref_index].ref
-                    in handle_list):
-                self.set_death_ref(None)
-            self.event_ref_list = new_list
-
-            # Reset the indexes after deleting the event from even_ref_list
-            if self.birth_ref_index != -1:
-                self.set_birth_ref(birth_ref)
-            if self.death_ref_index != -1:
-                self.set_death_ref(death_ref)
+            self.remove_event_references(handle_list)
         elif classname == 'Person':
-            new_list = [ref for ref in self.person_ref_list
-                        if ref.ref not in handle_list]
-            self.person_ref_list = new_list
+            self.remove_person_references(handle_list)
         elif classname == 'Family':
-            new_list = [handle for handle in self.family_list
-                        if handle not in handle_list]
-            self.family_list = new_list
-            new_list = [handle for handle in self.parent_family_list
-                        if handle not in handle_list]
-            self.parent_family_list = new_list
-            for ordinance in self.lds_ord_list:
-                if ordinance.famc in handle_list:
-                    ordinance.famc = None
+            self.remove_family_references(handle_list)
         elif classname == 'Place':
-            for ordinance in self.lds_ord_list:
-                if ordinance.place in handle_list:
-                    ordinance.place = None
+            self.remove_place_references(handle_list)
+        elif classname == 'Media':
+            self.remove_media_references(handle_list)
+        elif classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+        elif classname == 'Citation':
+            self.remove_citation_references(handle_list)
+
+    def remove_place_references(self, handle_list):
+        for ordinance in self.lds_ord_list:
+            if ordinance.place in handle_list:
+                ordinance.place = None
+
+    def remove_family_references(self, handle_list):
+        new_list = [handle for handle in self.family_list
+                    if handle not in handle_list]
+        self.family_list = new_list
+        new_list = [handle for handle in self.parent_family_list
+                    if handle not in handle_list]
+        self.parent_family_list = new_list
+        for ordinance in self.lds_ord_list:
+            if ordinance.famc in handle_list:
+                ordinance.famc = None
+
+    def remove_person_references(self, handle_list):
+        new_list = [ref for ref in self.person_ref_list
+                    if ref.ref not in handle_list]
+        self.person_ref_list = new_list
+
+    def remove_event_references(self, handle_list):
+        # Keep a copy of the birth and death references
+        birth_ref = self.get_birth_ref()
+        death_ref = self.get_death_ref()
+        new_list = [ref for ref in self.event_ref_list
+                    if ref.ref not in handle_list]
+        # If deleting removing the reference to the event
+        # to which birth or death ref_index points, unset the index
+        if (self.birth_ref_index != -1
+                and self.event_ref_list[self.birth_ref_index].ref
+                in handle_list):
+            self.set_birth_ref(None)
+        if (self.death_ref_index != -1
+                and self.event_ref_list[self.death_ref_index].ref
+                in handle_list):
+            self.set_death_ref(None)
+        self.event_ref_list = new_list
+        # Reset the indexes after deleting the event from even_ref_list
+        if self.birth_ref_index != -1:
+            self.set_birth_ref(birth_ref)
+        if self.death_ref_index != -1:
+            self.set_death_ref(death_ref)
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):
         if classname == 'Event':

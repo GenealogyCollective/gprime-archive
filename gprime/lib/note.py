@@ -304,3 +304,7 @@ class Note(BasicPrimaryObject):
                 else:
                     retval.append(("external", "www", "url", styledtext_tag.value))
         return retval
+
+    def remove_handle_references(self, classname, handle_list):
+        if classname == 'Tag':
+            self.remove_tag_references(handle_list)

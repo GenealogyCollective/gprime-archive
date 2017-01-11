@@ -208,7 +208,7 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
             return handle in [ref.ref for ref in self.reporef_list]
         return False
 
-    def _remove_handle_references(self, classname, handle_list):
+    def remove_handle_references(self, classname, handle_list):
         """
         Remove all references in this object to object handles in the list.
 
@@ -218,9 +218,18 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :type handle_list: str
         """
         if classname == 'Repository':
-            new_list = [ref for ref in self.reporef_list
-                        if ref.ref not in handle_list]
-            self.reporef_list = new_list
+            self.remove_repository_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+        elif classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Media':
+            self.remove_media_references(handle_list)
+
+    def remove_repository_references(self, handle_list):
+        new_list = [ref for ref in self.reporef_list
+                    if ref.ref not in handle_list]
+        self.reporef_list = new_list
 
     def _replace_handle_reference(self, classname, old_handle, new_handle):
         """
@@ -420,17 +429,6 @@ class Source(MediaBase, NoteBase, SrcAttributeBase, IndirectCitationBase,
         :rtype: bool
         """
         return repo_handle in [repo_ref.ref for repo_ref in self.reporef_list]
-
-    def remove_repo_references(self, repo_handle_list):
-        """
-        Remove references to all Repository handles in the list.
-
-        :param repo_handle_list: The list of Repository handles to be removed.
-        :type repo_handle_list: list
-        """
-        new_reporef_list = [repo_ref for repo_ref in self.reporef_list
-                            if repo_ref.ref not in repo_handle_list]
-        self.reporef_list = new_reporef_list
 
     def replace_repo_references(self, old_handle, new_handle):
         """

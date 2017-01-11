@@ -1084,6 +1084,26 @@ class DBAPI(DbGeneric):
             [str(attr.type) for attr in media.attribute_list
              if attr.type.is_custom() and str(attr.type)])
 
+    def remove_backlinks(self, obj_class, obj_handle, transaction):
+        """
+        Removes all references to this object, and updates backlinks.
+        """
+        # First remove backlinks to this obj:
+        self.dbapi.execute("SELECT obj_class, obj_handle FROM " +
+                           "reference WHERE ref_handle = ?;", [obj_handle])
+        rows = self.dbapi.fetchall()
+        # Now, we remove this handle from each object
+        for (classname, handle) in rows:
+            ref_obj = self.get_table_func(classname, "handle_func")(handle)
+            ref_obj.remove_handle_references(obj_class, obj_handle)
+            self.get_table_func(classname, "commit_func")(ref_obj, transaction)
+        # And delete to-links
+        self.dbapi.execute("DELETE FROM reference WHERE ref_handle = ?;",
+                           [obj_handle])
+        # Now, delete backlinks from this object:
+        self.dbapi.execute("DELETE FROM reference WHERE obj_handle = ?;",
+                           [obj_handle])
+
     def update_backlinks(self, obj):
         # First, delete the current references:
         self.dbapi.execute("DELETE FROM reference WHERE obj_handle = ?;",
@@ -1099,22 +1119,6 @@ class DBAPI(DbGeneric):
                                 ref_handle,
                                 ref_class_name])
         # This function is followed by a commit.
-
-    def remove_person(self, handle, transaction):
-        """
-        Remove the Person specified by the database handle from the database,
-        preserving the change in the passed transaction.
-        """
-        if isinstance(handle, bytes):
-            handle = str(handle, "utf-8")
-        if self.readonly or not handle:
-            return
-        if handle in self.person_map:
-            person = Person.create(self.person_map[handle]) # no need for db
-            self.dbapi.execute("DELETE FROM person WHERE handle = ?;", [handle])
-            if not transaction.batch:
-                transaction.add(PERSON_KEY, TXNDEL, person.handle,
-                                person.to_struct(), None)
 
     def _do_remove(self, handle, transaction, data_map, data_id_map, key):
         if isinstance(handle, bytes):
@@ -1134,11 +1138,12 @@ class DBAPI(DbGeneric):
         if self.readonly or not handle:
             return
         if handle in data_map:
+            data = data_map[handle]
+            self.remove_backlinks(data["_class"], data["handle"], transaction)
             self.dbapi.execute(
                 "DELETE FROM %s WHERE handle = ?;" % key2table[key],
                 [handle])
             if not transaction.batch:
-                data = data_map[handle]
                 transaction.add(key, TXNDEL, handle, data, None)
 
     def find_backlink_handles(self, handle, include_classes=None):

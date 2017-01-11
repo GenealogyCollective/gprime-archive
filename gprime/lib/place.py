@@ -596,3 +596,15 @@ class Place(CitationBase, NoteBase, MediaBase, UrlBase, PrimaryObject):
                 if addendum != self.name:
                     if addendum not in self.alt_names:
                         self.alt_names.append(addendum)
+
+    def remove_handle_references(self, classname, handle_list):
+        if classname == 'Place':
+            self.remove_place_references(handle_list)
+        elif classname == 'Media':
+            self.remove_media_references(handle_list)
+        elif classname == 'Tag':
+            self.remove_tag_references(handle_list)
+        elif classname == 'Note':
+            self.remove_note_references(handle_list)
+        elif classname == 'Citation':
+            self.remove_citation_references(handle_list)

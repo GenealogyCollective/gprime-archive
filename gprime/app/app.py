@@ -419,7 +419,7 @@ def main():
     if options.import_file:
         options.server = False
         user = User()
-        import_file(database, options.import_file, user)
+        import_file(database, os.path.expanduser(options.import_file), user)
     # Start server up, or exit:
     if not options.server:
         return

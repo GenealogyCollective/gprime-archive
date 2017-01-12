@@ -102,6 +102,6 @@ class PersonForm(Form):
                 obj = handle_func(handle)
                 obj.remove_handle_references('Person', [person_handle])
                 commit_func(obj, transaction)
-            self.database.delete_person_from_database(this.instance.handle, transaction)
+            self.database.delete_person_from_database(self.instance.handle, transaction)
         self.handler.send_message(self._("Deleted person. <a href='%s'>Undo</a>." % "FIXME"))
         self.handler.redirect(self.handler.app.make_url("/person"))

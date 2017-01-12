@@ -18,7 +18,16 @@ Additional Information
 * Documentation - https://github.com/GenealogyCollective/gprime/tree/master/docs#gprime-documentation
 * Demo - http://demo.gprime.info (username: demo, password: demo)
 
-gPrime is looking for some advsiors! If you would like to help developed focused goals for the future development of gPrime, please let us know:
+Get Involved!
+-------------
+
+gPrime is looking for help on many different topics:
+
+* programming - in Python and Javascript
+* translation into other languages - see demo for what exists
+* CSS and HTML design - gPrime uses both
+
+gPrime is also looking for some advsiors! If you would like to help developed focused goals for the future development of gPrime, please let us know:
 
 [I'm interested in Advising gPrime](https://docs.google.com/forms/d/e/1FAIpQLSfhxC0mnVtweau0snweFW5-2Td8I9Wj-sCXpokeVT7EBLAypw/viewform)
 

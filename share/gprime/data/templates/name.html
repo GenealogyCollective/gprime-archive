@@ -25,7 +25,6 @@
 
 
 <div id="summaryarea">
-<table class="infolist" style="width:100%;"> 
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
 
@@ -35,6 +34,11 @@
 
 <div id="summaryarea">
 <table class="infolist" style="width:100%;"> 
+  <table class="infolist" style="width:100%;">
+    <col width="10%">
+    <col width="35%">
+    <col width="10%">
+    <col width="35%">
 <tbody>
 <form method="post">{% module xsrf_form_html() %}
 <tr>
@@ -85,7 +89,7 @@
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("primary_name.private") }}:</td>
  {% if int(form.row) == 1 %}
- <td class="ColumnValue" id="data">{{ form.render("primary_name.private", user, action) }}</td>
+ <td class="ColumnValue">{{ form.render("primary_name.private", user, action) }}</td>
   {% else %}
   <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.private" % (int(form.row) - 2), user, action) }}</td>
   {% end %}

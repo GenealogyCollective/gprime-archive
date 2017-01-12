@@ -441,7 +441,9 @@ class Form(object):
             ## This is useful in views; not sure about detail view
             if field in self.post_process_functions:
                 retval = self.post_process_functions[field](data, {})
-        if link and action == "view":
+        if link:
+            for key in kwargs:
+                kwargs[key] = str(kwargs[key])
             retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + retval + """</a>"""
         return str(retval)
 

@@ -44,3 +44,4 @@ from .personrefhandler import PersonRefHandler
 from .placerefhandler import PlaceRefHandler
 from .reporefhandler import RepoRefHandler
 from .urlhandler import URLHandler
+from .surnamehandler import SurnameHandler

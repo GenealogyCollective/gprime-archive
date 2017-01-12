@@ -41,3 +41,4 @@ from .personrefform import PersonRefForm
 from .placerefform import PlaceRefForm
 from .reporefform import RepoRefForm
 from .urlform import URLForm
+from .surnameform import SurnameForm

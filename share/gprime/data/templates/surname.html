@@ -1,0 +1,116 @@
+{% autoescape None %}
+{% extends "gramps-base.html" %}
+
+{% block title %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+{% block heading %}{{sitename}}: {{opts.database}}, {{tview}} {% end %}
+
+{% block content %} 
+   <script type="text/javascript">
+   $(function(){
+     $('#tabs').tabs({
+	'select': function(event, ui){
+			document.location.hash = ui.panel.id;
+		}
+     });
+   });
+   </script>
+
+<div class="content" id="IndividualDetail">
+
+{# bread crumbs #}
+
+  <p>
+  {{ form.make_link("/person", "People") }} > {{ form.make_link("/person/%(handle)s", form.instance.gid, handle=form.instance.handle) }} > {{ form.make_link("/person/%(handle)s/name/%(name_row)s", "Name", handle=form.instance.handle, name_row=form.name_row) }}
+  </p>
+
+
+<div id="summaryarea">
+  <table class="infolist" style="width:100%;">
+<tbody>
+<form method="post">{% module xsrf_form_html() %}
+
+
+</tbody>
+</table>
+
+<div id="summaryarea">
+  <table class="infolist" style="width:100%;">
+    <col width="20%">
+    <col width="80%">
+<tbody>
+<form method="post">{% module xsrf_form_html() %}
+<tr>
+
+  <td class="ColumnAttribute">{{ _("Surname") }}:</td>
+
+  {% if int(form.name_row) == 1 %}
+  <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.%s.surname" % (form.surname_row - 1), user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.surname_list.%s.surname" % (form.name_row - 2, form.surname_row - 1), user, action) }}</td>
+  {% end %}
+</tr>
+<tr><td id="rowspace"></td></tr>
+
+  <td class="ColumnAttribute">{{ _("Prefix") }}:</td>
+
+  {% if int(form.name_row) == 1 %}
+  <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.%s.prefix" % (form.surname_row - 1), user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.surname_list.%s.prefix" % (form.name_row - 2, form.surname_row - 1), user, action) }}</td>
+  {% end %}
+</tr>
+<tr><td id="rowspace"></td></tr>
+
+  <td class="ColumnAttribute">{{ _("Connector") }}:</td>
+
+  {% if int(form.name_row) == 1 %}
+  <td class="ColumnValue" id="data">{{ form.render("primary_name.surname_list.%s.connector" % (form.surname_row - 1), user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.surname_list.%s.connector" % (form.name_row - 2, form.surname_row - 1), user, action) }}</td>
+  {% end %}
+</tr>
+<tr><td id="rowspace"></td></tr>
+
+  <td class="ColumnAttribute">{{ _("Origin type") }}:</td>
+
+  {% if int(form.name_row) == 1 %}
+  <td class="ColumnValue">{{ form.render("primary_name.surname_list.%s.origintype" % (form.surname_row - 1), user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue">{{ form.render("alternate_names.%s.surname_list.%s.origintype" % (form.name_row - 2, form.surname_row - 1), user, action) }}</td>
+  {% end %}
+</tr>
+<tr><td id="rowspace"></td></tr>
+
+  <td class="ColumnAttribute">{{ _("Primary") }}:</td>
+
+  {% if int(form.name_row) == 1 %}
+  <td class="ColumnValue">{{ form.render("primary_name.surname_list.%s.primary" % (form.surname_row - 1), user, action) }}</td>
+  {% else %}
+  <td class="ColumnValue">{{ form.render("alternate_names.%s.surname_list.%s.primary" % (form.name_row - 2, form.surname_row - 1), user, action) }}</td>
+  {% end %}
+</tr>
+<tr><td id="rowspace"></td></tr>
+
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+{% if user %}
+  {% if action != "view" %}
+    <input type="submit" value={{_T_("Save")}}/>
+    {{form.make_button(_("Cancel"), form.instance.make_url("name", form.name_row, "surname", form.surname_row))}}
+  {% else %}
+      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {{ form.make_icon_button(_("Add Surname"), "/person/%(handle)s/name/%(name_row)s/surname/add", icon="+", handle=form.handle, name_row=form.name_row) }}
+      {{ form.make_icon_button(_("Edit Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/edit", icon="?", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
+      {{ form.make_icon_button(_("Delete Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/delete", icon="-", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
+      </div>
+    
+  {% end %}
+{% end %}
+
+</form>
+{% end %}

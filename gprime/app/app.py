@@ -81,6 +81,8 @@ class GPrimeApp(Application):
              LogoutHandler, "logout", self.make_env({})),
             (self.make_url(r'/action/?(.*)'),
              ActionHandler, "action", self.make_env({})),
+            (self.make_url(r'/person/(.*)/name/(.*)/surname/(.*)'),
+             SurnameHandler, "surname", self.make_env({})),
             (self.make_url(r'/person/(.*)/name/(.*)/?(.*)'),
              NameHandler, "name", self.make_env({})),
             (self.make_url(r'/person/?(.*)'),

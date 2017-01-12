@@ -4,9 +4,11 @@
 
 gPrime is a web-based application for genealogy. It uses the Gramps API for data, reports, import/export, etc.
 
-* Designed for collaboration and large databases
+* Designed for collaboration and fast processing of large databases
 * Multi-user, password protected
-* Support IIIF Image Server API - http://iiif.io/api/image/2.1/
+* Supports IIIF Image Server API - http://iiif.io/api/image/2.1/
+* Uses a powerful search interface
+* 100% compatible with [Gramps](https://gramps-project.org) data model
 
 Additional Information
 ----------------------
@@ -33,31 +35,19 @@ Installation
 
 On Windows and Mac, perhaps the easiest method of using gPrime is to start with an [Anaconda Python3 environment](https://www.continuum.io/downloads).
 
-Released version installation:
+Once you have a Python environment, install gPrime with:
 
 ```
-pip install gprime
+pip install gprime --user -U
 ```
 
-Or you can install from github sources:
-
-```
-git clone --depth 1 https://github.com/GenealogyCollective/gprime
-cd gprime
-```
-Once you have the source files, you can:
-
-```
-pip install . --user -U
-```
-
-(--user installs into user space, not global space. -U updates gPrime and dependencies. Leave off --user and use Adminstrative install method (sudo) to install for everyone. Optionally, you can run gPrime from this directory. See below.)
+(--user installs into user space, not global space. -U updates gPrime and dependencies. Leave off --user and use Adminstrative install method (sudo) to install for everyone.)
 
 
 Getting Started
 ---------------
 
-In all of the following commands, --site-dir is required.
+**In all of the following commands, --site-dir is always required.**
 
 To run gPrime, you need to do two things:
 
@@ -97,13 +87,6 @@ Installed version:
 
 ```
 gprime --site-dir="family_tree"
-```
-
-To gPrime without installing it (you may need to use python3):
-
-```
-export PYTHONPATH=/path/to/gprime-source-dir
-python -m gprime.app --site-dir="family_tree"
 ```
 
 Options:

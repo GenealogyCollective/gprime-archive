@@ -3,16 +3,38 @@ Running gPrime on a Server
 
 These are notes for running gPrime (and multiple copies of gPrime) on a server, such as Ubuntu. These notes are untested. They will eventually be tested, or removed.
 
-Requirements
-------------
+Nginx-based install
+-------------------
 
-* systemd
-* apache
+Routing URLs to different webservers:
 
-In this example, we start up each gPrime server on regular ports (say, in the 8000 range). We then serve HTTPS secure data by redirecting external requests to the 8000-range gPrime servers.
+https://gist.github.com/soheilhy/8b94347ff8336d971ad0
 
-Auto startup: systemd config file
----------------------------------
+nginx config file:
+
+```
+server {
+    listen       ...;
+    ...
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+    location /blog {
+        rewrite ^/blog(.*) /$1 break;
+        proxy_pass http://127.0.0.1:8181;
+    }
+
+    location /mail {
+        rewrite ^/mail(.*) /$1 break;
+        proxy_pass http://127.0.0.1:8282;
+    }
+    ...
+}
+```
+
+Systemd service setup (restarts program)
+----------------------------------------
 
 Place the following in a file such as "/etc/systemd/system/smith_family.service"
 
@@ -41,8 +63,10 @@ cd /etc/systemd/system/multi-user.target.wants/
 ln -s /etc/systemd/system/smith_family.service
 ```
 
-HTTPS
------
+Apache-based HTTPS install
+-------------------------------------
+
+In this example, we start up each gPrime server on regular ports (say, in the 8000 range). We then serve HTTPS secure data by redirecting external requests to the 8000-range gPrime servers.
 
 Edit this file:
 

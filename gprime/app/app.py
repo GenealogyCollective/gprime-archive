@@ -368,6 +368,11 @@ def main():
         # Parse args again, so that command-line options override config-file:
         tornado.options.parse_command_line()
         options.site_dir = old_site_dir # make sure this is not overridden
+    if options.debug:
+        import logging
+        log = logging.getLogger()
+        log.setLevel(logging.DEBUG)
+        tornado.log.logging.info("Debug mode...")
     # Handle gPrime intialization:
     import gprime.const # initializes locale
     gprime.const.set_site_dir(options.site_dir) ## when we don't have options
@@ -431,10 +436,6 @@ def main():
     tornado.log.logging.info("gPrime starting...")
     if options.debug:
         import tornado.autoreload
-        import logging
-        log = logging.getLogger()
-        log.setLevel(logging.DEBUG)
-        tornado.log.logging.info("Debug mode...")
         directory = gprime.const.DATA_DIR
         template_directory = os.path.join(directory, 'templates')
         tornado.log.logging.info(template_directory)

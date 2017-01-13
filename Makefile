@@ -1,10 +1,10 @@
+build: FORCE
+	python3 setup.py build
+
 clean: FORCE
 	find | grep "~" | xargs --no-run-if-empty rm
 	find | grep "__pycache__" | xargs --no-run-if-empty rm -rf
 	rm -rf build
-
-build: FORCE
-	python3 setup.py build
 
 upload: FORCE
 	sudo python3 setup.py sdist bdist_wheel upload
@@ -16,6 +16,7 @@ test: FORCE
 	rm -rf test
 	PYTHONPATH=. python3 -m gprime.app --site-dir=test --create="Test Family"
 	PYTHONPATH=. python3 -m gprime.app --site-dir=test --add-user=demo --password=demo
-	PYTHONPATH=. python3 -m gprime.app --site-dir=test --import-file=../Desktop/TestFamily.gramps
+	PYTHONPATH=. python3 -m gprime.app --site-dir=test --import-file=~/gprime/example/gramps/example.gramps
+#	PYTHONPATH=. python3 -m gprime.app --site-dir=test --import-file=~/Desktop/Blank_Family/database/backup-2017-01-09-20-41-22.gramps
 
 FORCE:

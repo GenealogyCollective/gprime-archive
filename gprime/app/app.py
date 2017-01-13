@@ -19,6 +19,7 @@
 #
 
 ## Python imports
+import re
 import os
 import sys
 import base64
@@ -26,6 +27,7 @@ import uuid
 import getpass
 import select
 import signal
+import shutil
 import webbrowser
 import threading
 from passlib.hash import sha256_crypt as crypt
@@ -34,8 +36,26 @@ from collections import defaultdict
 from .handlers import *
 from .forms import *
 from .forms.actionform import import_file
+from ..db import DbTxn
 
 from tornado.web import Application, url, StaticFileHandler
+
+def make_path_relative(filename):
+    """
+    Given a filename, make it relative.
+    """
+    parts = re.split(r"[\\/]", filename)
+    if ":" in parts[0]:
+        return "/".join(
+            [p for p in parts[0].split(":")[1:] + parts[1:] if p])
+    else:
+        return "/".join([p for p in parts if p])
+
+def get_image_path_from_media(database, media):
+    from gprime.utils.file import media_path_full
+    if media:
+        return media_path_full(database, media.get_path())
+    return ""
 
 class GPrimeApp(Application):
     """
@@ -216,11 +236,8 @@ class GPrimeApp(Application):
         """
         Given an image handle, return the full path/filename.
         """
-        from gprime.utils.file import media_path_full
         media = self.database.get_media_from_handle(identifier)
-        if media:
-            return media_path_full(self.database, media.get_path())
-        return ""
+        return get_image_path_from_media(self.database, media)
 
     def get_object_from_url(self, prefix):
         if prefix.count("/") == 1:
@@ -341,6 +358,8 @@ def main():
            help="Start the server, True/False", type=bool)
     define("import-file", default=None,
            help="Import a file", type=str)
+    define("import-media", default=True,
+           help="Attempt to import associated media with --import-file", type=bool)
     define("open-browser", default=True,
            help="Open default web browser", type=bool)
     define("prefix", default="",
@@ -421,12 +440,33 @@ def main():
         options.server = False
         database.update_user_data(username=options.change_password,
                                   data={"password": crypt.hash(plaintext)})
-    #options.database = database.get_dbname()
     ## Options after opening:
     if options.import_file:
         options.server = False
         user = User()
-        import_file(database, os.path.expanduser(options.import_file), user)
+        options.import_file = os.path.expanduser(options.import_file)
+        import_file(database, options.import_file, user)
+        # copy images to media subdirectory
+        if options.import_media:
+            media_dir = os.path.join(options.site_dir, "media")
+            with DbTxn("gPrime initial import", database) as transaction:
+                for media in database.iter_media():
+                    src = get_image_path_from_media(database, media)
+                    relative = make_path_relative(media.path)
+                    dst = os.path.join(media_dir, relative)
+                    if not os.path.exists(src):
+                        # try where import-file was
+                        src = os.path.join(os.path.dirname(options.import_file),
+                                           relative)
+                    if os.path.exists(src):
+                        os.makedirs(os.path.dirname(dst), exist_ok=True)
+                        shutil.copy(src, dst)
+                        tornado.log.logging.info("Media copied to `%s`" % dst)
+                        media.path = relative
+                        database.commit_media(media, transaction)
+                    else:
+                        tornado.log.logging.warning("Media file not found: `%s`" % media.path)
+            database.set_mediapath("")
     # Start server up, or exit:
     if not options.server:
         return

@@ -114,6 +114,7 @@ Options:
 * --change-password=USERNAME - Change a user's password; prompts for password if --password not given
 * --password=PASSWORD - Use with --change-password, or --add-user (this option is not recommended)
 * --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
+* --import-media=True/False - Attempt to import media with Gramps XML or JSON, used with --import-file
 * --config-file=FILE - A config file of these options (optional); alternatively, will use SITE-DIR/config.cfg if one
 * --port=PORT-NUMBER - Port to listen on (8000 is default)
 * --hostname=LOCALHOST - Hostname to listen on ("localhost" is default)

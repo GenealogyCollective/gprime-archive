@@ -90,7 +90,7 @@ Optionally, you may now want to also import some data (gPrime supports Gramps XM
 gprime --site-dir="family_tree" --import-file="FamilyTree.gramps"
 ```
 
-The site-directory has a folder named "media" for all of the images and other documents. You can copy them here, or, in the previous example, make ~/family_tree/media link to your media folder.
+The site-directory has a folder named "media" for all of the images and other documents. On --file-import, gPrime will atempt to import any identified media by copying them into this media folder. If you want to prevent the copying, use --import-media=False. You can alternatively manually copy files into the media folder, or, in the previous example, make family_tree/media link to your media folder.
 
 Running
 -------

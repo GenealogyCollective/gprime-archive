@@ -375,6 +375,7 @@ function buttonOut(button) {
              <li><a href="{{make_url('/logout')}}">{{_("Logout")}}</a></li>
 	 {% end %}
     {% else %}
+         <li><a href="{{make_url('/')}}"> {{_("Home")}}</a></li>
 	 {% if next %}
          <li><a href="{{make_url('/login?next=' + next)}}">{{_("Login")}}</a></li>
          {% else %}

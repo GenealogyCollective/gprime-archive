@@ -413,6 +413,9 @@ def main():
         # Make the media folder:
         os.makedirs(media_dir)
         os.makedirs(media_cache_dir)
+        # Make an image-missing.png default:
+        shutil.copy(os.path.join(gprime.const.IMAGE_DIR, "image-missing.png"),
+                    os.path.join(media_dir, "image-missing.png"))
     ## Open the database:
     database = DbState().open_database(database_dir)
     if options.add_user:
@@ -451,6 +454,8 @@ def main():
             media_dir = os.path.join(options.site_dir, "media")
             with DbTxn("gPrime initial import", database) as transaction:
                 for media in database.iter_media():
+                    if media.path == "image-missing.png":
+                        continue # already there
                     src = get_image_path_from_media(database, media)
                     relative = make_path_relative(media.path)
                     dst = os.path.join(media_dir, relative)
@@ -466,11 +471,14 @@ def main():
                         database.commit_media(media, transaction)
                     else:
                         tornado.log.logging.warning("Media file not found: `%s`" % media.path)
-            database.set_mediapath("")
+                database.set_mediapath(os.path.abspath(media_dir)) # relative or absolute
     # Start server up, or exit:
     if not options.server:
+        database.close()
         return
     ############################ Starting server:
+    media_dir = os.path.join(options.site_dir, "media")
+    database.set_mediapath(os.path.abspath(media_dir)) # relative or absolute
     define("database", default="Untitled Family Tree", type=str)
     options.database = database.get_dbname()
     tornado.log.logging.info("gPrime starting...")

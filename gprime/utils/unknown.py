@@ -131,7 +131,7 @@ def make_unknown(class_arg, explanation, class_func, commit_func, transaction,
         obj.set_name(_('Unknown'))
         obj.set_type(RepositoryType.UNKNOWN)
     elif isinstance(obj, Media):
-        obj.set_path(os.path.join(IMAGE_DIR, "image-missing.png"))
+        obj.set_path("image-missing.png")
         obj.set_mime_type('image/png')
         obj.set_description(_('Unknown'))
     elif isinstance(obj, Note):

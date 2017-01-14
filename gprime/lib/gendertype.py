@@ -32,37 +32,34 @@ from ..const import LOCALE as glocale
 _ = glocale.translation.gettext
 
 class GenderType(GrampsType):
-    _INFO = {
-        "Female":            ( 0, "♀", "she"),
-        "Male":              ( 1, "♂", "he"),
-        "Unknown":           ( 2, "?", "they"),
-        "Custom":            ( 3, "+", "they"),
-        "Homosexual Male":   ( 4, "⚣", "he"),
-        "Homosexual Female": ( 5, "⚢", "she"),
-        "Intersex":          ( 6, "☿", "they"),
-        "Transgender":       ( 7, "⚧", "they"),
-        "Transman":          ( 8, "♂", "he"),
-        "Transwoman":        ( 9, "♀", "she"),
-        "Nonbinary":         (10, "☄", "they"),
-        "Cis Man":           (11, "♂", "he"),
-        "Cis Female":        (12, "♀", "she"),
-        "Gender fluid":      (13, "⚥", "they"),
-        "Other":             (14, "⚩", "they"),
-    }
+    _CUSTOM = 3
+    _DEFAULT = 2
 
-    _CUSTOM = _INFO["Custom"][0]
-    _DEFAULT = _INFO["Unknown"][0]
+    _INFO = [
+        ( 0, "female", "♀", "she"),
+        ( 1, "male", "♂", "he"),
+        ( 2, "unknown", "?", "they"),
+        ( 3, "custom", "+", "they"),
+        ( 4, "homosexual male", "⚣", "he"),
+        ( 5, "homosexual female", "⚢", "she"),
+        ( 6, "intersex", "☿", "they"),
+        ( 7, "transgender", "⚧", "they"),
+        ( 8, "transman", "♂", "he"),
+        ( 9, "transwoman", "♀", "she"),
+        (10, "nonbinary", "☄", "they"),
+        (11, "cis male", "♂", "he"),
+        (12, "cis female", "♀", "she"),
+        (13, "gender fluid", "⚥", "they"),
+        ( 2, "other", "⚩", "they"),
+    ]
 
-    _DATAMAP = [(_INFO[key][0], _(key), key) for key in _INFO.keys()]
+    _DATAMAP = [(base[0], _(base[1]), base[1]) for base in _INFO]
 
     def __init__(self, value=None):
         GrampsType.__init__(self, value)
 
-    def get_value(self, key):
-        return self._INFO[key][0]
+    def get_symbol(self):
+        return [tup[2] for tup in self._INFO if tup[0] == self.value][0]
 
-    def get_symbol(self, key):
-        return self._INFO[key][1]
-
-    def get_pronoun(self, key):
-        return self._INFO[key][3]
+    def get_pronoun(self):
+        return [tup[3] for tup in self._INFO if tup[0] == self.value][0]

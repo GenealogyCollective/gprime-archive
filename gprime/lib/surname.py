@@ -98,7 +98,7 @@ class Surname(SecondaryObject):
         return {
             "surname": str,
             "prefix": str,
-            "primary": str,
+            "primary": bool,
             "origintype": NameOriginType,
             "connector": str
         }

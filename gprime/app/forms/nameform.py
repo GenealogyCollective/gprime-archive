@@ -49,17 +49,17 @@ class NameForm(Form):
                 self.edit_fields.append(field)
         else:
             for field in [
-                    'primary_name.type',
-                    'primary_name.first_name',
-                    'primary_name.call',
-                    'primary_name.nick',
-                    'primary_name.famnick',
-                    'primary_name.private',
-                    'primary_name.date',
-                    'primary_name.suffix',
-                    'primary_name.title',
-                    'primary_name.group_as',
-                    'primary_name.sort_as',
-                    'primary_name.display_as',
+                    'alternate_names.%s.type',
+                    'alternate_names.%s.first_name',
+                    'alternate_names.%s.call',
+                    'alternate_names.%s.nick',
+                    'alternate_names.%s.famnick',
+                    'alternate_names.%s.private',
+                    'alternate_names.%s.date',
+                    'alternate_names.%s.suffix',
+                    'alternate_names.%s.title',
+                    'alternate_names.%s.group_as',
+                    'alternate_names.%s.sort_as',
+                    'alternate_names.%s.display_as',
                     ]:
-                self.edit_fields.append(field)
+                self.edit_fields.append(field % (int(self.row) - 2))

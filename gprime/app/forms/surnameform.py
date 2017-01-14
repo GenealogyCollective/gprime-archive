@@ -35,20 +35,20 @@ class SurnameForm(Form):
         self.handle = handle
         if self.name_row == 1:
             for field in [
-                    "primary_name.surname_list.0.surname",
-                    "primary_name.surname_list.0.prefix",
-                    "primary_name.surname_list.0.connector",
-                    "primary_name.surname_list.0.origintype",
-                    "primary_name.surname_list.0.primary",
+                    "primary_name.surname_list.%s.surname",
+                    "primary_name.surname_list.%s.prefix",
+                    "primary_name.surname_list.%s.connector",
+                    "primary_name.surname_list.%s.origintype",
+                    "primary_name.surname_list.%s.primary",
             ]:
-                self.edit_fields.append(field)
+                self.edit_fields.append(field % (int(self.surname_row) - 1))
         else:
             for field in [
-                    "alternate_names.%s.surname_list.%s.surname"
+                    "alternate_names.%s.surname_list.%s.surname",
                     "alternate_names.%s.surname_list.%s.prefix",
                     "alternate_names.%s.surname_list.%s.connector",
                     "alternate_names.%s.surname_list.%s.origintype",
                     "alternate_names.%s.surname_list.%s.primary",
             ]:
-                self.edit_fields.append(field % (name_row - 2, surname_row - 2))
+                self.edit_fields.append(field % (int(self.name_row) - 2, int(self.surname_row) - 1))
 

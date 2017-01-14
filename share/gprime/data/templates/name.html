@@ -91,7 +91,7 @@
  {% if int(form.row) == 1 %}
  <td class="ColumnValue">{{ form.render("primary_name.private", user, action) }}</td>
   {% else %}
-  <td class="ColumnValue" id="data">{{ form.render("alternate_names.%s.private" % (int(form.row) - 2), user, action) }}</td>
+  <td class="ColumnValue">{{ form.render("alternate_names.%s.private" % (int(form.row) - 2), user, action) }}</td>
   {% end %}
  <td class="ColumnAttribute">{{ form.get_label("primary_name.date") }}:</td>
  {% if int(form.row) == 1 %}

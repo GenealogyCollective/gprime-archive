@@ -492,12 +492,18 @@ def attribute_table(form, user, action, attribute_list, path=""):
     )
     count = 1
     url = path.replace(".", "/")
+    if url:
+        url += "/attribute_list"
+        edit = path + "/attribute_list/%s"
+    else:
+        url = "attribute_list"
+        edit = "attribute_list/%s"
     if user or form.instance.public:
         for attribute in attribute_list:
             table.append_row(attribute.type.string,
                              attribute.value,
-                             edit="%sattribute_list/%s" % (path, count),
-                             goto=form.make_url("attribute_list", count))
+                             edit=edit % (count),
+                             goto=form.make_url(url, count))
             count += 1
             has_data = True
     retval += """<div style="background-color: lightgray; padding: 2px 0px 0px 2px">"""

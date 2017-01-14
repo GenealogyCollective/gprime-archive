@@ -292,7 +292,10 @@ class TableObject(BaseObject):
         """
         field = self.__class__.get_field_alias(field)
         chain = field.split(".")
-        path = self._follow_field_path(chain, db, ignore_errors)
+        try:
+            path = self._follow_field_path(chain, db, ignore_errors)
+        except:
+            raise Exception("Invalid field: `%s`: valid fields are: %s" % (field, list(self.get_schema().keys())))
         return path
 
     def _follow_field_path(self, chain, db=None, ignore_errors=False):

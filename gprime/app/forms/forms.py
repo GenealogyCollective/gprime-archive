@@ -399,13 +399,13 @@ class Form(object):
                 env = {
                     "field": field,
                     "field_name": field_name,
-                    "value": data.text,
+                    "value": dd(data),
                     "disabled": "" if action == "edit" else "disabled",
                     "_class": """class ="%s" """ % _class if _class else "",
                 }
                 return """<input type="text" id="id_%(field)s" %(disabled)s name="%(field_name)s" value="%(value)s" %(_class)s></input>""" % env
             else:
-                return data.text
+                return dd(data)
         elif isinstance(data, GrampsType):
             env = {
                 "field": field,
@@ -479,9 +479,17 @@ class Form(object):
                 self.log.warning("save grampstype: %s", field)
                 pass
             elif isinstance(part, Date):
-                # FIXME: parse, save date
-                self.log.warning("save date: %s", field)
-                pass
+                value = self.handler.get_argument(field)
+                # get parent of .date:
+                if "." in field:
+                    parent_field, date_field = field.rsplit(".", 1)
+                else:
+                    parent_field, date_field = "", field
+                if parent_field:
+                    parent = self.instance.get_field(parent_field)
+                else:
+                    parent = self.instance
+                setattr(parent, date_field, dp(value))
             else:
                 try:
                     value = self.handler.get_argument(field)
@@ -597,7 +605,7 @@ class Form(object):
 
     def set_post_process_functions(self):
         """
-        Set the post_process_functions dictionary.
+        Set the post_process_functions dictionary. Just for main views (not detail/editing).
         """
         self.post_process_functions = {
             "date": self.render_date,

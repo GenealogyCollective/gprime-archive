@@ -31,6 +31,7 @@ class NameForm(Form):
         self.view = "Name"
         self.row = row
         self.handle = handle
+        self.edit_fields = []
         if row == 1:
             for field in [
                     'primary_name.type',

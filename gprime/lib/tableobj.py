@@ -81,15 +81,18 @@ class TableObject(BaseObject):
             self.change = 0
 
     def make_url(self, *args):
-        if args:
-            args = [str(arg) for arg in args]
-            if args[0].startswith("#"):
-                args = "".join(args)
+        retval = ""
+        after_anchor = False
+        for arg in args:
+            arg = str(arg)
+            if arg.startswith("#"):
+                retval += arg
+                after_anchor = True
+            elif after_anchor:
+                retval += arg
             else:
-                args = "/" + ("/".join(args))
-        else:
-            args = ""
-        return "/%s/%s%s" % (self.__class__.__name__.lower(), self.handle, args)
+                retval += "/" + str(arg)
+        return "/%s/%s%s" % (self.__class__.__name__.lower(), self.handle, retval)
 
     @abstractmethod
     def to_struct(self):

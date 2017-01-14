@@ -33,6 +33,7 @@ class SurnameForm(Form):
         self.name_row = name_row
         self.surname_row = surname_row
         self.handle = handle
+        self.edit_fields = []
         if self.name_row == 1:
             for field in [
                     "primary_name.surname_list.%s.surname",

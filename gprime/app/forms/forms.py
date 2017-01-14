@@ -436,15 +436,13 @@ class Form(object):
                         "_class": """class ="%s" """ % _class if _class else "",
                 }
                 retval = """<input id="%(id)s" type="text" name="%(field_name)s" value="%(value)s" style="display:table-cell; width:100%%" %(_class)s></input>""" % dict
-        if action == "view":
-            ## FIXME: kwargs may have ints
-            ## This is useful in views; not sure about detail view
-            if field in self.post_process_functions:
-                retval = self.post_process_functions[field](data, {})
-        if link:
-            for key in kwargs:
-                kwargs[key] = str(kwargs[key])
-            retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + retval + """</a>"""
+        if link and action == "view":
+            # First, make sure all kwargs are strings:
+            if kwargs:
+                for key in kwargs:
+                    kwargs[key] = str(kwargs[key])
+                # Render the link:
+                retval = '''<a href="''' +  (self.handler.app.make_url(link % kwargs)) + '''">''' + str(retval) + """</a>"""
         return str(retval)
 
     def get(self, field):

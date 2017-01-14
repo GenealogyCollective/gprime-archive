@@ -19,6 +19,7 @@
 #
 
 import tornado.web
+import sys
 import logging
 import hmac
 import json
@@ -49,10 +50,12 @@ class BaseHandler(tornado.web.RequestHandler):
         return ns
 
     def write_error(self, status_code, **kwargs):
-        if status_code == 404:
-            self.render('error_404.html', page=None, **self.get_template_dict())
-        else:
-            self.render('error_unknown.html', page=None, **self.get_template_dict())
+        exception_class, exception, tb  = sys.exc_info()
+        self.render('error_unknown.html',
+                    page=None,
+                    **self.get_template_dict(
+                        messages=[str(exception)]
+                    ))
 
     def get_current_user(self):
         user = self.get_secure_cookie("user")
@@ -146,3 +149,12 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie("user")
         self.redirect(self.get_argument("next",
                                         self.reverse_url("main")))
+
+class My404Handler(BaseHandler):
+    # Override prepare() instead of get() to cover all possible HTTP methods.
+    def prepare(self):
+        self.render('error_404.html',
+                    page=None,
+                    **self.get_template_dict(
+                        messages=["Page cannot be located."]
+                    ))

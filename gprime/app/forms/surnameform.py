@@ -25,6 +25,7 @@ class SurnameForm(Form):
     A form for listing, viewing, and editing user settings.
     """
     table = "Person"
+
     def __init__(self, handler, instance, handle, name_row, surname_row):
         super().__init__(handler, instance)
         self.tview = self._("Surname")
@@ -32,7 +33,22 @@ class SurnameForm(Form):
         self.name_row = name_row
         self.surname_row = surname_row
         self.handle = handle
+        if self.name_row == 1:
+            for field in [
+                    "primary_name.surname_list.0.surname",
+                    "primary_name.surname_list.0.prefix",
+                    "primary_name.surname_list.0.connector",
+                    "primary_name.surname_list.0.origintype",
+                    "primary_name.surname_list.0.primary",
+            ]:
+                self.edit_fields.append(field)
+        else:
+            for field in [
+                    "alternate_names.%s.surname_list.%s.surname"
+                    "alternate_names.%s.surname_list.%s.prefix",
+                    "alternate_names.%s.surname_list.%s.connector",
+                    "alternate_names.%s.surname_list.%s.origintype",
+                    "alternate_names.%s.surname_list.%s.primary",
+            ]:
+                self.edit_fields.append(field % (name_row - 2, surname_row - 2))
 
-    def save(self):
-        pass
-        # save the settings to the user table

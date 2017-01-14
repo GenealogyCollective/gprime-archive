@@ -63,6 +63,7 @@ class SurnameHandler(BaseHandler):
             surname_row = int(surname_row)
         _ = self.app.get_translate_func(self.current_user)
         ## FIXME: handle post to remove/up/down names (primary name is listed)
+        instance = self.database.get_person_from_handle(handle)
         form = SurnameForm(self, instance, handle, name_row, surname_row)
         form.save()
         self.redirect(self.app.make_url(instance.make_url("name", name_row, "#tab-surnames")))

@@ -61,15 +61,15 @@ class GPrimeApp(Application):
     """
     Main webapp class
     """
-    def __init__(self, options, database, settings=None):
+    def __init__(self, options, database, **kwargs):
         import gprime.const
         self.options = options
         self.prefix = self.options.prefix
         self.user_data = {} # user to user_data map
         self.database = database
         self.sitename = self.options.sitename
-        if settings is None:
-            settings = self.default_settings()
+        settings = kwargs
+        settings.update(self.default_settings())
         handlers = [
             (self.make_url(r"/(.*)/attribute_list/(.*)"),
              AttributeHandler, "attribute_list", self.make_env({})),
@@ -154,6 +154,8 @@ class GPrimeApp(Application):
              StaticFileHandler, "css_img", {
                 'path': os.path.join(gprime.const.DATA_DIR, "img"),
             }),
+            (self.make_url(r"/(.*)"),
+             My404Handler, "my404", self.make_env({})),
         ]
         super().__init__([url(handler[0],
                               handler[1],

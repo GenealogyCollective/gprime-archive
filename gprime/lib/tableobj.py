@@ -281,7 +281,7 @@ class TableObject(BaseObject):
             elif part in schema.keys():
                 path = schema[part]
             else:
-                raise Exception("No such field %s. Valid fields are: %s" % (part, list(schema.keys())))
+                raise Exception("Invalid chain on schema: %s" % chain)
             if isinstance(path, (list, tuple)):
                 path = path[0]
         return path
@@ -295,7 +295,7 @@ class TableObject(BaseObject):
         try:
             path = self._follow_field_path(chain, db, ignore_errors)
         except:
-            raise Exception("Invalid field: `%s`: valid fields are: %s" % (field, list(self.get_schema().keys())))
+            raise Exception("Invalid field: `%s`: valid fields are: %s" % (field, list(self.get_schema().keys()))) from None
         return path
 
     def _follow_field_path(self, chain, db=None, ignore_errors=False):

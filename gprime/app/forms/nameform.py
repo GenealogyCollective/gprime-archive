@@ -31,8 +31,35 @@ class NameForm(Form):
         self.view = "Name"
         self.row = row
         self.handle = handle
-
-    def save(self):
-        pass
-        # save the settings to the user table
-
+        if row == 1:
+            for field in [
+                    'primary_name.type',
+                    'primary_name.first_name',
+                    'primary_name.call',
+                    'primary_name.nick',
+                    'primary_name.famnick',
+                    'primary_name.private',
+                    'primary_name.date',
+                    'primary_name.suffix',
+                    'primary_name.title',
+                    'primary_name.group_as',
+                    'primary_name.sort_as',
+                    'primary_name.display_as',
+                    ]:
+                self.edit_fields.append(field)
+        else:
+            for field in [
+                    'primary_name.type',
+                    'primary_name.first_name',
+                    'primary_name.call',
+                    'primary_name.nick',
+                    'primary_name.famnick',
+                    'primary_name.private',
+                    'primary_name.date',
+                    'primary_name.suffix',
+                    'primary_name.title',
+                    'primary_name.group_as',
+                    'primary_name.sort_as',
+                    'primary_name.display_as',
+                    ]:
+                self.edit_fields.append(field)

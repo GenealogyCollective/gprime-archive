@@ -62,14 +62,16 @@ class AttributeHandler(BaseHandler):
         """
         _ = self.app.get_translate_func(self.current_user)
         if "/" in suffix:
-            row, action = suffix.split("/", 1)
+            row, action = suffix.split("/")
         else:
             row, action = suffix, "view"
+        # prefix: 'person/d7f407bcd41d568c68ae798b71/media_list/0'
+        # suffix: '1'
         instance = self.app.get_object_from_url(prefix)
         path = "attribute_list.%s" % (int(row) - 1)
         if prefix.count("/") > 2:
             parts = prefix.split("/") # "/person/handle/somethings/", ["", "person", "handle", "sometings"]
-            path = ".".join(parts[3:]) + path
+            path = ".".join(parts[2:]) + "." + path
         url = "/" + prefix + "/attribute_list/" + row
         subitem = instance.get_field(path)
         form = AttributeForm(self, instance, subitem, path, url)

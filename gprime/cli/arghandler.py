@@ -155,6 +155,7 @@ class ArgHandler:
 
     def __init__(self, dbstate, parser, sessionmanager,
                  errorfunc=None, gui=False, username=None):
+        self.username = username
         self.dbstate = dbstate
         self.smgr = sessionmanager
         self.errorfunc = errorfunc
@@ -456,7 +457,7 @@ class ArgHandler:
                 print(_("Using options string: %s"
                        ) % op_string,
                       file=sys.stderr)
-            self.cl_action(action, op_string, username)
+            self.cl_action(action, op_string, self.username)
 
         for expt in self.exports:
             print(_("Exporting: file %(filename)s, format %(format)s."

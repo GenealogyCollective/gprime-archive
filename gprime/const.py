@@ -274,7 +274,10 @@ def get_user_home(username):
     """
     USER_HOME is now dynamic, based on logged in user.
     """
-    return os.path.join(get_site_dir(), username)
+    if username:
+        return os.path.join(get_site_dir(), username)
+    else:
+        return get_site_dir()
 
 """
 All of these were based on USER_HOME:

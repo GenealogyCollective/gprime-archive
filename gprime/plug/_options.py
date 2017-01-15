@@ -323,7 +323,8 @@ class OptionHandler:
     Implements handling of the options for the plugins.
     """
 
-    def __init__(self, module_name, options_dict, person_id=None):
+    def __init__(self, module_name, options_dict, person_id=None, username=None):
+        self.username = username
         self.module_name = module_name
         self.default_options_dict = options_dict.copy()
         self.options_dict = options_dict
@@ -477,7 +478,7 @@ class Options:
         Call this function after all options have been added.
         """
         self.handler = OptionHandler(
-            self.name, self.options_dict, self.person_id)
+            self.name, self.options_dict, self.person_id, self.username)
 
     def add_user_options(self):
         """

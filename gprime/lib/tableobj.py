@@ -283,10 +283,13 @@ class TableObject(BaseObject):
                 pass # skip over
             elif part in schema.keys():
                 path = schema[part]
+            elif part in ["self", "instance"]:
+                path = last_path
             else:
                 raise Exception("Invalid chain on schema: %s" % chain)
             if isinstance(path, (list, tuple)):
                 path = path[0]
+            last_path = path
         return path
 
     def get_field(self, field, db=None, ignore_errors=False):

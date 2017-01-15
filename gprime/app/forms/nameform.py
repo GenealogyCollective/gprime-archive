@@ -31,8 +31,12 @@ class NameForm(Form):
         self.view = "Name"
         self.row = row
         self.handle = handle
+        if int(row) == 1:
+            self.path = "primary_name"
+        else:
+            self.path = "alternate_name.%s" % (int(self.row) - 2)
         self.edit_fields = []
-        if row == 1:
+        if int(row) == 1:
             for field in [
                     'primary_name.type',
                     'primary_name.first_name',

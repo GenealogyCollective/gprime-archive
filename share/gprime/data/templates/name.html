@@ -174,13 +174,17 @@
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-notes" style="background-color: #f4f0ec;">
     {% if int(form.row) == 1 %}
-    {{ note_table(form, user, action, form.instance.primary_name.note_list) }}
+    {{ note_table(form, user, action, form.instance.primary_name.note_list, form.path) }}
     {% else %}
     {{ note_table(form, user, action, form.instance.alternate_names[int(form.row) - 2].note_list) }}
     {% end %}
   </div>
   <div class="ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab-citations" style="background-color: #f4f0ec;"> 
-    {{ citation_table(form, user, action, form.instance.citation_list) }}
+    {% if int(form.row) == 1 %}
+    {{ citation_table(form, user, action, form.instance.primary_name.citation_list, form.path) }}
+    {% else %}
+    {{ citation_table(form, user, action, form.instance.alternate_names[int(form.row) - 2].citation_list, form.path) }}
+    {% end %}
   </div>
 </div>
 </form>

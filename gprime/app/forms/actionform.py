@@ -101,9 +101,11 @@ class Table(object):
             self._cache_map = {}
             pmgr = BasePluginManager.get_instance()
             cl_list = []
-            for reg_action in ["get_reg_reports",
-                               "get_reg_exporters",
-                               "get_reg_importers"]:
+            for reg_action in [
+                    "get_reg_reports",
+                    "get_reg_exporters",
+                    #"get_reg_importers",
+            ]:
                 cl_list += getattr(pmgr, reg_action)()
             self._cache = sorted([(pdata.name, self.plugtype(pdata.ptype), pdata.id)
                                   for pdata in cl_list])
@@ -222,20 +224,48 @@ class ActionForm(Form):
         for key, default_value in options.items():
             args[key] = handler.get_argument(key)
         if action.ptype == "Report":
-            clr = run_report(self.gramps_database, action.handle, of="/tmp/test.html", off="html", **args)
+            output_file = "/tmp/%s.pdf" % action.name
+            clr = run_report(self.gramps_database, action.handle, of=output_file, off="pdf", **args)
             # can check for results with clr
+            if clr:
+                download_to_user(output_file, self.handler)
+            else:
+                handler.send_message("Error in report")
+                handler.redirect(self.handler.app.make_url("/action"))
         elif action.ptype == "Import":
-            filename = download(args["i"], "/tmp/%s-%s-%s.%s" % (str(profile.user.username),
+            filename = upload(args["i"], "/tmp/%s-%s-%s.%s" % (str(profile.user.username),
                                                                  str(handle),
                                                                  timestamp(),
                                                                  args["iff"]))
             if filename is not None:
-                import_file(self.gramps_database, filename, User()) # callback
+                result = import_file(self.gramps_database, filename, User()) # callback
+                if result:
+                    handler.redirect(self.handler.app.make_url("/action"))
+                else:
+                    handler.send_message("Error in import")
+                    handler.redirect(self.handler.app.make_url("/action"))
         elif action.ptype == "Export":
             pmgr = BasePluginManager.get_instance()
             pdata = pmgr.get_plugin(action.handle)
-            export_file(self.gramps_database, "export." + pdata.extension, User()) # callback
-        handler.redirect(self.handler.app.make_url("/action"))
+            output_file = "/tmp/export." + pdata.extension
+            result = export_file(self.gramps_database, output_file, User()) # callback
+            if result:
+                download_to_user(output_file, self.handler)
+            else:
+                handler.send_message("Error in export")
+                handler.redirect(self.handler.app.make_url("/action"))
+
+def download_to_user(file_name, header, content_type='application/octet-stream'):
+    buf_size = 4096
+    header.set_header('Content-Type', content_type)
+    header.set_header('Content-Disposition', 'attachment; filename=' + os.path.basename(file_name))
+    with open(file_name, 'rb') as f:
+        while True:
+            data = f.read(buf_size)
+            if not data:
+                break
+            header.write(data)
+    header.finish()
 
 ## Copied from django-webapp; need to integrate:
 
@@ -269,7 +299,7 @@ def import_file(db, filename, user):
             return retval
     return False
 
-def download(url, filename=None):
+def upload(url, filename=None):
     from urllib.request import Request, urlopen
     from urllib.parse import urlsplit
     import shutil

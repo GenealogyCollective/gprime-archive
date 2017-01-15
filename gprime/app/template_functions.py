@@ -266,7 +266,11 @@ def surname_table(form, user, action, name_row):
     retval += """</div>"""
     count = 1
     if user or form.instance.public:
-        for surname in form.instance.primary_name.surname_list:
+        if int(name_row) == 1:
+            surname_list = form.instance.primary_name.surname_list
+        else:
+            surname_list = form.instance.alternate_names[int(name_row) - 2].surname_list
+        for surname in surname_list:
             table.append_row(
                 surname.surname,
                 surname.prefix,

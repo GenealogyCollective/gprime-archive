@@ -109,5 +109,6 @@ class RepositoryHandler(BaseHandler):
         else:
             form = RepositoryForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/repository/%(handle)s" % {"handle": handle}))
 

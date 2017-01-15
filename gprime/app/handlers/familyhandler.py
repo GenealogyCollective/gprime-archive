@@ -110,4 +110,5 @@ class FamilyHandler(BaseHandler):
             self.send_message("Updated family. <a href=\"FIXME\">Undo</a>")
             form = FamilyForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/family/%(handle)s" % {"handle": handle}))

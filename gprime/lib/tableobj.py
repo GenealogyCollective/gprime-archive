@@ -293,12 +293,18 @@ class TableObject(BaseObject):
         """
         Get the value of a field.
         """
+        from .handle import HandleClass
         field = self.__class__.get_field_alias(field)
         chain = field.split(".")
         try:
             path = self._follow_field_path(chain, db, ignore_errors)
         except:
             raise Exception("Invalid field: `%s`: valid fields are: %s" % (field, list(self.get_schema().keys()))) from None
+        # If this is a handle, let's mark it:
+        ftype = self.__class__._follow_schema_path(chain)
+        # This could be a list of HandleClass
+        if isinstance(ftype, HandleClass) and isinstance(path, str):
+            return type(ftype)(path)
         return path
 
     def _follow_field_path(self, chain, db=None, ignore_errors=False):

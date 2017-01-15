@@ -56,6 +56,7 @@ class Form(object):
     """
     """
     _class = None
+    field_to_argument = {}
     edit_fields = []
     select_fields = []
     env_fields = []
@@ -366,7 +367,11 @@ class Form(object):
         field_name = field
         if action == "edit" and field not in self.edit_fields:
             self.log.warning("You are trying to edit field '%s', but it is NOT in the edit_fields list: %s" % (field, self.edit_fields))
-        if isinstance(data, (list, tuple)): ## Tags or rect
+        if isinstance(data, HandleClass):
+            ## We have a handle
+            if data.classname == "Person":
+                return self.get_person_from_handle(data, {})
+        elif isinstance(data, (list, tuple)): ## Tags or rect
             if len(data) == 4 and all([isinstance(item, int) for item in data]): # rect
                 return str(data)
             s = Struct.wrap(self.instance, self.database)
@@ -461,29 +466,30 @@ class Form(object):
             except:
                 self.log.warning("field '%s' not found in object; valid fields: %s", field, self.instance.to_struct().keys())
                 continue
+            field_argument = self.field_to_argument.get(field, field)
             if isinstance(part, (list, tuple)): # Tag
                 try:
-                    value = self.handler.get_arguments(field)
+                    value = self.handler.get_arguments(field_argument)
                 except:
                     self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
                     value = None
                 part[:] = value
             elif isinstance(part, bool): # Bool
                 try:
-                    value = self.handler.get_argument(field)
+                    value = self.handler.get_argument(field_argument)
                 except:
                     value = "off"
                 self.instance.set_field(field, True if value == "on" else False)
             elif isinstance(part, GrampsType): # type
                 try:
-                    value = self.handler.get_argument(field)
+                    value = self.handler.get_argument(field_argument)
                 except:
                     self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
                     value = None
                 new_type = part.__class__(int(value))
                 self.instance.set_field(field, new_type)
             elif isinstance(part, Date):
-                value = self.handler.get_argument(field)
+                value = self.handler.get_argument(field_argument)
                 # get parent of .date:
                 if "." in field:
                     parent_field, date_field = field.rsplit(".", 1)
@@ -496,7 +502,7 @@ class Form(object):
                 setattr(parent, date_field, dp(value))
             else:
                 try:
-                    value = self.handler.get_argument(field)
+                    value = self.handler.get_argument(field_argument)
                 except:
                     self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
                     value = None

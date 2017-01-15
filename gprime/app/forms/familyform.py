@@ -33,11 +33,19 @@ class FamilyForm(Form):
 
     # Fields for editor:
     edit_fields = [
+        "father_handle",
+        "mother_handle",
         "gid",
         "tag_list",
         "private",
         "type"
     ]
+
+    # The actual name to get from the handler.arguments:
+    field_to_argument = {
+        "father_handle": "father_return",
+        "mother_handle": "mother_return",
+    }
 
     # URL for page view rows:
     link = "/family/%(handle)s"

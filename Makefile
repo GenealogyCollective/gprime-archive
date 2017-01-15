@@ -17,6 +17,5 @@ test: FORCE
 	PYTHONPATH=. python3 -m gprime.app --site-dir=test --create="Test Family"
 	PYTHONPATH=. python3 -m gprime.app --site-dir=test --add-user=demo --password=demo
 	PYTHONPATH=. python3 -m gprime.app --site-dir=test --import-file=~/gprime/example/gramps/example.gramps
-#	PYTHONPATH=. python3 -m gprime.app --site-dir=test --import-file=~/Desktop/Blank_Family/database/backup-2017-01-09-20-41-22.gramps
 
 FORCE:

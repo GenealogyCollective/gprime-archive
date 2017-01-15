@@ -110,5 +110,6 @@ class TagHandler(BaseHandler):
             self.send_message("Updated tag. <a href=\"FIXME\">Undo</a>")
             form = TagForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/tag/%(handle)s" % {"handle": handle}))
 

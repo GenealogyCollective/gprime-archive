@@ -110,5 +110,6 @@ class CitationHandler(BaseHandler):
             self.send_message("Updated citation. <a href=\"FIXME\">Undo</a>")
             form = CitationForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/citation/%(handle)s" % {"handle": handle}))
 

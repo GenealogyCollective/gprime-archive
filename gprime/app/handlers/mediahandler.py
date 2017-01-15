@@ -110,5 +110,6 @@ class MediaHandler(BaseHandler):
             self.send_message("Updated media. <a href=\"FIXME\">Undo</a>")
             form = MediaForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/media/%(handle)s" % {"handle": handle}))
 

@@ -109,5 +109,6 @@ class PlaceHandler(BaseHandler):
         else:
             form = PlaceForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/place/%(handle)s" % {"handle": handle}))
 

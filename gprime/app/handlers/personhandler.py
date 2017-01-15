@@ -128,4 +128,5 @@ class PersonHandler(BaseHandler):
             self.send_message("Updated person. <a href=\"FIXME\">Undo</a>")
             form = PersonForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/person/%(handle)s" % {"handle": handle}))

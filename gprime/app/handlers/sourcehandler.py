@@ -110,5 +110,6 @@ class SourceHandler(BaseHandler):
             self.send_message("Updated source. <a href=\"FIXME\">Undo</a>")
             form = SourceForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/source/%(handle)s" % {"handle": handle}))
 

@@ -110,5 +110,6 @@ class NoteHandler(BaseHandler):
             self.send_message("Updated note. <a href=\"FIXME\">Undo</a>")
             form = NoteForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/note/%(handle)s" % {"handle": handle}))
 

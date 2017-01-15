@@ -110,5 +110,6 @@ class EventHandler(BaseHandler):
             self.send_message("Updated event. <a href=\"FIXME\">Undo</a>")
             form = EventForm(self, instance=instance)
             form.save()
+            handle = instance.handle
             self.redirect(self.app.make_url("/event/%(handle)s" % {"handle": handle}))
 

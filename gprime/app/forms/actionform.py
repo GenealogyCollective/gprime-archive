@@ -227,7 +227,7 @@ class ActionForm(Form):
             output_file = "/tmp/%s.pdf" % action.name
             clr = run_report(self.gramps_database,
                              action.handle,
-                             username=self.handler.app.current_user,
+                             username=self.handler.current_user,
                              of=output_file,
                              off="pdf", **args)
             # can check for results with clr

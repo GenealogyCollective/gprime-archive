@@ -454,6 +454,7 @@ def main():
         # copy images to media subdirectory
         if options.import_media:
             media_dir = os.path.join(options.site_dir, "media")
+            media_copies = set()
             with DbTxn("gPrime initial import", database) as transaction:
                 for media in database.iter_media():
                     if media.path == "image-missing.png":
@@ -467,8 +468,10 @@ def main():
                                            relative)
                     if os.path.exists(src):
                         os.makedirs(os.path.dirname(dst), exist_ok=True)
-                        shutil.copy(src, dst)
-                        tornado.log.logging.info("Media copied to `%s`" % dst)
+                        if dst not in media_copies:
+                            shutil.copy(src, dst)
+                            tornado.log.logging.info("Media copied to `%s`" % dst)
+                            media_copies.add(dst)
                         media.path = relative
                         database.commit_media(media, transaction)
                     else:

@@ -225,7 +225,11 @@ class ActionForm(Form):
             args[key] = handler.get_argument(key)
         if action.ptype == "Report":
             output_file = "/tmp/%s.pdf" % action.name
-            clr = run_report(self.gramps_database, action.handle, of=output_file, off="pdf", **args)
+            clr = run_report(self.gramps_database,
+                             action.handle,
+                             username=self.handler.app.current_user,
+                             of=output_file,
+                             off="pdf", **args)
             # can check for results with clr
             if clr:
                 download_to_user(output_file, self.handler)

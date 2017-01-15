@@ -39,7 +39,7 @@ class PersonHandler(BaseHandler):
         person/b2cfa6ca1e174b1f63/delete
         """
         _ = self.app.get_translate_func(self.current_user)
-        page = int(self.get_argument("page", 1))
+        page = int(self.get_argument("page", 1) or 1)
         search = self.get_argument("search", "")
         if path.count("/") == 0: # handle
             handle, action = path, "view"

@@ -154,7 +154,7 @@ class ArgHandler:
     """
 
     def __init__(self, dbstate, parser, sessionmanager,
-                 errorfunc=None, gui=False):
+                 errorfunc=None, gui=False, username=None):
         self.dbstate = dbstate
         self.smgr = sessionmanager
         self.errorfunc = errorfunc
@@ -456,7 +456,7 @@ class ArgHandler:
                 print(_("Using options string: %s"
                        ) % op_string,
                       file=sys.stderr)
-            self.cl_action(action, op_string)
+            self.cl_action(action, op_string, username)
 
         for expt in self.exports:
             print(_("Exporting: file %(filename)s, format %(format)s."
@@ -590,7 +590,7 @@ class ArgHandler:
     # Action handler
     #
     #-------------------------------------------------------------------------
-    def cl_action(self, action, options_str):
+    def cl_action(self, action, options_str, username):
         """
         Command-line action routine. Try to perform specified action.
         """
@@ -621,7 +621,7 @@ class ArgHandler:
                         else:
                             cl_report(self.dbstate.db, name, category,
                                       report_class, options_class,
-                                      options_str_dict)
+                                      options_str_dict, username)
                         return
                 # name exists, but is not in the list of valid report names
                 msg = _("Unknown report name.")
@@ -655,7 +655,7 @@ class ArgHandler:
             if name:
                 if name in book_list.get_book_names():
                     cl_book(self.dbstate.db, name, book_list.get_book(name),
-                            options_str_dict)
+                            options_str_dict, username)
                     return
                 msg = _("Unknown book name.")
             else:

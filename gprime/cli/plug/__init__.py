@@ -205,9 +205,10 @@ class CommandLineReport:
     """
 
     def __init__(self, database, name, category, option_class, options_str_dict,
-                 noopt=False):
+                 noopt=False, username=None):
 
         pmgr = BasePluginManager.get_instance()
+        self.username = username
         self.__textdoc_plugins = []
         self.__drawdoc_plugins = []
         self.__bookdoc_plugins = []
@@ -266,7 +267,7 @@ class CommandLineReport:
         Initialize the options that are hard-coded into the report system.
         """
         from gprime.const import get_user_home
-        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        USER_HOME = get_user_home(self.username)
         self.options_dict = {
             'of'        : self.option_class.handler.module_name,
             'off'       : self.option_class.handler.get_format_name(),
@@ -638,14 +639,14 @@ class CommandLineReport:
 #
 #------------------------------------------------------------------------
 def cl_report(database, name, category, report_class, options_class,
-              options_str_dict):
+              options_str_dict, username):
     """
     function to actually run the selected report
     """
 
     err_msg = _("Failed to write report. ")
     clr = CommandLineReport(database, name, category, options_class,
-                            options_str_dict)
+                            options_str_dict, username)
 
     # Exit here if show option was given
     if clr.show:
@@ -697,7 +698,7 @@ def cl_report(database, name, category, report_class, options_class,
             except:
                 traceback.print_exc()
 
-def run_report(db, name, **options_str_dict):
+def run_report(db, name, username=None, **options_str_dict):
     """
     Given a database, run a given report.
 
@@ -739,7 +740,7 @@ def run_report(db, name, **options_str_dict):
             else:
                 clr = cl_report(db, name, category,
                                 report_class, options_class,
-                                options_str_dict)
+                                options_str_dict, username)
                 return clr
     return clr
 
@@ -748,14 +749,14 @@ def run_report(db, name, **options_str_dict):
 # Function to write books from command line
 #
 #------------------------------------------------------------------------
-def cl_book(database, name, book, options_str_dict):
+def cl_book(database, name, book, options_str_dict, username):
     """
     function to actually run the selected book,
     which in turn runs whatever reports the book has in it
     """
 
     clr = CommandLineReport(database, name, CATEGORY_BOOK,
-                            ReportOptions, options_str_dict)
+                            ReportOptions, options_str_dict, username)
 
     # Exit here if show option was given
     if clr.show:

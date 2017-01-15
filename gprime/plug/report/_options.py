@@ -641,12 +641,13 @@ class OptionHandler(_options.OptionHandler):
     """
     Implements handling of the options for the plugins.
     """
-    def __init__(self, module_name, options_dict):
-        _options.OptionHandler.__init__(self, module_name, options_dict, None)
+    def __init__(self, module_name, options_dict, username=None):
+        self.username = username
+        _options.OptionHandler.__init__(self, module_name, options_dict, None, username=username)
 
     def init_subclass(self):
         from gprime.const import get_user_home
-        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        USER_HOME = get_user_home(self.username)
         REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
 
         self.collection_class = OptionListCollection
@@ -740,7 +741,7 @@ class OptionHandler(_options.OptionHandler):
         # Get the first part of name, if it contains a comma:
         # (will just be module_name, if no comma)
         from gprime.const import get_user_home
-        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        USER_HOME = get_user_home(self.username)
         filename = "%s.xml" % self.module_name.split(",")[0]
         return os.path.join(USER_HOME, filename)
 
@@ -833,18 +834,19 @@ class ReportOptions(_options.Options):
     This is a base Options class for the reports. All reports, options
     classes should derive from it.
     """
-    def __init__(self, name, dbase):
+    def __init__(self, name, dbase, username=None):
         """
         Initialize the class, performing usual house-keeping tasks.
         Subclasses MUST call this in their :meth:`__init__` method.
         """
         self.name = name
+        self.username = username
         self.options_dict = {}
         self.options_help = {}
         self.handler = None
 
     def load_previous_values(self):
-        self.handler = OptionHandler(self.name, self.options_dict)
+        self.handler = OptionHandler(self.name, self.options_dict, username=self.username)
 
     def make_default_style(self, default_style):
         """
@@ -968,12 +970,12 @@ class DocOptionHandler(_options.OptionHandler):
     Implements handling of the docgen options for the plugins.
     """
 
-    def __init__(self, module_name, options_dict):
-        _options.OptionHandler.__init__(self, module_name, options_dict)
+    def __init__(self, module_name, options_dict, username=None):
+        _options.OptionHandler.__init__(self, module_name, options_dict, username=username)
 
     def init_subclass(self):
         from gprime.const import get_user_home
-        USER_HOME = get_user_home("demo") # FIXME: how to get user passed to where needed?
+        USER_HOME = get_user_home(self.username) # FIXME: how to get user passed to where needed?
         REPORT_OPTIONS = os.path.join(USER_HOME, "report_options.xml")
         self.collection_class = DocOptionListCollection
         self.list_class = OptionList
@@ -1013,16 +1015,17 @@ class DocOptions(MenuOptions):
     Defines options and provides handling interface.
     """
 
-    def __init__(self, name):
+    def __init__(self, name, username=None):
         """
         Initialize the class, performing usual house-keeping tasks.
         Subclasses MUST call this in their :meth:`__init__` method.
         """
         self.name = name
+        self.username = username
         MenuOptions.__init__(self)
 
     def load_previous_values(self):
-        self.handler = DocOptionHandler(self.name, self.options_dict)
+        self.handler = DocOptionHandler(self.name, self.options_dict, username=self.username)
 
 #-------------------------------------------------------------------------
 #

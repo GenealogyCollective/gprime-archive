@@ -38,7 +38,7 @@ class CitationHandler(BaseHandler):
         b2cfa6ca1e174b1f63d/remove/eventref/1
         """
         _ = self.app.get_translate_func(self.current_user)
-        page = int(self.get_argument("page", 1))
+        page = int(self.get_argument("page", 1) or 1)
         search = self.get_argument("search", "")
         if "/" in path:
             handle, action= path.split("/", 1)

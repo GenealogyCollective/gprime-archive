@@ -70,7 +70,7 @@
 <tr><td id="rowspace"></td></tr>
 <tr>
  <td class="ColumnAttribute">{{ form.get_label("gender") }}:</td>
- <td class="ColumnValue" id="data">{{ form.render("gender", user, action, link="/person/?search=gender%%3D%(gender)s", 
+ <td class="ColumnValue">{{ form.render("gender", user, action, link="/person/?search=gender%%3D%(gender)s", 
    gender=form.get("gender")) }}</td>
  <td class="ColumnAttribute">{{ form.get_label("gid") }}:</td>
  <td class="ColumnValue" id="data">{{ form.render("gid", user, action) }}</td>

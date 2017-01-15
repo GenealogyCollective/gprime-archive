@@ -357,7 +357,12 @@ class Form(object):
         from gprime.lib.struct import Struct
         from gprime.lib.grampstype import GrampsType
         from gprime.lib.date import Date
-        data = self.instance.get_field(field, self.database)
+        from gprime.lib.gendertype import GenderType
+        # Handle any special field by name:
+        if field == "gender":
+            data = GenderType(self.instance.get_field(field, self.database))
+        else:
+            data = self.instance.get_field(field, self.database)
         field_name = field
         if action == "edit" and field not in self.edit_fields:
             self.log.warning("You are trying to edit field '%s', but it is NOT in the edit_fields list: %s" % (field, self.edit_fields))
@@ -414,16 +419,11 @@ class Form(object):
                 "_class": """class ="%s" """ % _class if _class else "",
             }
             retval = """<select name="%(field_name)s" %(disabled)s id="id_%(field)s" style="width: 100%%" %(_class)s>""" % env
-            if action == "edit":
-                for option in data._DATAMAP:
-                    env["selected"] = "selected" if option[2] == data.string else ""
-                    env["value"] = option[0] # number
-                    env["string"] = option[1] # translated
-                    retval += """<option value="%(value)s" %(selected)s>%(string)s</option>""" % env
-            else:
-                env["value"] = data.value
-                env["string"] = data.string
-                retval += """<option value="%(value)s" selected>%(string)s</option>""" % env
+            for option in data._DATAMAP:
+                env["selected"] = "selected" if option[0] == data.value else ""
+                env["value"] = option[0] # number
+                env["string"] = option[1] # translated
+                retval += """<option value="%(value)s" %(selected)s>%(string)s</option>""" % env
             retval += "</select>"
         else: # text field
             retval = data
@@ -475,9 +475,13 @@ class Form(object):
                     value = "off"
                 self.instance.set_field(field, True if value == "on" else False)
             elif isinstance(part, GrampsType): # type
-                # FIXME: lookup type number, set item to Type()
-                self.log.warning("save grampstype: %s", field)
-                pass
+                try:
+                    value = self.handler.get_argument(field)
+                except:
+                    self.log.warning("field '%s' not found in form; valid fields: %s", field, self.edit_fields)
+                    value = None
+                new_type = part.__class__(int(value))
+                self.instance.set_field(field, new_type)
             elif isinstance(part, Date):
                 value = self.handler.get_argument(field)
                 # get parent of .date:

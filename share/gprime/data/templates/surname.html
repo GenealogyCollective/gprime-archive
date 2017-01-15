@@ -12,6 +12,9 @@
 			document.location.hash = ui.panel.id;
 		}
      });
+   {% if action == "edit" %}
+      set_has_data_to_save("Yes");
+   {% end %}
    });
    </script>
 
@@ -100,8 +103,8 @@
 
 {% if user %}
   {% if action != "view" %}
-    <input type="submit" value={{_T_("Save")}}/>
-    {{form.make_button(_("Cancel"), form.instance.make_url("name", form.name_row, "surname", form.surname_row))}}
+    <input type="submit" value={{_T_("Save")}} onclick="set_has_data_to_save(null)"/>
+    {{form.make_button(_("Cancel"), form.instance.make_url("name", form.name_row, "surname", form.surname_row), onclick="set_has_data_to_save(null)")}}
   {% else %}
       <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
       {{ form.make_icon_button(_("Add Surname"), "/person/%(handle)s/name/%(name_row)s/surname/add", icon="+", handle=form.handle, name_row=form.name_row) }}

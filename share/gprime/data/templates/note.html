@@ -29,6 +29,9 @@
      // FIXME: add font, fontsize, backcolor
      // FIXME: find easier way:
      $('.jHtmlArea').contents().find('iframe').contents().find('body').css({"background-color": "white"});
+     {% if action == "edit" %}
+        set_has_data_to_save("Yes");
+     {% end %}
    });
    
    function setnotetext() {
@@ -79,11 +82,11 @@
   {% if action == "edit" %}
     <input type="hidden" name="search" value="{{ search }}"/>
     <input type="hidden" name="page" value="{{ page }}"/>
-    <input type="submit" value="Save"/>
+    <input type="submit" value="Save" onclick="set_has_data_to_save(null)"/>
     {% if form.instance.handle %}
-       {{form.make_button(_("Cancel"), "/note/" + form.instance.handle)}}
+       {{form.make_button(_("Cancel"), "/note/" + form.instance.handle, onclick="set_has_data_to_save(null)")}}
     {% else %}
-       {{form.make_button(_("Cancel"), "/note")}}
+       {{form.make_button(_("Cancel"), "/note", onclick="set_has_data_to_save(null)")}}
     {% end %}
   {% else %}
       <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">

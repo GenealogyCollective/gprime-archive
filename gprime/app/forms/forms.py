@@ -672,10 +672,20 @@ class Form(object):
         """
         return self.sa.describe(self.instance)
 
-    def make_button(self, text, link):
-        return """<input type="button" value="%s" onclick="location.href='%s';"></input>""" % (
-            text,
-            self.handler.app.make_url(link))
+    def make_button(self, text, link, **kwargs):
+        attributes = []
+        for key in kwargs:
+            if key == "onclick":
+                attributes.append("%s=\"location.href='%%s'; %s\"" % (key, kwargs[key]))
+            else:
+                attributes.append("%s=\"%s\"" % (key, kwargs[key]))
+        attributes = " ".join(attributes)
+        if "onclick" not in kwargs:
+            retval = """<input type="button" value="%s" onclick="location.href='%s';" %s></input>"""
+            return retval % (text, self.handler.app.make_url(link), attributes)
+        else:
+            retval = """<input type="button" value="%s" %s></input>"""
+            return retval % (text, attributes)
 
     def make_icon_button(self, text, link, **kwargs):
         if "icon" in kwargs:

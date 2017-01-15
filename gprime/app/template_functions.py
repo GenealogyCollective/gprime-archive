@@ -121,14 +121,17 @@ class Table(object):
             div += """<input type="submit"
 name="update_json"
 value="%s/remove"
+onclick="set_has_data_to_save(null)"
 style="background:url(%s) no-repeat; font-size:0; width: 30px; height: 30px;" %s/>""" % (url, img_remove, disabled)
             div += """<input type="submit"
 name="update_json"
 value="%s/up"
+onclick="set_has_data_to_save(null)"
 style="background:url(%s) no-repeat; font-size:0; width: 30px; height: 30px;" %s/>""" % (url, img_up, disabled)
             div += """<input type="submit"
 name="update_json"
 value="%s/down"
+onclick="set_has_data_to_save(null)"
 style="background:url(%s) no-repeat; font-size:0; width: 30px; height: 30px;" %s/>""" % (url, img_down, disabled)
             cell += div
             rowhtml += cell

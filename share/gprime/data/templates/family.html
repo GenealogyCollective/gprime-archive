@@ -13,6 +13,9 @@
 			document.location.hash = ui.panel.id;
 		}
      });
+   {% if action == "edit" %}
+      set_has_data_to_save("Yes");
+   {% end %}
    });
    </script>
 
@@ -139,8 +142,8 @@
     <input type="hidden" id="mother_return" name="mother_return" value=""/>
     <input type="hidden" name="search" value="{{search}}"/>
     <input type="hidden" name="page" value="{{page}}"/>
-    <input type="submit" value="Save"/>
-    {{form.make_button(_("Cancel"), form.instance.make_url())}}
+    <input type="submit" value="Save" onclick="set_has_data_to_save(null)"/>
+    {{form.make_button(_("Cancel"), form.instance.make_url(), onclick="set_has_data_to_save(null)")}}
   {% end %}
 {% else %}
 {% end %}

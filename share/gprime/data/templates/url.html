@@ -12,6 +12,9 @@
 			document.location.hash = ui.panel.id;
 		}
      });
+   {% if action == "edit" %}
+      set_has_data_to_save("Yes");
+   {% end %}
    });
    </script>
 
@@ -55,8 +58,8 @@
   {% if action == "edit" %}
     <input type="hidden" name="search" value="{{ search }}"/>
     <input type="hidden" name="page" value="{{ page }}"/>
-    <input type="submit" value="Save"/>
-    {{form.make_button(_("Cancel"), form.url)}}
+    <input type="submit" value="Save" onclick="set_has_data_to_save(null)"/>
+    {{form.make_button(_("Cancel"), form.url, onclick="set_has_data_to_save(null)")}}
   {% else %}
     <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
       {{ form.make_icon_button(_("Add URL"), form.url + "/add", icon="+") }}

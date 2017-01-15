@@ -127,7 +127,7 @@ class Surname(SecondaryObject):
                 struct.get("primary", default.primary),
                 NameOriginType.from_struct(struct.get("origintype", {})),
                 struct.get("connector", default.connector))
-        (self.surname, self.prefix, self.primary, self.origin_type,
+        (self.surname, self.prefix, self.primary, self.origintype,
          self.connector) = data
         return self
 

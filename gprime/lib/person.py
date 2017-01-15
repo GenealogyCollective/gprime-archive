@@ -701,8 +701,9 @@ class Person(CitationBase, NoteBase, AttributeBase, MediaBase,
                        - Person.UNKNOWN
         :type gender: int
         """
-        if gender not in (Person.MALE, Person.FEMALE, Person.UNKNOWN):
-            raise ValueError('Attempt to assign invalid gender')
+        ## FIXME: allow new GenderTypes
+        #if gender not in (Person.MALE, Person.FEMALE, Person.UNKNOWN):
+        #    raise ValueError('Attempt to assign invalid gender')
         self.__gender = gender
 
     def get_gender(self):

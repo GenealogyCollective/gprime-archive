@@ -83,8 +83,8 @@ class FamilyForm(Form):
 
     def set_post_process_functions(self):
         self.post_process_functions = {
-            "father_handle": self.get_person_from_handle,
-            "mother_handle": self.get_person_from_handle,
+            "father_handle": self.describe_person_from_handle,
+            "mother_handle": self.describe_person_from_handle,
             #"tag_list": self.get_tag_from_handle:name
         }
 

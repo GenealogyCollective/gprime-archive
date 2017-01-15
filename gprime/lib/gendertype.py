@@ -63,3 +63,11 @@ class GenderType(GrampsType):
 
     def get_pronoun(self):
         return [tup[3] for tup in self._INFO if tup[0] == self.value][0]
+
+    @classmethod
+    def get_male_codes(cls):
+        return [tup[0] for tup in cls._INFO if tup[3] == "he"]
+
+    @classmethod
+    def get_female_codes(cls):
+        return [tup[0] for tup in cls._INFO if tup[3] == "she"]

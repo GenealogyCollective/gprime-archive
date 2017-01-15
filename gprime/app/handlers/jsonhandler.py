@@ -20,8 +20,10 @@
 
 import tornado.web
 import simplejson
+import re
 
 from .handlers import BaseHandler
+from gprime.lib.gendertype import GenderType
 
 class JsonHandler(BaseHandler):
     """
@@ -41,29 +43,54 @@ class JsonHandler(BaseHandler):
                       "handle"]
             order_by = [('primary_name.surname_list.0.surname', "ASC"),
                         ('primary_name.first_name', "ASC")]
+            ### Parse:
+            match_all_genders = re.match(".*\\+.*", query) # contains symbol for all genders +
+            if match_all_genders:
+                query = query.replace("+", "")
+            gid_match = re.match("(.*)(\[.*\]?).*", query)
+            if gid_match:
+                query, gid = gid_match.groups()
+                gid = gid.replace("[", "").replace("]", "")
+            else:
+                gid = None
             if "," in query:
                 surname, given = [s.strip() for s in query.split(",", 1)]
                 where = ["AND", [("primary_name.surname_list.0.surname", "LIKE", "%s%%" % surname),
                                  ("primary_name.first_name", "LIKE", "%s%%" % given),
-                             ]]
+                ]]
+                if gid:
+                    where[1].append(("gid", "LIKE", "%%%s%%" % gid))
             elif query:
-                where = ("primary_name.surname_list.0.surname", "LIKE", "%s%%" % query)
+                query = query.strip()
+                if gid:
+                    where = ["AND", [("primary_name.surname_list.0.surname", "LIKE", "%s%%" % query),
+                                     ("gid", "LIKE", "%%%s%%" % gid)]]
+                else:
+                    where = ("primary_name.surname_list.0.surname", "LIKE", "%s%%" % query)
+            elif gid:
+                where = ("gid", "LIKE", "%%%s%%" % gid)
             else:
-                where = None
-            # UNKNOWN = 2, MALE = 1, FEMALE = 0
-            if field == "mother":
-                if where:
-                    where = ["AND", [where, ("gender", "IN", [0, 2])]]
-                else:
-                    where = ("gender", "=", 0)
-            elif field == "father":
-                if where:
-                    where = ["AND", [where, ("gender", "IN", [1, 2])]]
-                else:
-                    where = ("gender", "=", 1)
+                where = []
+            if not match_all_genders:
+                if field == "mother":
+                    ## get codes for all female-based genders:
+                    codes = GenderType.get_female_codes()
+                    if where:
+                        where = ["AND", [where, ("gender", "IN", codes)]]
+                    else:
+                        where = ("gender", "IN", codes)
+                elif field == "father":
+                    ## get codes for all male-based genders:
+                    codes = GenderType.get_male_codes()
+                    if where:
+                        where = ["AND", [where, ("gender", "IN", codes)]]
+                    else:
+                        where = ("gender", "IN", codes)
+            ### Done parsing
             return_fields = ['primary_name.surname_list.0.surname',
-                             'primary_name.first_name']
-            return_delim = ", "
+                             'primary_name.first_name',
+                             'gid']
+            return_pattern = "%(primary_name.surname_list.0.surname)s, %(primary_name.first_name)s [%(gid)s]"
         elif field == "person":
             pass
         elif field == "place":
@@ -84,8 +111,8 @@ class JsonHandler(BaseHandler):
         rows.total = queryset.count()
         response_data = {"results": [], "total": rows.total}
         for row in rows:
-            name = return_delim.join([row[f] for f in return_fields])
-            response_data["results"].append({"id": row["handle"],
-                                             "name": name})
+            name = return_pattern % row
+            response_data["results"].append({"id": row["handle"], "name": name})
         self.set_header('Content-Type', 'application/json')
+        self.log.debug("results: " + simplejson.dumps(response_data))
         self.write(simplejson.dumps(response_data))

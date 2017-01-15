@@ -370,7 +370,7 @@ class Form(object):
         if isinstance(data, HandleClass):
             ## We have a handle
             if data.classname == "Person":
-                return self.get_person_from_handle(data, {})
+                return self.describe_person_from_handle(data, {})
         elif isinstance(data, (list, tuple)): ## Tags or rect
             if len(data) == 4 and all([isinstance(item, int) for item in data]): # rect
                 return str(data)
@@ -520,11 +520,11 @@ class Form(object):
         with transaction("Gramps Connect", self.database) as trans:
             commit(self.instance, trans)
 
-    def get_person_from_handle(self, handle, env):
+    def describe_person_from_handle(self, handle, env):
         if handle:
             person = self.database.get_person_from_handle(handle)
             if person:
-                return nd(person)
+                return "%s [%s]" % (nd(person), person.gid)
         return ""
 
     def display_name_from_field_handle(self, field):

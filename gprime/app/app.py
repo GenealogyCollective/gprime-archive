@@ -37,6 +37,7 @@ from .handlers import *
 from .forms import *
 from .forms.actionform import import_file
 from ..db import DbTxn
+from ..version import VERSION
 
 from tornado.web import Application, url, StaticFileHandler
 
@@ -366,6 +367,8 @@ def main():
            help="Open default web browser", type=bool)
     define("prefix", default="",
            help="Site URL prefix", type=str)
+    define("version", default=False,
+           help="Show the version of gprime (%s)" % VERSION, type=bool)
     # Let's go!
     # Really, just need the config-file:
     tornado.options.parse_command_line()
@@ -375,6 +378,9 @@ def main():
         # Parse args again, so that command-line options override config-file:
         tornado.options.parse_command_line()
     ################# Process command-line arguments
+    if options.version:
+        print("gPrime version is: %s" % VERSION)
+        sys.exit(0)
     if options.site_dir is None:
         raise Exception("--site-dir=FOLDER was not provided on command line")
     else:

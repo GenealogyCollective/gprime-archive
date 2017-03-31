@@ -12,6 +12,8 @@ These are notes on using Amazon Web Services (yum-based install). Everything bel
 
 Get Connect info for instance. Login (ssh) and run the following:
 
+Redhat-based systems:
+
 ```shell
 sudo service httpd stop
 
@@ -27,7 +29,27 @@ sudo yum install libicu
 sudo yum install libicu-devel.x86_64
 sudo yum install gcc
 sudo yum install gcc-c++
+```
+Ubuntu-based systems:
 
+```shell
+sudo apt update
+
+sudo apt install python-dev
+sudo apt install git
+sudo apt install emacs
+sudo apt install gettext
+sudo apt install intltool
+sudo apt install gcc
+sudo apt install g++
+
+sudo apt install libicu-dev 
+sudo apt install python3-pip
+```
+
+Python setup:
+
+```
 sudo python3 -m pip install pip -U
 sudo /usr/local/bin/pip3.5 install pyicu
 

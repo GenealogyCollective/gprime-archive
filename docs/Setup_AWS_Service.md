@@ -1,6 +1,6 @@
 # Setup an AWS service
 
-These are notes on using Amazon Web Services (yum-based install). Everything below works, unless otherwise noted.
+These are notes on using Amazon Web Services (yum- or apt-based install). Everything below works, unless otherwise noted.
 
 1. Get a DNS name ($12, used gprime.info)
 2. Get a Reserved Instance (make a particular type, m2.mirco) ($95 compute cloud)
@@ -12,11 +12,12 @@ These are notes on using Amazon Web Services (yum-based install). Everything bel
 
 Get Connect info for instance. Login (ssh) and run the following:
 
+```shell
+sudo service httpd stop
+```
 Redhat-based systems:
 
 ```shell
-sudo service httpd stop
-
 sudo yum update
 sudo yum install python35.x86_64
 sudo yum install python35-devel
@@ -34,7 +35,6 @@ Ubuntu-based systems:
 
 ```shell
 sudo apt update
-
 sudo apt install python-dev
 sudo apt install git
 sudo apt install emacs
@@ -42,7 +42,6 @@ sudo apt install gettext
 sudo apt install intltool
 sudo apt install gcc
 sudo apt install g++
-
 sudo apt install libicu-dev 
 sudo apt install python3-pip
 ```

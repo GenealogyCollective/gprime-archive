@@ -10,7 +10,7 @@ git clone  https://github.com/GenealogyCollective/gprime
 cd gprime
 ```
 
-To run gPrime without installing it (you may need to use `python3` in this example):
+To run gPrime without installing it (you may need to use `python3):
 
 ```
 export PYTHONPATH=/path/to/gprime-source-dir
@@ -25,3 +25,14 @@ During development, there is a `--debug` flag. This does two things:
 For information on working on translations, see: 
 
 https://github.com/GenealogyCollective/gprime/blob/master/docs/Translations.md
+
+## gPrime 2.0
+
+To use the node development tools:
+
+1. Find out latest nvm version:
+  * go to https://github.com/creationix/nvm/releases
+1. curl https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+1. source ~/.bashrc
+1. nvm install 5
+1. nvm use 5

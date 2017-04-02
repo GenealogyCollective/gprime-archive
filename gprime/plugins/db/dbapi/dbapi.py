@@ -209,9 +209,9 @@ class DBAPI(DbGeneric):
                            Column("name", "TEXT"),
                            Column("email", "TEXT"),
                            Column("css", "TEXT"),
-                           Column("write_permission", "INTEGER"),
                            Column("admin", "INTEGER"),
                            Column("language", "VARCHAR(20)"),
+                           Column("permissions", "VARCHAR(20)"),
                           ])
 
         for table in [ReferenceTable, NamegroupTable, MetadataTable,
@@ -2152,48 +2152,84 @@ class DBAPI(DbGeneric):
         old_data = self.get_user_data(username)
         self.dbapi.execute("""UPDATE user SET gid = ?,
                                               password = ?,
+                                              permissions = ?,
                                               name = ?,
                                               css = ?,
-                                              write_permission = ?,
                                               admin = ?,
                                               language = ?,
                                               email = ?
                                WHERE username = ?;""",
                            [data.get("gid", old_data["gid"]),
                             data.get("password", old_data["password"]),
+                            self.encode_permissions(data.get("permissions", old_data["permissions"])),
                             data.get("name", old_data["name"]),
                             data.get("css", old_data["css"]),
-                            data.get("write_permission", old_data["write_permission"]),
                             data.get("admin", old_data["admin"]),
                             data.get("language", old_data["language"]),
                             data.get("email", old_data["email"]),
                             username])
         self.dbapi.commit()
 
-    def add_user(self, username, password, data):
+    def add_user(self, username, password, permissions, data):
         """
         Add a user to the user table.
         """
         self.dbapi.execute("""INSERT INTO user
-                                (username, gid, password, name, css, write_permission, admin, language, email)
+                                (username, gid, password, permissions, name, css, admin, language, email)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);""",
                            [username,
                             data.get("gid", ""),
                             password,
+                            self.encode_permissions(permissions),
                             data.get("name", ""),
                             data.get("css", "Web_Mainz.css"),
-                            data.get("write_permission", 1),
                             data.get("admin", 1),
                             data.get("language", "en"),
                             data.get("email", ""),
                            ])
         self.dbapi.commit()
 
+    def decode_permissions(self, permissions):
+        retval = set()
+        for char in permissions:
+            if char == "a":
+                retval.add("add")
+            elif char == "e":
+                retval.add("edit")
+            elif char == "d":
+                retval.add("delete")
+            elif char == "!":
+                retval.add("admin")
+                retval.add("edit")
+                retval.add("add")
+                retval.add("delete")
+        return retval
+
+    def encode_permissions(self, permissions):
+        """
+        permissions is a set of code words:
+        add
+        delete
+        edit
+        admin
+        """
+        retval = ""
+        for code in permissions:
+            if code == "add":
+                retval += "a"
+            elif code == "edit":
+                retval += "e"
+            elif code == "delete":
+                retval += "d"
+            elif code == "admin":
+                retval += "!"
+        return retval
+
     def get_user_data(self, username):
         """
         Add a user to the user table.
         """
-        self.dbapi.execute("SELECT gid, password, name, css, write_permission, admin, language, email FROM user WHERE username = ?;", [username])
+        self.dbapi.execute("SELECT gid, password, name, css, permissions, admin, language, email FROM user WHERE username = ?;", [username])
         row = self.dbapi.fetchone()
         if row:
             return {
@@ -2201,7 +2237,7 @@ class DBAPI(DbGeneric):
                 "password": row[1],
                 "name": row[2],
                 "css": row[3],
-                "write_permission": row[4],
+                "permissions": self.decode_permissions(row[4]),
                 "admin": row[5],
                 "language": row[6],
                 "email": row[7],

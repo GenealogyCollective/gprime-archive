@@ -61,23 +61,21 @@ pip install gprime --user -U
 Getting Started
 ---------------
 
-**In all of the following commands, --site-dir is always required.**
-
 To run gPrime, you need to do two things:
 
 1. Create a site directory
 2. Create at least one user and password
 
-To create a site directory, provide a name for the tree, and give the site-dir directory:
+To create a site directory, provide a name for the tree:
 
 ```
-gprime --site-dir="family_tree" --create="My Family Tree" 
+gprime --create="My Family Tree"
 ```
 
 Then, you need at least one user (as an example, we use "demo" as the username):
 
 ```
-gprime --site-dir="family_tree" --add-user=demo
+gprime --add-user --user=demo
 Password: (does not show any characters as you type)
 ```
 
@@ -87,7 +85,7 @@ Importing Data
 Optionally, you may now want to also import some data (gPrime supports Gramps XML, GEDCOM, and JSON import formats):
 
 ```
-gprime --site-dir="family_tree" --import-file="FamilyTree.gramps"
+gprime --import-file="FamilyTree.gramps"
 ```
 
 The site-directory has a folder named "media" for all of the images and other documents. On --file-import, gPrime will atempt to import any identified media by copying them into this media folder. If you want to prevent the copying, use --import-media=False. You can alternatively manually copy files into the media folder, or, in the previous example, make family_tree/media link to your media folder.
@@ -100,13 +98,13 @@ You can run gprime directly from either the github-downloaded directory, or from
 Installed version:
 
 ```
-gprime --site-dir="family_tree"
+gprime
 ```
 
 Options:
 ------------
 
-* --site-dir=/PATH/TO/FOLDER - The directory of the gPrime site directory (required)
+* --site-dir=/PATH/TO/FOLDER - The directory of the gPrime site directory
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
 * --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
 * --add-user=USERNAME - Add a username and password; prompts for password if --password not given
@@ -142,8 +140,8 @@ Common variations
 
 ```
 gprime --help
-gprime --site-dir="family_tree_folder" --create="Smith Family"
-gprime --site-dir="family_tree_folder" --import-file="myinfo.gramps"
-gprime --site-dir="family_tree_folder" --add-user=demo --password=demo
-gprime --site-dir="family_tree_folder"
+gprime --create="Smith Family"
+gprime --import-file="myinfo.gramps"
+gprime --add-user --user=demo --password=demo
+gprime
 ```

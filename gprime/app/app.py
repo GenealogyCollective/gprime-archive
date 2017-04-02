@@ -68,7 +68,7 @@ class GPrimeApp(Application):
         self.prefix = self.options.prefix
         self.user_data = {} # user to user_data map
         self.database = database
-        self.sitename = self.options.sitename
+        self.sitename = options.sitename
         settings = kwargs
         settings.update(self.default_settings())
         handlers = [
@@ -326,7 +326,7 @@ class GPrimeApp(Application):
         """
         signal.signal(signal.SIGINT, self._handle_sigint)
 
-def main():
+def run_app():
     ## Tornado imports
     import tornado.ioloop
     import tornado.log
@@ -337,7 +337,7 @@ def main():
            help="Name of gPrime server host", type=str)
     define("port", default=8000,
            help="Number of gPrime server port", type=int)
-    define("site-dir", default=None,
+    define("site-dir", default="gprime-site",
            help="The gPrime site directory to use", type=str)
     define("sitename", default="gPrime",
            help="Name to appear on all web pages", type=str)
@@ -349,14 +349,18 @@ def main():
            help="Config file of gPrime options", type=str)
     define("create", default=None,
            help="Create a site directory (given by --site-dir) with this Family Tree name", type=str)
-    define("add-user", default=None,
-           help="Add a user with password", type=str)
-    define("remove-user", default=None,
-           help="Remove a user", type=str)
-    define("change-password", default=None,
-           help="Change a user's password", type=str)
+    define("add-user", default=False,
+           help="Add a user; requires --user; optional --password and --permissions", type=bool)
+    define("remove-user", default=False,
+           help="Remove a user; requires --user=USERNAME", type=bool)
+    define("change-password", default=False,
+           help="Change a user's password; requires --user=USERNAME", type=bool)
     define("password", default=None,
            help="Give password on command-line (not recommended)", type=str)
+    define("permissions", default=None,
+           help="User permissions (edit, delete, add, admin)", type=str)
+    define("user", default=None,
+           help="User for change-password, add-user, remove-user, or permissions", type=str)
     define("server", default=True,
            help="Start the server, True/False", type=bool)
     define("import-file", default=None,
@@ -381,10 +385,7 @@ def main():
     if options.version:
         print("gPrime version is: %s" % VERSION)
         sys.exit(0)
-    if options.site_dir is None:
-        raise Exception("--site-dir=FOLDER was not provided on command line")
-    else:
-        options.site_dir = os.path.expanduser(options.site_dir)
+    options.site_dir = os.path.expanduser(options.site_dir)
     # Use site-dir/config.cfg if one, and not overridden on command line:
     default_config_file = os.path.join(options.site_dir, "config.cfg")
     if options.config_file is None and os.path.exists(default_config_file):
@@ -427,30 +428,59 @@ def main():
     ## Open the database:
     database = DbState().open_database(database_dir)
     if options.add_user:
+        options.server = False
+        if options.user is None:
+            raise Exception("Missing --user=USERNAME")
         if options.password:
             plaintext = options.password
         else:
             plaintext = getpass.getpass()
         options.server = False
+        if options.permissions:
+            permissions = {code.strip() for code in options.permissions.split(",")}
+        else:
+            permissions = {"add", "edit", "delete"}
         ## Initialize user folder:
         try:
-            os.makedirs(os.path.join(options.site_dir, "users", options.add_user))
+            os.makedirs(os.path.join(options.site_dir, "users", options.user))
         except:
             pass
-        database.add_user(username=options.add_user,
+        database.add_user(username=options.user,
                           password=crypt.hash(plaintext),
+                          permissions=permissions,
                           data={}) # could set css here
-    if options.remove_user:
+    elif options.remove_user:
         options.server = False
-        database.remove_user(username=options.remove_user)
-    if options.change_password:
+        if options.user is None:
+            raise Exception("Missing --user=USERNAME")
+        options.server = False
+        database.remove_user(username=options.user)
+    elif options.change_password:
+        options.server = False
+        if options.user is None:
+            raise Exception("Missing --user=USERNAME")
         if options.password:
             plaintext = options.password
         else:
             plaintext = getpass.getpass()
         options.server = False
-        database.update_user_data(username=options.change_password,
-                                  data={"password": crypt.hash(plaintext)})
+        if options.permissions:
+            permissions = {code.strip() for code in options.permissions.split(",")}
+            database.update_user_data(username=options.user,
+                                      data={"password": crypt.hash(plaintext),
+                                            "permissions": permissions})
+        else:
+            database.update_user_data(username=options.user,
+                                      data={"password": crypt.hash(plaintext)})
+    elif options.permissions:
+        options.server = False
+        if options.user is None:
+            raise Exception("Missing --user=USERNAME")
+        permissions = {code.strip() for code in options.permissions.split(",")}
+        database.update_user_data(username=options.user,
+                                  data={"permissions": permissions})
+    elif options.password:
+        raise Exception("Missing --change-password --user=USERNAME")
     ## Options after opening:
     if options.import_file:
         options.server = False
@@ -540,3 +570,14 @@ def main():
     if app.database:
         tornado.log.logging.info("gPrime closing database...")
         app.database.close()
+
+def main():
+    from tornado.options import options
+    import traceback
+    try:
+        run_app()
+    except Exception as exc:
+        if options.debug:
+            traceback.print_exc()
+        else:
+            print(exc)

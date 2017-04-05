@@ -104,13 +104,13 @@ gprime
 Options:
 ------------
 
+* --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
+* --add-user --user=USERNAME - Add a username and password; prompts for password if --password not given
+* --password=PASSWORD - Use with --change-password, or --add-user (this option is not recommended)
+* --change-password --user=USERNAME - Change a user's password; prompts for password if --password not given
 * --site-dir=/PATH/TO/FOLDER - The directory of the gPrime site directory
 * --sitename="Site Name" - Name to use for the site (optional, "gPrime" is default)
-* --create=TREE-NAME - Create a site directory (given by --site-dir) and family tree database with TREE-NAME
-* --add-user=USERNAME - Add a username and password; prompts for password if --password not given
 * --remove-user=USERNAME - Remove a user's username and password from "SITE-DIR/passwd" file
-* --change-password=USERNAME - Change a user's password; prompts for password if --password not given
-* --password=PASSWORD - Use with --change-password, or --add-user (this option is not recommended)
 * --import-file=FILENAME - Import a Gramps-supported file type (.ged, .gramps, .json, etc.)
 * --import-media=True/False - Attempt to import media with Gramps XML or JSON, used with --import-file
 * --config-file=FILE - A config file of these options (optional); alternatively, will use SITE-DIR/config.cfg if one

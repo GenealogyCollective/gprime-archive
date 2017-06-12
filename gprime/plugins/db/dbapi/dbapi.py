@@ -2173,7 +2173,7 @@ class DBAPI(DbGeneric):
         """
         self.dbapi.execute("""INSERT INTO user
                                 (username, gid, password, permissions, name, css, language, email)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);""",
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?);""",
                            [username,
                             data.get("gid", ""),
                             password,

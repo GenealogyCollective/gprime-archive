@@ -47,8 +47,10 @@
 </table>
 
 <p>
-<div style="background-color: lightgray; padding: 2px 0px 0px 2px">
-{{ form.make_icon_button(_('Add ' + form.tview), "/" + form.view +"/add", icon="+") }}
-</div>
+  <div style="background-color: lightgray; padding: 2px 0px 0px 2px">
+    {% if form.handler.app.can_add(user) %}
+      {{ form.make_icon_button(_('Add ' + form.tview), "/" + form.view +"/add", icon="+") }}
+    {% end %}
+  </div>
 </p>
 {% end %}

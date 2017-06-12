@@ -55,16 +55,22 @@
 </table>
 
 {% if user %}
-  {% if action == "edit" %}
+  {% if action == "edit" and form.handler.app.can_edit(user) %}
     <input type="hidden" name="search" value="{{ search }}"/>
     <input type="hidden" name="page" value="{{ page }}"/>
     <input type="submit" value="Save" onclick="set_has_data_to_save(null)"/>
     {{form.make_button(_("Cancel"), form.url, onclick="set_has_data_to_save(null)")}}
   {% else %}
     <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ form.make_icon_button(_("Add URL"), form.url + "/add", icon="+") }}
-      {{ form.make_icon_button(_("Edit URL"), form.url + "/edit", icon="?") }}
-      {{ form.make_icon_button(_("Delete URL"), form.url + "/delete", icon="-") }}
+      {% if form.handler.app.can_add(user) %}
+        {{ form.make_icon_button(_("Add URL"), form.url + "/add", icon="+") }}
+      {% end %}
+      {% if form.handler.app.can_edit(user) %}
+        {{ form.make_icon_button(_("Edit URL"), form.url + "/edit", icon="?") }}
+      {% end %}
+      {% if form.handler.app.can_delete(user) %}
+        {{ form.make_icon_button(_("Delete URL"), form.url + "/delete", icon="-") }}
+      {% end %}
     </div>
   {% end %}
 {% else %}

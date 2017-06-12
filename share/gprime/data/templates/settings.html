@@ -51,8 +51,13 @@
 </table>
 
 {% if user %}
-  <input type="hidden" name="action" value="apply"/>
-  <input type="submit" value={{_T_("Apply")}}/>
+   {% if form.handler.app.can_edit(user) %}
+     <input type="hidden" name="action" value="apply"/>
+     <input type="submit" value={{_T_("Apply")}}/>
+   {% else %}
+     <p>You do not have permission to change these settings.</p>
+   {% end %}  
+     
 {% else %}
 {% end %}
 

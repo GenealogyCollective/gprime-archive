@@ -150,14 +150,20 @@
 </div>
 
 {% if user %}
-  {% if action != "view" %}
+  {% if action != "view" and form.handler.app.can_add(user) %}
     <input type="submit" value={{_T_("Save")}} onclick="set_has_data_to_save(null)"/>
     {{form.make_button(_("Cancel"), form.instance.make_url("#tab-names"), onclick="set_has_data_to_save(null)")}}
   {% else %}
       <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ form.make_icon_button(_("Add Name"), "/person/%(handle)s/name/add", icon="+", handle=form.handle) }}
-      {{ form.make_icon_button(_("Edit Name"), "/person/%(handle)s/name/%(row)s/edit", icon="?", handle=form.handle, row=form.row) }}
-      {{ form.make_icon_button(_("Delete Name"), "/person/%(handle)s/name/%(row)s/delete", icon="-", handle=form.handle, row=form.row) }}
+      {% if form.handler.app.can_add(user) %}
+        {{ form.make_icon_button(_("Add Name"), "/person/%(handle)s/name/add", icon="+", handle=form.handle) }}
+      {% end %}
+      {% if form.handler.app.can_edit(user) %}
+        {{ form.make_icon_button(_("Edit Name"), "/person/%(handle)s/name/%(row)s/edit", icon="?", handle=form.handle, row=form.row) }}
+      {% end %}
+      {% if form.handler.app.can_delete(user) %}
+        {{ form.make_icon_button(_("Delete Name"), "/person/%(handle)s/name/%(row)s/delete", icon="-", handle=form.handle, row=form.row) }}
+      {% end %}
       </div>
     
   {% end %}

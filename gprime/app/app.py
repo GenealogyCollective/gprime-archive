@@ -223,6 +223,35 @@ class GPrimeApp(Application):
             self.user_data[user]["css"] = "Web_Mainz.css"
         return self.user_data[user]["css"]
 
+    def get_permissions(self, user):
+        if user not in self.user_data:
+            try:
+                user_data = self.database.get_user_data(user)
+            except:
+                user_data = {}
+            if user_data:
+                self.user_data[user] = user_data
+            else:
+                self.user_data[user] = {}
+        if "permissions" in self.user_data[user]:
+            if not self.user_data[user]["permissions"]:
+                self.user_data[user]["permissions"] = set()
+        else:
+            self.user_data[user]["permissions"] = set()
+        return self.user_data[user]["permissions"]
+
+    def can_add(self, user):
+        return "add" in self.get_permissions(user)
+
+    def can_edit(self, user):
+        return "edit" in self.get_permissions(user)
+
+    def can_delete(self, user):
+        return "delete" in self.get_permissions(user)
+
+    def is_admin(self, user):
+        return "admin" in self.get_permissions(user)
+
     def default_settings(self):
         """
         """
@@ -373,6 +402,8 @@ def run_app():
            help="Site URL prefix", type=str)
     define("version", default=False,
            help="Show the version of gprime (%s)" % VERSION, type=bool)
+    define("info", default=False,
+           help="Show information about the database", type=bool)
     # Let's go!
     # Really, just need the config-file:
     tornado.options.parse_command_line()
@@ -437,7 +468,7 @@ def run_app():
             plaintext = getpass.getpass()
         options.server = False
         if options.permissions:
-            permissions = {code.strip() for code in options.permissions.split(",")}
+            permissions = {code.strip().lower() for code in options.permissions.split(",")}
         else:
             permissions = {"add", "edit", "delete"}
         ## Initialize user folder:
@@ -465,7 +496,7 @@ def run_app():
             plaintext = getpass.getpass()
         options.server = False
         if options.permissions:
-            permissions = {code.strip() for code in options.permissions.split(",")}
+            permissions = {code.strip().lower() for code in options.permissions.split(",")}
             database.update_user_data(username=options.user,
                                       data={"password": crypt.hash(plaintext),
                                             "permissions": permissions})
@@ -476,13 +507,21 @@ def run_app():
         options.server = False
         if options.user is None:
             raise Exception("Missing --user=USERNAME")
-        permissions = {code.strip() for code in options.permissions.split(",")}
+        permissions = {code.strip().lower() for code in options.permissions.split(",")}
         database.update_user_data(username=options.user,
                                   data={"permissions": permissions})
     elif options.password:
         raise Exception("Missing --change-password --user=USERNAME")
     ## Options after opening:
-    if options.import_file:
+    if options.info:
+        options.server = False
+        users = database.get_users()
+        for user in users:
+            print("%s:" % user)
+            data = database.get_user_data(user)
+            for key in data:
+                print("    %s: %s" % (key, data[key]))
+    elif options.import_file:
         options.server = False
         user = User()
         options.import_file = os.path.expanduser(options.import_file)

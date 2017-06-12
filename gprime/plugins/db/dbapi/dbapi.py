@@ -209,7 +209,6 @@ class DBAPI(DbGeneric):
                            Column("name", "TEXT"),
                            Column("email", "TEXT"),
                            Column("css", "TEXT"),
-                           Column("admin", "INTEGER"),
                            Column("language", "VARCHAR(20)"),
                            Column("permissions", "VARCHAR(20)"),
                           ])
@@ -2155,7 +2154,6 @@ class DBAPI(DbGeneric):
                                               permissions = ?,
                                               name = ?,
                                               css = ?,
-                                              admin = ?,
                                               language = ?,
                                               email = ?
                                WHERE username = ?;""",
@@ -2164,7 +2162,6 @@ class DBAPI(DbGeneric):
                             self.encode_permissions(data.get("permissions", old_data["permissions"])),
                             data.get("name", old_data["name"]),
                             data.get("css", old_data["css"]),
-                            data.get("admin", old_data["admin"]),
                             data.get("language", old_data["language"]),
                             data.get("email", old_data["email"]),
                             username])
@@ -2175,7 +2172,7 @@ class DBAPI(DbGeneric):
         Add a user to the user table.
         """
         self.dbapi.execute("""INSERT INTO user
-                                (username, gid, password, permissions, name, css, admin, language, email)
+                                (username, gid, password, permissions, name, css, language, email)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);""",
                            [username,
                             data.get("gid", ""),
@@ -2183,7 +2180,6 @@ class DBAPI(DbGeneric):
                             self.encode_permissions(permissions),
                             data.get("name", ""),
                             data.get("css", "Web_Mainz.css"),
-                            data.get("admin", 1),
                             data.get("language", "en"),
                             data.get("email", ""),
                            ])
@@ -2214,7 +2210,7 @@ class DBAPI(DbGeneric):
         admin
         """
         retval = ""
-        for code in permissions:
+        for code in [p.lower() for p in permissions]:
             if code == "add":
                 retval += "a"
             elif code == "edit":
@@ -2225,11 +2221,16 @@ class DBAPI(DbGeneric):
                 retval += "!"
         return retval
 
+    def get_users(self):
+        self.dbapi.execute("SELECT username FROM user;")
+        rows = self.dbapi.fetchall()
+        return [row[0] for row in rows]
+    
     def get_user_data(self, username):
         """
         Add a user to the user table.
         """
-        self.dbapi.execute("SELECT gid, password, name, css, permissions, admin, language, email FROM user WHERE username = ?;", [username])
+        self.dbapi.execute("SELECT gid, password, name, css, permissions, language, email FROM user WHERE username = ?;", [username])
         row = self.dbapi.fetchone()
         if row:
             return {
@@ -2238,9 +2239,8 @@ class DBAPI(DbGeneric):
                 "name": row[2],
                 "css": row[3],
                 "permissions": self.decode_permissions(row[4]),
-                "admin": row[5],
-                "language": row[6],
-                "email": row[7],
+                "language": row[5],
+                "email": row[6],
             }
         else:
             return None

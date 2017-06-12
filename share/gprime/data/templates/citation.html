@@ -95,7 +95,7 @@
 </div>
 
 {% if user %}
-  {% if action == "edit" %}
+  {% if action == "edit" and form.handler.app.can_edit(user) %}
     <input type="hidden" name="search" value="{{ search }}"/>
     <input type="hidden" name="page" value="{{ page }}"/>
     <input type="submit" value="Save" onclick="set_has_data_to_save(null)"/>
@@ -105,10 +105,16 @@
        {{form.make_button(_("Cancel"), "/citation", onclick="set_has_data_to_save(null)")}}
     {% end %}
   {% else %}
-      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ form.make_icon_button(_("Add Citation"), "/citation/add", icon="+") }}
-      {{ form.make_icon_button(_("Edit Citation"), "/citation/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
-      {{ form.make_icon_button(_("Delete Citation"), "/citation/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+    <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {% if form.handler.app.can_add(user) %}
+        {{ form.make_icon_button(_("Add Citation"), "/citation/add", icon="+") }}
+      {% end %}
+      {% if form.handler.app.can_edit(user) %}
+        {{ form.make_icon_button(_("Edit Citation"), "/citation/%(handle)s/edit", icon="?", handle=form.get("handle")) }}
+      {% end %}
+      {% if form.handler.app.can_delete(user) %}
+        {{ form.make_icon_button(_("Delete Citation"), "/citation/%(handle)s/delete", icon="-", handle=form.get("handle")) }}
+      {% end %}
       </div>
   {% end %}
 {% else %}

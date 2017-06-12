@@ -102,15 +102,22 @@
 </div>
 
 {% if user %}
-  {% if action != "view" %}
+  {% if action != "view" and form.handler.app.can_edit(user) %}
     <input type="submit" value={{_T_("Save")}} onclick="set_has_data_to_save(null)"/>
     {{form.make_button(_("Cancel"), form.instance.make_url("name", form.name_row, "surname", form.surname_row), onclick="set_has_data_to_save(null)")}}
   {% else %}
-      <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
-      {{ form.make_icon_button(_("Add Surname"), "/person/%(handle)s/name/%(name_row)s/surname/add", icon="+", handle=form.handle, name_row=form.name_row) }}
-      {{ form.make_icon_button(_("Edit Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/edit", icon="?", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
-      {{ form.make_icon_button(_("Delete Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/delete", icon="-", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
-      </div>
+    <div style="background-color: lightgray; padding: 2px 0px 0px 2px; clear: both;">
+      {% if form.handler.app.can_add(user) %}
+      
+        {{ form.make_icon_button(_("Add Surname"), "/person/%(handle)s/name/%(name_row)s/surname/add", icon="+", handle=form.handle, name_row=form.name_row) }}
+      {% end %}
+      {% if form.handler.app.can_edit(user) %}
+        {{ form.make_icon_button(_("Edit Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/edit", icon="?", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
+      {% end %}
+      {% if form.handler.app.can_delete(user) %}
+        {{ form.make_icon_button(_("Delete Surname"), "/person/%(handle)s/name/%(name_row)s/surname/%(surname_row)s/delete", icon="-", handle=form.handle, name_row=form.name_row, surname_row=form.surname_row) }}
+      {% end %}
+    </div>
     
   {% end %}
 {% end %}

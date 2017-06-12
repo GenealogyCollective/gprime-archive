@@ -2225,7 +2225,7 @@ class DBAPI(DbGeneric):
         self.dbapi.execute("SELECT username FROM user;")
         rows = self.dbapi.fetchall()
         return [row[0] for row in rows]
-    
+
     def get_user_data(self, username):
         """
         Add a user to the user table.

@@ -48,6 +48,7 @@ class Postgresql:
         query = query.replace("?", "%s")
         query = query.replace("REGEXP", "~")
         query = query.replace("desc", "desc_")
+        query = query.replace("BLOB", "bytea")
         ## LIMIT offset, count
         ## count can be -1, for all
         ## LIMIT -1
@@ -96,7 +97,7 @@ class Postgresql:
 
     def table_exists(self, table):
         self.cursor.execute("SELECT COUNT(*) FROM information_schema.tables "
-                            "WHERE table_name=?;", [table])
+                            "WHERE table_name=%s;", [table])
         return self.fetchone()[0] != 0
 
     def close(self):

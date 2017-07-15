@@ -41,6 +41,11 @@ from ..version import VERSION
 
 from tornado.web import Application, url, StaticFileHandler
 
+try:
+    crypt.hash("")
+except AttributeError:
+    crypt.hash = crypt.encrypt
+
 def make_path_relative(filename):
     """
     Given a filename, make it relative.

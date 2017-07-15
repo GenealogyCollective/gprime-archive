@@ -41,6 +41,7 @@ from ..version import VERSION
 
 from tornado.web import Application, url, StaticFileHandler
 
+# Support passlib < 1.7
 try:
     crypt.hash("")
 except AttributeError:
